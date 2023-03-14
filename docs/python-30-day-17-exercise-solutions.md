@@ -16,7 +16,7 @@
 
 我们当然可以使用`*args`，但是这里我们知道参数是什么。它们是数值或数字。以下任何一种都可以:
 
-```
+```py
 `def multi_add(*values):
     pass
 
@@ -28,7 +28,7 @@ def multi_add(*numbers):
 
 既然在我们的`numbers`参数中有了这个数字元组，我们就可以将这个值传递给 build in `sum`函数并打印结果。
 
-```
+```py
 `def multi_add(*numbers):
     print(sum(numbers))` 
 ```
@@ -41,14 +41,14 @@ def multi_add(*numbers):
 
 我将调用我的函数`arg_printer`，但是你可以随意选择你喜欢的名字，只要它很好地描述了这个函数。
 
-```
+```py
 `def arg_printer(*args, **kwargs):
     pass` 
 ```
 
 既然我们已经设置了参数，打印它们就相当简单了。我们只需要这样做:
 
-```
+```py
 `def arg_printer(*args, **kwargs):
     print(f"Positional arguments are: {args}")
     print(f"Keyword arguments are: {kwargs}")` 
@@ -56,13 +56,13 @@ def multi_add(*numbers):
 
 现在，如果我们调用带有一系列随机值作为参数的函数:
 
-```
+```py
 `arg_printer(1,  "blue",  [1,  23,  3], height=184, key=lambda x: x ** 2)` 
 ```
 
 我们得到这个:
 
-```
+```py
 `Positional arguments are: (1, 'blue', [1, 23, 3])
 Keyword arguments are: {'height': 184, 'key': <function <lambda> at 0x7f1b7c44f1f0>}` 
 ```
@@ -74,7 +74,7 @@ Keyword arguments are: {'height': 184, 'key': <function <lambda> at 0x7f1b7c44f1
 
 让我们先处理位置论点。我将在这里使用`join`，但是这意味着我们所有的参数都需要是字符串，所以我们需要对参数列表做一些处理。我要带着一种理解来做这件事:
 
-```
+```py
 `def arg_printer(*args, **kwargs):
     args = [str(arg) for arg in args]
     print(f"Positional arguments are: {', '.join(args)}")` 
@@ -86,7 +86,7 @@ Keyword arguments are: {'height': 184, 'key': <function <lambda> at 0x7f1b7c44f1
 
 你可以在[文档](https://docs.python.org/3/library/functions.html#repr)中找到更多关于`repr`的信息。
 
-```
+```py
 `def arg_printer(*args, **kwargs):
     args = [repr(arg) for arg in args]
     print(f"Positional arguments are: {', '.join(args)}")` 
@@ -96,7 +96,7 @@ Keyword arguments are: {'height': 184, 'key': <function <lambda> at 0x7f1b7c44f1
 
 我想再次使用 join，所以我要创建一个字符串列表，就像之前一样。这次我将使用`items`方法迭代字典，并将键和值插入到字符串中。
 
-```
+```py
 `def arg_printer(*args, **kwargs):
     args = [repr(arg) for arg in args]
     print(f"Positional arguments are: {', '.join(args)}")
@@ -108,7 +108,7 @@ Keyword arguments are: {'height': 184, 'key': <function <lambda> at 0x7f1b7c44f1
 
 现在我们可以在打印时加入新的`kwargs`列表:
 
-```
+```py
 `def arg_printer(*args, **kwargs):
     args = [repr(arg) for arg in args]
     print(f"Positional arguments are: {', '.join(args)}")
@@ -119,14 +119,14 @@ Keyword arguments are: {'height': 184, 'key': <function <lambda> at 0x7f1b7c44f1
 
 使用我们以前的参数集，我们现在得到了更好的输出，如下所示:
 
-```
+```py
 `Positional arguments are: 1, 'blue', [1, 23, 3]
 Keyword arguments are: height=184, key=<function <lambda> at 0x7f2deaeed700>` 
 ```
 
 ### 3)使用`format`方法和`**`拆包打印以下字典。
 
-```
+```py
 `country = {
     "name": "Germany",
     "population": "83 million",
@@ -139,7 +139,7 @@ Keyword arguments are: height=184, key=<function <lambda> at 0x7f2deaeed700>`
 
 我的模板将看起来像这样:
 
-```
+```py
 `country_template = """Name: {name}
 Population: {population}
 Capital: {capital}
@@ -150,7 +150,7 @@ Currency: {currency}"""`
 
 现在我们可以像这样使用模板:
 
-```
+```py
 `country = {
     "name": "Germany",
     "population": "83 million",
@@ -168,7 +168,7 @@ print(country_template.format(**country))`
 
 在我的例子中，输出如下:
 
-```
+```py
 `Name: Germany
 Population: 83 million
 Capital: Berlin
@@ -183,7 +183,7 @@ Currency: Euro`
 
 我们实际上可以在一行中完成整个练习，这显示了这种方法的一些强大之处:
 
-```
+```py
 `print(*range(1, 21), sep=", ")` 
 ```
 
@@ -191,7 +191,7 @@ Currency: Euro`
 
 如果我们运行代码，我们会得到如下输出:
 
-```
+```py
 `1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20` 
 ```
 
@@ -199,7 +199,7 @@ Currency: Euro`
 
 我们需要对代码进行的唯一更改是更改我们传递给`sep`的分隔符字符串。我将使用`"\n"`代替逗号和空格，这意味着我们将在每个值之间换行。
 
-```
+```py
 `print(*range(1, 21), sep="\n")` 
 ```
 

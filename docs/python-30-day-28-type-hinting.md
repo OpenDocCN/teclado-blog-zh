@@ -26,7 +26,7 @@
 
 我们可以通过运行以下命令来安装`mypy`:
 
-```
+```py
 `python -m pip install mypy` 
 ```
 
@@ -40,7 +40,7 @@
 
 让我们从使用类型提示来注释一些我们期望采用基本类型的变量开始。
 
-```
+```py
 `name: str = "Phil"
 age: int = 29
 height_metres: float = 1.87
@@ -53,14 +53,14 @@ loves_python: bool = True`
 
 我们可以通过运行`mypy`来确认这一点。
 
-```
+```py
 `> mypy app.py
 Success: no issues found in 1 source file` 
 ```
 
 现在让我们看看当事情不是我们想要的时候会发生什么。
 
-```
+```py
 `name: str = 29
 age: int = 1.87
 height_metres: float = "Phil"` 
@@ -70,7 +70,7 @@ height_metres: float = "Phil"`
 
 现在，如果我们运行`mypy`，我们会得到一些错误。
 
-```
+```py
 `> mypy app.py
 app.py:1: error: Incompatible types in assignment (expression has type "int", variable has type "str")
 app.py:2: error: Incompatible types in assignment (expression has type "float", variable has type "int")
@@ -88,7 +88,7 @@ Found 3 errors in 1 file (checked 1 source file)`
 
 我们完成这个的方法是使用一个叫做`Union`的工具，我们必须从`typing`模块导入这个工具。
 
-```
+```py
 `from typing import Union
 
 name: str = "Phil"
@@ -102,7 +102,7 @@ height_metres: Union[int, float] = 1.87`
 
 我们可以像使用其他类型一样使用`Any`:
 
-```
+```py
 `from typing import Any
 
 name: str = "Phil"
@@ -120,7 +120,7 @@ height_metres: Any = 1.87`
 
 下面是一个使用`List`注释的变量的例子:
 
-```
+```py
 `from typing import List
 
 names: List =  ["Rick", "Morty", "Summer", "Beth", "Jerry"]` 
@@ -128,7 +128,7 @@ names: List =  ["Rick", "Morty", "Summer", "Beth", "Jerry"]`
 
 如果我们想指定哪些类型应该在列表中，我们可以添加一组方括号，就像我们对`Union`所做的那样。
 
-```
+```py
 `from typing import List
 
 names: List[str] =  ["Rick", "Morty", "Summer", "Beth", "Jerry"]` 
@@ -138,7 +138,7 @@ names: List[str] =  ["Rick", "Morty", "Summer", "Beth", "Jerry"]`
 
 如果我们愿意，我们可以通过像这样组合`List`和`Union`来允许列表中有多种类型:
 
-```
+```py
 `from typing import List, Union
 
 random_values: List[Union[str, int]] =  ["x", 13, "camel", 0]` 
@@ -148,7 +148,7 @@ random_values: List[Union[str, int]] =  ["x", 13, "camel", 0]`
 
 例如，我们可以这样做:
 
-```
+```py
 `from typing import Tuple
 
 movie: Tuple[str, str, int] = ("Toy Story 3", "Lee Unkrich", 2010)` 
@@ -166,7 +166,7 @@ movie: Tuple[str, str, int] = ("Toy Story 3", "Lee Unkrich", 2010)`
 
 也许是这样的:
 
-```
+```py
 `from typing import List, Tuple
 
 movies: List[Tuple[str, str, int]] = [
@@ -182,7 +182,7 @@ movies: List[Tuple[str, str, int]] = [
 
 我们可以这样做:
 
-```
+```py
 `from typing import List, Tuple
 
 Movie = Tuple[str, str, int]
@@ -196,7 +196,7 @@ movies: List[Movie] = [
 
 现在像`mypy`这样的工具将会认为术语`Movie`的意思是`Tuple[str, str, int]`。如果我们尝试用`mypy`检查我们的代码，我们可以看到一切正常。
 
-```
+```py
 `> mypy app.py
 Success: no issues found in 1 source file` 
 ```
@@ -205,7 +205,7 @@ Success: no issues found in 1 source file`
 
 当我们运行`mypy`时，我们现在可以出错，正如我们所预料的那样。
 
-```
+```py
 `> mypy app.py
 app.py:11: error: List item 0 has incompatible type "Tuple[str, str, str]"; expected "Tuple[str, str, int]"
 Found 1 error in 1 file (checked 1 source file)` 
@@ -215,7 +215,7 @@ Found 1 error in 1 file (checked 1 source file)`
 
 现在让我们开始注释函数，这是这种工具最有用的地方。现在让我们继续使用我们的电影元组列表，让我们添加一个函数以给定的格式打印每部电影。
 
-```
+```py
 `from typing import List, Tuple
 
 Movie = Tuple[str, str, int]
@@ -237,7 +237,7 @@ show_movies(movies)`
 
 注释参数就像注释任何其他变量一样。在本例中，我们传入了一个电影元组列表，并且我们已经准备好了一个`Movie`注释，所以我们可以这样写:
 
-```
+```py
 `from typing import List, Tuple
 
 Movie = Tuple[str, str, int]
@@ -261,7 +261,7 @@ show_movies(movies)`
 
 我的实现看起来会像这样:
 
-```
+```py
 `from typing import List, Tuple
 
 Movie = Tuple[str, str, int]
@@ -301,7 +301,7 @@ else:
 
 让我们从注释所有我们已经知道如何做的事情开始。
 
-```
+```py
 `from typing import List, Tuple, Union
 
 Movie = Tuple[str, str, int]
@@ -345,7 +345,7 @@ else:
 
 因此，我们可以这样注释它:
 
-```
+```py
 `def find_movie(search_term: str, movies: List[Movie]) -> Union[Movie, None]:
     for title, director, year in movies:
         if title == search_term:
@@ -354,7 +354,7 @@ else:
 
 但是我们有一个问题。如果我们运行`mypy`，它会抱怨我们遗漏了一个`return`语句。
 
-```
+```py
 `> mypy app.py
 app.py:5: error: Missing return statement
 Found 1 error in 1 file (checked 1 source file)` 
@@ -366,7 +366,7 @@ Found 1 error in 1 file (checked 1 source file)`
 
 这意味着我们应该这样写函数:
 
-```
+```py
 `def find_movie(search_term: str, movies: List[Movie]) -> Union[Movie, None]:
     for title, director, year in movies:
         if title == search_term:
@@ -377,7 +377,7 @@ Found 1 error in 1 file (checked 1 source file)`
 
 现在一切都顺利通过了:
 
-```
+```py
 `> mypy app.py
 Success: no issues found in 1 source file` 
 ```
@@ -386,7 +386,7 @@ Success: no issues found in 1 source file`
 
 在有类似于`Union[Movie, None]`的情况下，其中一个`Union`中的类型是`None`，我们有另一个可以使用的工具叫做`Optional`。如果我们写类似`Optional[Movie]`的东西，这和写`Union[Movie, None]`是一回事。
 
-```
+```py
 `def find_movie(search_term: str, movies: List[Movie]) -> Optional[Movie]:
     for title, director, year in movies:
         if title == search_term:

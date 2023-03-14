@@ -25,7 +25,7 @@
 
 例如，我们可能想在用户的观看列表中存储一些电影的信息。我们可以用一个元组来表示每部电影，我们可以用一个布尔值来表示这部电影是否被这个用户看过:
 
-```
+```py
 `movies = [
     ("Inside Out", 2015, True),
     ("Toy Story 4", 2019, False),
@@ -37,7 +37,7 @@
 
 我们也可以打印布尔值，输出只是适当的`True`或者`False`。
 
-```
+```py
 `print(True)   # True
 print(False)  # False` 
 ```
@@ -52,13 +52,13 @@ Python 中的每个值都有一些关联的真值。一开始想起来可能会�
 
 举个例子，如果我们将字符串`"Hello"`传递给`bool`，函数调用的结果将是`True`。`"Hello"`因此是一个真值。
 
-```
+```py
 `print(bool("Hello"))  # True` 
 ```
 
 让我们看看其他一些例子:
 
-```
+```py
 `print(bool(0))              # False
 print(bool(6))              # True
 
@@ -92,7 +92,7 @@ print(bool(False))          # False`
 
 一般来说，这个操作符将用于比较两个数值类型，但是我们实际上也可以比较其他值。例如，我们可以比较字符串，在这种情况下，字符的 [ASCII 码用于确定哪个值大于另一个值。](https://www.computerhope.com/jargon/a/ascii.htm)
 
-```
+```py
 `print(5 < 10)     # True
 print(5 > 10)     # False
 print(10 > 10)    # False
@@ -103,7 +103,7 @@ print("A" < "a")  # True
 
 与这些运算符非常相似，我们有`<=`(小于或等于)和`>=`(大于或等于)。这些操作与`<`和`>`的工作方式相同，但是如果操作数的值相等，我们会返回`True`而不是`False`。
 
-```
+```py
 `print(10 > 10)   # False
 print(10 >= 10)  # True` 
 ```
@@ -112,7 +112,7 @@ print(10 >= 10)  # True`
 
 这里我们必须要小心一点，记住像`"0"`这样的东西和`0`不一样。Python 足够聪明，能够理解像`7`和`7.0`这样的东西是等价的。
 
-```
+```py
 `print(0 == "0")                # False
 print(0 == 0)                  # True
 print(7 == 7.0)                # True
@@ -122,7 +122,7 @@ print([1, 2, 3] == [1, 2, 3])  # True`
 
 如果我们想检查两个值是否*不*相等，我们也有这样的操作符，看起来像这样`!=`。这个感叹号，有时读作“砰”，常用来表示“不是”。所以`!=`简单来说就是“不相等”。
 
-```
+```py
 `print(0 != "0")         # True
 print(0 != 0)           # False
 print("Hello" != "Hi")  # True` 
@@ -134,7 +134,7 @@ print("Hello" != "Hi")  # True`
 
 首先让我们看一个例子:
 
-```
+```py
 `a = [1, 2, 3]
 b = [1, 2, 3]
 
@@ -152,7 +152,7 @@ print(a is b)  # False`
 
 我们可以使用一个名为`id`的函数来找出某个东西被存储在哪里，用一长串数字来表示。这一长串数字是一个引用内存中某个位置的地址。我们可以打印这些内存地址来验证这两个列表实际上并不相同:
 
-```
+```py
 `a = [1, 2, 3]
 b = [1, 2, 3]
 
@@ -167,7 +167,7 @@ print(a is b)  # False`
 
 我们可以做一个小小的改动，让两个列表相同。不要在分配给`b`时定义这个新的相同列表，让我们只参考我们分配给`a`的列表:
 
-```
+```py
 `a = [1, 2, 3]
 b = a
 
@@ -206,7 +206,7 @@ print(a is b)  # True`
 
 让我们写一个简单的调酒师程序。我们将询问用户的年龄，然后检查他们是否小于 18 岁。如果他们未满 18 岁，我们会打印一条消息，声明他们未成年。
 
-```
+```py
 `age = int(input("How old are you? "))
 
 if age < 18:
@@ -217,7 +217,7 @@ if age < 18:
 
 如果满足条件，我们要运行的这段代码在行首有四个缩进空间。这个缩进非常重要。如果你不这样做，Python 将会抛出一个异常。
 
-```
+```py
 `File "main.py", line 4
     print("Sorry, we can't serve you.")
     ^
@@ -232,7 +232,7 @@ IndentationError: expected an indented block`
 
 以下是我们的更新计划:
 
-```
+```py
 `age = int(input("How old are you? "))
 
 if age < 18:
@@ -245,7 +245,7 @@ else:
 
 我们也可以这样写这个条件块:
 
-```
+```py
 `age = int(input("How old are you? "))
 
 if age >= 18:
@@ -266,7 +266,7 @@ Python 不需要检查所有的条件，这一点很重要，因为有几个原�
 
 我们可能会这样写:
 
-```
+```py
 `age = int(input("How old are you? "))
 
 if age < 16:
@@ -285,7 +285,7 @@ else:
 
 例如，当我们请求一些输入时，我们可以检查用户是否实际输入了任何内容:
 
-```
+```py
 `name = input("Please enter your name: ")
 
 if name:  # Checks the truth value of name by calling bool
@@ -302,14 +302,14 @@ else:
 
 2)尝试使用`is`运算符或`id`函数来研究这两者之间的区别:
 
-```
+```py
 `numbers = [1, 2, 3, 4]
 new_numbers = numbers + [5]` 
 ```
 
 还有这个:
 
-```
+```py
 `numbers = [1, 2, 3, 4]
 numbers.append(5)` 
 ```

@@ -16,7 +16,7 @@ Python 中的 Decorators 可能是一个令人困惑的话题，尤其是对于�
 
 例如，假设您有一个名为`say_hello`的函数:
 
-```
+```py
 def say_hello():
     user_name = input("Enter your name: ")
     print(f"Hello, {user_name}!") 
@@ -26,7 +26,7 @@ def say_hello():
 
 您可以这样做:
 
-```
+```py
 def welcome_user():
     print("Welcome to my application!")
     say_hello() 
@@ -36,7 +36,7 @@ def welcome_user():
 
 如果您希望能够在任何任意函数之前打印欢迎消息，那么您应该创建一个接受另一个函数作为参数的高阶函数。像这样:
 
-```
+```py
 def welcome_user(func):
     print("Welcome to my application!")
     func() 
@@ -46,7 +46,7 @@ def welcome_user(func):
 
 你应该这样使用它:
 
-```
+```py
 def welcome_user(func):
     print("Welcome to my application!")
     func()
@@ -66,7 +66,7 @@ welcome_user(say_hello)  # Calls both functions and prints both things.
 
 这是一个室内设计师可能的样子:
 
-```
+```py
 def decorator():
     def say_goodbye():
         print("Goodbye!")
@@ -76,7 +76,7 @@ def decorator():
 
 `decorator`函数定义一个内部函数`say_goodbye`，然后返回它。内部函数在被调用之前不会运行。你可以这样使用它:
 
-```
+```py
 my_variable = decorator()
 my_variable()  # Goodbye! 
 ```
@@ -91,7 +91,7 @@ my_variable()  # Goodbye!
 
 为了成为装饰器，它需要将一个函数作为参数:
 
-```
+```py
 def decorator(func):
     def say_goodbye():
         func()
@@ -102,7 +102,7 @@ def decorator(func):
 
 然后你可以像这样使用这个装饰器:
 
-```
+```py
 def say_hello():
     print("Hello!")
 
@@ -114,7 +114,7 @@ greet()  # Hello! and Goodbye!
 
 *通常，您会使用 decorators 来替换现有的函数，同时扩展它们:*
 
-```
+```py
 *`def say_hello():
     print("Hello!")
 
@@ -128,7 +128,7 @@ say_hello()  # Hello! and Goodbye!`*
 
 您可以通过打印出`__name__`来检查这一点:
 
-```
+```py
 def say_hello():
     print("Hello!")
 
@@ -142,7 +142,7 @@ print(say_hello.__name__)  # say_goodbye
 
 如果这样做，该函数将保留其原始名称和文档:
 
-```
+```py
 import functools
 
 def decorator(func):
@@ -156,7 +156,7 @@ def decorator(func):
 
 这意味着该名称将被保留:
 
-```
+```py
 def say_hello():
     print("Hello!")
 
@@ -174,7 +174,7 @@ print(say_hello.__name__)  # say_hello
 
 我们也可以在代码中使用这种语法。目前，我们的代码如下所示:
 
-```
+```py
 import functools
 
 def decorator(func):
@@ -194,7 +194,7 @@ say_hello()
 
 但是使用`@`语法，可以简化成这样:
 
-```
+```py
 import functools
 
 def decorator(func):
@@ -224,7 +224,7 @@ say_hello()
 
 此时，我们的`say_hello`函数被替换为`say_goodbye`。这意味着，如果`say_hello`有任何参数，当我们替换函数时，这些参数会丢失。请看这个例子:
 
-```
+```py
 import functools
 
 def decorator(func):
@@ -243,7 +243,7 @@ say_hello("Bob")  # TypeError, say_goodbye() takes 0 positional arguments but 1 
 
 事实上，如果我们要这样做，我们还需要将参数添加到`say_goodbye`:
 
-```
+```py
 def decorator(func):
     @functools.wraps(func)
     def say_goodbye(name):
@@ -258,7 +258,7 @@ def decorator(func):
 
 为了做到这一点，我们将使用标准语法`*args, **kwargs`。如果你以前没有遇到过他们，[这里有一个快速指南](https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3):
 
-```
+```py
 def decorator(func):
     @functools.wraps(func)
     def say_goodbye(*args, **kwargs):
@@ -275,7 +275,7 @@ def decorator(func):
 
 假设您有一个函数`get_admin_password`，它将密码返回给管理面板，还有另一个函数`get_user_password`，它将密码返回给用户仪表板。它们看起来是这样的:
 
-```
+```py
 def get_admin_password():
     return "1234"
 
@@ -285,7 +285,7 @@ def get_user_password():
 
 您可以像这样调用这些函数之一:
 
-```
+```py
 print(get_admin_password())  # 1234 
 ```
 
@@ -293,7 +293,7 @@ print(get_admin_password())  # 1234
 
 这是您的用户的样子:
 
-```
+```py
 user = {"name": "Bob Smith", "access_level": "admin"} 
 ```
 
@@ -301,7 +301,7 @@ user = {"name": "Bob Smith", "access_level": "admin"}
 
 我们将从只允许管理员运行该功能开始:
 
-```
+```py
 def make_secure(func):
     def secure_func(*args, **kwargs):
         if user["access_level"] == "admin":
@@ -316,7 +316,7 @@ def make_secure(func):
 
 下面是完整的代码:
 
-```
+```py
 import functools
 
 user = {"name": "Bob Smith", "access_level": "admin"}
@@ -349,7 +349,7 @@ print(get_password("user"))  # None
 
 但是如果我们只定义两个装饰器，会有很多重复，所以我们要做的是通过添加一个参数使它们更动态:
 
-```
+```py
 @make_secure("admin")
 def get_admin_password():
     return "1234"
@@ -365,7 +365,7 @@ def get_user_password():
 
 所以我们的装饰者必须变成这样:
 
-```
+```py
 def make_secure(access_level):
     def decorator(func):
         @functools.wraps(func)

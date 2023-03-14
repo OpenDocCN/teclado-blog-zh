@@ -8,7 +8,7 @@
 
 为了简单起见，我们的起始代码应该是这样的:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -24,13 +24,13 @@ Tkinter 将尝试使窗口与您的操作系统相匹配，所以如果您的窗
 
 向我们的应用程序添加一个`Menu`小部件就像添加任何其他元素一样。我们将把新的`Menu`小部件分配给`menubar`变量，并且我们将把`root`作为`Menu`父对象传入。
 
-```
+```py
 menubar = tk.Menu(root) 
 ```
 
 我们还需要添加另一行来告诉根窗口这个`menubar`是窗口的菜单:
 
-```
+```py
 root.config(menu=menubar) 
 ```
 
@@ -46,7 +46,7 @@ root.config(menu=menubar)
 
 以下是几个简单的按钮示例:
 
-```
+```py
 from tkinter import ttk
 
 root = tk.Tk()
@@ -70,7 +70,7 @@ root.mainloop()
 
 例如，我们可以用一个使用`root.destroy`关闭应用程序的`Quit`按钮来代替`Say Goodbye`。
 
-```
+```py
 import tkinter as tk
 from tkinter import ttk
 
@@ -93,7 +93,7 @@ root.mainloop()
 
 让我们首先创建一个名为`salutations`的新菜单，它将容纳我们的`Say Hello`和`Say Goodbye`按钮。
 
-```
+```py
 salutations = tk.Menu(menubar)
 salutations.add_command(label="Say Hello", command=lambda: print("Hello"))
 salutations.add_command(label="Say Goodbye", command=lambda: print("Goodbye"))
@@ -103,7 +103,7 @@ salutations.add_command(label="Say Goodbye", command=lambda: print("Goodbye"))
 
 我们现在可以使用`add_cascade`方法将这个新的子菜单添加到`menubar`中，如下所示:
 
-```
+```py
 menubar.add_cascade(label="Salutations", menu=salutations) 
 ```
 
@@ -111,7 +111,7 @@ menubar.add_cascade(label="Salutations", menu=salutations)
 
 总的来说，代码看起来像这样:
 
-```
+```py
 import tkinter as tk
 from tkinter import ttk
 
@@ -144,7 +144,7 @@ root.mainloop()
 
 官方文档使用`tearoff=0`，但是`tearoff=False`也可以，我认为它更有意义，所以我在这里使用它:
 
-```
+```py
 import tkinter as tk
 from tkinter import ttk
 
@@ -171,7 +171,7 @@ root.mainloop()
 
 下面是一个菜单，其中包含一些附加选项:
 
-```
+```py
 option_1 = tk.StringVar()
 option_2 = tk.StringVar()
 radio_option = tk.StringVar()
@@ -203,7 +203,7 @@ menubar.add_cascade(label="Options", menu=options)
 
 我们可以使用`add`来复制任何其他方法:我们只需要传入要作为字符串添加的项的类型。这可以是位置参数，也可以是使用键`itemType`的关键字参数:
 
-```
+```py
 salutations.add(itemType="command", label="Say Hello", command=lambda: print("Hello"))
 salutations.add("command", label="Say Goodbye", command=lambda: print("Goodbye")) 
 ```

@@ -26,7 +26,7 @@
 
 下面是如何使用普通 JavaScript 执行 GET 请求:
 
-```
+```py
 const request = new XMLHttpRequest();
 const url = 'http://localhost:5000/movies';
 request.open("GET", url);
@@ -53,7 +53,7 @@ request.onload = (e) => {
 
 大概是这样的:
 
-```
+```py
 <!DOCTYPE html>
 <html>
     <head>
@@ -77,7 +77,7 @@ request.onload = (e) => {
 
 您可以这样做，使用`XMLHttpRequest`:
 
-```
+```py
 const formData = new FormData();
 
 formData.append("title", "The Matrix");
@@ -104,7 +104,7 @@ response.onload = (e) => {
 
 因此，在这个例子中，我们将发送包含 JSON 对象的字符串，以及一个*头*，告诉 API 我们的数据是 JSON 数据。
 
-```
+```py
 const response = new XMLHttpRequest();
 
 const json = JSON.stringify({
@@ -132,7 +132,7 @@ response.onload = (e) => {
 
 要使用`fetch()`而不是`XMLHttpRequest`来检索数据，您必须这样做。一定要确保运行这段代码的浏览器支持 ES6。Chrome 是个不错的选择。
 
-```
+```py
 const url = 'http://localhost:5000/movies';
 fetch(url)
 .then(data => data.json())
@@ -153,7 +153,7 @@ fetch(url)
 
 看看这个:
 
-```
+```py
 const url = 'http://localhost:5000/';
 const data = { title: "The Matrix", year: "1994" };
 

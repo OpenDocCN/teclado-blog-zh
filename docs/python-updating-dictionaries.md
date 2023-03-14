@@ -6,7 +6,7 @@
 
 我们要看的第一个方法是使用另一个字典对象。我们可以在字典上调用`update`方法，并将第二个字典对象作为参数传入。然后，这些字典将合并成一个字典对象:
 
-```
+```py
 student = {
     "name": "Rolf",
     "age": 15
@@ -26,7 +26,7 @@ student.update(grades)
 
 使用`update`方法的第二个选项是传入一个包含键值对的 iterable。这些对依次存储在某种可迭代对象中，比如元组或列表。
 
-```
+```py
 student = {
     "name": "Rolf",
     "age": 15
@@ -42,7 +42,7 @@ student.update(grades)
 
 用`update`扩展字典的最后一种方法是使用关键字参数。
 
-```
+```py
 student = {
     "name": "Rolf",
     "age": 15

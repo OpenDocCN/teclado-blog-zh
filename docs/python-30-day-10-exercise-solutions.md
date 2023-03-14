@@ -6,7 +6,7 @@
 
 ### 1)下面是描述相册的元组。将这个外部元组转换成一个有四个键的字典。
 
-```
+```py
 `(
     "The Dark Side of the Moon",
     "Pink Floyd",
@@ -32,7 +32,7 @@
 
 现在只需要将值映射到这些键上。
 
-```
+```py
 `{
     "title": "The Dark Side of the Moon",
     "artist": "Pink Floyd",
@@ -58,7 +58,7 @@
 
 首先，让我们将这个字典赋给一个变量，这样我们可以更容易地引用它。
 
-```
+```py
 `album = {
     "title": "The Dark Side of the Moon",
     "artist": "Pink Floyd",
@@ -84,7 +84,7 @@
 
 然后，只需要将这些值赋给两个变量，并在循环体中引用它们。
 
-```
+```py
 `for key, value in album.items():
     print(f"{key}: {value}")` 
 ```
@@ -95,7 +95,7 @@
 
 我们将再次使用变量名`album`作为字典。
 
-```
+```py
 `album = {
     "title": "The Dark Side of the Moon",
     "artist": "Pink Floyd",
@@ -117,7 +117,7 @@
 
 使用`del`，我们可以像这样去掉两个键:
 
-```
+```py
 `album = {
     "title": "The Dark Side of the Moon",
     "artist": "Pink Floyd",
@@ -142,7 +142,7 @@ del album["tracks"]`
 
 现在我们必须向字典中添加一个新的键和值。我准备叫它`release_date`，《月球背面》上映日期是 1973 年 3 月 1 日。
 
-```
+```py
 `album = {
     "title": "The Dark Side of the Moon",
     "artist": "Pink Floyd",
@@ -173,7 +173,7 @@ album["release_date"] = "March 1st, 1973"`
 
 首先，让我们试着打印与`"year"`键相关的值。
 
-```
+```py
 `album = {
     "title": "The Dark Side of the Moon",
     "artist": "Pink Floyd",
@@ -202,7 +202,7 @@ print(album["year"])`
 
 这将会给我们一个`KeyError`预期:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 24, in <module>
     print(album["year"])
@@ -211,7 +211,7 @@ KeyError: 'year'`
 
 让我们把这一行注释掉，这样就不会破坏我们的程序。现在让我们尝试使用`get`来访问`"year"`键。在这种情况下，我将指定一个默认值`"Unknown"`。
 
-```
+```py
 `album = {
     "title": "The Dark Side of the Moon",
     "artist": "Pink Floyd",

@@ -39,7 +39,7 @@
 
 然后，我们可能还想定义用户将与之交互的菜单。尽早这样做也给了我们一些继续编码的结构。通过写出菜单，我们可以清楚地知道用户需要从哪些选项中选择:
 
-```
+```py
 `reading_list = []
 menu_prompt = """Please enter one of the following options:
 
@@ -52,7 +52,7 @@ What would you like to do? """`
 
 现在我们有了这个，我们可以开始写菜单了。我们将为此使用 while 循环和 if 语句:
 
-```
+```py
 `reading_list = []
 menu_prompt = """Please enter one of the following options:
 
@@ -82,7 +82,7 @@ while selected_option != "q":
 
 请注意，如果您愿意，您可以*像这样编写 while 循环:*
 
-```
+```py
 `while True:
     selected_option = input(menu_prompt).strip().lower()
 
@@ -106,7 +106,7 @@ while selected_option != "q":
 
 我们现在要做的是:
 
-```
+```py
 `reading_list = []
 menu_prompt = """Please enter one of the following options:
 
@@ -142,7 +142,7 @@ while selected_option != "q":
 
 要添加新书，我们将向用户询问书籍的详细信息。然后我们会把它们放进字典，并把它们添加到阅读列表中:
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -161,7 +161,7 @@ while selected_option != "q":
 
 请注意，我们可以创建字典并将其追加到同一行中。这一点有时会更清楚:
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -180,7 +180,7 @@ while selected_option != "q":
 
 然而，我们还没有一种方法来显示阅读列表中的书籍。让我们继续下一个:
 
-```
+```py
 `def show_books():
     print("Displaying...")` 
 ```
@@ -189,7 +189,7 @@ while selected_option != "q":
 
 我们可以只使用 for 循环，并使用 f 字符串打印字典中的属性:
 
-```
+```py
 `def show_books():
     for book in reading_list:
         print(f"{book['title']}, by {book['author']} ({book['year']})")` 
@@ -197,7 +197,7 @@ while selected_option != "q":
 
 或者，我们可以使用解包和字典的`.values()`方法来使代码更加清晰:
 
-```
+```py
 `def show_books():
     for book in reading_list:
         title, author, year = book.values()
@@ -208,7 +208,7 @@ while selected_option != "q":
 
 目前，我们的代码如下所示:
 
-```
+```py
 `reading_list = []
 menu_prompt = """Please enter one of the following options:
 
@@ -259,7 +259,7 @@ while selected_option != "q":
 
 在循环中，我们将添加一个 if 语句来检查阅读列表是否为空:
 
-```
+```py
 `...
     elif selected_option == "l":
         if reading_list:

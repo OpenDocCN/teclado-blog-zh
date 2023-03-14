@@ -14,13 +14,13 @@
 
 首先，我们需要创建一个要访问的文件。我们将要开始处理的文件是一个简单的文本文件，我已经将它添加到我的 repl 中的`main.py`文件旁边。![https://i.ibb.co/0ZkgvTt/Annotation-2020-03-24-034621.jpg](img/12135b0a35094d2c753bb7e19c5da691.png)文件名为`example.txt`，内容是一条明文短信:
 
-```
+```py
 `Hello, from the example.txt file!` 
 ```
 
 访问这个文件实际上相当简单。我们需要做的就是在我们的`main.py`文件中写入以下内容:
 
-```
+```py
 `example_file = open("example.txt")` 
 ```
 
@@ -28,7 +28,7 @@
 
 我们也可以这样写:
 
-```
+```py
 `example_file = open("./example.txt")` 
 ```
 
@@ -36,7 +36,7 @@
 
 如果我们愿意，也可以指定该文件的完整路径。在我的例子中，repl it 上文件的完整路径是:
 
-```
+```py
 `/home/runner/AnotherHuskySyntax/example.txt` 
 ```
 
@@ -46,7 +46,7 @@
 
 我们可以通过对返回给我们的东西`open`调用`read`方法来查看文件的内容。
 
-```
+```py
 `example_file = open("example.txt")
 print(example_file.read())` 
 ```
@@ -55,7 +55,7 @@ print(example_file.read())`
 
 我们现在需要做最后一件事，这是非常重要的。我们需要关闭文件。
 
-```
+```py
 `example_file = open("example.txt")
 print(example_file.read())
 example_file.close()` 
@@ -71,7 +71,7 @@ example_file.close()`
 
 如果我们想更明确(通常是件好事)，我们可以像这样重写上面的代码:
 
-```
+```py
 `example_file = open("example.txt", "r")
 print(example_file.read())
 example_file.close()` 
@@ -79,7 +79,7 @@ example_file.close()`
 
 如果需要，我们也可以使用关键字参数:
 
-```
+```py
 `example_file = open("example.txt", mode="r")
 print(example_file.read())
 example_file.close()` 
@@ -91,14 +91,14 @@ example_file.close()`
 
 让我们通过创建一个新文件来测试这一点。当我们使用写模式时，如果文件还不存在，Python 会为我们创建一个文件，所以我们可以这样写:
 
-```
+```py
 `write_file = open("write_example.txt", "w")
 write_file.close()` 
 ```
 
 如果我们运行这段代码，我们可以看到有一个名为`write_example.txt`的新的空文件。![https://i.ibb.co/FYjQV4W/Annotation-2020-03-24-034621.jpg](img/58fd59e5ba9b552166ae2aab6ca0d780.png)如果我们想的话，我们可以通过调用`write`方法将信息写入这个文件。
 
-```
+```py
 `write_file = open("write_example.txt", "w")
 write_file.write("Welcome to the world, write_example.txt!")
 write_file.close()` 
@@ -112,7 +112,7 @@ write_file.close()`
 
 我们可以用与写模式完全相同的方式写入以追加模式打开的文件。
 
-```
+```py
 `write_file = open("write_example.txt", "a")
 write_file.write("\nNow you have two lines! You're growing up so fast!")
 write_file.close()` 
@@ -128,14 +128,14 @@ write_file.close()`
 
 语法如下所示:
 
-```
+```py
 `with open("example.txt", "r") as example_file:
     print(example_file.read())` 
 ```
 
 这乍一看可能有点奇怪，但它的功能与此相同:
 
-```
+```py
 `example_file = open("example.txt", "r")
 print(example_file.read())
 example_file.close()` 
@@ -151,7 +151,7 @@ example_file.close()`
 
 这个:
 
-```
+```py
 `write_file = open("write_example.txt", "w")
 write_file.write("Welcome to the world, write_example.txt!")
 write_file.close()` 
@@ -159,14 +159,14 @@ write_file.close()`
 
 可以改写成这样:
 
-```
+```py
 `with open("write_example.txt", "w") as write_file:
     write_file.write("Welcome to the world, write_example.txt!")` 
 ```
 
 这个版本带有附加模式:
 
-```
+```py
 `write_file = open("write_example.txt", "a")
 write_file.write("\nNow you have two lines! You're growing up so fast!")
 write_file.close()` 
@@ -174,7 +174,7 @@ write_file.close()`
 
 可以改写成这样:
 
-```
+```py
 `with open("write_example.txt", "a") as write_file:
     write_file.write("\nNow you have two lines! You're growing up so fast!")` 
 ```
@@ -189,7 +189,7 @@ CSV 有许多不同的风格或“方言”,但我们将保持简单，使用仅
 
 让我们首先创建一个新的 repl，并将一个名为`iris.csv`的文件放入我们的新 repl 中，我们将在其中放入以下数据:
 
-```
+```py
 `sepal_length,sepal_width,petal_length,petal_width,species
 5.1,3.5,1.4,0.2,Iris-setosa
 4.9,3,1.4,0.2,Iris-setosa
@@ -226,7 +226,7 @@ CSV 有许多不同的风格或“方言”,但我们将保持简单，使用仅
 
 首先，我们需要打开文件并从中获取 CSV 数据。使用我们已经看到的技术，我们可以这样做:
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.read()` 
 ```
@@ -239,14 +239,14 @@ CSV 有许多不同的风格或“方言”,但我们将保持简单，使用仅
 
 由于数据显示在单独的行上，我们知道一件非常重要的事情。每一行都以换行符结束，以标记换行符。因此，我们可以根据`"\n"`字符分割数据，将每一行作为一个列表。
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.read().split("\n")` 
 ```
 
 然而，因为这是一个非常常见的操作，Python 给了我们一个工具来做几乎相同的事情。不叫`read`，我们可以叫`readlines`。
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()` 
 ```
@@ -257,7 +257,7 @@ CSV 有许多不同的风格或“方言”,但我们将保持简单，使用仅
 
 接下来，我将创建一个名为`irises`的空列表，这是我们放置最终字典的地方。
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -266,7 +266,7 @@ irises = []`
 
 现在我将使用一个`for`循环来迭代`iris_data`中的列表。记住第一行并不是真正的数据。只是表格标题。因此，我不会迭代所有的虹膜数据，我将迭代一个[切片](/30-days-of-python/python-30-day-7-split-join)。
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -282,7 +282,7 @@ for row in iris_data[1:]:
 
 为了便于以后引用这些值，我将析构从`split`返回的列表。
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -296,7 +296,7 @@ for row in iris_data[1:]:
 
 现在我们已经将所有的数据分配给这些变量，我们可以构建我们的字典并将其附加到`irises`:
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -318,7 +318,7 @@ for row in iris_data[1:]:
 
 如果我们想更简洁一点，我们可以在进行`append`调用时定义字典:
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -344,7 +344,7 @@ for row in iris_data[1:]:
 
 例如，假设我有一个这样的列表:
 
-```
+```py
 `iris = [
     ("sepal_length", "5.1"),
     ("sepal_width", "3.5"),
@@ -358,7 +358,7 @@ for row in iris_data[1:]:
 
 如果我们将这个列表传递给`dict`，Python 能够为我们构建一个字典，如下所示:
 
-```
+```py
 `{
     "sepal_length": "5.1",
     "sepal_width": "3.5",
@@ -372,7 +372,7 @@ for row in iris_data[1:]:
 
 让我们存储标题行的值，并像处理不同的数据行一样处理它们，而不是扔掉标题行。
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -381,7 +381,7 @@ headers = iris_data[0].strip().split(",")`
 
 现在让我们再次遍历这些行，但是这一次，让我们使用`zip`将每个标题项匹配到给定行中的一个值。
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -401,7 +401,7 @@ for row in iris_data[1:]:
 
 使用上下文管理器重写以下代码:
 
-```
+```py
  `f = open("hello_world.txt", "w")
  f.write("Hello, World!")
  f.close()` 

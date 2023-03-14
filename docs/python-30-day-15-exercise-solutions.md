@@ -6,7 +6,7 @@
 
 ### 1)将下面的 for 循环转换成一个理解。
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 squares = []
 
@@ -22,21 +22,21 @@ for number in numbers:
 
 我们的出发点是:
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 squares = []` 
 ```
 
 现在，在方括号内，我们首先放入我们想要添加的值，然后是循环。
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 squares = [number ** 2 for number in numbers]` 
 ```
 
 ### 2)使用字典理解从下面的字典创建新字典，其中每个值都是标题大小写。
 
-```
+```py
 `movie = {
     "title": "thor: ragnarok",
     "director": "taika waititi",
@@ -47,7 +47,7 @@ squares = [number ** 2 for number in numbers]`
 
 让我们把它写成一个常规的`for`循环:
 
-```
+```py
 `movie = {
     "title": "thor: ragnarok",
     "director": "taika waititi",
@@ -67,7 +67,7 @@ for key, value in movie.items():
 
 我们现在可以把它放在`updated_movie`旁边的花括号里，就像这样:
 
-```
+```py
 `movie = {
     "title": "thor: ragnarok",
     "director": "taika waititi",
@@ -80,7 +80,7 @@ updated_movie = {key: value.title() for key, value in movie.items()}`
 
 当然，因为我们正在使用一个理解，如果我们愿意，我们可以重用相同的名称。
 
-```
+```py
 `movie = {
     "title": "thor: ragnarok",
     "director": "taika waititi",

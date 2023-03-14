@@ -56,7 +56,7 @@
 
 下面使用来自`Flask-RESTful`的基于类的视图显示了用户登录端点的代码片段。如果你学过我们的 REST API 课程，这看起来会很熟悉。
 
-```
+```py
 from models.user import UserModel
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
@@ -100,7 +100,7 @@ class UserLogin(Resource):
 
 以下代码片段显示了令牌刷新端点的工作方式。
 
-```
+```py
 class TokenRefresh(Resource):
     @jwt_refresh_token_required
     def post(self):
@@ -117,7 +117,7 @@ class TokenRefresh(Resource):
 
 然后，我们可以保护我们的端点，并定义不同的保护级别，如下所示:
 
-```
+```py
 # An endpoint that requires a valid access token (non-expired, either fresh or non-fresh)
 @jwt_required
 def get(self):

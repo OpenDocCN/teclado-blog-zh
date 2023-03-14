@@ -8,7 +8,7 @@
 
 让我们从编写获取成绩列表的`input`调用开始。我们也可以使用`split`方法来分割从`input`返回的字符串，所有的都在同一行上。
 
-```
+```py
 `grades = input("Please enter your grades, separated by commas: ").split(",")` 
 ```
 
@@ -16,7 +16,7 @@
 
 在这里，我们在所有逗号后面都有空格，所以我们得到的`grades`列表应该是:
 
-```
+```py
 `['76 ', '93 ', '84 ', '81']` 
 ```
 
@@ -24,7 +24,7 @@
 
 因此，没有必要这样做:
 
-```
+```py
 `grades = input("Please enter your grades, separated by commas: ").split(",")
 grades = [grade.strip() for grade in grades]` 
 ```
@@ -33,7 +33,7 @@ grades = [grade.strip() for grade in grades]`
 
 在用户输入无效值的情况下，我们将得到一个`ValueError`，所以这是我们需要用`except`子句捕捉的异常。
 
-```
+```py
 `grades = input("Please enter your grades, separated by commas: ").split(",")
 
 try:
@@ -48,7 +48,7 @@ except ValueError:
 
 在一个更完整的应用程序中，使用`grades`的其余代码可能会放在一个`else`子句中，但是我们在这里不必担心这个。
 
-```
+```py
 `grades = input("Please enter your grades, separated by commas: ").split(",")
 
 try:
@@ -67,7 +67,7 @@ except ValueError:
 
 类似下面的函数可能是合适的:
 
-```
+```py
 `def func():
     try:
         return "Returned from the try clause!"
@@ -77,7 +77,7 @@ except ValueError:
 
 现在让我们调用我们的函数，看看会发生什么。
 
-```
+```py
 `def func():
     try:
         return "Returned from the try clause!"
@@ -101,7 +101,7 @@ print(func())  # "Returned from the finally clause!"`
 
 记住这一点，让我们构建我们的`try`语句:
 
-```
+```py
 `try:
     pass
 except FileNotFoundError:
@@ -112,7 +112,7 @@ except FileNotFoundError:
 
 在实际的应用程序中，我们可能会利用这个机会为用户创建文件。
 
-```
+```py
 `try:
     with open("data.txt", "r") as text_file:
         print(text_file.read())

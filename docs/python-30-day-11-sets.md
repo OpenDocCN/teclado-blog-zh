@@ -18,13 +18,13 @@
 
 很像字典，我们使用花括号定义集合，但是我们只是添加一系列逗号分隔的值，而不是键值对。
 
-```
+```py
 `vegetables = {"carrot", "lettuce", "broccoli", "onion", "carrot"}` 
 ```
 
 在这一组中，我们有两次字符串`"carrot"`。这不会产生错误，但是集合将只包含一个`"carrot"`的实例。我们上面定义的集合与下面的集合完全相同。
 
-```
+```py
 `vegetables = {"carrot", "lettuce", "broccoli", "onion"}` 
 ```
 
@@ -38,13 +38,13 @@
 
 我们也不能将集合包含在其他集合中，因为集合也可以被修改。因此，以下内容在 Python 中是非法的:
 
-```
+```py
 `nested_sets = {{1,  2,  3},  {"a",  "b",  "c"}}` 
 ```
 
 如果我们尝试，我们会得到一个`TypeError`:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 1, in <module>
     nested_sets = {{1, 2, 3}, {"a", "b", "c"}}
@@ -61,7 +61,7 @@ TypeError: unhashable type: 'set'`
 
 首先我们有`add`方法，它允许我们将一个值添加到我们调用它的集合中:
 
-```
+```py
 `vegetables = {"carrot", "lettuce", "broccoli", "onion"}
 vegetables.add("potato")
 
@@ -74,7 +74,7 @@ print(vegetables)  # {'lettuce', 'broccoli', 'onion', 'potato', 'carrot'}`
 
 如果我们想一次添加几个项目，我们可以使用`update`方法。在这种情况下，我们可以传入任何 iterable，如果有效，它包含的项将被添加。
 
-```
+```py
 `vegetables = {"carrot", "lettuce", "broccoli", "onion"}
 vegetables.update(["potato", "pumpkin"])
 
@@ -89,7 +89,7 @@ print(vegetables)  # {'broccoli', 'lettuce', 'carrot', 'potato', 'pumpkin', 'oni
 
 首先我们有`remove`方法，它允许我们删除单个项目。我们必须在调用方法时指定要移除的内容:
 
-```
+```py
 `vegetables = {"carrot", "lettuce", "broccoli", "onion"}
 vegetables.remove("lettuce")
 
@@ -104,7 +104,7 @@ print(vegetables)  # {'broccoli', 'carrot', 'onion'}`
 
 就像其他收藏一样，`pop`给出了被删除的项目。
 
-```
+```py
 `vegetables = {"carrot", "lettuce", "broccoli", "onion"}
 random_vegetable = vegetables.pop()  # 'lettuce'
 
@@ -125,7 +125,7 @@ print(vegetables)  # {'broccoli', 'onion', 'carrot'}`
 
 我们可以用`union`方法找到两个集合的并集。
 
-```
+```py
 `letters = {"a", "b", "c"}
 numbers = {1, 2, 3}
 
@@ -142,7 +142,7 @@ print(letters_and_numbers)  # {'a', 'c', 1, 2, 3, 'b'}`
 
 例如，如果我们有一个包含可被 2 整除的数的集合，另一个包含可被 3 整除的数的集合，那么这些集合的交集将只包含可被 2 和 3 整除的数。
 
-```
+```py
 `mod_2 = {2, 4, 6, 8, 10, 12, 14, 16, 18}
 mod_3 = {3, 6, 9, 12, 15, 18}
 
@@ -157,14 +157,14 @@ print(mod_6)  # {18, 12, 6}`
 
 例如，假设我们有两个游戏包:
 
-```
+```py
 `bundle_1 = {"Resident Evil 3", "Final Fantasy VII", "Cyberpunk 2077"}
 bundle_2 = {"Doom Eternal", "Halo Infinite", "Resident Evil 3"}` 
 ```
 
 如果我们在`bundle_1`上调用`difference`，传入`bundle_2`，我们将得到与在`bundle_2`上调用`difference`，传入`bundle_1`不同的结果:
 
-```
+```py
 `print(bundle_1.difference(bundle_2))  # {'Final Fantasy VII', 'Cyberpunk 2077'}
 print(bundle_2.difference(bundle_1))  # {'Halo Infinite', 'Doom Eternal'}` 
 ```
@@ -173,7 +173,7 @@ print(bundle_2.difference(bundle_1))  # {'Halo Infinite', 'Doom Eternal'}`
 
 当我们写这个的时候:
 
-```
+```py
 `bundle_1.difference(bundle_2)  # {'Final Fantasy VII', 'Cyberpunk 2077'}` 
 ```
 
@@ -185,7 +185,7 @@ print(bundle_2.difference(bundle_1))  # {'Halo Infinite', 'Doom Eternal'}`
 
 如果我们回到我们的游戏捆绑示例，我们可以看到`bundle_1`和`bundle_2`的对称差异是除了`"Resident Evil 3"`之外的所有游戏，因为`"Resident Evil 3"`是两个集合中唯一的游戏:
 
-```
+```py
 `bundle_1 = {"Resident Evil 3", "Final Fantasy VII", "Cyberpunk 2077"}
 bundle_2 = {"Doom Eternal", "Halo Infinite", "Resident Evil 3"}
 
@@ -200,7 +200,7 @@ print(bundle_1.symmetric_difference(bundle_2))
 
 例如，如果我们回到我们的字母和数字的例子，如果`numbers`是一个列表就很好，只要我们调用`letters`集合上的方法:
 
-```
+```py
 `letters = {"a", "b", "c"}
 numbers = [1, 2, 3]
 
@@ -213,7 +213,7 @@ print(letters_and_numbers)  # {'a', 'c', 1, 2, 3, 'b'}`
 
 我们经常想要检查一个值是否在集合中，我们可以使用`in`关键字来执行这种检查。`in`将产生`True`是找到的物品，否则产生`False`:
 
-```
+```py
 `numbers = {1, 2, 3, 4, 5}
 
 print(3 in numbers)  # True
@@ -222,14 +222,14 @@ print(7 in numbers)  # False`
 
 虽然这种测试对集合非常有效，但是我们可以对任何集合使用`in`关键字。例如，我们可以检查给定的字母是否在字符串中:
 
-```
+```py
 `print("j" in "Python")  # False
 print("n" in "Python")  # True` 
 ```
 
 我们还可以使用`in`来检查一个键是否在字典中:
 
-```
+```py
 `student = {
     "name": "Eric Cartman",
     "age": 10,
@@ -242,7 +242,7 @@ print("school" in student)  # True`
 
 或其价值观之一:
 
-```
+```py
 `student = {
     "name": "Eric Cartman",
     "age": 10,

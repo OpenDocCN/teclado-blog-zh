@@ -21,7 +21,7 @@
 
 我们使用方括号定义一个列表，如下所示:
 
-```
+```py
 `names = ["John", "Alice", "Sarah", "George"]` 
 ```
 
@@ -31,7 +31,7 @@
 
 当我们遇到这种情况时，我们可以将列表拆分成多行，如下所示:
 
-```
+```py
 `movie_titles = [
     "Eternal Sunshine of the Spotless Mind",
     "Memento",
@@ -41,7 +41,7 @@
 
 正如我之前提到的，我们可以在一个列表中混合我们想要的任何类型的值，你不必只有字符串，或者只有整数。
 
-```
+```py
 `friend_details = ["John", 27, "Web Developer"]` 
 ```
 
@@ -49,7 +49,7 @@
 
 我们可以通过将列表传递给`print`函数来打印整个列表，如下所示:
 
-```
+```py
 `friend_details = ["John", 27, "Web Developer"]
 
 print(friend_details)` 
@@ -61,7 +61,7 @@ print(friend_details)`
 
 抵制诱惑去做这样的事情:
 
-```
+```py
 `movie_titles = [
     "Eternal Sunshine of the Spotless Mind",
     "Memento", "Requiem for a Dream"
@@ -70,13 +70,13 @@ print(friend_details)`
 
 它可能比在每一行上放一个不同的值要短，但是它使得很难看到列表中有多少个值，并且它也使得很难看到值本身。例如，有一个相当微妙的区别:
 
-```
+```py
 `"Memento", "Requiem for a Dream"` 
 ```
 
 和
 
-```
+```py
 `"Memento, Requiem for a Dream"` 
 ```
 
@@ -86,13 +86,13 @@ print(friend_details)`
 
 比较这个:
 
-```
+```py
 `numbers = [343.4,545.98,4,954.03,3.5]` 
 ```
 
 对此:
 
-```
+```py
 `numbers = [343.4, 545.98, 4, 954.03, 3.5]` 
 ```
 
@@ -106,7 +106,7 @@ print(friend_details)`
 
 它看起来像这样:
 
-```
+```py
 `names = ["John", "Alice", "Sarah", "George"]
 
 print(names[2])  # Sarah` 
@@ -116,7 +116,7 @@ print(names[2])  # Sarah`
 
 也可以参考一个*负的*指数，它允许我们从列表的末尾开始工作。在这种情况下，索引`-1`处的项目是最后一个项目；索引为`-2`的项目是倒数第二个项目；诸如此类。
 
-```
+```py
 `names = ["John", "Alice", "Sarah", "George"]
 
 print(names[-1])  # George` 
@@ -130,7 +130,7 @@ print(names[-1])  # George`
 
 首先，让我们关注使用`append`方法向列表添加条目。顾名思义，`append`让我们将一个项目添加到列表的末尾。再一次，我们需要使用点符号来调用`append`，当我们调用它时，我们把我们想要添加的值放在括号内。
 
-```
+```py
 `names = ["John", "Alice", "Sarah", "George"]
 names.append("Simon")
 
@@ -141,7 +141,7 @@ print(names[-1])  # Simon`
 
 方法也有些不同，因为我们必须在操作中执行赋值。
 
-```
+```py
 `names = ["John", "Alice", "Sarah", "George"]
 names = names + ["Simon"]
 
@@ -160,7 +160,7 @@ print(names[-1])  # Simon`
 
 目前，我们在这个序列中缺少值`3`，我们想在索引`2`处插入这个值。我们因此需要这样称呼`insert`:
 
-```
+```py
 `numbers = [1, 2, 4, 5]
 numbers.insert(2, 3)
 
@@ -171,7 +171,7 @@ print(numbers)  # [1, 2, 3, 4, 5]`
 
 你可能想知道，如果我们在定义的列表之外指定一个索引会发生什么？Python 只是将项目作为结尾:
 
-```
+```py
 `numbers = [1, 2, 4, 5]
 numbers.insert(7, 3)
 
@@ -186,13 +186,13 @@ print(numbers)  # [1, 2, 4, 5, 3]`
 
 例如，如果我们有这样一个列表:
 
-```
+```py
 `names = ["John", "Sarah", "Alice", "John"]` 
 ```
 
 我们可以通过调用`remove`来删除第一个`"John"`:
 
-```
+```py
 `names = ["John", "Sarah", "Alice", "John"]
 names.remove("John")
 
@@ -205,7 +205,7 @@ print(names)  # ['Sarah', 'Alice', 'John']`
 
 首先，我们可以使用`del`关键字。`del`可以用来删除我们想要的任何东西，包括整个列表，但是如果我们使用订阅表达式，我们可以用它来删除特定索引处的一个项目。
 
-```
+```py
 `names = ["John", "Sarah", "Alice", "Mike"]
 del names[0]
 
@@ -214,7 +214,7 @@ print(names)  # ['Sarah', 'Alice', 'Mike']`
 
 我们使用`del`的主要选择是`pop`。默认情况下,`pop`将移除列表中的最后一项，但是我们可以选择传递一个索引作为参数来移除另一项。
 
-```
+```py
 `names = ["John", "Sarah", "Alice", "Mike"]
 names.pop()
 
@@ -227,7 +227,7 @@ print(names)  # ['John', 'Alice']`
 
 关于`pop`真正有用的事情之一是方法调用表达式计算我们从列表中移除的项目。因此，我们可以用它来删除一个我们计划在以后的操作中使用的项目:
 
-```
+```py
 `names = ["John", "Sarah", "Alice", "Mike"]
 last_in_line = names.pop()
 
@@ -237,7 +237,7 @@ print(last_in_line)  # Mike`
 
 最后，我们还有`clear`。这个非常简单，它将删除给定列表中的所有内容:
 
-```
+```py
 `names = ["John", "Sarah", "Alice", "John"]
 names.clear()
 
@@ -252,13 +252,13 @@ print(names)  # []`
 
 定义一个元组所需要的只是一系列逗号分隔的值:
 
-```
+```py
 `names = "John", "Sarah", "Alice"` 
 ```
 
 然而，更常见的是，我们会看到元组被写成这样:
 
-```
+```py
 `names = ("John", "Sarah", "Alice")` 
 ```
 
@@ -266,7 +266,7 @@ print(names)  # []`
 
 例如，将元组放在一个列表中是完全合法的(也是常见的)。也许我们希望将电影名称和上映日期一起存储在电影列表中，如下所示:
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 2004),
     ("Memento", 2000),
@@ -280,7 +280,7 @@ print(names)  # []`
 
 如果没有括号，我们会得到这样的结果:
 
-```
+```py
 `movies = [
     "Eternal Sunshine of the Spotless Mind", 2004,
     "Memento", 2000,
@@ -290,7 +290,7 @@ print(names)  # []`
 
 请记住，Python 不太关心列表中的换行符，所以这与下面的列表是一样的——一个包含 6 个元素的列表:
 
-```
+```py
 `movies = [
     "Eternal Sunshine of the Spotless Mind",
   2004,
@@ -335,7 +335,7 @@ print(names)  # []`
 
 我可能会这样定义我的`movies`系列:
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -371,7 +371,7 @@ print(names)  # []`
 
 所以如果我们有这样一个系列:
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 2004),
     ("Memento", 2000),
@@ -383,19 +383,19 @@ print(names)  # []`
 
 我们得到的是元组，
 
-```
+```py
 `("Eternal Sunshine of the Spotless Mind", 2004)` 
 ```
 
 因此，如果我们想要这部电影的标题，我们知道它在索引`0`处，我们可以添加另一组方括号，如下所示:
 
-```
+```py
 `movies[0][0]  # "Eternal Sunshine of the Spotless Mind"` 
 ```
 
 这相当于做这样的事情:
 
-```
+```py
 `movie = movies[0]  # ("Eternal Sunshine of the Spotless Mind", 2004)
 movie[0]           # "Eternal Sunshine of the Spotless Mind"` 
 ```

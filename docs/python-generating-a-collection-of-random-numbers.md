@@ -10,7 +10,7 @@
 
 先说`sample`函数。`sample`以一个总体作为第一个自变量，它必须是一个序列或一个集合。这个群体就是随机值的来源。第二个参数叫做`k`，这个值决定了从总体中选择的项目数量。
 
-```
+```py
 import random
 
 random_numbers = random.sample(range(10), k=3) 
@@ -28,7 +28,7 @@ random_numbers = random.sample(range(10), k=3)
 
 `choices`函数的工作方式非常相似。我们从一个`population`开始，`choices`也接受一个`k`值作为参数，它决定了结果集合中有多少个值。
 
-```
+```py
 import random
 
 random_numbers = random.choices(range(10), k=3) 
@@ -40,7 +40,7 @@ random_numbers = random.choices(range(10), k=3)
 
 除了一个`population`和一个`k`值，我们可以为每个值提供一个相对权重，改变该值出现在结果列表中的可能性。我们可以通过为`weights`参数提供一个参数来实现，这个参数必须是一个序列。
 
-```
+```py
 import random
 
 random_numbers = random.choices(range(5), weights=[10, 10, 20, 10, 10], k=3) 

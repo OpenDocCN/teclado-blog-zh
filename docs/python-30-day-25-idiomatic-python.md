@@ -38,7 +38,7 @@
 
 因此，我们通常不需要编写这样的代码:
 
-```
+```py
 `my_list = []
 
 if len(my_list) == 0:
@@ -50,7 +50,7 @@ else:
 
 相反，更 Pythonic 化的方法是测试`my_list`的真值。如果列表为空，它将计算为`False`，因此我们可以用它来控制条件语句的流程。
 
-```
+```py
 `my_list = []
 
 if my_list:
@@ -62,7 +62,7 @@ else:
 
 这种方法对于检查函数或方法是否返回`None`也非常有用。
 
-```
+```py
 `from operator import add, mul, sub, truediv
 
 operations = {
@@ -99,7 +99,7 @@ else:
 
 例如，我们可以这样做:
 
-```
+```py
 `x = int(input("Please enter a number between 1 and 10: "))
 
 if x > 0 and x < 11:
@@ -110,7 +110,7 @@ else:
 
 下面是用`or`写的同一个例子:
 
-```
+```py
 `x = int(input("Please enter a number between 1 and 10: "))
 
 if x < 1 or x > 10:
@@ -125,7 +125,7 @@ else:
 
 在`and`的情况下，如果第一个操作数为 falsy，我们将取回该操作数；否则，我们得到第二个操作数。让我们考虑几个例子来看看这是如何工作的。
 
-```
+```py
 `4 and 0           # evaluates to 0
 [] and 3          # evaluates to []
 True and False    # evaluates to False
@@ -143,7 +143,7 @@ True and True     # evaluates to True
 
 `or`的工作方式基本相同，但是如果它是真的，它返回第一个操作数，否则它返回第二个操作数。这里有几个例子:
 
-```
+```py
 `4 or 0            # evaluates to 4
 [] or 3           # evaluates to 3
 False or None     # evaluates to None
@@ -159,7 +159,7 @@ True or False     # evaluates to True
 
 使用我们在上一节中学到的技巧，我们可能会尝试这样做:
 
-```
+```py
 `name = input("Please enter your name: ").strip().title()
 
 if not name:
@@ -168,7 +168,7 @@ if not name:
 
 然而，我们可以使用`or`操作符将其缩减为一行，如下所示:
 
-```
+```py
 `name = input("Please enter your name: ").strip().title() or "John Doe"` 
 ```
 
@@ -180,7 +180,7 @@ if not name:
 
 假设我们有这样一个函数:
 
-```
+```py
 `def divide(a, b):
     try:
         return a / b
@@ -194,7 +194,7 @@ if not name:
 
 使用条件语句，我们必须做这样的事情:
 
-```
+```py
 `def divide(a, b):
     try:
         return a / b
@@ -213,7 +213,7 @@ if result:
 
 使用`and`，我们可以写成这样:
 
-```
+```py
 `def divide(a, b):
     try:
         return a / b
@@ -241,7 +241,7 @@ if result and result.is_integer():
 
 使用切片的方法可能如下所示:
 
-```
+```py
 `numbers = [1, 54, 2, -4, -65, 23, 97, 45, 14, 19, 73, -6, 31, 92, 3]
 
 positive_numbers = sorted(number for number in numbers if number > 0)
@@ -258,7 +258,7 @@ print(positive_numbers)  # [1, 2, 3, 14, 19, 23, 31, 45, 54, 73]`
 
 它的效率也不是很高，因为像这样分割一个列表会创建一个全新的列表。相反，更好的方法是从原始列表中删除项目。我们可以这样做:
 
-```
+```py
 `numbers = [1, 54, 2, -4, -65, 23, 97, 45, 14, 19, 73, -6, 31, 92, 3]
 
 positive_numbers = sorted(number for number in numbers if number > 0)
@@ -275,7 +275,7 @@ print(positive_numbers)  # [1, 2, 3, 14, 19, 23, 31, 45, 54, 73]`
 
 我在审查学生代码时经常看到的一件事是这样的:
 
-```
+```py
 `proceed = input("Would you like to continue? ").strip().lower()
 
 if proceed == "y" or proceed == "yes" or proceed = "continue":
@@ -286,7 +286,7 @@ if proceed == "y" or proceed == "yes" or proceed = "continue":
 
 然而，这种方法非常冗长，有一种更好的方式来编写这种代码。
 
-```
+```py
 `proceed = input("Would you like to continue? ").strip().lower()
 
 if proceed in ("y", "yes", "continue"):

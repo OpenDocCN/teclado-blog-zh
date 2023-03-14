@@ -6,7 +6,7 @@
 
 在处理代码时，我们经常会遇到这样的模式:
 
-```
+```py
 numbers = [1, 2, 3, 4, 5]
 doubled_numbers = []
 
@@ -16,7 +16,7 @@ for number in numbers:
 
 这种方法功能完善，但与列表理解版本相比:
 
-```
+```py
 numbers = [1, 2, 3, 4, 5]
 doubled_numbers = [number * 2 for number in numbers] 
 ```
@@ -25,7 +25,7 @@ doubled_numbers = [number * 2 for number in numbers]
 
 列表理解也允许一个以上的`for`子句。我们可以用它来找出两个骰子的所有可能的掷骰子组合，例如:
 
-```
+```py
 roll_combinations = [(d1, d2) for d1 in range(1, 7) for d2 in range(1, 7)] 
 ```
 

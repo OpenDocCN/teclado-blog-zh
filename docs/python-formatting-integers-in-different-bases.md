@@ -6,7 +6,7 @@
 
 与我们所有的特殊格式化选项一样，我们从一个包含一些用于字符串插值的花括号的字符串开始。我们在花括号里面加了一个冒号，然后选项跟在后面。在我们的例子中，我们只需添加一个字母，而哪个字母取决于我们想用哪个基数来表示我们的数字:
 
-```
+```py
 base_10 = 231
 
 print(f"This is the number in binary: {base_10 :b}")
@@ -17,7 +17,7 @@ print(f"This is the number in binary: {base_10 :b}")
 
 让我们再看几个例子:
 
-```
+```py
 base_10 = 231
 
 print(f"This is the number in octal: {base_10 :o}")
@@ -32,7 +32,7 @@ print(f"This is the number in uppercase hexadecimal: {base_10 :X}")
 
 我们也可以这样将另一种基数的数转换成十进制数:
 
-```
+```py
 base_16 = int("E7", base=16)
 
 print(f"This is the number in decimal: {base_16 :d}")
@@ -53,7 +53,7 @@ print(f"This is the number in decimal: {base_16 :d}")
 
 其语法是`:02x`，这意味着将数字表示为十六进制(`x`)，用两位数显示数字(`2`)，如果数字少于两位数，则用零填充数字(`0`)。
 
-```
+```py
 red = 12
 green = 205
 blue = 81
@@ -70,7 +70,7 @@ hex_blue = f"{blue:02x}"
 
 这需要大量的代码重复，所以让我们将 RGB 值转换成一个元组，并对其进行迭代以转换每个值。为此我们可以使用[列表理解](https://blog.teclado.com/python-list-comprehensions/):
 
-```
+```py
 rgb = (12, 205, 81)
 hex_colours = [f"{channel:02x}" for channel in rgb]
 
@@ -79,7 +79,7 @@ hex_colours = [f"{channel:02x}" for channel in rgb]
 
 现在我们已经有了十六进制颜色对的列表，我们可以使用`join`方法([参见文档](https://docs.python.org/3/library/stdtypes.html#str.join))将它们连接起来，将它们变成一个连接的字符串。然后我们可以将这个字符串附加到`"#"`上。
 
-```
+```py
 rgb = (12, 205, 81)
 hex_color = "#" + "".join([f"{channel:02x}" for channel in rgb])
 

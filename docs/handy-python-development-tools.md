@@ -6,7 +6,7 @@ linter 用来捕捉与我们使用语言相关的问题。例如，如果我们�
 
 使用 Python3 安装和使用 linter 非常简单，只需:
 
-```
+```py
 pip install pylint 
 ```
 
@@ -14,7 +14,7 @@ pip install pylint
 
 要运行它，只需使用终端导航到包含您的代码的文件夹，然后运行`pylint`:
 
-```
+```py
 pylint myfile.py 
 ```
 
@@ -22,13 +22,13 @@ pylint myfile.py
 
 例如，对于如下所示的文件:
 
-```
+```py
  Mailgun.send(['[[email protected]](/cdn-cgi/l/email-protection)'], 'Test e-mail', 'This is a test e-mail') 
 ```
 
 皮林特会说:
 
-```
+```py
 No config file found, using default configuration
 ************* Module using_mailgun_lib
 C:  1, 0: Missing module docstring (missing-docstring)
@@ -42,7 +42,7 @@ Your code has been rated at -50.00/10 (previous run: -40.00/10, -10.00)
 
 如果你加上它说缺少的东西:
 
-```
+```py
 """
 Sample code on how to use our new Mailgun library to
 reduce code duplication.
@@ -57,7 +57,7 @@ Mailgun.send(['[[email protected]](/cdn-cgi/l/email-protection)'], 'Test e-mail
 
 然后它高兴了，说:
 
-```
+```py
 No config file found, using default configuration
 
 --------------------------------------------------------------------
@@ -66,7 +66,7 @@ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 现在，你可能不总是想包含模块文档字符串(我知道我不想！)，所以很容易禁用该检查:
 
-```
+```py
 pylint --disable=missing-docstring using_mailgun_lib.py 
 ```
 
@@ -74,7 +74,7 @@ pylint --disable=missing-docstring using_mailgun_lib.py
 
 您可以对一个文件夹中的所有文件运行 pylint，只需给出该文件夹的路径，例如:
 
-```
+```py
 pylint my_module 
 ```
 
@@ -84,7 +84,7 @@ pylint my_module
 
 例如，Python 社区的大部分人更喜欢这段代码:
 
-```
+```py
 x = {'a': 37, 'b': 42, 'c': 927}
 
 y = 'hello ' 'world'
@@ -104,7 +104,7 @@ def f(a):
 
 关于这段代码:
 
-```
+```py
 x = {  'a':37,'b':42,
 
 'c':927}
@@ -129,19 +129,19 @@ Python 有几个格式化程序，但我想到了其中两个:
 
 要安装`yapf`，只需通过`pip`就像我们为`pylint`做的那样:
 
-```
+```py
 pip install yapf 
 ```
 
 然后，您可以对文件运行格式化程序，方法是使用终端导航到该文件包含的文件夹，并执行以下操作:
 
-```
+```py
 yapf myfile.py 
 ```
 
 这会告诉你`yapf`想做什么——但不会改变你的文件并重新格式化。如果你想改变你的文件，你可以这样做:
 
-```
+```py
 yapf -i myfile.py 
 ```
 

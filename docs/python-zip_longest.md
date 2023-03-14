@@ -10,7 +10,7 @@
 
 嗯，当我们使用`zip`时，一旦其中一个元素用完了，`zip`就会停止组合我们的 iterables。如果其他条目更长，我们就把多余的条目扔掉。看一下这个例子:
 
-```
+```py
 l_1 = [1, 2, 3]
 l_2 = [1, 2]
 
@@ -25,7 +25,7 @@ print(combinated)  # [(1, 1), (2, 2)]
 
 让我们再看看上面的例子。这次使用`zip_longest`。
 
-```
+```py
 from itertools import zip_longest
 
 l_1 = [1, 2, 3]

@@ -16,7 +16,7 @@
 
 开始使用`pyplot`的第一件事是导入它。我推荐这样导入:
 
-```
+```py
 `from matplotlib import pyplot` 
 ```
 
@@ -28,7 +28,7 @@
 
 对于我们的数据集，我们将使用散点图，看起来像这样:![](img/f145ec1d184ddc5d1f6358035c6f059a.png)下面是我们如何用`pyplot`绘制一个简单的散点图:
 
-```
+```py
 `from matplotlib import pyplot
 
 x_data = [1, 2, 3, 4, 5]
@@ -66,7 +66,7 @@ pyplot.savefig("graph.png")`
 
 如果我们像这样运行:
 
-```
+```py
 `from matplotlib import pyplot
 
 x_data = [1, 2, 3, 4, 5]
@@ -85,7 +85,7 @@ pyplot.savefig("graph.png")`
 
 如果我们想每次都创建单独的图表，我们必须告诉它在创建图表之前创建一个新的图形:
 
-```
+```py
 `from matplotlib import pyplot
 
 x_data = [1, 2, 3, 4, 5]
@@ -110,7 +110,7 @@ figure.savefig("graph.png")`
 
 首先，你可能要创建一个文件，命名为`iris.csv`。使其包含以下数据:
 
-```
+```py
 `sepal_length,sepal_width,petal_length,petal_width,species
 5.1,3.5,1.4,0.2,Iris-setosa
 4.9,3,1.4,0.2,Iris-setosa
@@ -155,7 +155,7 @@ figure.savefig("graph.png")`
 
 main.py
 
-```
+```py
 `user_menu = """Please choose from the following options:
 
 - Enter 'c' to chart a new graph.
@@ -184,7 +184,7 @@ while True:
 
 charts.py
 
-```
+```py
 `from matplotlib import pyplot
 
 def create_chart(x, y):
@@ -202,7 +202,7 @@ def create_chart(x, y):
 
 main.py
 
-```
+```py
 `from charts import create_chart
 
 ...
@@ -219,7 +219,7 @@ def handle_chart():
 
 如果我们现在运行我们的程序，我们将得到这样的输出:
 
-```
+```py
 `Please choose from the following options:
 
 - Enter 'c' to chart a new graph.
@@ -255,7 +255,7 @@ Your selection: q`
 
 data_storage.py
 
-```
+```py
 `def read_column(number):
     column_data = []
     with open("iris.csv", "r") as iris:
@@ -274,7 +274,7 @@ data_storage.py
 
 main.py
 
-```
+```py
 `from data_storage import read_column
 
 ...
@@ -296,7 +296,7 @@ def handle_chart():
 
 main.py
 
-```
+```py
 `...
 
 def handle_chart():
@@ -314,7 +314,7 @@ def handle_chart():
 
 main.py
 
-```
+```py
 `...
 
 def handle_chart():
@@ -338,7 +338,7 @@ def handle_chart():
 
 charts.py
 
-```
+```py
 `from matplotlib import pyplot
 
 def create_chart(x, y):
@@ -352,7 +352,7 @@ def create_chart(x, y):
 
 如果我们现在运行应用程序并运行两次图表创建菜单选项:
 
-```
+```py
 `Please choose from the following options:
 
 - Enter 'c' to chart a new graph.
@@ -387,7 +387,7 @@ Your selection: q`
 
 charts.py
 
-```
+```py
 `from matplotlib import pyplot
 
 def create_chart(x, y):
@@ -410,7 +410,7 @@ def create_chart(x, y):
 
 charts.py
 
-```
+```py
 `from matplotlib import pyplot
 
 def create_chart(x, y, filename):
@@ -427,7 +427,7 @@ def create_chart(x, y, filename):
 
 main.py
 
-```
+```py
 `...
 
 filename_prompt = "Enter your desired file name: "

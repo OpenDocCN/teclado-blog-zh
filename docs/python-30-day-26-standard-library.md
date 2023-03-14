@@ -16,7 +16,7 @@
 
 例如，假设我们想要创建一个新的元组来存储关于一本书的信息。我们可以这样定义模板:
 
-```
+```py
 `from collections import namedtuple
 
 Book = namedtuple("Book", ["title", "author", "year"])` 
@@ -26,7 +26,7 @@ Book = namedtuple("Book", ["title", "author", "year"])`
 
 我们已经将这个模板赋给了变量名`Book`，我们可以像这样创建这个元组的实例:
 
-```
+```py
 `from collections import namedtuple
 
 Book = namedtuple("Book", ["title", "author", "year"])
@@ -36,7 +36,7 @@ book = Book("The Colour of Magic", "Terry Pratchett", 1983)`
 
 正如我前面提到的，我们也可以使用关键字参数来给值提供一些上下文。
 
-```
+```py
 `from collections import namedtuple
 
 Book = namedtuple("Book", ["title", "author", "year"])
@@ -46,7 +46,7 @@ book = Book(title="The Colour of Magic", author="Terry Pratchett", year=1983)`
 
 从这些特殊的元组中检索值是使用点符号来完成的，但是我们也可以像往常一样通过索引来访问元素。
 
-```
+```py
 `from collections import namedtuple
 
 Book = namedtuple("Book", ["title", "author", "year"])
@@ -59,7 +59,7 @@ print(f"{book.title} ({book.year}), by {book.author}")`
 
 我们最终的解决方案如下所示:
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -79,7 +79,7 @@ for row in iris_data[1:]:
 
 这完全没问题，但是如果能针对数据变异提供一些保护就更好了，元组提供了这种保护。我们可以创建一个`Iris`元组类型来存储给定虹膜的所有数据，而不是使用字典。
 
-```
+```py
 `from collections import namedtuple
 
 Iris = namedtuple("Iris", ["sepal_length", "sepal_width", "petal_length", "petal_width", "species"])
@@ -96,7 +96,7 @@ for row in iris_data[1:]:
 
 我们用`namedtuple`定义的元组也有一个叫做`._make`的方法，它是使用`*`的替代方法。
 
-```
+```py
 `for row in iris_data[1:]:
     iris = Iris._make(row.strip().split(","))
     irises.append(iris)` 
@@ -110,17 +110,17 @@ for row in iris_data[1:]:
 
 例如，这样做是完全合法的:
 
-```
+```py
 `Movie = namedtuple("Film", ["title", "director", "year"])` 
 ```
 
 但是您应该改为编写以下两者之一:
 
-```
+```py
 `Film = namedtuple("Film", ["title", "director", "year"])` 
 ```
 
-```
+```py
 `Movie = namedtuple("Movie", ["title", "director", "year"])` 
 ```
 
@@ -130,7 +130,7 @@ for row in iris_data[1:]:
 
 例如，让我们看看来自[第 13 天练习](/30-days-of-python/python-30-day-13-exercise-solutions/)的`exponentiate`函数。
 
-```
+```py
 `def exponentiate(base, exponent):
     return base ** exponent` 
 ```
@@ -139,7 +139,7 @@ for row in iris_data[1:]:
 
 虽然我们可以继续编写另一个函数，如下所示:
 
-```
+```py
 `def square(base):
     return base ** 2` 
 ```
@@ -150,7 +150,7 @@ for row in iris_data[1:]:
 
 让我们使用`partial`从我们原来的`exponentiate`函数创建一个`square`函数和一个`cube`函数。
 
-```
+```py
 `from functools import partial
 
 def exponentiate(base, exponent):
@@ -162,7 +162,7 @@ cube = partial(exponentiate, exponent=3)`
 
 就像这样，我们有几个新的函数可以调用:
 
-```
+```py
 `from functools import partial
 
 def exponentiate(base, exponent):
@@ -191,7 +191,7 @@ print(cube(5))    # 125`
 
 例如，假设我们有这样一个用户字典，其中每个键都是一个用户 id:
 
-```
+```py
 `from collections import namedtuple
 
 User = namedtuple("User", ["name", "username", "location"])
@@ -209,7 +209,7 @@ users = {
 
 我们最终可能会做这样的事情:
 
-```
+```py
 `from collections import namedtuple
 
 User = namedtuple("User", ["name", "username", "location"])
@@ -235,7 +235,7 @@ else:
 
 每当请求一个丢失的键时，`defaultdict`将调用这个函数，并且这个函数的返回值将被返回。
 
-```
+```py
 `from collections import defaultdict, namedtuple
 
 User = namedtuple("User", ["name", "username", "location"])
@@ -259,7 +259,7 @@ print(users[user_id])`
 
 我还将创建一个函数来修改这个字典，允许用户添加新条目。
 
-```
+```py
 `inventory = {}
 
 def add_item(item, amount):
@@ -280,19 +280,19 @@ print(inventory)  # {'bow': 1, 'arrow': 40, 'bracer': 2}`
 
 当不带任何参数调用`int`时，它返回`0`。这对我们非常有用，因为这意味着当我们这样做时:
 
-```
+```py
 `inventory[item] += amount` 
 ```
 
 就像这样:
 
-```
+```py
 `inventory[item] = inventory[item] + amount` 
 ```
 
 右边的`inventory[item]`将被替换为`0`，允许我们创建一个新的密钥，其起始值等于所添加的项目的数量。相当整洁。
 
-```
+```py
 `from collections import defaultdict
 
 inventory = defaultdict(int)

@@ -24,7 +24,7 @@
 
 让我们将这些添加到我们的`.env`文件中:
 
-```
+```py
 DATABASE_URL="sqlite:///data.db"
 MAIL_SERVER=smtp.mailgun.org
 MAIL_PORT=587
@@ -34,7 +34,7 @@ MAIL_PASSWORD=
 
 现在我们可以告诉 Flask-Security-Too 使用带有一个配置设置的电子邮件确认:
 
-```
+```py
 app.config["SECURITY_CONFIRMABLE"] = True 
 ```
 
@@ -42,7 +42,7 @@ app.config["SECURITY_CONFIRMABLE"] = True
 
 接下来，我们将配置 Flask-Mailman 库，Flask-Security-Too 使用它来发送电子邮件。在`app.py`中:
 
-```
+```py
 # At top of file
 from flask_mailman import Mail
 
@@ -64,7 +64,7 @@ mail = Mail(app)
 
 为了创建受保护的端点，我们使用了`@login_required`装饰器:
 
-```
+```py
 # At top of file
 from flask_security import login_required
 
@@ -77,7 +77,7 @@ def protected():
 
 现在让我们试一试。删除您的`data.db`文件，并使用`flask shell`重新创建它:
 
-```
+```py
 >>> from app import app, db
 >>> with app.app_context():
 	 	db.create_all() 

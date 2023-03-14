@@ -8,7 +8,7 @@
 
 我将使用[第 8 天练习](/30-days-of-python/python-30-day-8-while-loops/)中的解决方案作为起点，因为逻辑几乎完全相同:
 
-```
+```py
 `for dividend in range(2, 101):
     for divisor in range(2, dividend):
         if dividend % divisor == 0:
@@ -21,7 +21,7 @@
 
 基于我们之前的解决方案，我们需要做的第一件事是创建一个函数并将所有代码放入其中。
 
-```
+```py
 `def gen_primes(limit):
     for dividend in range(2, limit + 1):
         for divisor in range(2, dividend):
@@ -35,7 +35,7 @@
 
 就这样，我们差不多完成了。现在我们只需要通过使用`yield`关键字将我们的函数变成一个生成器。我们将把它放在内部`for`循环的`else`分支中，而不是打印`dividend`。
 
-```
+```py
 `def gen_primes(limit):
     for dividend in range(2, limit + 1):
         for divisor in range(2, dividend):
@@ -47,7 +47,7 @@
 
 当我们调用函数时，我们得到一个生成器迭代器:
 
-```
+```py
 `def gen_primes(limit):
     for dividend in range(2, limit + 1):
         for divisor in range(2, dividend):
@@ -61,7 +61,7 @@ primes = gen_primes(101)  # <generator object gen_primes at 0x7f02ca556c80>`
 
 我们可以使用这个生成器迭代器，使用`next`函数一次检索一个素数:
 
-```
+```py
 `...
 
 primes = gen_primes(101)  # <generator object gen_primes at 0x7f02ca556c80>
@@ -73,7 +73,7 @@ print(next(primes))  # 5`
 
 ### 2)下面我们有一个使用`map`处理列表中名字的例子。使用生成器表达式重写这段代码。
 
-```
+```py
 `names = [" rick", " MORTY  ", "beth ", "Summer", "jerRy    "]
 
 names = map(lambda name: name.strip().title(), names)` 
@@ -81,7 +81,7 @@ names = map(lambda name: name.strip().title(), names)`
 
 生成器表达式语法就像我们之前写的理解一样。唯一的区别是，我们使用常规圆括号，而不是方括号或花括号。
 
-```
+```py
 `names = [" rick", " MORTY  ", "beth ", "Summer", "jerRy    "]
 
 names = (name.strip().split() for name in names)` 
@@ -97,7 +97,7 @@ names = (name.strip().split() for name in names)`
 
 你可能会考虑这样一个选项:
 
-```
+```py
 `ranks = (2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "queen", "king", "ace")
 suits = ("clubs", "diamonds", "hearts", "spades")
 
@@ -112,7 +112,7 @@ for rank in ranks:
 
 因为我们正在从现有的集合中创建一个新的列表，所以也可以用如下的理解来完成:
 
-```
+```py
 `ranks = (2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "queen", "king", "ace")
 suits = ("clubs", "diamonds", "hearts", "spades")
 
@@ -123,7 +123,7 @@ cards = [(rank, suit) for suit in suits for rank in ranks]`
 
 然而，我们可以调用`itertools.product`来代替编写这个理解，它做了非常相似的事情，并且它返回给我们一个迭代器。
 
-```
+```py
 `import itertools
 
 ranks = (2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "queen", "king", "ace")
@@ -136,7 +136,7 @@ cards = list(itertools.product(ranks, suits))`
 
 现在我们应该创建一个函数来洗牌并返回一个新的迭代器，这样我们就可以从中抽牌了。为了洗牌，我们将使用`random`模块中的`shuffle`函数。
 
-```
+```py
 `import itertools
 import random
 
@@ -162,7 +162,7 @@ cards = list(itertools.product(ranks, suits))`
 
 在这种情况下，我实际上要定义一个函数，因为我想处理任何无效的输入，如果用户提供无效的输入，我想重新提示用户。我还想检查一下，确保玩家的数量在练习中指定的范围内(2 - 10)。
 
-```
+```py
 `def get_players():
     while True:
         number_of_players = input("How many players are there? ").strip()
@@ -188,7 +188,7 @@ cards = list(itertools.product(ranks, suits))`
 
 让我们定义所有的函数，并在进行过程中构建它们:
 
-```
+```py
 `import itertools
 import random
 
@@ -240,7 +240,7 @@ cards = list(itertools.product(ranks, suits))`
 
 为此，我将使用一对列表理解，如下所示:
 
-```
+```py
 `def deal_to_players(deck, number_of_players):
     first_cards = [next(deck)  for _ in  range(number_of_players)]
     second_cards = [next(deck)  for _ in  range(number_of_players)]` 
@@ -250,7 +250,7 @@ cards = list(itertools.product(ranks, suits))`
 
  *一旦我们有了列表中的第一张和第二张牌，我们就可以将它们连在一起，为每个玩家创建一手牌。
 
-```
+```py
 `def deal_to_players(deck, number_of_players):
     first_cards = [next(deck)  for _ in  range(number_of_players)]
     second_cards = [next(deck)  for _ in  range(number_of_players)]
@@ -270,7 +270,7 @@ cards = list(itertools.product(ranks, suits))`
 
 一旦我们有了玩家的手，我们只需要打印它们。
 
-```
+```py
 `def deal_to_players(deck, number_of_players):
     first_cards = [next(deck)  for _ in  range(number_of_players)]
     second_cards = [next(deck)  for _ in  range(number_of_players)]
@@ -289,7 +289,7 @@ cards = list(itertools.product(ranks, suits))`
 
 首先，我们需要烧一张牌，然后一口气发三张牌到桌上:
 
-```
+```py
 `def deal_to_table(deck):
     next(deck)  # burn
     flop = ', '.join(str(next(deck))  for _ in  range(3))
@@ -300,7 +300,7 @@ cards = list(itertools.product(ranks, suits))`
 
 从这里开始，它只是一个燃烧和处理一个单一的卡为接下来的两个步骤的处理过程。
 
-```
+```py
 `def deal_to_table(deck):
     next(deck)  # burn
     flop = ', '.join(str(next(deck))  for _ in  range(3))
@@ -316,7 +316,7 @@ cards = list(itertools.product(ranks, suits))`
 
 这样，我们只需要调用`deal`并确保一切正常运行。确保您可以多次调用您的`deal`函数！
 
-```
+```py
 `import itertools
 import random
 

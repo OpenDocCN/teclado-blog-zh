@@ -10,7 +10,7 @@
 
 下面你会发现一个列表，其中包含了一些电影的相关数据。列表中的每一项都是一个元组，按以下顺序包含电影名称和电影预算:
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 20000000),
     ("Memento", 9000000),
@@ -49,7 +49,7 @@
 
 然后使用一个`for`循环，我们可以遍历`movies`列表中的每部电影。我们将把每部电影的预算加到我们的总数中，就像这样:
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 20000000),
     ("Memento", 9000000),
@@ -70,7 +70,7 @@ for movie in movies:
 
 我们将使用`len()`函数来获取电影的数量。
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 20000000),
     ("Memento", 9000000),
@@ -93,7 +93,7 @@ average_budget = total_budget / len(movies)`
 
 然而，因为我们在这里处理的是数百万美元，所以让这个值保持为 float 就没有什么意义了。我认为我们应该把它改成一个整数，这样我们就不会在输出中得到随机的十进制值。
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 20000000),
     ("Memento", 9000000),
@@ -114,7 +114,7 @@ average_budget = int(total_budget / len(movies))`
 
 接下来，我们需要再次遍历电影，检查每部电影是否超出平均预算。如果一部电影的预算大于我们刚刚计算的平均预算，我们将打印它。否则我们就继续看下一部电影。
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 20000000),
     ("Memento", 9000000),
@@ -149,7 +149,7 @@ for movie in movies:
 
 在这种情况下，我将选择第二个选项:
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 20000000),
     ("Memento", 9000000),
@@ -179,13 +179,13 @@ print(f"There were {len(high_budget_movies)} movies with over average budgets.")
 
 这看起来很棒，但是如果我们想变得更漂亮，我们可以在长长的预算数字中添加逗号分隔符，使它们更容易阅读。为了做到这一点，我们需要改变这一行:
 
-```
+```py
 `print(f"{movie[0]} cost ${movie[1]}: ${over_average_cost} over average.")` 
 ```
 
 对此:
 
-```
+```py
 `print(f"{movie[0]} cost ${movie[1]:,}: ${over_average_cost:,} over average.")` 
 ```
 
@@ -201,7 +201,7 @@ print(f"There were {len(high_budget_movies)} movies with over average budgets.")
 
 我们将把这段代码直接添加到我们的`movies`变量的定义下面。
 
-```
+```py
 `movies = [
     ("Eternal Sunshine of the Spotless Mind", 20000000),
     ("Memento", 9000000),

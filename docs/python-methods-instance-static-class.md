@@ -22,7 +22,7 @@
 
 什么是**调用者对象**？让我们看一个例子:
 
-```
+```py
 class Student:
     def __init__(self, name, grades):
         self.name = name
@@ -42,7 +42,7 @@ print(college_student.average())  # 69.25
 
 让我们分别看一下每种方法:
 
-```
+```py
 def __init__(self, name, grades):
     self.name = name
     self.grades = grades 
@@ -50,13 +50,13 @@ def __init__(self, name, grades):
 
 当我们创建一个新对象时，`__init__`方法被调用。它有`self`参数以及任何其他数量的参数。当创建一个对象时，我们为每个参数*传入值，除了`self`* ，就像这样:
 
-```
+```py
 college_student = Student('Rolf', [24, 55, 98, 100]) 
 ```
 
 我们类中的另一个方法叫做`average`:
 
-```
+```py
 def average(self):
     return sum(self.grades) / len(self.grades) 
 ```
@@ -65,7 +65,7 @@ def average(self):
 
 让我们创建一个对象并在其上调用方法:
 
-```
+```py
 college_student = Student('Rolf', [24, 55, 98, 100])
 
 print(college_student.average())  # 69.25 
@@ -81,7 +81,7 @@ print(college_student.average())  # 69.25
 
 让我们再创建一个对象，看看会发生什么。
 
-```
+```py
 working_student = Student('Anna', [88, 79, 90, 99, 100])
 
 print(working_student.average())  # 91.2 
@@ -91,7 +91,7 @@ print(working_student.average())  # 91.2
 
 下面是一个示例代码，说明 Python 在后台做了什么，以帮助您更好地理解这一理论:
 
-```
+```py
 print(Student.average(working_student))  # Caller object 
 ```
 
@@ -108,7 +108,7 @@ print(Student.average(working_student))  # Caller object
 
 这里有一个简短的例子:
 
-```
+```py
 class Bank:
     @classmethod
     def make_loan(cls, amount):
@@ -125,7 +125,7 @@ Bank.make_loan(1500)  # You applied for a loan of $1500.
 
 这里我们可以看到一个继承场景的例子，我们使用了类方法`from_sum` **:**
 
-```
+```py
 class FixedFloat:
     def __init__(self, amount):
         self.amount = amount
@@ -155,7 +155,7 @@ print(Euro.from_sum(16.7565, 90))  # <Euro €106.75>
 
 让我们看看如果用`FixedFloat`硬编码方法会发生什么。密切注意上课的方法:
 
-```
+```py
 class FixedFloat:
     def __init__(self, amount):
         self.amount = amount
@@ -180,7 +180,7 @@ class Euro(FixedFloat):
 
 然而，看看当我们试图使用来自`Euro`类的方法时会发生什么:
 
-```
+```py
 print(FixedFloat.from_sum(16.7565, 90))  # <FixedFloat 106.76>
 print(Euro.from_sum(16.7565, 90))  # <FixedFloat €106.75 
 ```
@@ -203,7 +203,7 @@ Python 会自动给我们调用者类，而不是我们硬编码在方法本身�
 
 在这里，我们使用静态方法为用户生成一个由 ***k*** 字符组成的随机字符串:
 
-```
+```py
 import random
 
 class User:

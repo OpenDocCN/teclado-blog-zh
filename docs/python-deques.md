@@ -6,7 +6,7 @@
 
 `collections`模块是 Python 标准库的一部分，但是我们仍然需要导入它来使用 deques。
 
-```
+```py
 from collections import deque 
 ```
 
@@ -14,7 +14,7 @@ from collections import deque
 
 注意，要创建包含单个字符串的 dequee 对象，我们必须将该字符串作为另一个 iterable 对象中的一个元素传入，否则每个字符都将是结果 dequee 中的一个单独的元素。
 
-```
+```py
 oops = deque("abc")  # deque(['a', 'b', 'c']) 
 ```
 
@@ -22,7 +22,7 @@ oops = deque("abc")  # deque(['a', 'b', 'c'])
 
 第一种注法是`appendleft`。这就像`append`一样，但是把新元素放在索引`0`处。`appendleft`有一个对应的`popleft`，其功能与标准列表的`pop(0)`完全相同。deques 的一个限制是它们的`pop`方法不接受任何参数，并且总是弹出集合中的最后一项。
 
-```
+```py
 base = deque([1, 2, 3])
 
 x = base.pop()  # 3
@@ -34,7 +34,7 @@ base.append(y)  # deque([1, 2, 3])
 
 使用 deques 时，我们可以使用的另一个非常有趣的方法是`rotate`。`rotate`允许我们将一个项目从队列的一端`pop`到另一端`append`。
 
-```
+```py
 base = deque([1, 2, 3])
 base.rotate()  # deque([3, 1, 2]) 
 ```
@@ -43,7 +43,7 @@ base.rotate()  # deque([3, 1, 2])
 
 然而，我们并不局限于单次旋转，我们可以通过传入一个数字和相关的符号作为参数来控制旋转的角度和方向。默认情况下，队列向右旋转，但提供负旋转值将导致其向左旋转。
 
-```
+```py
 base = deque([1, 2, 3, 4, 5])
 
 # rotates base 2 steps to the left

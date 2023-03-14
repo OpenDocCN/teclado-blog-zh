@@ -37,7 +37,7 @@ VIDEO
 
 我们可以通过运行以下代码来查看导入路径:
 
-```
+```py
 import sys
 
 print(sys.path) 
@@ -45,7 +45,7 @@ print(sys.path)
 
 如果您运行这个程序，您可能会得到如下所示的结果:
 
-```
+```py
 ["/Users/youruser/Documents/projects/myproject", "/Applications/Python/Python39/bin", "Applications/Python/Python39/lib", "Applications/Python/Python39"] 
 ```
 
@@ -61,7 +61,7 @@ print(sys.path)
 
 使用最新的 Python 版本创建新的虚拟环境就像在控制台上运行以下命令一样简单:
 
-```
+```py
 python -m venv venvName 
 ```
 
@@ -75,19 +75,19 @@ python -m venv venvName
 
 您可以使用以下命令激活虚拟环境(在 Mac 或 Linux 上):
 
-```
+```py
 source venvName/bin/activate 
 ```
 
 如果您将 Windows 与 WSL 或 Git Bash 一起使用:
 
-```
+```py
 source venvName/Scripts/activate 
 ```
 
 或者，如果您将 Windows 与 cmd.exe 或 PowerShell 配合使用:
 
-```
+```py
 .\\venvName\\Scripts\\activate.bat 
 ```
 
@@ -116,7 +116,7 @@ source venvName/Scripts/activate
 
 例如，我的一个项目有一个`requirements.txt`文件:
 
-```
+```py
 requests
 flask
 gunicorn
@@ -125,7 +125,7 @@ pymongo[srv]
 
 这有 4 个依赖项，每行一个。如果我下载了全部代码，并想安装`requirements.txt`中详述的依赖项的最新版本，我只需这样做:
 
-```
+```py
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt 
@@ -143,7 +143,7 @@ pip install -r requirements.txt
 
 以下是如何在您的`requirements.txt`文件中包含版本号:
 
-```
+```py
 requests==1.0.0
 flask>=1.1.2
 gunicorn==20.0.4
@@ -169,7 +169,7 @@ pymongo[srv]==3.11
 
 要安装库的最新次要/修补版本，我们可以这样做:
 
-```
+```py
 flask>=1.1.2,<2.0 
 ```
 

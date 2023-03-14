@@ -12,7 +12,7 @@
 
 使用`wraps`保存原始的函数名和文档也是一个好主意。
 
-```
+```py
 `from functools import wraps
 
 def double(func):
@@ -25,7 +25,7 @@ def double(func):
 
 因为我们的函数可以接受参数，所以我们应该使用`*args`、`**kwargs**`将`inner`函数定义为接受任意数量的位置和关键字参数。然后我们应该在调用`inner`中的函数时传递这些参数。
 
-```
+```py
 `from functools import wraps
 
 def double(func):
@@ -41,7 +41,7 @@ def double(func):
 
 让我们从设置我们通常的装饰样板开始。我还将创建一个名为`books`的列表。
 
-```
+```py
 `from functools import wraps
 
 books = []
@@ -56,7 +56,7 @@ def requires_content(func):
 
 这里的实际逻辑相当简单。我们只需要检查`inner`里面`books`的真值，只有条件求值为`True`时才调用函数。
 
-```
+```py
 `from functools import wraps
 
 books = []
@@ -72,7 +72,7 @@ def requires_content(func):
 
 我们可能还应该返回`func`的返回值，以防函数返回什么。
 
-```
+```py
 `from functools import wraps
 
 books = []
@@ -92,7 +92,7 @@ def requires_content(func):
 
 让我们再次从样板文件开始。
 
-```
+```py
 `from functools import wraps
 
 def printer(func):
@@ -105,7 +105,7 @@ def printer(func):
 
 这里的第一步是实际调用`inner`中的函数。
 
-```
+```py
 `from functools import wraps
 
 def printer(func):
@@ -120,7 +120,7 @@ def printer(func):
 
 我们在这里不只是检查`return_value`的真值，这一点非常重要，因为函数可能会返回大量其他假值。例如，`0`、`False`或`[]`。
 
-```
+```py
 `from functools import wraps
 
 def printer(func):

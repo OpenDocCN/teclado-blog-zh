@@ -75,7 +75,7 @@ iterable 实际上是我们可以用类似于`for`循环的东西迭代的任何
 
 例如，假设我们试图过滤一个单词列表，这样我们只保留以`"a"`开头的单词。如果你不熟悉`filter`和`methodcaller`，看看[第 20 天](/30-days-of-python/python-30-day-20-map-filter)。
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -92,7 +92,7 @@ a_words = filter(methodcaller("startswith", "a"), words)`
 
 使用我们上面的`filter`例子可以很容易地证明这一点。让我们使用一个`for`循环来迭代这些值，看看过滤后还剩下什么。
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -106,7 +106,7 @@ for word in a_words:
 
 现在，如果我们添加另一个`for`循环来做完全相同的事情，会怎么样呢？
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -125,7 +125,7 @@ for word in a_words:
 
 让我们试着在`for`循环后将`a_words`转换成一个列表，看看里面有什么。
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -150,7 +150,7 @@ print(a_words)  # []`
 
 这一次我们将从我们的`filter`创建`a_words`，然后我将对`words`列表做一些修改。然后我们将打印`a_words`来看看这有什么影响，如果有的话。
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -164,7 +164,7 @@ for word in a_words:
 
 尽管我们在修改`words`之前已经创建了`filter`迭代器，但是新单词仍然包含在`filter`中。
 
-```
+```py
 `anaconda
 anime
 addition
@@ -185,7 +185,7 @@ apple`
 
 首先，让我们试着抓取以`"a"`开头的`words`列表中的第一个单词。
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -197,7 +197,7 @@ print(first_word)  # "anaconda"`
 
 当然，我们也可以直接将`next`的返回值传递给`print`。
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -210,7 +210,7 @@ print(next(a_words))  # "anaconda"`
 
 如果我们再次调用`next`，我们得到`"anime"`:在`words`中的第二个`"a"`字。
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -224,7 +224,7 @@ print(next(a_words))  # "anime"`
 
 还记得从[第 14 天](/30-days-of-python/python-30-day-14-files)开始的虹膜数据吗？最初，我们使用类似下面的方法来获取文件数据并提取文件头。
 
-```
+```py
 `with open("iris.csv", "r") as iris_file:
     iris_data = iris_file.readlines()
 
@@ -245,7 +245,7 @@ for row in iris_data[1:]:
 
 我们可以通过使用迭代器来避免这一切。原来,`open`函数已经给了我们一个迭代器，所以我们不需要做太多工作就能完成。
 
-```
+```py
 `irises = []
 
 with open("iris.csv", "r") as iris_file:
@@ -276,7 +276,7 @@ with open("iris.csv", "r") as iris_file:
 
 例如，如果我们再次查看我们的`filter`示例，如果我们试图请求四个项目，我们将得到一个`StopIteration`异常引发。
 
-```
+```py
 `from operator import methodcaller
 
 words = ["anaconda", "peach", "gravity", "cattle", "anime", "addition"]
@@ -295,7 +295,7 @@ print(next(a_words))  # StopIteration`
 
 1)下面你会发现一个包含几个充满数字的元组的列表:
 
-```
+```py
 `numbers = [(23, 3, 56), (98, 1034, 54), (254, 344, 5), (45, 2), (122, 63, 74)]` 
 ```
 

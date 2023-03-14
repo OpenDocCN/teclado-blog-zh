@@ -18,7 +18,7 @@
 
 首先，让我们看看这里已经有什么。在我们的 app.py 文件中，我们应该已经使用下面的代码设置了 JWT:
 
-```
+```py
 from flask_jwt import JWT
 from security import authenticate, identity
 
@@ -27,7 +27,7 @@ jwt = JWT(app, authenticate, identity)  # /auth
 
 在我们的 security.py 文件中，我们应该有这样的内容:
 
-```
+```py
 from werkzeug.security import safe_str_cmp
 from models.user import UserModel
 
@@ -47,7 +47,7 @@ def identity(payload):
 
 例如，如果我们想要更改身份验证端点的 url，我们想要使用`/login`而不是`/auth`，我们可以这样做:
 
-```
+```py
 app.config['JWT_AUTH_URL_RULE'] = '/login'
 jwt = JWT(app, authenticate, identity) 
 ```
@@ -56,14 +56,14 @@ jwt = JWT(app, authenticate, identity)
 
 ### 令牌过期时间
 
-```
+```py
 # config JWT to expire within half an hour
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(seconds=1800) 
 ```
 
 ### 认证密钥名称
 
-```
+```py
 # config JWT auth key name to be 'email' instead of default 'username'
 app.config['JWT_AUTH_USERNAME_KEY'] = 'email' 
 ```
@@ -72,7 +72,7 @@ app.config['JWT_AUTH_USERNAME_KEY'] = 'email'
 
 有时我们可能希望在认证响应体中包含更多信息，而不仅仅是`access_token`。例如，我们可能还想在响应正文中包含用户的 ID。在这种情况下，我们可以这样做:
 
-```
+```py
 # customize JWT auth response, include user_id in response body
 from flask import jsonify
 from flask_jwt import JWT
@@ -96,7 +96,7 @@ def customized_response_handler(access_token, identity):
 
 默认情况下，当任何处理程序中出现错误时(例如，在认证、标识或创建响应期间)，Flask-JWT 会引发`JWTError`。在某些情况下，我们可能想要定制当这样的错误发生时我们的 Flask 应用程序做什么。我们可以这样做:
 
-```
+```py
 # customize JWT auth response, include user_id in response body
 from flask import jsonify
 from flask_jwt import JWT
@@ -124,7 +124,7 @@ def customized_error_handler(error):
 
 另一个常见问题是:*我如何从访问令牌(JWT)中获取用户的身份？*因为在某些情况下，我们不仅希望保证只有我们的用户可以访问终端，而且我们可能还希望访问用户的数据。例如，如果您想将访问权限限制在某个用户组，而不是每个用户。在这种情况下，您可以这样做:
 
-```
+```py
 from flask_jwt import jwt_required, current_identity
 
 class User(Resource):

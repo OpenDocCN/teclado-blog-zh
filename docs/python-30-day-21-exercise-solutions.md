@@ -35,7 +35,7 @@
 
 main.py
 
-```
+```py
 `import database
 
 USER_CHOICE = """
@@ -92,7 +92,7 @@ menu()`
 
 database.py
 
-```
+```py
 `import json
 
 BOOKS_FILE = 'books.json'
@@ -140,7 +140,7 @@ def delete_book(name):
 
 如果您有兴趣了解关于`list_books`函数中这段语法的更多信息:
 
-```
+```py
 `read = 'YES' if book['read'] == '1' else 'NO'` 
 ```
 

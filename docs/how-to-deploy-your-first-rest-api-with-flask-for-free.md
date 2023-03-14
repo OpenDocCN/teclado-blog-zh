@@ -62,7 +62,7 @@ start 命令在应用程序的根目录中运行，并处理其进程的启动�
 
 我们用于部署应用程序的 Docker 图像如下所示:
 
-```
+```py
 FROM python:3.10
 EXPOSE 8080
 WORKDIR /app
@@ -76,7 +76,7 @@ CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "app:app"]
 
 一旦你登录到你的账户，在你的项目的工作文件夹中打开一个终端并输入`flyctl launch`。这将为您创建一个新的应用程序，您可以选择配置详细信息。选择一个尽可能靠近你的地区的服务器，因为它会使你的应用程序在部署后运行得更快。如果这个命令对您不起作用，请用以下内容创建一个名为`fly.toml`的文件:
 
-```
+```py
 app = "rest-apis"
 kill_signal = "SIGINT"
 kill_timeout = 5

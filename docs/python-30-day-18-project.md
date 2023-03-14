@@ -16,7 +16,7 @@ JSON 格式实际上对我们来说非常熟悉，因为它几乎与 Python 字�
 
 下面是一个 JSON 对象的例子，它大致类似于一个字典:
 
-```
+```py
 `{
     "title": "1Q84",
     "author": "Haruki Murakami",
@@ -31,7 +31,7 @@ JSON 格式实际上对我们来说非常熟悉，因为它几乎与 Python 字�
 
 如果我们希望有几个独立的 JSON 对象，我们的项目就是这种情况，我们需要将对象包装在一个 JSON 数组中，这类似于一个 Python 列表。
 
-```
+```py
 `[
     {
         "title": "1Q84",
@@ -64,7 +64,7 @@ JSON 格式实际上对我们来说非常熟悉，因为它几乎与 Python 字�
 
 我们将这样使用它:
 
-```
+```py
 `with open("books.json", "r") as reading_list:
     books = json.load(reading_list)` 
 ```
@@ -79,7 +79,7 @@ JSON 格式实际上对我们来说非常熟悉，因为它几乎与 Python 字�
 
 下面是一个我们将如何使用`dump`函数的例子:
 
-```
+```py
 `with open("books.json", "w") as reading_list:
     json.dump(books, reading_list)  # books is the list of books we want to write` 
 ```
@@ -112,7 +112,7 @@ JSON 格式实际上对我们来说非常熟悉，因为它几乎与 Python 字�
 
 我将从项目较难版本的代码开始，看起来像这样:
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -241,7 +241,7 @@ while selected_option != "q":
 
 随着`json`的导入，我们可以开始修改`get_all_books`。这是一个很好的起点，因为我们在几个不同的地方依赖这个函数，并且我们在新的`add_book`实现中也需要它。
 
-```
+```py
 `def get_all_books():
     books = []
 
@@ -265,7 +265,7 @@ while selected_option != "q":
 
 我们的新实现实际上要简单得多，因为我们不再需要自己处理任何数据。`json.load`函数将能够看到我们有一个 JSON 数组，可能填充了 JSON 对象，它将返回给我们一个对应于该数据的字典列表。
 
-```
+```py
 `def get_all_books():
     with open("books.json", "r") as reading_list:
         books = json.load(reading_list)
@@ -279,7 +279,7 @@ while selected_option != "q":
 
 我们还可以使我们的`get_all_books`函数更短，因为我们并不真正需要这个`books`变量。我们可以从上下文管理器中返回字典列表。
 
-```
+```py
 `def get_all_books():
     with open("books.json", "r") as reading_list:
         return json.load(reading_list)` 
@@ -289,7 +289,7 @@ while selected_option != "q":
 
 幸运的是，我们已经有了一个获取文件内容的函数:最新更新的`get_all_books`函数。姑且称之为`add_book`的顶部吧。然后我们可以直接把原始的提示放在后面，因为我们仍然需要它们。
 
-```
+```py
 `def add_book():
     books = get_all_books()
 
@@ -300,7 +300,7 @@ while selected_option != "q":
 
 我们的下一步是构建一个字典，我们可以将它插入到我们的`books`列表中。我们可以这样创建它，作为调用`append`方法的一部分:
 
-```
+```py
 `def add_book():
     books = get_all_books()
 
@@ -320,7 +320,7 @@ while selected_option != "q":
 
 为了写入数据，我们将使用`json.dump`。
 
-```
+```py
 `def add_book():
     books = get_all_books()
 
@@ -341,7 +341,7 @@ while selected_option != "q":
 
 现在我们可以进行最后的修改了:函数`update_reading_list`。
 
-```
+```py
 `def update_reading_list(operation):
     books = get_all_books()
     matching_books = find_books()
@@ -358,7 +358,7 @@ while selected_option != "q":
 
 在这里，我们实际上能够进行另一种简化，因为我们不再需要手动格式化我们写入文件的内容。我们只要用`dump`把`books`列表翻译成 JSON 就够了。
 
-```
+```py
 `def update_reading_list(operation):
     books = get_all_books()
     matching_books = find_books()
@@ -376,7 +376,7 @@ while selected_option != "q":
 
 首先，我们可以使用新的`**`解包语法来缩短我们的`show_books`函数。目前我们有这个:
 
-```
+```py
 `def show_books(books):
     # Adds an empty line before the output
     print()
@@ -391,7 +391,7 @@ while selected_option != "q":
 
 首先，我们可以将`book`分解成几个变量，并像这样使用它们:
 
-```
+```py
 `def show_books(books):
     # Adds an empty line before the output
     print()
@@ -407,7 +407,7 @@ while selected_option != "q":
 
 请记住，使用`**`解包字典会给我们一系列关键字参数，这正是我们使用`format`给命名占位符赋值的方式。因此，我们可以这样做:
 
-```
+```py
 `def show_books(books):
     # Adds an empty line before the output
     print()
@@ -422,7 +422,7 @@ while selected_option != "q":
 
 我们将创建一个这样的函数:
 
-```
+```py
 `def create_book_file():
     try:
         with open("books.json", "x") as reading_list:
@@ -437,7 +437,7 @@ while selected_option != "q":
 
 就这样，我们结束了！完整的代码可以在下面找到:
 
-```
+```py
 `import json
 
 def add_book():

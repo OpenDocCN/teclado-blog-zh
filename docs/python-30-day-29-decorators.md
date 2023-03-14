@@ -22,7 +22,7 @@
 
 让我们定义一个简单的函数来演示这两个概念之间的区别。
 
-```
+```py
 `def add(a, b):
     return a + b` 
 ```
@@ -33,7 +33,7 @@
 
 如果我们在定义了这个`add`函数之后查看全局名称空间，我们会看到类似这样的内容:
 
-```
+```py
 `{
     '__name__': '__main__',
     '__doc__': None,
@@ -60,7 +60,7 @@
 
 让我们从一个例子开始，我们可以马上解构它。
 
-```
+```py
 `from typing import Callable
 
 def example_decorator(func: Callable) -> Callable:
@@ -94,7 +94,7 @@ def example_decorator(func: Callable) -> Callable:
 
 让我们来看看这个装饰器的运行情况，以便更好地了解正在发生的事情。要使用装饰器，我们可以这样做:
 
-```
+```py
 `from typing import Callable
 
 def example_decorator(func: Callable) -> Callable:
@@ -116,7 +116,7 @@ greeter()`
 
 所有真正的行动都在这条线上进行:
 
-```
+```py
 `greeter = example_decorator(greeter)` 
 ```
 
@@ -126,7 +126,7 @@ greeter()`
 
 当我们现在调用`greeter`时，我们得到这个:
 
-```
+```py
 `Now calling greeter...
 Hello!
 greeter has ended.` 
@@ -134,7 +134,7 @@ greeter has ended.`
 
 如果我们打印`greeter`来找出它的值，我们看到它不再引用旧的`greeter`函数。
 
-```
+```py
 `<function example_decorator.<locals>.inner at 0x7f6e06326830>` 
 ```
 
@@ -150,7 +150,7 @@ greeter has ended.`
 
 在上一个例子中，我们必须这样做:
 
-```
+```py
 `greeter = example_decorator(greeter)` 
 ```
 
@@ -160,7 +160,7 @@ greeter has ended.`
 
 这与我们之前所做的完全相同:
 
-```
+```py
 `from typing import Callable
 
 def example_decorator(func: Callable) -> Callable:
@@ -182,7 +182,7 @@ greeter()`
 
 到目前为止，我们已经修饰了一个不带任何参数的函数，但是我们如何像这样修饰一个函数呢？
 
-```
+```py
 `def add(a, b):
     print(a + b)` 
 ```
@@ -193,7 +193,7 @@ greeter()`
 
 这里我们必须克服的一个问题是，我们的装饰器应该非常通用，这样我们就可以在许多不同的功能中重用它们。因此，我们不应该这样做:
 
-```
+```py
 `from typing import Callable, Union
 
 Real = Union[int, float]
@@ -218,7 +218,7 @@ add(1, 5)`
 
 使用`*args`和`**kwargs`，我们可以为`inner`接受任何一组我们喜欢的参数，然后我们可以将它们传递给`func`。
 
-```
+```py
 `from typing import Callable, Union
 
 Real = Union[int, float]
@@ -247,7 +247,7 @@ add(1, 5)`
 
 例如，这里有一个非常愚蠢的装饰者给了我们错误的计算答案:
 
-```
+```py
 `from typing import Callable, Union
 
 Real = Union[int, float]
@@ -271,7 +271,7 @@ print(add(1, 5))  # 7`
 
 如果您还记得我们最初的例子，引用变量名`greeter`会得到类似这样的结果:
 
-```
+```py
 `<function example_decorator.<locals>.inner at 0x7f6e06326830>` 
 ```
 
@@ -283,7 +283,7 @@ print(add(1, 5))  # 7`
 
 当我们调用`wraps`时，我们使用相同的`@`语法，并且我们传入`func`作为参数。这里有一个例子:
 
-```
+```py
 `from functools import wraps
 from typing import Callable
 
@@ -317,7 +317,7 @@ print(greeter)  # <function greeter at 0x7fcce99a8830>`
 
 下面是一个可能的实现:
 
-```
+```py
 `from functools import wraps
 from time import perf_counter
 from typing import Callable
@@ -336,7 +336,7 @@ def stopwatch(func: Callable) -> Callable:
 
 现在我们用这个来比较一些代码。我将比较 Python 从 100，000 个数字范围制作一个列表需要多长时间，以及对一个集合做同样的事情需要多长时间。
 
-```
+```py
 `from functools import wraps
 from time import perf_counter
 from typing import Callable, List, Set
@@ -370,7 +370,7 @@ make_set(100_000)   # make_set ran in 0.00628s`
 
 最好的方法是使用装饰工厂，这将允许我们向装饰者传递参数，但是使用我们目前的知识，我们至少可以进行 10 次测试。
 
-```
+```py
 `from functools import wraps
 from math import fsum
 from time import perf_counter

@@ -12,7 +12,7 @@
 
 我们实际上可以在文档中找到内置异常的完整列表，如下所示:
 
-```
+```py
 `BaseException
  +-- SystemExit
  +-- KeyboardInterrupt
@@ -81,7 +81,7 @@
 
 您很快会注意到，有些异常被列为另一种异常的子类。比如我们来看看`SyntaxError`。
 
-```
+```py
 `+-- SyntaxError
 |    +-- IndentationError
 |         +-- TabError` 
@@ -99,7 +99,7 @@
 
 我们再来看另一个例子，叫做`LookupError`。
 
-```
+```py
 `+-- LookupError
 |    +-- IndexError
 |    +-- KeyError` 
@@ -111,7 +111,7 @@
 
 main.py
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 
 try:
@@ -128,7 +128,7 @@ except LookupError:
 
 main.py
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 
 try:
@@ -145,7 +145,7 @@ except LookupError:
 
 main.py
 
-```
+```py
 `person = {
     "name": "Phil",
     "city": "Budapest"
@@ -169,7 +169,7 @@ except LookupError:
 
 main.py
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 
 try:
@@ -180,7 +180,7 @@ except LookupError as ex:
 
 现在我们的输出看起来像这样:
 
-```
+```py
 `Error: list index out of range` 
 ```
 
@@ -202,7 +202,7 @@ except LookupError as ex:
 
 在控制台中，我们像往常一样得到一个回溯，以及导致程序终止的异常的名称。
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 1, in <module>
     raise ValueError
@@ -213,13 +213,13 @@ ValueError`
 
 main.py
 
-```
+```py
 `raise ValueError("I raised this ValueError for no reason!")` 
 ```
 
 现在，该消息反映在控制台输出中:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 1, in <module>
     raise ValueError("I raised this ValueError for no reason!")
@@ -246,7 +246,7 @@ ValueError: I raised this ValueError for no reason!`
 
 main.py
 
-```
+```py
 `with open("numbers.txt", "r") as numbers_file:
     numbers = [int(number) for number in numbers_file]` 
 ```
@@ -261,7 +261,7 @@ main.py
 
 main.py
 
-```
+```py
 `def intify(number):
     try:
         return int(number)
@@ -281,7 +281,7 @@ with open("numbers.txt", "r") as numbers_file:
 
 上述方法的一个问题是我的回溯非常大，并且不是很有帮助:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 3, in intify
     return int(number)
@@ -316,7 +316,7 @@ ValueError: could not convert string to an integer: "f"`
 
 main.py
 
-```
+```py
 `def intify(number):
     try:
         return int(number)
@@ -334,7 +334,7 @@ with open("numbers.txt", "r") as numbers_file:
 
 现在我们的回溯可读性更强了。
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 14, in <module>
     numbers = [intify(number) for number in numbers_file]
@@ -351,14 +351,14 @@ ValueError: could not convert string to an integer: "f"`
 
 2)下面你会发现一个`divide`函数。编写异常处理，这样我们就可以捕获`ZeroDivisionError`异常、`TypeError`异常和其他种类的`ArithmeticError`。
 
-```
+```py
 `divide(a, b)
     print(a / b)` 
 ```
 
 3)下面你会发现一个接受集合的`itemgetter`函数，以及一个键或索引。捕捉任何`KeyError`或`IndexError`的实例，并将异常写入一个名为`log.txt`的文件，同时附上导致这个问题的参数。写入日志文件后，重新引发原始异常。
 
-```
+```py
 `def itemgetter(collection, identifier):
     return collection[identifier]` 
 ```

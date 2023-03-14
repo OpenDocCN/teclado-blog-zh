@@ -6,7 +6,7 @@
 
 ### 1)使用`sort`方法按照学生姓名的字母顺序排列以下列表。
 
-```
+```py
 `students = [
     {"name": "Hannah", "grade_average": 83},
     {"name": "Charlie", "grade_average": 91},
@@ -24,7 +24,7 @@
 
 首先让我们用一个常规函数来做这件事:
 
-```
+```py
 `def get_name(student):
     return student["name"]
 
@@ -41,7 +41,7 @@ students.sort(key=get_name)`
 
 如果我们打印`students`，我们现在应该按照以下顺序取回它们:
 
-```
+```py
 `[
     {'name': 'Charlie', 'grade_average': 91},
     {'name': 'Hannah', 'grade_average': 83},
@@ -53,7 +53,7 @@ students.sort(key=get_name)`
 
 然而，我们在这里使用的密钥非常简单。它所做的只是从字典键中获取一个值。因此，在调用`sort`时，我们使用 lambda 表达式来定义函数更合适。
 
-```
+```py
 `students = [
     {"name": "Hannah", "grade_average": 83},
     {"name": "Charlie", "grade_average": 91},
@@ -69,14 +69,14 @@ students.sort(key=lambda student: student["name"])`
 
 ### 2)将以下函数转换为 lambda 表达式，并将其赋给一个名为`exp`的变量。
 
-```
+```py
 `def exponentiate(base, exponent):
     return base ** exponent` 
 ```
 
 在这种情况下，我们有一个带有两个参数的函数，我们的返回值是`base ** exponent`。因此，我们的 lambda 表达式如下所示:
 
-```
+```py
 `lambda base, exponent: base ** exponent` 
 ```
 
@@ -84,7 +84,7 @@ students.sort(key=lambda student: student["name"])`
 
 现在我们只需要将它赋给一个名为`exp`的变量，就像这样:
 
-```
+```py
 `exp = lambda base, exponent: base ** exponent` 
 ```
 
@@ -92,7 +92,7 @@ students.sort(key=lambda student: student["name"])`
 
 在这种情况下，我们必须小心不要调用我们的函数。我们想要打印函数本身，这可以通过打印`exp`来实现，因为这是我们为函数赋值的地方。
 
-```
+```py
 `exp = lambda base, exponent: base ** exponent
 
 print(exp)` 
@@ -100,7 +100,7 @@ print(exp)`
 
 我们得到的大概是这样的:
 
-```
+```py
 `<function <lambda> at 0x7f3e9837c1f0>` 
 ```
 

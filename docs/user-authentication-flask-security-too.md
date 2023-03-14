@@ -36,7 +36,7 @@ SQLAlchemy 的目标是通过将所有东西都称为 Python 对象来简化使�
 
 让我们从安装它和`flask-security-too`开始。我将把它添加到我的`requirements.txt`文件中:
 
-```
+```py
 flask
 flask-sqlalchemy
 flask-security-too
@@ -49,13 +49,13 @@ python-dotenv
 
 安装库:
 
-```
+```py
 pip install -r requirements.txt 
 ```
 
 现在让我们创建`SQLAlchemy`对象，我们将使用它来连接数据库。在`database.py`中，写下以下内容:
 
-```
+```py
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy() 
@@ -65,7 +65,7 @@ db = SQLAlchemy()
 
 在一个`models`文件夹中，创建`auth.py`并编写以下内容:
 
-```
+```py
 from database import db
 from flask_security import UserMixin, RoleMixin
 from sqlalchemy import Boolean, DateTime, Column, Integer, String, ForeignKey
@@ -107,7 +107,7 @@ class User(db.Model, UserMixin):
 
 最后，在`app.py`中，让我们创建我们的 Flask 应用程序并设置 Flask-Security:
 
-```
+```py
 import os
 from flask import Flask
 from flask_security import SQLAlchemySessionUserDatastore, Security
@@ -144,19 +144,19 @@ def home():
 
 在名为`.env`的新文件中，写下以下内容:
 
-```
+```py
 DATABASE_URL="sqlite:///data.db" 
 ```
 
 现在让我们创建我们的表。在控制台中(激活虚拟环境)，键入:
 
-```
+```py
 flask shell 
 ```
 
 在那里，键入:
 
-```
+```py
 >>> from app import app, db
 >>> with app.app_context():
 	 	db.create_all() 
@@ -166,7 +166,7 @@ flask shell
 
 现在您可以运行您的 Flask 应用程序了！首先退出 shell(通过按 CTRL+D ),然后键入:
 
-```
+```py
 flask run 
 ```
 

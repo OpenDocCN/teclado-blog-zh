@@ -42,7 +42,7 @@
 
 在代码中，我们可以像这样定义两列，其中小部件的容器是根容器:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -60,7 +60,7 @@ root.mainloop()
 
 如果我们想为多个列指定相同的配置，我们可以传入一组列号，而不仅仅是一个列号:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -80,7 +80,7 @@ root.mainloop()
 
 对于这个例子，我们将返回到我们信任的矩形，我们将从使用上面定义的第一个更简单的网格开始。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -99,7 +99,7 @@ root.mainloop()
 
 现在我们已经定义了矩形，让我们使用`grid`将它们放置在窗口中。正如 pack 示例一样，我们将开始使用没有任何意义的配置的`grid`,这样我们可以看到默认行为。就像之前一样，我们将使用`ipadx`和`ipady`添加少量内部填充，以使`Label`文本更易于阅读。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -131,7 +131,7 @@ root.mainloop()
 
 那么我们如何指定小部件应该放在哪里呢？我们可以使用`row`和`column`参数。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -155,7 +155,7 @@ root.mainloop()
 
 因此，我们必须为小部件指定`row`和`column`值来定义我们想要的布局，在这种情况下:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -189,7 +189,7 @@ root.mainloop()
 
 指定一个指南针方向会导致小部件“粘”在指定区域的一边。例如，我们可以用`"W"`将`rectangle_1`设置为贴在其指定区域的左侧，用`"E"`将`rectangle_2`设置为贴在其指定区域的右侧。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -213,7 +213,7 @@ root.mainloop()
 
 但是，如果我们指定相反的指南针方向，小部件会粘在两边，这将导致小部件拉伸:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -237,7 +237,7 @@ root.mainloop()
 
 那么，当我们将一个小部件设置为粘在其指定区域的所有边缘时，会发生什么呢？
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -257,7 +257,7 @@ root.mainloop()
 
 这里我们指定了一个`"NSEW"`作为两个小部件的粘滞值，这意味着它会粘在指定区域的所有边上。如果您愿意，也可以使用元组，Tkinter 定义了常数，您可以使用这些常数来代替字符串:
 
-```
+```py
 rectangle_1.grid(column=0, row=0, ipadx=10, ipady=10, sticky=("N", "S", "E", "W"))
 
 rectangle_1.grid(column=0, row=0, ipadx=10, ipady=10, sticky=(tk.N, tk.S, tk.E, tk.W))
@@ -275,7 +275,7 @@ rectangle_1.grid(column=0, row=0, ipadx=10, ipady=10, sticky=tk.NSEW)
 
 我们可以为行`0`指定一点配置来纠正这一点，给它一个权重`1`。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -311,7 +311,7 @@ root.mainloop()
 
 例如，我们可以给主内容下面的空行一个权重`1`,以将第一行限制在屏幕的一半:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -341,7 +341,7 @@ root.mainloop()
 
 让我们添加第三个矩形，这样我们最终得到一个跨越整个顶行的矩形:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()

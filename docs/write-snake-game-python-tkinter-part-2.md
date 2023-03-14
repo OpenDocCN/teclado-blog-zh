@@ -12,7 +12,7 @@
 
 ## 到目前为止的代码
 
-```
+```py
 import tkinter as tk
 from random import randint
 from PIL import Image, ImageTk
@@ -75,7 +75,7 @@ root.mainloop()
 
 我们将在我们的`Snake`类中定义一个名为`move_snake`的新方法。
 
-```
+```py
 def move_snake(self):
     pass 
 ```
@@ -86,7 +86,7 @@ def move_snake(self):
 
 首先，我们需要知道头在哪里:
 
-```
+```py
 def move_snake(self):
     head_x_position, head_y_position = self.snake_positions[0] 
 ```
@@ -97,7 +97,7 @@ def move_snake(self):
 
 首先，我们要让蛇向右移动。
 
-```
+```py
 def move_snake(self):
     head_x_position, head_y_position = self.snake_positions[0]
     new_head_position = (head_x_position + 20, head_y_position) 
@@ -105,13 +105,13 @@ def move_snake(self):
 
 我在这里使用了 20px 的值，因为这就是我们的蛇段的大小。然而，这是一个我们会经常用到的值，所以我们应该把它提取到我们的`app.py`顶部的一个常量中。
 
-```
+```py
 MOVE_INCREMENT = 20 
 ```
 
 我们现在可以在我们的`move_snake`方法中使用这个常数:
 
-```
+```py
 def move_snake(self):
     head_x_position, head_y_position = self.snake_positions[0]
     new_head_position = (head_x_position + MOVE_INCREMENT, head_y_position) 
@@ -125,7 +125,7 @@ def move_snake(self):
 
 [https://blog.tecladocode.com/python-slices-part-2/](https://blog.teclado.com/python-slices-part-2/)
 
-```
+```py
 def move_snake(self):
     head_x_position, head_y_position = self.snake_positions[0]
     new_head_position = (head_x_position + MOVE_INCREMENT, head_y_position)
@@ -139,7 +139,7 @@ def move_snake(self):
 
 如果`zip`对你来说是新事物，我们再一次为你报道:[https://blog.tecladocode.com/python-zip/](https://blog.teclado.com/python-zip/)
 
-```
+```py
 def move_snake(self):
     head_x_position, head_y_position = self.snake_positions[0]
     new_head_position = (head_x_position + MOVE_INCREMENT, head_y_position)
@@ -162,7 +162,7 @@ def move_snake(self):
 
 因此，在我们的`__init__`方法中，我们需要编写:
 
-```
+```py
 self.after(75, self.perform_actions) 
 ```
 
@@ -170,7 +170,7 @@ self.after(75, self.perform_actions)
 
 现在我们要像这样创建出`perform_actions`方法:
 
-```
+```py
 def perform_actions(self):
     self.move_snake()
     self.after(75, self.perform_actions) 
@@ -180,7 +180,7 @@ def perform_actions(self):
 
 然而，我们在几个地方有 75 毫秒，所以让我们把它提取到一些常数:
 
-```
+```py
 MOVES_PER_SECOND = 15
 GAME_SPEED = 1000 // MOVES_PER_SECOND 
 ```
@@ -203,7 +203,7 @@ GAME_SPEED = 1000 // MOVES_PER_SECOND
 
 我们将使用`or`布尔运算符，而不是一系列 if 语句。我们要检查 3 个条件，如果其中任何一个是`True`，我们要返回`True`。因此，我们可以这样写:
 
-```
+```py
 def check_collisions(self):
     head_x_position, head_y_position = self.snake_positions[0]
 
@@ -222,7 +222,7 @@ def check_collisions(self):
 
 如果满足这些条件中的任何一个，方法返回`True`，我们可以在我们的`perform_actions`方法中检查返回值:
 
-```
+```py
 def perform_actions(self):
     if self.check_collisions():
         return
@@ -255,7 +255,7 @@ Tkinter 实际上附带了一对名为`bind`和`bind_all`的非常容易处理�
 
 因此，我们将向我们的`__init__`方法添加两个新属性:
 
-```
+```py
 self.direction = "Right"
 self.bind_all("<Key>", self.on_key_press) 
 ```
@@ -272,7 +272,7 @@ self.bind_all("<Key>", self.on_key_press)
 
 例如，向上箭头的`keysym`为`"Up"`。因此，我们新方法的第一行将找出被触发键的`keysym`是什么。
 
-```
+```py
 def on_key_press(self, e):
     new_direction = e.keysym 
 ```
@@ -281,7 +281,7 @@ def on_key_press(self, e):
 
 除了方向的集合之外，我们还将这些方向的对立面定义为一对集合。这将允许我们避免当玩家意外地按下与他们当前要去的方向相反的方向时杀死这条蛇。
 
-```
+```py
 def on_key_press(self, e):
     new_direction = e.keysym
 
@@ -291,7 +291,7 @@ def on_key_press(self, e):
 
 现在我们已经设置好了所有这些，我们可以使用 if 语句来过滤掉我们想要忽略的按键，并在有效的按键被按下时设置一个新的方向。
 
-```
+```py
 def on_key_press(self, e):
     new_direction = e.keysym
 
@@ -329,7 +329,7 @@ def on_key_press(self, e):
 
 我们完成的方法如下所示:
 
-```
+```py
 def move_snake(self):
     head_x_position, head_y_position = self.snake_positions[0]
 
@@ -362,7 +362,7 @@ def move_snake(self):
 
 首先，我们需要增加分数，并给蛇添加一个新的分段:
 
-```
+```py
 def check_food_collision(self):
     if self.snake_positions[0] == self.food_position:
         self.score += 1
@@ -373,7 +373,7 @@ def check_food_collision(self):
 
 当然，我们也必须把它放在`Canvas`上，所以我们需要在我们的`Canvas`小部件上调用`create_image`方法:
 
-```
+```py
 def check_food_collision(self):
     if self.snake_positions[0] == self.food_position:
         self.score += 1
@@ -388,7 +388,7 @@ def check_food_collision(self):
 
 当我们更新`Canvas`上的内容时，我们也需要更新乐谱文本。到目前为止，我们刚刚更新了属性。
 
-```
+```py
 def check_food_collision(self):
     if self.snake_positions[0] == self.food_position:
         self.score += 1
@@ -404,7 +404,7 @@ def check_food_collision(self):
 
 最后，我们需要在我们的`perform_actions`方法中检查食物碰撞:
 
-```
+```py
 def perform_actions(self):
     if self.check_collisions():
         return
@@ -427,13 +427,13 @@ def perform_actions(self):
 
 注意，您必须导入`random`模块，我们是这样做的:
 
-```
+```py
 from random import randint 
 ```
 
 一旦我们有了一对随机数，我们将为坐标构建一个元组，并检查这些坐标是否在`self.snake_positions`中。如果是，我们重新开始循环，但是如果我们发现一个没有被蛇占据的空间，我们返回我们生成的坐标，这将结束循环。
 
-```
+```py
 def set_new_food_position(self):
     while True:
         x_position = randint(1, 29) * MOVE_INCREMENT
@@ -448,13 +448,13 @@ def set_new_food_position(self):
 
 该属性现在看起来像这样:
 
-```
+```py
 self.food_position = self.set_new_food_position() 
 ```
 
 我们给`check_food_collision`方法添加了几行新代码:
 
-```
+```py
 def check_food_collision(self):
     if self.snake_positions[0] == self.food_position:
         self.score += 1
@@ -481,7 +481,7 @@ def check_food_collision(self):
 
 然后我们在`Canvas`上放置一个新项目:一行文字，告诉玩家游戏已经结束，以及他们的得分。
 
-```
+```py
 def end_game(self):
     self.delete(tk.ALL)
     self.create_text(
@@ -495,7 +495,7 @@ def end_game(self):
 
 我们现在可以在我们的`perform_actions`方法中调用这个方法，而不是在检测到冲突时才返回:
 
-```
+```py
 def perform_actions(self):
     if self.check_collisions():
         self.end_game()
@@ -512,7 +512,7 @@ def perform_actions(self):
 
 最后，我的代码看起来像这样:
 
-```
+```py
 import tkinter as tk
 from random import randint
 from PIL import Image, ImageTk

@@ -6,7 +6,7 @@
 
 首先，我们来看看`permutations`。`permutations`关心的是为给定的商品集合找到所有可能的订单。例如，如果我们有一个字符串`"ABC"`，置换将找到我们可以重新排列这个字符串中的字母的所有方式，因此每个顺序都是唯一的。
 
-```
+```py
 from itertools import permutations
 
 p_1 = permutations("ABC")
@@ -16,7 +16,7 @@ p_1 = permutations("ABC")
 
 默认情况下，`permutations`为整个集合返回不同的排序，但是我们可以使用可选的`r`参数来限制函数查找更短的排列。
 
-```
+```py
 p_2 = permutations("ABC", r=2)
 # ('A', 'B') ('A', 'C') ('B', 'A') ('B', 'C') ('C', 'A') ('C', 'B') 
 ```
@@ -27,7 +27,7 @@ p_2 = permutations("ABC", r=2)
 
 结果组合的长度再次由`r`参数控制，但是在`combinations`的情况下，该参数是强制的。
 
-```
+```py
 from itertools import combinations
 
 c_1 = combinations("ABC", r=2)
@@ -39,7 +39,7 @@ c_2 = combinations("ABC", r=3)
 
 有可能从`combinations`获得重复的元素，但是只有当提供的 iterable 包含给定元素的多个实例时。例如`(1, 2, 3, 1)`。
 
-```
+```py
 c_3 = combinations((1, 2, 3, 1), r=2)
 # (1, 2) (1, 3) (1, 1) (2, 3) (2, 1) (3, 1) 
 ```
@@ -48,7 +48,7 @@ c_3 = combinations((1, 2, 3, 1), r=2)
 
 使用`combinations_with_replacement`函数可以包含一个项目与其自身配对的实例。它就像`combinations`一样工作，但是也将匹配每个元素。
 
-```
+```py
 from itertools import combinations, combinations_with_replacement
 
 c_4 = combinations((1, 2, 3), r=2)

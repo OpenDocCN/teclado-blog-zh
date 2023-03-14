@@ -14,7 +14,7 @@
 
 签名看起来像这样:
 
-```
+```py
 `fractions.Fraction(numerator=0,  denominator=1)
 fractions.Fraction(other_fraction)
 fractions.Fraction(float)
@@ -24,7 +24,7 @@ fractions.Fraction(string)`
 
 正如我们所见，其中一个选项是只传入一个浮点值，其余的由`Fraction`处理。
 
-```
+```py
 `import fractions
 
 fraction = fractions.Fraction(2.25)` 
@@ -34,7 +34,7 @@ fraction = fractions.Fraction(2.25)`
 
 ### 2)仅从`math`模块中导入`fsum`函数，并使用它来计算以下一系列浮点数的总和。
 
-```
+```py
 `numbers = [1.43, 1.1, 5.32, 87.032, 0.2, 23.4]` 
 ```
 
@@ -42,7 +42,7 @@ fraction = fractions.Fraction(2.25)`
 
 现在我们有了`fsum`函数，我们可以把我们的数字列表传递给它，因为`fsum`和`sum`一样，接受一个可迭代的。
 
-```
+```py
 `from math import fsum
 
 numbers = [1.43, 1.1, 5.32, 87.032, 0.2, 23.4]
@@ -65,7 +65,7 @@ fsum(numbers)`
 
 现在我们可以用`rand.randint()`调用`randint`。
 
-```
+```py
 `import random as rand
 
 print(rand.randint(1, 100))` 
@@ -75,7 +75,7 @@ print(rand.randint(1, 100))`
 
 我要稍微作弊一下，抄一下我从第[天第 8](/30-days-of-python/python-30-day-8-while-loops/) 写的解决方案。
 
-```
+```py
 `target_number = 47
 
 guess = int(input("Enter a number: "))
@@ -91,7 +91,7 @@ print("You guessed correctly!")`
 
 这是一个简单的修改，使游戏更加有趣！
 
-```
+```py
 `import random as rand
 
 target_number = rand.randint(1, 100)

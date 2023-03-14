@@ -10,13 +10,13 @@
 
 您可以通过打开 Python shell 并键入以下命令来进行检查:
 
-```
+```py
 import tkinter 
 ```
 
 如果你没有得到一个错误，你是好的。对于那些仍在使用 Python 2 的人，您需要使用这个导入:
 
-```
+```py
 import Tkinter 
 ```
 
@@ -42,7 +42,7 @@ import Tkinter
 
 首先，让我们导入`tkinter`并设置我们的窗口:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -65,7 +65,7 @@ root.mainloop()
 
 为了做到这一点，我们首先为每个矩形定义一个小部件。Widgets 都是 Tkinter 对象，有很多可以选择。我们将在这里使用`Label`小部件。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -87,7 +87,7 @@ root.mainloop()
 
 我们可以通过在两个对象上调用`pack`方法来解决这个问题，就像这样:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -124,7 +124,7 @@ root.mainloop()
 
 先来试试`fill="x"`:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -167,7 +167,7 @@ root.mainloop()
 
 让我们看看当我们为`rectangle_1`设置`expand=True`时会发生什么:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -196,7 +196,7 @@ root.mainloop()
 
 我们仍然需要检查的一件事是，当两个项目都被允许占用更多空间时会发生什么？
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -225,7 +225,7 @@ root.mainloop()
 
 让我们来看看:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()

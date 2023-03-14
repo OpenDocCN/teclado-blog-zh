@@ -16,7 +16,7 @@
 
 首先，我们将编写大量样板 tkinter 代码，导入 Tkinter 模块并设置主应用程序窗口。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -29,7 +29,7 @@ root.mainloop()
 
 我们还将添加执行像素缩放的线条，这将使我们的文本和图像在更高的 dpi 显示器上看起来更清晰。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -58,7 +58,7 @@ root.mainloop()
 
 首先，让我们定义我们的`Snake`类，并定义`__init__`方法，这样我们可以传入一些配置。我们还将利用`super`来访问`Canvas`小部件的`__init__`方法，这样我们就可以定义`Canvas`本身的一些初始配置。
 
-```
+```py
 import tkinter as tk
 
 class Snake(tk.Canvas):
@@ -83,7 +83,7 @@ root.mainloop()
 
 我们还将实例化我们的`Snake`类的一个对象，并将其命名为`board`。
 
-```
+```py
 import tkinter as tk
 
 class Snake(tk.Canvas):
@@ -126,7 +126,7 @@ root.mainloop()
 
 在`try`块中，我们将加载并处理图像。为了处理我们的 png 图像，我们需要利用`PIL` (Python 图像库)，所以我们需要导入它。Python 没有附带它，所以你必须使用`pip`来安装它。
 
-```
+```py
 pip install pillow 
 ```
 
@@ -134,7 +134,7 @@ pip install pillow
 
 我们需要来自`PIL`的`Image`类和`ImageTk`类，因此我们的导入将如下所示:
 
-```
+```py
 from PIL import Image, ImageTk 
 ```
 
@@ -142,7 +142,7 @@ from PIL import Image, ImageTk
 
 你可以在下面看到这个样子:
 
-```
+```py
 import tkinter as tk
 from PIL import Image, ImageTk
 
@@ -188,7 +188,7 @@ root.mainloop()
 
 在我看来，跟踪所有的蛇段在哪里是很有用的，因为我们以后要检查碰撞等等。，所以我认为我们应该在我们的`__init__`方法中为蛇指定起始坐标，然后我们可以在蛇每次移动时更新坐标。
 
-```
+```py
 class Snake(tk.Canvas):
     def __init__(self):
         super().__init__(
@@ -205,7 +205,7 @@ class Snake(tk.Canvas):
 
 我们现在可以在我们的`create_objects`方法中为每个坐标添加一个蛇段。由于我们一遍又一遍地重复相同的代码，我将使用一个 for 循环和一些[析构](https://blog.teclado.com/destructuring-in-python/)来添加每一段:
 
-```
+```py
 class Snake(tk.Canvas):
     def __init__(self):
         super().__init__(
@@ -247,7 +247,7 @@ class Snake(tk.Canvas):
 
 食物的位置也是一个包含 x 和 y 坐标的元组，所以我们可以在`create_image`方法中解包这个元组，使用`*`一次性提供 x 和 y 坐标值:
 
-```
+```py
 class Snake(tk.Canvas):
     def __init__(self):
         super().__init__(
@@ -304,7 +304,7 @@ class Snake(tk.Canvas):
 
 我们更新后的`create_objects`方法如下所示:
 
-```
+```py
 def create_objects(self):
     self.create_text(
         35, 12, text=f"Score: {self.score}", tag="score", fill="#fff", font=10
@@ -328,7 +328,7 @@ def create_objects(self):
 
 除了指定矩形的坐标，我们还将通过向参数`outline`传递一个十六进制颜色值来定义轮廓颜色。
 
-```
+```py
 def create_objects(self):
     self.create_text(
         35, 12, text=f"Score: {self.score}", tag="score", fill="#fff", font=10

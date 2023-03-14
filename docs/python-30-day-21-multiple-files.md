@@ -16,7 +16,7 @@
 
 如果您有一个 Python 文件，并键入以下内容:
 
-```
+```py
 `import json
 
 print(globals())` 
@@ -28,7 +28,7 @@ print(globals())`
 
 导入后，我们可以像这样访问模块内部的内容:
 
-```
+```py
 `import math
 
 print(math.pi)  # 3.14` 
@@ -106,7 +106,7 @@ print(math.pi)  # 3.14`
 
 myfile.py
 
-```
+```py
 `print("Hello, world!")` 
 ```
 
@@ -114,7 +114,7 @@ myfile.py
 
 main.py
 
-```
+```py
 `import myfile
 
 print("What's going on?")` 
@@ -124,7 +124,7 @@ print("What's going on?")`
 
 你会看到我们打印出了两样东西:
 
-```
+```py
 `Hello, world!
 What's going on?` 
 ```
@@ -137,7 +137,7 @@ What's going on?`
 
 myfile.py
 
-```
+```py
 `def get_user_age():
     return int(input("Enter your age: "))` 
 ```
@@ -146,7 +146,7 @@ myfile.py
 
 main.py
 
-```
+```py
 `import myfile
 
 try:
@@ -184,7 +184,7 @@ Python 总是在查看内置或已安装的包之前查看项目文件夹中的�
 
 例如，在您的项目中创建一个名为`user_interactions`的文件夹，并将`myfile.py`移动到其中。现在，您的文件/文件夹结构将如下所示:
 
-```
+```py
 `- main.py
 - user_interactions/
     | - myfile.py` 
@@ -194,7 +194,7 @@ Python 总是在查看内置或已安装的包之前查看项目文件夹中的�
 
 main.py
 
-```
+```py
 `from user_interactions.myfile import get_user_age
 
 try:
@@ -209,7 +209,7 @@ except ValueError:
 
 如果您有多个子文件夹，您将需要使用多个`.`来分隔不同级别的文件夹和文件，如下所示:
 
-```
+```py
 `from folder.subfolder.module import something_in_the_module` 
 ```
 
@@ -220,7 +220,7 @@ except ValueError:
 
 您通常不会像下面的示例那样做任何事情，因为它可能需要很长时间才能完成:
 
-```
+```py
 `import user_interactions.myfile
 
 user_interactions.myfile.get_user_age()` 
@@ -238,7 +238,7 @@ user_interactions.myfile.get_user_age()`
 
 目前我们的项目结构是这样的:
 
-```
+```py
 `- main.py
 - user_interactions/
     | - myfile.py` 
@@ -250,7 +250,7 @@ user_interactions.myfile.get_user_age()`
 
 main.py
 
-```
+```py
 `import user_interactions.myfile
 
 print(__name__)` 
@@ -258,7 +258,7 @@ print(__name__)`
 
 您将看到以下输出:
 
-```
+```py
 `user_interactions.myfile
 __main__` 
 ```
@@ -281,7 +281,7 @@ __main__`
 
 myfile.py
 
-```
+```py
 `def get_user_age():
     return int(input("Enter your age: "))
 

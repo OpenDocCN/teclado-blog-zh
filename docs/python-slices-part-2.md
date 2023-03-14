@@ -12,7 +12,7 @@
 
 我们可以做的一件有趣的事情是用新值替换序列的一部分。
 
-```
+```py
 numbers = [1, 3, 3]
 numbers[1:2] = [2]
 
@@ -25,14 +25,14 @@ print(numbers)  # [1, 2, 3]
 
 值得注意的一件有趣的事情是，我们分配了另一个 iterable，而不仅仅是整数`2`。我们实际上可以在这里使用元组甚至集合来代替列表:
 
-```
+```py
 numbers[1:2] = (2,)  # Don't forget the comma!
 numbers[1:2] = {2} 
 ```
 
 然而，给一个整数赋值会引发一个`TypeError`。
 
-```
+```py
 TypeError: can only assign an iterable 
 ```
 
@@ -40,7 +40,7 @@ TypeError: can only assign an iterable
 
 因为我们必须指定一些可迭代的类型，所以我们可以一次指定多个值。这完全正确:
 
-```
+```py
 numbers = [1, 3, 5]
 numbers[1:3] = [2, 3]
 
@@ -49,7 +49,7 @@ print(numbers)  # [1, 2, 3]
 
 然而，可能会让您感到惊讶的是，我们可以为我们的切片分配一个不同长度的 iterable。
 
-```
+```py
 numbers = [1, 3, 5]
 numbers[1:3] = [2, 3, 4, 5]
 
@@ -58,7 +58,7 @@ print(numbers) # [1, 2, 3, 4, 5]
 
 实际上，iterable 包含多少项并没有什么区别:我们甚至可以将一个空列表分配给某个片，而不会出现问题。在我们的切片中定义的索引项被简单地删除。
 
-```
+```py
 numbers[1:3] = [] 
 ```
 
@@ -66,7 +66,7 @@ numbers[1:3] = []
 
 我们还可以用其他方式利用不平均分配。例如，我们可以取一个空的切片，用它在某个序列的中间插入值。
 
-```
+```py
 numbers = [1, 5]
 numbers[1:1] = [2, 3, 4]
 
@@ -83,7 +83,7 @@ print(numbers)  # [1, 2, 3, 4, 5]
 
 因此，当我们使用扩展切片语法时，我们需要小心匹配我们想要替换的值的数量。
 
-```
+```py
 numbers = [1, 3, 3, 5, 5]
 numbers[1:4:2] = [2, 4]
 
@@ -92,7 +92,7 @@ print(numbers)  # [1, 2, 3, 4, 5]
 
 上面的例子工作得很好，因为我们将`2`分配给索引 1，将`4`分配给索引 3。一切都吻合。
 
-```
+```py
 numbers = [1, 3, 3, 5, 5]
 numbers[1:3:2] = [2, 4]
 
@@ -101,7 +101,7 @@ print(numbers)  # ValueError
 
 另一方面，第二个例子产生了一个`ValueError`:
 
-```
+```py
 ValueError: attempt to assign sequence of size 2 to extended slice 
 ```
 
@@ -111,7 +111,7 @@ ValueError: attempt to assign sequence of size 2 to extended slice
 
 实际上，我们已经看到了获取某个序列片段的多种方法:
 
-```
+```py
 numbers = [1, 2, 3]
 new_slice = slice(1, 3)
 
@@ -124,7 +124,7 @@ c = numbers[1:3]
 
 然而，这种方括号语法只是为了方便。实际情况是这样的:
 
-```
+```py
 d = numbers.__getitem__(slice(1, 3))
 
 print(d)  # [2, 3] 
@@ -136,7 +136,7 @@ print(d)  # [2, 3]
 
 实际上接受的不仅仅是切片。我们还可以向`__getitem__`传递一个单一的索引，这正是我们做类似下面这样的事情时所发生的:`numbers[0]`。
 
-```
+```py
 numbers = [1, 2, 3, 4, 5]
 
 print(numbers[2])  # 3
@@ -145,7 +145,7 @@ print(numbers.__getitem__(2))  # 3
 
 `__getitem__`也有一个对应的名称为`__setitem__`，当我们进行片赋值时，或者当我们试图用单个索引的下标符号替换给定索引处的值时，就会调用这个名称:
 
-```
+```py
 numbers = [1, 2, 3, "hello", 5]
 numbers[3] = 4  # numbers.__setitem__(3, 4)
 

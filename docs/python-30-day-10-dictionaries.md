@@ -18,13 +18,13 @@
 
 例如，如果我们有以下列表:
 
-```
+```py
 `simpsons = ["Homer", "Marge", "Bart", "Lisa", "Maggie"]` 
 ```
 
 我们可以通过参考`simpsons`列表的索引`0`来参考`"Homer"`。然而，如果我们按字母顺序对列表进行排序，我们可以使用`sort`方法，我们现在必须使用索引`1`来引用`"Homer"`。
 
-```
+```py
 `simpsons = ["Homer", "Marge", "Bart", "Lisa", "Maggie"]
 simpsons.sort()
 
@@ -35,7 +35,7 @@ print(simpsons)  # ["Bart", "Homer", "Lisa", "Maggie", "Marge"]`
 
 一个**键**有点像一个变量，我们可以用它来引用一些值。与变量不同，键本身就是值，因为它们被写成字符串、整数等。
 
-```
+```py
 `In a single dictionary, each key must be unique, but different dictionaries can have the same keys as each other.` 
 ```
 
@@ -43,7 +43,7 @@ print(simpsons)  # ["Bart", "Homer", "Lisa", "Maggie", "Marge"]`
 
 字典的一个常见用例非常类似于我们使用元组来表示表中的行。例如，不是用这样的元组来表示电影:
 
-```
+```py
 `("Up", "Pete Doctor", 2009)` 
 ```
 
@@ -59,7 +59,7 @@ print(simpsons)  # ["Bart", "Homer", "Lisa", "Maggie", "Marge"]`
 
 假设我们正在为一个学生创建一个字典，我们希望从表示他们姓名的键和值开始:
 
-```
+```py
 `student = {"name": "John Smith"}` 
 ```
 
@@ -69,7 +69,7 @@ print(simpsons)  # ["Bart", "Homer", "Lisa", "Maggie", "Marge"]`
 
 例如，让我们在该学生的姓名旁边添加一个成绩列表:
 
-```
+```py
 `student = {
     "name": "John Smith",
     "grades": [88, 76, 92, 85, 69]
@@ -82,7 +82,7 @@ print(simpsons)  # ["Bart", "Homer", "Lisa", "Maggie", "Marge"]`
 
 不要觉得你需要把所有的东西都塞进这样一行:
 
-```
+```py
 `student = {"name": "John Smith", "grades": [88, 76, 92, 85, 69]}` 
 ```
 
@@ -106,7 +106,7 @@ print(simpsons)  # ["Bart", "Homer", "Lisa", "Maggie", "Marge"]`
 
 例如，我们可以这样做:
 
-```
+```py
 `student = (
     "John Smith",
     [88, 76, 92, 85, 69]
@@ -126,7 +126,7 @@ print(student)  # ('John Smith', [88, 76, 92, 85, 69, 77])`
 
 让我们看看我们的学生示例，并尝试从该词典中获取分数列表:
 
-```
+```py
 `student = {
     "name": "John Smith",
     "grades": [88, 76, 92, 85, 69]
@@ -139,7 +139,7 @@ print(student["grades"])  # [88, 76, 92, 85, 69]`
 
 那么，如果我们引用一个不存在的键会发生什么呢？
 
-```
+```py
 `student = {
     "name": "John Smith",
     "grades": [88, 76, 92, 85, 69]
@@ -150,7 +150,7 @@ print(student["grade"])  # KeyError`
 
 在这里，我试图引用一个名为`"grade"`的键，但真正的键名为`"grades"`。在这种情况下，我们得到的是一个`KeyError`，这与我们试图访问一个未定义的变量时得到的`NameError`非常相似。
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 6, in <module>
     print(student["grade"])
@@ -159,7 +159,7 @@ KeyError: 'grade'`
 
 如果我们不确定某个键是否存在，并且不希望引发异常，我们可以使用一个名为`get`的方法。如果键存在，`get`的工作方式与使用订阅表达式完全相同，但是如果键不存在，它将返回`None`而不是使程序崩溃。
 
-```
+```py
 `student = {
     "name": "John Smith",
     "grades": [88, 76, 92, 85, 69]
@@ -170,7 +170,7 @@ print(student.get("grade"))  # None`
 
 如果愿意，我们可以通过向`get`传递第二个值来指定一个不同的默认值。例如，如果没有`"grade"`键，我们可以告诉它我们想要一个空列表:
 
-```
+```py
 `student = {
     "name": "John Smith",
     "grades": [88, 76, 92, 85, 69]
@@ -187,7 +187,7 @@ print(student.get("grade", []))  # []`
 
 要向字典中添加一个新的键值对，我们需要做的就是给一个尚不存在的键赋值。让我们看一个例子:
 
-```
+```py
 `student = {
     "name": "John Smith",
     "grades": [88, 76, 92, 85, 69]
@@ -198,7 +198,7 @@ student["age"] = 17`
 
 我们在字典中给键`"age"`赋了一个值`17`。`"age"`不存在，所以 Python 为我们创造了它。如果我们打印这本字典，我们会看到这样的内容:
 
-```
+```py
 `{
     'name': 'John Smith',
     'grades': [88, 76, 92, 85, 69],
@@ -208,7 +208,7 @@ student["age"] = 17`
 
 我们还可以使用现有的字典和`update`方法来扩展字典。让我们看一个新的例子:
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -220,7 +220,7 @@ student["age"] = 17`
 
 让我们想象一下，我们在另一本字典中有一些关于这部电影的次要信息，就像这样:
 
-```
+```py
 `meta_info = {
     "runtime": 181,
     "budget": "$356 million",
@@ -231,7 +231,7 @@ student["age"] = 17`
 
 我想要的是获取原始的`movie`字典，并用来自`meta_info`的信息对其进行补充，这样我们最终会得到包含所有这些键和值的`movie`。我们是这样完成的:
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -250,7 +250,7 @@ movie.update(meta_info)`
 
 如果我们打印`movie`，它看起来会像这样:
 
-```
+```py
 `{
     'title': 'Avengers: Endgame',
     'directors': ['Anthony Russo', 'Joe Russo'],
@@ -264,7 +264,7 @@ movie.update(meta_info)`
 
 如果我们愿意，我们也可以直接向`update`传递一个字典，而不是预先定义`meta_info`:
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -285,7 +285,7 @@ movie.update({
 
 修改条目的方法实际上与我们想要添加新条目的方法完全相同。我们可以不使用不存在的键，而是为现有的键赋值，这将替换当前值:
 
-```
+```py
 `student = {
     'name': 'John Smith',
     'grades': [88, 76, 92, 85, 69],
@@ -303,7 +303,7 @@ student["age"] = 18`
 
 我们的第一个选项是使用`del`从字典中删除一个特定的键，这将删除键值对:
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -316,7 +316,7 @@ del movie["runtime"]`
 
 这将给我们留下这样一部字典:
 
-```
+```py
 `{
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -334,7 +334,7 @@ del movie["runtime"]`
 
 迭代字典时需要注意的一点是，默认情况下，我们只获取键。例如，让我们试着打印我们的`movie`字典中的每个条目:
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -349,7 +349,7 @@ for attribute in movie:
 
 我看到当人们想要这些值时，他们通常会这样做:
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -362,7 +362,7 @@ for key in movie:
 
 这是可行的，但我们真的不需要诉诸这样的东西。我们可以调用字典上的`values`方法来获取包含每个键的值的 iterable:
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -375,7 +375,7 @@ for value in movie.values():
 
 但是如果我们想要密钥和值呢？我们必须回到这样的方法吗？
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -390,7 +390,7 @@ for key in movie:
 
 我们可以解构这些元组来得到我们想要的:
 
-```
+```py
 `movie = {
     "title": "Avengers: Endgame",
     "directors": ["Anthony Russo", "Joe Russo"],
@@ -411,7 +411,7 @@ for key, value in movie.items():
 
 1)下面是描述相册的元组:
 
-```
+```py
  `(
     "The Dark Side of the Moon",
     "Pink Floyd",

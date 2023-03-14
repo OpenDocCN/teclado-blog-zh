@@ -28,7 +28,7 @@
 
 app.py
 
-```
+```py
 `import pygame
 
 WINDOW_HEIGHT = 840
@@ -58,7 +58,7 @@ play_game()`
 
 colours.py
 
-```
+```py
 `from collections import namedtuple
 
 Colour = namedtuple("Colour", ["r", "g", "b"])
@@ -75,7 +75,7 @@ TEXT = Colour(r=255, g=255, b=255)`
 
 app.py
 
-```
+```py
 `import pygame
 import colours
 
@@ -119,7 +119,7 @@ play_game()`
 
 app.py
 
-```
+```py
 `import colours
 import pygame
 
@@ -172,7 +172,7 @@ play_game()`
 
 app.py
 
-```
+```py
 `def set_new_food_position(snake_positions):
     while True:
         x_position = randint(0, 39) * SEGMENT_SIZE
@@ -197,7 +197,7 @@ app.py
 
 app.py
 
-```
+```py
 `import colours
 import pygame
 
@@ -255,7 +255,7 @@ play_game()`
 
 app.py
 
-```
+```py
 `...
 
 def play_game():
@@ -287,7 +287,7 @@ play_game()`
 
 app.py
 
-```
+```py
 `def move_snake(snake_positions, direction):
     head_x_position, head_y_position = snake_positions[0]
 
@@ -314,7 +314,7 @@ app.py
 
 app.py
 
-```
+```py
 `...
 
 def play_game():
@@ -353,7 +353,7 @@ def play_game():
 
 app.py
 
-```
+```py
 `def play_game():
     score = 0
 
@@ -390,7 +390,7 @@ play_game()`
 
 app.py
 
-```
+```py
 `KEY_MAP = {
     273: "Up",
     274: "Down",
@@ -405,7 +405,7 @@ app.py
 
 app.py
 
-```
+```py
 `def on_key_press(event, current_direction):
     key = event.__dict__["key"]
     new_direction = KEY_MAP.get(key)
@@ -434,7 +434,7 @@ app.py
 
 app.py
 
-```
+```py
 `def check_collisions(snake_positions):
     head_x_position, head_y_position = snake_positions[0]
 
@@ -453,7 +453,7 @@ app.py
 
 app.py
 
-```
+```py
 `...
 
 def play_game():
@@ -493,7 +493,7 @@ play_game()`
 
 app.py
 
-```
+```py
 `def check_food_collision(snake_positions, food_position):
     if snake_positions[0] == food_position:
         snake_positions.append(snake_positions[-1])
@@ -509,7 +509,7 @@ app.py
 
 app.py
 
-```
+```py
 `import colours
 import pygame
 

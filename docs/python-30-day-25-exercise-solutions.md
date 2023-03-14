@@ -10,14 +10,14 @@
 
 我们需要放入函数体的第一件事是我们获取用户名的`input`调用。我要在同一行处理这个字符串。
 
-```
+```py
 `def greeter():
     name = input("Please enter your name: ").strip().title()` 
 ```
 
 剩下唯一要做的就是打印问候。我们可以在 f 字符串中直接使用`or`来改变输出，这取决于`name`是否以空字符串结束。
 
-```
+```py
 `def greeter():
     name = input("Please enter your name: ").strip().title()
     print(f"Hello, {name  or  'World'}!")` 
@@ -29,7 +29,7 @@
 
 再一次，让我们从定义函数的框架开始。
 
-```
+```py
 `def is_ascii_letters(test_string):
     pass` 
 ```
@@ -38,7 +38,7 @@
 
 然后我们可以循环遍历`test_string`并检查给定的字符是否在`ascii_letters`中。如果我们找到一个不在这个字符串常量中的字符，我们可以马上返回`False`。
 
-```
+```py
 `from string import ascii_letters
 
 def is_ascii_letters(test_string):
@@ -53,7 +53,7 @@ def is_ascii_letters(test_string):
 
 这是一个完美的解决方案，但是我们不需要实现这样一个冗长的循环结构。相反，我们可以将`all`函数与生成器表达式结合使用。
 
-```
+```py
 `from string import ascii_letters
 
 def is_ascii_letters(test_string):
@@ -66,7 +66,7 @@ def is_ascii_letters(test_string):
 
 让我们从导入`sample`并生成我们的初始数字列表开始。`sample`函数需要一个总体，以及一个表示应该从总体中选择多少个数字的值。人口需要是一个序列，所以我们可以提供一个`range`。
 
-```
+```py
 `import random
 
 numbers = [random.sample(range(1, 101), 15) for _ in range(3)]` 
@@ -74,7 +74,7 @@ numbers = [random.sample(range(1, 101), 15) for _ in range(3)]`
 
 这是一行相当密集的代码，但我认为它仍然足够可读。如果你愿意，你可以把人口抽取成一个变量，这样我们就不会在理解中到处都有范围。
 
-```
+```py
 `import random
 
 population = range(1, 101)
@@ -85,7 +85,7 @@ numbers = [random.sample(population, 15) for _ in range(3)]`
 
 因为我们希望数字以降序排列，所以我们需要为参数`reverse`提供一个值，传入`True`。
 
-```
+```py
 `import random
 
 population = range(1, 101)
@@ -96,7 +96,7 @@ numbers = [sorted(random.sample(population, 15), reverse=True) for _ in range(3)
 
 相反，我会像这样使用`sort`方法:
 
-```
+```py
 `import random
 
 population = range(1, 101)
@@ -110,7 +110,7 @@ for number_set in numbers:
 
 现在我们可以使用`del`和 slice 语法来截断列表，作为同一个循环的一部分。
 
-```
+```py
 `import random
 
 population = range(1, 101)

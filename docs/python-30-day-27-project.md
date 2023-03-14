@@ -26,7 +26,7 @@
 
 我们可以用几种方法创建一个`DataFrame`，其中一种是使用字典。在这种情况下，字典键成为列的标题，与这些键相关联的值填充该列的单元格。
 
-```
+```py
 `import pandas as pd
 
 movies = {
@@ -60,7 +60,7 @@ df = pd.DataFrame(movies)`
 
 首先，我们来谈谈标题的重命名。我们可以通过在一个`DataFrame`上调用`rename`方法，传入一个字典来实现。这个字典的键表示我们想要替换的名称，与这些键相关联的值显示我们想要用什么来替换现有的名称。
 
-```
+```py
 `import pandas as pd
 
 movies = {
@@ -76,7 +76,7 @@ df = pd.DataFrame(movies).rename(columns={"year": "release_year"})`
 
 因此，我们可以这样做:
 
-```
+```py
 `...
 
 df = pd.DataFrame(movies)
@@ -89,7 +89,7 @@ df.rename(columns={"year": "release_year"}, inplace=True)`
 
 让我们使用`drop`从我们一直使用的`DataFrame`中去掉`director`列。
 
-```
+```py
 `...
 
 df = pd.DataFrame(movies)
@@ -102,7 +102,7 @@ df.drop(columns="director",  inplace=True)`
 
 如果我们想指定一些列来保留，我们可以从现有的列创建一个新的`DataFrame`,如下所示:
 
-```
+```py
 `...
 df = pd.DataFrame(movies)
 
@@ -116,7 +116,7 @@ df = df[["title", "release_year"]]`
 
 使用`inplace=True`时，您可能会在控制台中看到这样的消息:
 
-```
+```py
 `SettingWithCopyWarning: 
 A value is trying to be set on a copy of a slice from a DataFrame` 
 ```
@@ -133,7 +133,7 @@ A value is trying to be set on a copy of a slice from a DataFrame`
 
 例如，假设我们之前的`DataFrame`现在已经填充了许多电影，我想从`2020`获取所有电影。我们可以这样做:
 
-```
+```py
 `...
 
 latest_movies = df.query("year == 2020")` 
@@ -143,7 +143,7 @@ latest_movies = df.query("year == 2020")`
 
 例如，如果我们只想要克里斯托弗·诺兰的电影，我们必须这样做:
 
-```
+```py
 `...
 
 nolan_movies = df.query("director == 'Christopher Nolan'")` 
@@ -189,7 +189,7 @@ nolan_movies = df.query("director == 'Christopher Nolan'")`
 
 app.py
 
-```
+```py
 `import pandas as pd
 
 with open("avocado.csv", "r") as avocado_prices:
@@ -200,7 +200,7 @@ with open("avocado.csv", "r") as avocado_prices:
 
 app.py
 
-```
+```py
 `import pandas as pd
 
 with open("avocado.csv", "r") as avocado_prices:
@@ -213,7 +213,7 @@ with open("avocado.csv", "r") as avocado_prices:
 
 app.py
 
-```
+```py
 `import pandas as pd
 
 with open("avocado.csv", "r") as avocado_prices:
@@ -226,7 +226,7 @@ df = df[["year", "region", "AveragePrice", "type"]]`
 
 app.py
 
-```
+```py
 `import pandas as pd
 
 with open("avocado.csv", "r") as avocado_prices:
@@ -243,7 +243,7 @@ df = df[["year", "region", "price", "type"]]`
 
 app.py
 
-```
+```py
 `import pandas as pd
 
 with open("avocado.csv", "r") as avocado_prices:
@@ -260,7 +260,7 @@ conventional = df.query("type == 'conventional'")`
 
 app.py
 
-```
+```py
 `import pandas as pd
 
 with open("avocado.csv", "r") as avocado_prices:
@@ -276,7 +276,7 @@ conventional.drop(columns="type", inplace=True)`
 
 app.py
 
-```
+```py
 `import pandas as pd
 
 with open("avocado.csv", "r") as avocado_prices:
@@ -305,7 +305,7 @@ organic.drop(columns="type", inplace=True)`
 
 app.py
 
-```
+```py
 `def filter_by_year(df, year):
     return df.query("year == @year").drop(columns="year")` 
 ```
@@ -314,7 +314,7 @@ app.py
 
 app.py
 
-```
+```py
 `def get_average_by_year(df):
     averages = {}
     years = df.year.unique()
@@ -330,7 +330,7 @@ app.py
 
 app.py
 
-```
+```py
 `import pandas as pd
 
 def get_average_by_year(df):
@@ -367,7 +367,7 @@ organic_averages = get_average_by_year(organic)`
 
 app.py
 
-```
+```py
 `...
 
 for year, data in conventional_averages.items():
@@ -391,7 +391,7 @@ print()`
 
 app.py
 
-```
+```py
 `highest_conventional = conventional.price.max()
 print(f"The highest price for conventional avocados was ${highest_conventional:.2f}")
 

@@ -10,7 +10,7 @@
 
 为了从用户那里获得一个值，我们需要使用`input`函数，提供一个有意义的提示是一个很好的实践，这样用户就知道我们想要什么。
 
-```
+```py
 `input("Please enter your name: ")` 
 ```
 
@@ -18,20 +18,20 @@
 
 下一步是将用户的响应存储在某个地方，所以我将把`input`调用的结果赋给一个名为`name`的变量:
 
-```
+```py
 `name = input("Please enter your name: ")` 
 ```
 
 我们遵循同样的方法:
 
-```
+```py
 `name = input("Please enter your name: ")
 age = input("Please enter your age: ")` 
 ```
 
 现在我们有了两个变量，我们可以通过将变量名传递给`print`来打印值，就像这样:
 
-```
+```py
 `name = input("Please enter your name: ")
 age = input("Please enter your age: ")
 
@@ -51,7 +51,7 @@ print(age)`
 
 我们需要纠正的代码是:
 
-```
+```py
 `hourly_wage = input("Please enter your hourly wage: ')
 
 prnt("Hourly wage: ")
@@ -66,13 +66,13 @@ hours_worked = input("How many hours did you work this week? ")`
 
 在第一行，我们对引号有异议。
 
-```
+```py
 `hourly_wage = input("Please enter your hourly wage: ')` 
 ```
 
 我们用双引号开始字符串，但是我们试图用单引号结束字符串。引号必须匹配，所以现在无效。我们需要把它改成这样:
 
-```
+```py
 `hourly_wage = input("Please enter your hourly wage: ")` 
 ```
 
@@ -80,7 +80,7 @@ hours_worked = input("How many hours did you work this week? ")`
 
 我们不小心写了`prnt`，而不是`print`。在这种情况下，错误消息非常有用:
 
-```
+```py
 `Traceback (most recent call last):
     File "main.py", line 3, in <module>
     prnt("Hourly wage:")
@@ -93,7 +93,7 @@ NameError: name 'prnt' is not defined`
 
 最后，我们还有另一个`NameError`，这个是我们代码的顺序造成的。在我们尝试使用之后，我们已经定义了`hours_worked`。
 
-```
+```py
 `print(hours_worked)
 
 hours_worked = input("How many hours did you work this week? ")` 
@@ -103,7 +103,7 @@ hours_worked = input("How many hours did you work this week? ")`
 
 移动有问题的代码行可以解决问题，我们完整的工作代码可能如下所示:
 
-```
+```py
 `hourly_wage = input("Please enter your hourly wage: ")
 hours_worked = input("How many hours did you work this week? ")
 

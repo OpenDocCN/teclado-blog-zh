@@ -20,7 +20,7 @@
 
 在 Python 中，模运算符只产生余数:
 
-```
+```py
 >>> 10 % 3
 1
 >>> 11 % 3
@@ -33,7 +33,7 @@
 
 让我们看几个例子:
 
-```
+```py
 >>> 10 // 3
 3
 >>> 9 // 2
@@ -42,7 +42,7 @@
 
 我们可以创建一个小函数来打印欧几里德除法的完整结果，如下所示:
 
-```
+```py
 def euclidean_division(x, y):
 	quotient = x // y
 	remainder = x % y
@@ -54,7 +54,7 @@ euclidean_division(11, 3)  # 3 remainder 2
 
 然而，有一个问题。当我们用负数调用函数时会发生什么？
 
-```
+```py
 >>> euclidean_divison(10, -3)
 -4 remainder -2 
 ```
@@ -75,7 +75,7 @@ euclidean_division(11, 3)  # 3 remainder 2
 
 这就是问题所在。`-4`被视为小于`-3.333`的循环。它在数字线的更左边。这意味着，对于负数，下限除法将始终从零开始舍入，而对于正数，将向零舍入。
 
-```
+```py
 >>> 10 // 3
 3    # 3.333 rounds towards zero
 >>> 10 // -3
@@ -96,7 +96,7 @@ euclidean_division(11, 3)  # 3 remainder 2
 
 让我们来试试我们之前的一个例子，`10 % -3`:
 
-```
+```py
 10 % -3 = 10 - (-3) * (10 // -3)
 10 % -3 = 10 - (-3) * (-4) # Remember, here floor division rounds away from zero
 10 % -3 = 10 - 12

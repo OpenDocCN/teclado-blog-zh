@@ -14,13 +14,13 @@ Python 有一个名为`iter`的内置函数，为我们作为参数提供的 ite
 
 例如，让我们看一个简单的数字列表，如下所示:
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]` 
 ```
 
 如果我们将这个数字列表传递给`iter`，我们将得到这个列表的迭代器。
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 numbers_iter = iter(numbers)
 
@@ -31,7 +31,7 @@ print(numbers_iter)  # <list_iterator object at 0x7f57d138af70>`
 
 我们可以像使用任何其他迭代器一样使用这个`list_iterator`对象。比如我们可以传给`next`。
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 numbers_iter = iter(numbers)
 
@@ -43,7 +43,7 @@ print(next(numbers_iter))  # 2`
 
 这是完全合法的，因为`iter`只需要一个 iterable，而所有迭代器都是 iterable。这也产生了一个有趣的效果。
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 numbers_iter = iter(numbers)
 
@@ -62,14 +62,14 @@ print(numbers_iter is iter(numbers_iter))  # True`
 
 让我们在这个例子中再次使用我们的数字列表。
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 numbers_iter = iter(numbers)` 
 ```
 
 我们有一个迭代器，这是重要的第一步，但是我们还需要一些其他工具来完成这项工作。首先，我们需要一个`while`循环，因为我们想要无限次地循环。其次，我们需要一个`try`语句，这样我们就可以发现一个`StopIteration`异常。
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 numbers_iter = iter(numbers)
 
@@ -100,7 +100,7 @@ while True:
 
 在我们深入这个新的`yield`关键字之前，让我们看一个简单的生成器例子。
 
-```
+```py
 `def first_hundred():
     for number in range(1, 101):
         yield number` 
@@ -112,7 +112,7 @@ while True:
 
 让我们调用我们的函数，看看会发生什么。
 
-```
+```py
 `def first_hundred():
     for number in range(1, 101):
         yield number
@@ -123,7 +123,7 @@ print(g)`
 
 如果您运行这段代码，我们肯定不会得到任何类似于打印到控制台上的数字`1`到`100`的东西。我们得到这个`generator`物体:
 
-```
+```py
 `<generator object first_hundred at 0x7faaa563fc80>` 
 ```
 
@@ -131,7 +131,7 @@ print(g)`
 
 顾名思义，这是一个迭代器，我们可以像使用其他迭代器一样使用它。
 
-```
+```py
 `def first_hundred():
     for number in range(1, 101):
         yield number
@@ -147,7 +147,7 @@ print(next(g))  # 3`
 
 当我们调用一个生成器时，它会返回一个新的生成器迭代器。这些生成器迭代器中的每一个都是独立的迭代器，所以要小心不要这样做:
 
-```
+```py
 `def first_hundred():
     for number in range(1, 101):
         yield number
@@ -171,7 +171,7 @@ print(next(first_hundred()))  # 1`
 
 我们可以通过给`first_hundred`添加几个`print`调用来看到这一切。
 
-```
+```py
 `def first_hundred():
     print("First value requested\n")
 
@@ -185,7 +185,7 @@ g = first_hundred()`
 
 此时，不会打印任何内容。生成器迭代器已经创建，但是我们实际上还没有尝试访问任何值。现在让我们将`g`传递到`next`几次。
 
-```
+```py
 `def first_hundred():
     print("First value requested\n")
 
@@ -202,7 +202,7 @@ print(next(g))`
 
 现在我们的输出看起来像这样:
 
-```
+```py
 `First value requested
 
 Starting new iteration
@@ -241,19 +241,19 @@ Starting new iteration
 
 例如，让我们创建一个简单的生成器表达式，它对一个`range`中的每个数字求平方。
 
-```
+```py
 `squares = (number ** 2 for number in range(1, 11))` 
 ```
 
 由于`squares`指的是迭代器，直接打印出来并不会给我们带来太多有用的东西，但是它至少确认了我们正在使用生成器迭代器。
 
-```
+```py
 `<generator object <genexpr> at 0x7f33225a0c80>` 
 ```
 
 如果我们想要得到值，我们可以将它传递给一个`for`循环，我们可以析构它，或者我们可以使用`next`来执行手动迭代。
 
-```
+```py
 `squares = (number ** 2 for number in range(1, 11))
 
 for square in squares:
@@ -278,7 +278,7 @@ print(next(squares))  # 9`
 
 这是完全合法的语法，例如:
 
-```
+```py
 `total = sum(number ** 2  for number in  range(1,  11))
 print(total)  # 385` 
 ```
@@ -291,7 +291,7 @@ print(total)  # 385`
 
 2)下面我们有一个使用`map`处理列表中名字的例子。使用生成器表达式重写这段代码。
 
-```
+```py
 `names = [" rick", " MORTY  ", "beth ", "Summer", "jerRy    "]
 names = map(lambda name: name.strip().title(), names)` 
 ```
@@ -313,7 +313,7 @@ names = map(lambda name: name.strip().title(), names)`
 
 该程序的预期输出如下所示:
 
-```
+```py
 `How many players are there? 2
 
 Player 1 was dealt: (4, hearts), (4, clubs)

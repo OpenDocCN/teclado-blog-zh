@@ -42,7 +42,7 @@ REST APIs 由端点组成:客户端可以向其发送请求的地址。对于每
 
 让我们创建虚拟环境并安装 Flask:
 
-```
+```py
 python -m venv .venv
 source .venv/bin/activate   # different in windows
 pip install flask 
@@ -52,7 +52,7 @@ pip install flask
 
 让我们开始编写烧瓶代码吧！我将创建一个名为`app.py`的文件:
 
-```
+```py
 from flask import Flask
 
 app = Flask(__name__) 
@@ -62,13 +62,13 @@ app = Flask(__name__)
 
 但是如果您在控制台上输入:
 
-```
+```py
 flask run 
 ```
 
 您应该会看到如下所示的输出:
 
-```
+```py
  * Environment: production
    WARNING: This is a development server. Do not use it in a production deployment.
    Use a production WSGI server instead.
@@ -91,26 +91,26 @@ flask run
 
 在里面，写下这两行字:
 
-```
+```py
 FLASK_APP=app
 FLASK_DEBUG=1 
 ```
 
 这些是环境变量样式参数。我们的 Flask 应用程序将能够读取它们，并相应地配置自己。但是首先，我们需要再安装一个依赖项:
 
-```
+```py
 pip install python-dotenv 
 ```
 
 如果我们这样做了:
 
-```
+```py
 flask run 
 ```
 
 您应该会看到以下输出:
 
-```
+```py
  * Serving Flask app 'app' (lazy loading)
  * Environment: development
  * Debug mode: on
@@ -134,19 +134,19 @@ flask run
 
 为了在我们的代码中访问数据库 URL，让我们将它添加到一个名为`.env`的新文件中:
 
-```
+```py
 DATABASE_URL=your_url 
 ```
 
 接下来，安装 Flask 库，它允许我们连接到 PostgreSQL 数据库，`psycopg2`:
 
-```
+```py
 pip install psycopg2-binary 
 ```
 
 然后我们可以进入`app.py`并连接到数据库:
 
-```
+```py
 import os
 import psycopg2
 from dotenv import load_dotenv
@@ -170,13 +170,13 @@ connection = psycopg2.connect(url)
 
 要创建该表，我们将使用以下查询:
 
-```
+```py
 CREATE TABLE IF NOT EXISTS rooms (id SERIAL PRIMARY KEY, name TEXT); 
 ```
 
 为了插入数据，我们将使用:
 
-```
+```py
 INSERT INTO rooms (name) VALUES (%s) RETURNING id; 
 ```
 
@@ -184,7 +184,7 @@ INSERT INTO rooms (name) VALUES (%s) RETURNING id;
 
 让我们将这两个查询作为常量保存在我们的文件中。把这些放在最上面，在进口之后。
 
-```
+```py
 CREATE_ROOMS_TABLE = (
     "CREATE TABLE IF NOT EXISTS rooms (id SERIAL PRIMARY KEY, name TEXT);"
 )
@@ -196,7 +196,7 @@ INSERT_ROOM_RETURN_ID = "INSERT INTO rooms (name) VALUES (%s) RETURNING id;"
 
 当客户端向`/api/room`端点发出请求时，我们将期待房间名称被发送给我们。然后，我们将在表中插入一行，并返回新房间`id`:
 
-```
+```py
 from flask import Flask, request
 
 ...
@@ -234,7 +234,7 @@ def create_room():
 
 让我们定义将用于此目的的 SQL 查询。首先，创建温度读数表:
 
-```
+```py
 CREATE TABLE IF NOT EXISTS temperatures (room_id INTEGER, temperature REAL, 
 date TIMESTAMP, FOREIGN KEY(room_id) REFERENCES rooms(id) ON DELETE CASCADE); 
 ```
@@ -243,13 +243,13 @@ date TIMESTAMP, FOREIGN KEY(room_id) REFERENCES rooms(id) ON DELETE CASCADE);
 
 要插入温度:
 
-```
+```py
 INSERT INTO temperatures (room_id, temperature, date) VALUES (%s, %s, %s); 
 ```
 
 将这些也作为常量添加。这是我的常量部分现在的样子:
 
-```
+```py
 CREATE_ROOMS_TABLE = (
     "CREATE TABLE IF NOT EXISTS rooms (id SERIAL PRIMARY KEY, name TEXT);"
 )
@@ -264,7 +264,7 @@ INSERT_TEMP = (
 
 接下来，让我们定义我们的端点。它类似于创建房间的方法，但是因为传入的`date`是可选的，所以如果没有提供，我们需要使用今天的日期:
 
-```
+```py
 @app.post("/api/temperature")
 def add_temp():
     data = request.get_json()
@@ -289,13 +289,13 @@ def add_temp():
 
 该端点将使用以下查询计算并返回`temperatures`表中所有温度读数的平均值:
 
-```
+```py
 SELECT AVG(temperature) as average FROM temperatures; 
 ```
 
 然而，向我们的客户返回这个平均值所基于的天数也是很有趣的。要计算我们存储了多少天的数据，我们将使用以下查询:
 
-```
+```py
 SELECT COUNT(DISTINCT DATE(date)) AS days FROM temperatures; 
 ```
 
@@ -303,7 +303,7 @@ SELECT COUNT(DISTINCT DATE(date)) AS days FROM temperatures;
 
 让我们将这两个查询存储为常量:
 
-```
+```py
 GLOBAL_NUMBER_OF_DAYS = (
     """SELECT COUNT(DISTINCT DATE(date)) AS days FROM temperatures;"""
 )
@@ -312,7 +312,7 @@ GLOBAL_AVG = """SELECT AVG(temperature) as average FROM temperatures;"""
 
 然后我们可以定义调用这两个查询的端点:
 
-```
+```py
 @app.get("/api/average")
 def get_global_avg():
     with connection:
@@ -340,25 +340,25 @@ def get_global_avg():
 
 我们将使用三个查询，每个数据点一个。要获取房间的名称:
 
-```
+```py
 SELECT name FROM rooms WHERE id = (%s) 
 ```
 
 要获得某个房间的所有时间平均值:
 
-```
+```py
 SELECT AVG(temperature) as average FROM temperatures WHERE room_id = (%s); 
 ```
 
 并计算该房间存储了多少天的数据:
 
-```
+```py
 SELECT COUNT(DISTINCT DATE(date)) AS days FROM temperatures WHERE room_id = (%s); 
 ```
 
 让我们将这些作为常量添加到`app.py`:
 
-```
+```py
 ROOM_NAME = """SELECT name FROM rooms WHERE id = (%s)"""
 ROOM_NUMBER_OF_DAYS = """SELECT COUNT(DISTINCT DATE(date)) AS days FROM temperatures WHERE room_id = (%s);"""
 ROOM_ALL_TIME_AVG = (
@@ -368,7 +368,7 @@ ROOM_ALL_TIME_AVG = (
 
 然后让我们定义我们的端点，`/api/room/<int:room_id>`。这里我们使用一个动态 URL 段，这样用户就可以在 URL 中包含房间 ID，比如`/api/room/2`:
 
-```
+```py
 @app.get("/api/room/<int:room_id>")
 def get_room_all(room_id):
     with connection:
@@ -390,7 +390,7 @@ def get_room_all(room_id):
 
 为此，我们需要一个数据库查询，它可以接受天数，并检索适当的数据:
 
-```
+```py
 SELECT
     DATE(temperatures.date) as reading_date, AVG(temperatures.temperature)
 FROM temperatures
@@ -405,7 +405,7 @@ HAVING DATE(temperatures.date) > (SELECT MAX(DATE(temperatures.date))-(%s) FROM 
 
 下面的代码将得到房间名称和 7 天内每天的温度。然后，它通过将每天的温度相加并除以返回的天数来计算整个期限的平均值。注意，我们不能除以`term`，因为数据库可能没有每天的温度读数。这样做，我们可以确保平均值是根据我们实际拥有的数据计算出来的。
 
-```
+```py
 with connection:
     term = 7
     with connection.cursor() as cursor:
@@ -418,7 +418,7 @@ average = sum(day[1] for day in dates_temperatures) / len(dates_temperatures)
 
 让我们定义一个接受`room_id`和`term`的函数，并运行这段代码。
 
-```
+```py
 def get_room_term(room_id, term):
     terms = {"week": 7, "month": 30}
     with connection:
@@ -439,7 +439,7 @@ def get_room_term(room_id, term):
 
 然后，我们可以在端点中调用这个`get_room_term()`函数:
 
-```
+```py
 @app.get("/api/room/<int:room_id>")
 def get_room_all(room_id):
     term = request.args.get("term")

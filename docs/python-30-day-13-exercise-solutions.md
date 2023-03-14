@@ -10,21 +10,21 @@
 
 首先让我们定义函数并设置参数。
 
-```
+```py
 `def exponentiate(base, exponent):
     pass` 
 ```
 
 Python 中的取幂运算符是`**`，我们只需要返回`base ** exponent`即可。
 
-```
+```py
 `def exponentiate(base, exponent):
     return base ** exponent` 
 ```
 
 记住这里操作数的顺序很重要。你不能这样做:
 
-```
+```py
 `def exponentiate(base, exponent):
     return exponent ** base` 
 ```
@@ -35,14 +35,14 @@ Python 中的取幂运算符是`**`，我们只需要返回`base ** exponent`即
 
 首先，让我们再次定义你的函数的框架。这次我们只接受一个参数，我称之为`raw_string`。
 
-```
+```py
 `def process_string(raw_string):
     pass` 
 ```
 
 现在我要在这个原始字符串上调用`strip`和`lower`。我们可以在同一步骤中返回结果:
 
-```
+```py
 `def process_string(raw_string):
     return raw_string.strip().lower()` 
 ```
@@ -51,7 +51,7 @@ Python 中的取幂运算符是`**`，我们只需要返回`base ** exponent`即
 
 在这种情况下，我们被告知需要以下格式的数据:
 
-```
+```py
 `("Tom Hardy", "English", 42)` 
 ```
 
@@ -61,14 +61,14 @@ Python 中的取幂运算符是`**`，我们只需要返回`base ** exponent`即
 
 接下来，我将析构元组，这样我们就可以在构造字典时使用好的变量名。
 
-```
+```py
 `def dictify(actor):
     name, nationality, age = actor` 
 ```
 
 最后，我将创建并返回新字典:
 
-```
+```py
 `def dictify(actor):
     name, nationality, age = actor
 
@@ -83,7 +83,7 @@ Python 中的取幂运算符是`**`，我们只需要返回`base ** exponent`即
 
 在本练习中，我将使用从[第 8](/30-days-of-python/python-30-day-8-while-loops/) 天开始的以下实现:
 
-```
+```py
 `dividend = int(input("Please enter a number: "))
 
 for divisor in range(2, dividend):
@@ -96,14 +96,14 @@ else:
 
 我们将得到一个参数，而不是从用户那里得到一个数字，所以`dividend`将成为一个参数。函数本身将被称为`is_prime`。
 
-```
+```py
 `def is_prime(dividend):
     pass` 
 ```
 
 现在不用打印出`dividend`是否是质数，我们只需要返回`True`或`False`。
 
-```
+```py
 `def is_prime(dividend):
     for divisor in range(2, dividend):
         if dividend % divisor == 0:
@@ -116,7 +116,7 @@ else:
 
 我们也不再需要`else`条款了。
 
-```
+```py
 `def is_prime(dividend):
     for divisor in range(2, dividend):
         if dividend % divisor == 0:
@@ -129,7 +129,7 @@ else:
 
 一个简单的条件语句可以捕捉这些有问题的数字。
 
-```
+```py
 `def is_prime(dividend):
     if dividend < 2:
         return False

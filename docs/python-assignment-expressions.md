@@ -10,7 +10,7 @@ Python 的新版本刚刚发布(Python 3.8)，这意味着我们[可以和](http
 
 下面是我们的[完整 Python 课程](https://www.udemy.com/course/the-complete-python-course/)中的一段代码，来自我们练习基本循环和条件循环的练习:
 
-```
+```py
 user_input = input('Enter q or p: ')
 
 while user_input != 'q':
@@ -26,7 +26,7 @@ while user_input != 'q':
 
 下面是使用赋值表达式的相同代码:
 
-```
+```py
 while (user_input := input('Enter q or p: ')) != 'q':
     if user_input == 'p':
         print("Hello!") 
@@ -42,7 +42,7 @@ while (user_input := input('Enter q or p: ')) != 'q':
 
 正如您在上面的示例中看到的，我们有一个表达式，它构成了 while 循环的条件，如下所示:
 
-```
+```py
 (user_input := input('Enter q or p: ')) != 'q' 
 ```
 
@@ -56,7 +56,7 @@ while (user_input := input('Enter q or p: ')) != 'q':
 
 除了删除一些行之外，赋值表达式还可以通过防止重复昂贵的操作来提高程序的效率。我认为这在列表理解这样的结构中最有效:
 
-```
+```py
 results = [result for x in data if (result := costly_function(x)) >= 0] 
 ```
 
@@ -64,7 +64,7 @@ results = [result for x in data if (result := costly_function(x)) >= 0]
 
 另一种可能是这样的:
 
-```
+```py
 results = []
 
 for x in data:

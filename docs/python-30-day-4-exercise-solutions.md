@@ -12,7 +12,7 @@
 
 我要用这个房间作为我的第一部电影。你选择什么电影并不重要。我们只是需要一些数据来处理。
 
-```
+```py
 `movies = [
     ("The Room", "Tommy Wiseau", "2003", "$6,000,000")
 ]` 
@@ -22,7 +22,7 @@
 
 为了简单起见，我们将使用四个单独的`input`调用来获取电影信息。我们已经这样做了几次，所以我不认为我们需要在如何做这件事上犹豫不决。
 
-```
+```py
 `movies = [
     ("The Room", "Tommy Wiseau", "2003", "$6,000,000")
 ]
@@ -37,7 +37,7 @@ budget = input("Budget: ")`
 
 创建一个元组需要一系列逗号分隔的值。如果您愿意，可以将这些值用括号括起来，以表明这是一个元组:
 
-```
+```py
 `movies = [
     ("The Room", "Tommy Wiseau", "2003", "$6,000,000")
 ]
@@ -56,7 +56,7 @@ new_movie = title, director, year, budget`
 
 当使用 f 字符串时，我们可以直接在另一个字符串中计算表达式，只要我们把它们放在花括号中。这包括引用变量，或者使用订阅表达式来访问集合中的元素。
 
-```
+```py
 `title = input("Title: ")
 director = input("Director: ")
 year = input("Year of release: ")
@@ -81,7 +81,7 @@ print(f"{new_movie[0]} ({new_movie[2]})")`
 
 因为我们已经创建了引用元组的`new_movie`变量，所以这一步相当简单。我们只需要使用点语法调用`append`，在调用方法时需要传入`new_movie`:
 
-```
+```py
 `movies = [
     ("The Room", "Tommy Wiseau", "2003", "$6,000,000")
 ]
@@ -106,7 +106,7 @@ movies.append(new_movie)`
 
 这里我们只需要再次使用订阅表达式来访问`movies`中的项目。不要忘记第一个项目是在索引`0`！
 
-```
+```py
 `movies = [
     ("The Room", "Tommy Wiseau", "2003", "$6,000,000")
 ]
@@ -140,7 +140,7 @@ print(movies[1])`
 
 我认为`del`是这种情况下最干净的选择，所以我最终的解决方案如下所示:
 
-```
+```py
 `movies = [
     ("The Room", "Tommy Wiseau", "2003", "$6,000,000")
 ]

@@ -16,7 +16,7 @@
 
 我只是要给我们的集合添加数字。使用`add`方法，我们可以这样做。
 
-```
+```py
 `s = set()
 
 s.add(1)
@@ -26,7 +26,7 @@ s.add(3)`
 
 或者我们可以使用一个循环从一个`range`对象中获取项目:
 
-```
+```py
 `s = set()
 
 for number in range(1, 4):
@@ -35,7 +35,7 @@ for number in range(1, 4):
 
 我们也可以像这样使用`update`方法:
 
-```
+```py
 `s = set()
 s.update(range(1, 4))` 
 ```
@@ -46,7 +46,7 @@ s.update(range(1, 4))`
 
 对于第二个集合，我将包括几种不同类型的值:
 
-```
+```py
 `random_values = {"r", 1, ("Python", "C", "Rust")}` 
 ```
 
@@ -54,7 +54,7 @@ s.update(range(1, 4))`
 
 在这个练习中，我将直接打印操作的结果，因为每个方法调用都会给我们一个新的集合。
 
-```
+```py
 `s = set()
 s.update(range(1, 4))
 
@@ -67,7 +67,7 @@ print(s.intersection(random_values))`
 
 在我的例子中，输出是:
 
-```
+```py
 `{1, 2, 3, ('Python', 'C', 'Rust'), 'r'}
 {2, 3, 'r', ('Python', 'C', 'Rust')}
 {1}` 
@@ -79,14 +79,14 @@ print(s.intersection(random_values))`
 
 现在我们需要让用户输入一个数字。记住这个数字将以字符串形式返回，所以我们需要将它转换成整数。
 
-```
+```py
 `numbers = range(27, 54)
 user_number = int(input("Enter a number: "))` 
 ```
 
 现在我们只需要使用`in`关键字来验证这个数字是否在这个`range`中:
 
-```
+```py
 `numbers = range(27, 54)
 user_number = int(input("Enter a number: "))
 
@@ -100,7 +100,7 @@ else:
 
 如果用户的号码不在指定的号码序列内，我们可以对照`range`中的第一个值来检查用户的号码。如果低于这个数字，用户的价值就太低了。否则它一定超过了`range`中的最高值。
 
-```
+```py
 `numbers = range(27, 54)
 user_number = int(input("Enter a number: "))
 

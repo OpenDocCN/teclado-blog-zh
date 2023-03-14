@@ -34,7 +34,7 @@
 
 此刻，装饰者看起来像这样:
 
-```
+```py
 def login_required(func):
     @functools.wraps(func)
     def secure_function(*args, **kwargs):
@@ -47,7 +47,7 @@ def login_required(func):
 
 但是我们想添加一段数据发送到`/login`页面:
 
-```
+```py
 def login_required(func):
     @functools.wraps(func)
     def secure_function(*args, **kwargs):
@@ -68,7 +68,7 @@ def login_required(func):
 
 让我们修改我们的登录表单，并将该字段包含在其中:
 
-```
+```py
 <input
     type="hidden"
     name="next"
@@ -88,7 +88,7 @@ def login_required(func):
 
 目前，我们的登录处理程序代码如下所示:
 
-```
+```py
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -103,7 +103,7 @@ def login():
 
 我们将把它改成这样:
 
-```
+```py
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":

@@ -8,7 +8,7 @@
 
 以下是本课程展示的异步抓取几个网站的代码:
 
-```
+```py
 import aiohttp
 import asyncio
 import time
@@ -32,7 +32,7 @@ print(f"All took {time.time() - start}")
 
 Python 官方文档的更新向我们展示了一种更好的新方法:
 
-```
+```py
 import aiohttp
 import asyncio
 import time

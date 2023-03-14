@@ -6,7 +6,7 @@
 
 ### 1)使用上下文管理器重写以下代码。
 
-```
+```py
 `f = open("hello_world.txt", "w")
 f.write("Hello, World!")
 f.close()` 
@@ -14,7 +14,7 @@ f.close()`
 
 我们的上下文管理器的第一行如下所示:
 
-```
+```py
 `with open("hello_world.txt", "w") as f:
     pass` 
 ```
@@ -23,7 +23,7 @@ f.close()`
 
 在这一行下面，我们有一个缩进的块，包含文件打开时我们想做的所有事情。当这些操作完成后，Python 将为我们关闭文件。
 
-```
+```py
 `with open("hello_world.txt", "w") as f:
     f.write("Hello, World!")` 
 ```
@@ -32,7 +32,7 @@ f.close()`
 
 同样，我们应该在这里使用上下文管理器，第一行几乎完全相同。我们只需要把`"w"`换成`"a"`。
 
-```
+```py
 `with open("hello_world.txt", "a") as f:
     pass` 
 ```
@@ -41,7 +41,7 @@ f.close()`
 
 现在我们只需要调用`write`并传入`"\nHow are you?"`作为字符串。
 
-```
+```py
 `with open("hello_world.txt", "a") as f:
     f.write("\nHow are you?")` 
 ```
@@ -54,7 +54,7 @@ f.close()`
 
 如果你愿意，你可以使用以前的 repl，但是如果你使用的是一个新的 repl，为了方便起见，这里有一个字典列表:
 
-```
+```py
 `irises = [
     {'sepal_length': '5.1', 'sepal_width': '3.5', 'petal_length': '1.4', 'petal_width': '0.2', 'species': 'Iris-setosa'},
     {'sepal_length': '4.9', 'sepal_width': '3',   'petal_length': '1.4', 'petal_width': '0.2', 'species': 'Iris-setosa'},
@@ -82,7 +82,7 @@ f.close()`
 
 因为这一行会很长，我建议将字符串分成两行，然后连接起来，就像这样:
 
-```
+```py
 `for iris in irises:
     print(
         f"{iris['sepal_length']},{iris['sepal_width']},{iris['petal_length']}," +
@@ -94,7 +94,7 @@ f.close()`
 
 如果我们想坚持 f-string 方法，我们可以做的一件事是用`iris.values()`获取值，并将它们析构为一系列变量。这将节省我们在 f 字符串中使用所有这些订阅表达式的时间。
 
-```
+```py
 `for iris in irises:
     sepal_length, sepal_width, petal_length, petal_width, species = iris.values()
     print(f"{sepal_length},{sepal_width},{petal_length},{petal_width},{species}")` 
@@ -104,7 +104,7 @@ f.close()`
 
 我们所有的字典值都是字符串，我们试图用逗号将这些字符串连接在一起，所以让我们使用`join`方法。
 
-```
+```py
 `for iris in irises:
     print(",".join(iris.values()))` 
 ```
@@ -113,7 +113,7 @@ f.close()`
 
 在这个阶段，我们应该明确地运行我们的代码，并确保一切看起来都是正确的。如果没有任何问题，我们可以用调用`write`来替换`print`，这样我们就可以写入文件。
 
-```
+```py
 `with open("iris_2.csv", "w") as iris_file:
     for iris in irises:
         iris_file.write(",".join(iris.values()))` 
@@ -123,7 +123,7 @@ f.close()`
 
 我们可以将字符串`"\\n"`连接到我们写入文件的每个字符串:
 
-```
+```py
 `with open("iris_2.csv", "w") as iris_file:
     for iris in irises:
         iris_file.write(",".join(iris.values()) + "\n")` 
@@ -131,7 +131,7 @@ f.close()`
 
 如果我们运行代码并看一看`iris_2.csv`，事情应该是这样的:
 
-```
+```py
 `5.1,3.5,1.4,0.2,Iris-setosa
 4.9,3,1.4,0.2,Iris-setosa
 4.7,3.2,1.3,0.2,Iris-setosa

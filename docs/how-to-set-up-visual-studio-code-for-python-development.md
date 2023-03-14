@@ -42,7 +42,7 @@ linter 是一个检查你的代码中常见问题的工具，如果发现任何�
 
 然后，使用控制台安装它(确保控制台也激活了虚拟环境):
 
-```
+```py
 pip install black 
 ```
 
@@ -70,7 +70,7 @@ pip install black
 
 在那里，确保这些设置在那里(注意不要有重复的设置):
 
-```
+```py
 {
     "[python]": {
         "editor.codeActionsOnSave": {
@@ -102,14 +102,14 @@ pip install black
 
 默认情况下，当您使用 isort 对导入进行排序时，您最终会得到如下结果:
 
-```
+```py
 from module import (abc1, abc2, abc3,
                     abc4, abc5, abc6) 
 ```
 
 但是如果你用黑色来格式化你的代码，它会把输入变成这样:
 
-```
+```py
 from module import (
     abc1,
     abc2,
@@ -128,7 +128,7 @@ from module import (
 
 在文件中，添加以下内容:
 
-```
+```py
 [tool.isort]
 profile = "black" 
 ```

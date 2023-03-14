@@ -12,7 +12,7 @@
 
 “比赛...case "语法如下:
 
-```
+```py
 def greeting(message):
 	match message.split():
 		case ["hello"]:
@@ -29,13 +29,13 @@ def greeting(message):
 
 在我们的例子中，match 关键字接受一个字符串列表，这是`message.split()`操作的结果。为了进一步说明，假设我们这样调用函数:
 
-```
+```py
 greeting("hello") 
 ```
 
 这个函数首先会在所有的空格上分割这个字符串，并生成一个列表。对于上面的输入，`match`操作符将使用`["hello"]`的列表。然后将列表与每个案例进行比较。我们的第一个案例是:
 
-```
+```py
 case ["hello"] 
 ```
 
@@ -43,7 +43,7 @@ case ["hello"]
 
 输出:
 
-```
+```py
 this message says hello 
 ```
 
@@ -57,7 +57,7 @@ this message says hello
 
 第二种情况是`["hello", name]`。这是我们的输入匹配的情况。如果您没有给 Python 一个匹配的文字值，它将把比较表达式中的任何值绑定到 case 表达式中的变量名。所以在我们的例子中，`name`将被设置为`George`。并且这个 case 匹配(它有`"hello"`作为第一个元素，还有一个元素被绑定到`name`)，所以输出是:
 
-```
+```py
 This message is a personal greeting to George 
 ```
 
@@ -74,7 +74,7 @@ This message is a personal greeting to George
 
 因此，在我们最近的函数调用`greeting("hello George Johnson")`中，输出将是:
 
-```
+```py
 The message didn’t match with anything 
 ```
 
@@ -84,7 +84,7 @@ The message didn’t match with anything
 
 在`case`表达式中，您可以使用一个操作符将所有剩余的元素放入一个变量中。例如:
 
-```
+```py
 comparison_list = ["one", "two", "three"]
 
 match comparison_list:
@@ -98,13 +98,13 @@ match comparison_list:
 
 在这个代码片段中，第二种情况将匹配并执行，输出为:
 
-```
+```py
 This is the first: one, and this is the rest: ["two", "three"] 
 ```
 
 您还可以用两个或更多的结构组成 case 分支，如下所示:
 
-```
+```py
 match comparisonList:
     case [first] | [first, "two", "seven"]:
         print("this is the first element: {first}")
@@ -120,7 +120,7 @@ match comparisonList:
 
 我们还将报道“比赛”...字典的语法。匹配运算符将检查比较表达式是否包含 case 表达式中的属性。例如:
 
-```
+```py
 comparisonDictionary = {
     "John": "boy",
     "Jack": "boy",
@@ -139,7 +139,7 @@ match comparisonDictionary:
 
 将输出:
 
-```
+```py
 Taylor is a girl and John is a boy 
 ```
 

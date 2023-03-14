@@ -4,7 +4,7 @@
 
 在我们开始之前，让我们先谈谈什么是 JWT。JWT 是一个编码字符串，可以被解码以揭示其 JSON 内容。例如，这里有一个 JWT:
 
-```
+```py
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5b3VyLXVzZXJuYW1lIiwiZXhwIjoxNjY2NzIwNDkwfQ.K62wERMzH28I5g8IygVB0y-JuYdA0-7wuZkll2AyCNs 
 ```
 
@@ -26,13 +26,13 @@ jwt 用于身份验证。您的服务器可以使用给定的用户 ID 生成一
 
 让我们用 Python 和`python-jose`库创建一个 JWT:
 
-```
+```py
 pip install python-jose 
 ```
 
 我将从定义三个变量开始:
 
-```
+```py
 SECRET_KEY = "9b73f2a1bdd7ae163444473d29a6885ffa22ab26117068f72a5a56a74d12d1fc"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30 
@@ -42,7 +42,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 现在你已经有了这三个，生成一个 JWT 是超级容易的！
 
-```
+```py
 from jose import jwt
 
 def create_access_token(id_: str):
@@ -64,13 +64,13 @@ def create_access_token(id_: str):
 
 首先，您应该安装扩展:
 
-```
+```py
 pip install flask-jwt-extended 
 ```
 
 然后，在创建 Flask 应用程序时初始化它:
 
-```
+```py
 from flask import Flask
 from flask_jwt_extended import JWTManager
 
@@ -81,7 +81,7 @@ jwt = JWTManager(app)
 
 然后，当您为 Flask 应用程序实现登录端点时，您可以简单地调用`create_access_token`，就像这样:
 
-```
+```py
 from flask_jwt_extended import create_access_token
 # other imports
 ...

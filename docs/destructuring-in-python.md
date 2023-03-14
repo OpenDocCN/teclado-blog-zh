@@ -8,7 +8,7 @@
 
 像许多编程语言一样，Python 允许我们在一行中一次分配多个变量。我们只需要在赋值两边提供相同数量的值。例如:
 
-```
+```py
 x, y = 5, 11 
 ```
 
@@ -16,7 +16,7 @@ x, y = 5, 11
 
 这是如何工作的非常简单，但是不太明显的是这是一个析构的例子。如果我这样写呢？
 
-```
+```py
 x, y = (5, 11) 
 ```
 
@@ -28,7 +28,7 @@ x, y = (5, 11)
 
 如果我们试图用比我们提供的变量更多或更少的值来析构一个集合，我们最终会得到一个`ValueError`。
 
-```
+```py
 ValueError: not enough values to unpack (expected 4, got 3) 
 ```
 
@@ -36,7 +36,7 @@ ValueError: not enough values to unpack (expected 4, got 3)
 
 几个月前，我们在`enumerate`上写了一个[片段 post](https://blog.teclado.com/python-enumerate/) ，这是编写好的 Pythonic 循环的重要组成部分。如果你不熟悉的话，`enumerate`的语法是这样的:
 
-```
+```py
 example_list = ["A", "B", "C"]
 
 for counter, letter in enumerate(example_list):
@@ -55,7 +55,7 @@ for counter, letter in enumerate(example_list):
 
 我们可以用任意多的值来进行这种类型的破坏，这并不局限于`enumerate`函数。例如，我们可以这样做:
 
-```
+```py
 people = [
 	("Bob", 42, "Mechanic"),
 	("James", 24, "Artist"),
@@ -70,7 +70,7 @@ for name, age, profession in people:
 
 这比下面的代码好得多，在下面的代码中，我们依赖于索引而不是好的描述性名称:
 
-```
+```py
 for person in people:
 	print(f"Name: {person[0]}, Age: {person[1]}, Profession: {person[2]}") 
 ```
@@ -85,7 +85,7 @@ for person in people:
 
 例如，如果我们从上面的`people`列表中取出一个元组，并且我们只关心姓名和职业，我们可以做以下事情:
 
-```
+```py
 person = ("Bob", 42, "Mechanic")
 name, _, profession = person
 
@@ -94,7 +94,7 @@ print(name, profession)  # Bob Mechanic
 
 这在循环内部也同样适用，并且当我们不关心值的任何 T2 时也可以使用。一个例子可能是使用`range`来确保一组迭代次数。
 
-```
+```py
 for _ in range(10):
 	<do something> 
 ```
@@ -105,7 +105,7 @@ for _ in range(10):
 
 在 Python 中，当执行析构赋值时，我们可以使用`*`操作符来收集剩余的值。例如，我们可能有一个数字列表，我们希望获取第一个数字，然后将剩余的数字赋给第二个变量:
 
-```
+```py
 head, *tail = [1, 2, 3, 4, 5]
 
 print(head)  # 1
@@ -116,7 +116,7 @@ print(tail)  # [2, 3, 4, 5]
 
 我们也可以反过来这样做，创建一个除了最后一个值以外的所有内容的新列表，并将最后一个值赋给它自己的变量。
 
-```
+```py
 *head, tail = [1, 2, 3, 4, 5]
 
 print(head)  # [1, 2, 3, 4]
@@ -125,7 +125,7 @@ print(tail)  # 5
 
 这很有意思，但是除非我们需要保存原始列表，否则我们已经有了类似这样的`pop`方法。然而，我们可以用这个语法做些别的事情。我们可以给*分配任意数量的*变量，然后收集剩余的变量。我们可能会抓取第一个和最后一个项目，然后收集中间的项目，例如:
 
-```
+```py
 head, *middle, tail = [1, 2, 3, 4, 5]
 
 print(head)    # 1
@@ -135,7 +135,7 @@ print(tail)    # 5
 
 或者，我们可能希望获取前三个项目，然后将其余项目捆绑在一起:
 
-```
+```py
 first, second, third, *rest = [1, 2, 3, 4, 5] 
 ```
 

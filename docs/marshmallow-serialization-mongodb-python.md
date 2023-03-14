@@ -12,7 +12,7 @@ Marshmallow 是为简化序列化和反序列化过程而开发的 Python 库。
 
 首先，我们必须安装棉花糖:
 
-```
+```py
 pip install marshmallow 
 ```
 
@@ -27,7 +27,7 @@ pip install marshmallow
 
 假设我们有这个类:
 
-```
+```py
 class Store:
     def __init__(self, name: str, location: str):
         self.name = name
@@ -38,7 +38,7 @@ class Store:
 
 作为人类，我们可以很容易地识别出下面的字典可以代表该类的一个实例:
 
-```
+```py
 {
 	"name": "Walmart",
 	"location": "Venice, CA"
@@ -51,7 +51,7 @@ class Store:
 
 我们通过创建一个`Schema`来做到这一点:
 
-```
+```py
 from marshmallow import Schema, fields
 
 class StoreSchema(Schema):
@@ -69,7 +69,7 @@ class StoreSchema(Schema):
 2.  创建一个用于实际执行序列化的`StoreSchema`对象。
 3.  用`.dump()`通过`StoreSchema`对象“转储”对象。这给了我们一本字典。
 
-```
+```py
 from store import Store
 from schema import StoreSchema
 
@@ -95,7 +95,7 @@ print(store_schema.dump(walmart))
 3.  创建我们的`StoreSchema`对象。
 4.  使用`.load()`通过模式传递数据进行验证。
 
-```
+```py
 from schema import StoreSchema
 
 store_data = {"name": "Walmart", "location": "Venice, CA"}
@@ -109,14 +109,14 @@ print(store_schema.load(store_data))
 
 如果我们尝试这样做，我们会得到一个错误:
 
-```
+```py
 store_data = {"name": 5, "location": "Venice, CA"}
 print(store_schema.load(store_data)) 
 ```
 
 您应该会得到这样一个错误:
 
-```
+```py
 Traceback (most recent call last):
 File "main.py", line 11, in <module>
     print(store_schema.load(store_data))
@@ -131,7 +131,7 @@ marshmallow.exceptions.ValidationError: {'name': ['Not a valid string.']}
 
 如果我们想将验证过的字典转换成一个`Store`对象，我们可以这样做，将字典的每个键作为命名参数传递给`Store`构造函数:
 
-```
+```py
 from store import Store
 from schema import StoreSchema
 
@@ -147,7 +147,7 @@ print(stores)
 
 但是现在我们已经解决了验证问题，让我们稍微修改一下我们的模式，以便它在完成验证时创建一个`Store`对象。我会告诉你你*如何能*做到这一点，但通常我*不会*这样做:
 
-```
+```py
 from marshmallow import Schema, fields, post_load
 from store import Store
 
@@ -166,7 +166,7 @@ class StoreSchema(Schema):
 
 现在我们已经得到了这个模式，它在加载后将不再给我们有效的字典。它将验证并立即执行`make_store`，这为我们提供了`Store`对象:
 
-```
+```py
 from schema import StoreSchema
 
 store_data = {"name": "Walmart", "location": "Venice, CA"}
@@ -188,7 +188,7 @@ MongoDB 是一个非关系数据库，我们在其中存储 JSON 字符串。这
 
 在 Python 中开始与 MongoDB 交互的最简单方法是安装`pymongo`库:
 
-```
+```py
 pip install pymongo 
 ```
 
@@ -202,7 +202,7 @@ pip install pymongo
 
 下面是样本`database.py file:`
 
-```
+```py
 import pymongo
 
 class Database:
@@ -222,7 +222,7 @@ class Database:
 
 让我们将一个字典保存到数据库中进行测试:
 
-```
+```py
 from database import Database
 
 Database.initialize()
@@ -239,7 +239,7 @@ print(loaded_objects)
 
 这是一个非常的 MongoDB 快速入门。现在让我们看看如何在这个应用程序中使用棉花糖。首先，我们将更改模式，使其具有一个`_id`字段:
 
-```
+```py
 from marshmallow import Schema, fields, post_load
 from store import Store
 
@@ -255,7 +255,7 @@ class StoreSchema(Schema):
 
 然后我们将改变模型，在`__init__`方法中接受它。我们给它一个默认值，这样如果没有传入，我们将生成一个 UUID:
 
-```
+```py
 import uuid
 
 class Store:
@@ -267,7 +267,7 @@ class Store:
 
 最后，我们可以将两者结合使用:
 
-```
+```py
 from database import Database
 from schema import StoreSchema
 
@@ -298,7 +298,7 @@ for loaded_store in loaded_objects:
 
 这是一个完美的例子，如果我们的`StoreSchema` **没有**给我们`Store`对象，我们可以节省一些工作。
 
-```
+```py
 import json
 from database import Database
 from schema import StoreSchema
@@ -322,7 +322,7 @@ for loaded_store in loaded_objects:
 
 下面是模式没有给我们`Store`对象时的代码:
 
-```
+```py
 import json
 from database import Database
 from schema import StoreSchema

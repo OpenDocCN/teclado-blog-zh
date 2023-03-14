@@ -62,7 +62,7 @@
 
 *考虑以下两个列表:*
 
-```
+```py
 *`good = [1243.45, 344535.3, 4465.0043, 4775.393, 565.3]
 bad = [1243.45,344535.3,4465.0043,4775.393,565.3]`* 
 ```
@@ -109,7 +109,7 @@ bad = [1243.45,344535.3,4465.0043,4775.393,565.3]`*
 
 举以下例子:
 
-```
+```py
 list_1 = ["John", "Rolf", "Sarah", "Anne"]
 
 for e in list_1:
@@ -118,7 +118,7 @@ for e in list_1:
 
 这是相当简单的代码，但即使在这里，我们也可以通过使用好的名称来使 for 循环的作用更加明显:
 
-```
+```py
 friends = ["John", "Rolf", "Sarah", "Anne"]
 
 for friend in friends:
@@ -127,7 +127,7 @@ for friend in friends:
 
 更明确的版本可能是这样的:
 
-```
+```py
 friends = ["John", "Rolf", "Sarah", "Anne"]
 
 for friend_name in friends:
@@ -144,7 +144,7 @@ for friend_name in friends:
 
 我们已经在上面看到了一个很好的 for 循环的例子，但是许多人以非常不同的方式编写他们的 Python 循环。这样的模式很常见:
 
-```
+```py
 friends = ["John", "Rolf", "Sarah", "Anne"]
 
 for i in range(len(friends)):
@@ -153,7 +153,7 @@ for i in range(len(friends)):
 
 上面的代码在功能上与此完全相同:
 
-```
+```py
 friends = ["John", "Rolf", "Sarah", "Anne"]
 
 for friend_name in friends:
@@ -172,7 +172,7 @@ for friend_name in friends:
 
 一个简单的方法可能是这样的:
 
-```
+```py
 names = ["John", "Rolf", "Sarah", "Anne"]
 ages = [27, 42, 31, 29]
 
@@ -186,7 +186,7 @@ for i in range(len(names)):
 
 使用`zip`,上面的代码现在看起来像这样:
 
-```
+```py
 names = ["John", "Rolf", "Sarah", "Anne"]
 ages = [27, 42, 31, 29]
 
@@ -200,7 +200,7 @@ for name, age in zip(names, ages):
 
 大概是这样的:
 
-```
+```py
 names = ["John", "Rolf", "Sarah", "Anne"]
 
 for i in range(len(names)):
@@ -211,7 +211,7 @@ for i in range(len(names)):
 
 使用`enumerate`上面的代码看起来像这样:
 
-```
+```py
 names = ["John", "Rolf", "Sarah", "Anne"]
 
 for counter, name in enumerate(names, start=1):
@@ -226,7 +226,7 @@ for counter, name in enumerate(names, start=1):
 
 许多学生沿着这些路线追求一些东西:
 
-```
+```py
 for line in question_file:
     question = line.split("=")[0]
     answer = line.split("=")[1] 
@@ -234,7 +234,7 @@ for line in question_file:
 
 然而，这是另一个消除索引的绝佳机会，而析构是我们选择的武器:
 
-```
+```py
 for line in question_file:
     question, answer = line.split("=") 
 ```
@@ -247,14 +247,14 @@ for line in question_file:
 
 这样的代码很常见:
 
-```
+```py
 if len(some_list) != 0:
     ... do something 
 ```
 
 或者:
 
-```
+```py
 if some_string != "":
     ... do something 
 ```
@@ -265,7 +265,7 @@ if some_string != "":
 
 因此，我们可以这样写，而不是写上面的例子:
 
-```
+```py
 if some_list:
     ... do something
 
@@ -281,7 +281,7 @@ if some_string:
 
 例如，我们可能有一个函数，要求用户输入姓名，然后返回姓名，或者如果用户没有输入姓名，则返回`"John Doe"`。利用我们在上面学到的知识，我们可以写出这样的东西:
 
-```
+```py
 def get_name():
     name = input("Please enter your name: ")
 
@@ -293,7 +293,7 @@ def get_name():
 
 然而，我们可以利用布尔运算符`or`来大大缩短这个过程。
 
-```
+```py
 def get_name():
     name = input("Please enter your name: ")
 
@@ -312,7 +312,7 @@ Python 中的`or`操作符如果计算结果为`True`，则产生第一个操作
 
 举个例子，也许我们有一个小写名字的列表，我们想要一个新的列表，其中所有的名字都是大写字母。for 循环版本如下所示:
 
-```
+```py
 names = ["rolf", "james", "jose", "sarah", "lucy"]
 title_names = []
 
@@ -324,14 +324,14 @@ for name in names:
 
 理解版应该是这样的:
 
-```
+```py
 names = ["rolf", "james", "jose", "sarah", "lucy"]
 names = [name.title() for name in names] 
 ```
 
 或者，如果我们想保留原始列表:
 
-```
+```py
 names = ["rolf", "james", "jose", "sarah", "lucy"]
 title_names = [name.title() for name in names] 
 ```

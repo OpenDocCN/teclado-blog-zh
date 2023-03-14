@@ -10,7 +10,7 @@
 
 现在，我们将能够创建我们的模板。在这种情况下，已经为我们提供了新元组类型的名称和字段，所以我们只需要调用`namedtuple`来获得这些信息。
 
-```
+```py
 `import namedtuple
 
 Movie = namedtuple("Movie", ["title", "director", "year", "budget"])` 
@@ -18,7 +18,7 @@ Movie = namedtuple("Movie", ["title", "director", "year", "budget"])`
 
 最后，我们只需要从用户那里获得一些信息来创建新的`Movie`元组的实例。
 
-```
+```py
 `import namedtuple
 
 Movie = namedtuple("Movie", ["title", "director", "year", "budget"])
@@ -39,7 +39,7 @@ movie = Movie(title, director, year, budget)`
 
 此时，我还将创建一个包含单词拟声词的字符串作为测试字符串。
 
-```
+```py
 `from collections import defaultdict
 
 s = "onomatopoeia"
@@ -48,7 +48,7 @@ letter_count = defaultdict(int)`
 
 接下来让我们迭代`s`并开始计算字符数，使用我们之前用来增加物品数量的相同方法。
 
-```
+```py
 `from collections import defaultdict
 
 s = "onomatopoeia"
@@ -60,7 +60,7 @@ for character in s:
 
 现在我们只需要通过调用`max`并传入一些排序键来找到这个新字典中最常见的字母。在这种情况下，我将使用 lambda 表达式返回每个键的值。
 
-```
+```py
 `from collections import defaultdict
 
 s = "onomatopoeia"
@@ -82,14 +82,14 @@ print(most_common_character)  # o`
 
 我们需要在这里进行两次导入。首先，我们需要从`operator`导入`mul`，其次，我们需要从`functools`导入`partial`。
 
-```
+```py
 `from operator import mul
 from functools import partial` 
 ```
 
 在这种情况下，创建分部相当简单。
 
-```
+```py
 `from operator import mul
 from functools import partial
 
@@ -102,7 +102,7 @@ double = partial(mul, 2)`
 
 这种情况下我们需要赋值的参数名是`mode`。
 
-```
+```py
 `from functools import partial
 
 read = partial(open, mode="r")` 

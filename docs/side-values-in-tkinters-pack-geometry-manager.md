@@ -10,7 +10,7 @@
 
 我们已经使用一个简单的固定大小的窗口和几个矩形的`Label`部件探索了 pack。代码看起来像这样:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -51,7 +51,7 @@ root.mainloop()
 
 当我们看这段代码时:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -88,7 +88,7 @@ root.mainloop()
 
 让我们看看当`rectangle_1`被设置为`side="left"`并且两个矩形的`fill`配置都被设置为`"both"`时会发生什么。这将向我们显示由包分配给每个小部件的默认空间。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -113,7 +113,7 @@ root.mainloop()
 
 如果我们在代码中将`rectangle_1`移到`rectangle_2`下面，我们会看到相反的情况:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -132,7 +132,7 @@ root.mainloop()
 
 如果我们在应用程序窗口中添加更多的矩形，我们可以清楚地看到优先顺序完全取决于小部件的顺序:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -166,7 +166,7 @@ root.mainloop()
 
 首先，我们将为两个矩形设置`expand=True`和`fill="both"`，为`rectangle_1`设置`side="left"`。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -187,7 +187,7 @@ root.mainloop()
 
 如果我们现在交换一下，让`rectangle_2`变成`side="left"`,我们会得到如下结果:
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()
@@ -210,7 +210,7 @@ root.mainloop()
 
 让我们回到五个矩形的例子，但是这一次，让我们设置一些元素来扩展。
 
-```
+```py
 import tkinter as tk
 
 root = tk.Tk()

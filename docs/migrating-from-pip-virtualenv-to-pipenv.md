@@ -45,7 +45,7 @@
 
 一些软件服务可能需要提供`requirements.txt`文件(例如 ReadTheDocs、Heroku...).用 Pipenv 生成一个`requirements.txt`文件非常简单:
 
-```
+```py
 pipenv lock --requirements > requirements.txt 
 ```
 

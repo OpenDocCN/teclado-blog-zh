@@ -32,7 +32,7 @@ Flask-Security-Too 中的所有页面和电子邮件模板都是使用 HTML 和 
 
 我写这篇文章的时候，这是`login_user.html`的内容:
 
-```
+```py
 {% extends "security/base.html" %}
 {% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors, render_form_errors %}
 
@@ -79,7 +79,7 @@ Flask-Security-Too 中的所有页面和电子邮件模板都是使用 HTML 和 
 
 最近，我的所有 CSS 都使用 TailwindCSS，所以如果你正在使用它，这里有两个你可以使用的模板。
 
-```
+```py
 {% block content %}
 <div class="flex flex-col min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
   <div class="w-full max-w-md space-y-8">
@@ -120,7 +120,7 @@ Flask-Security-Too 中的所有页面和电子邮件模板都是使用 HTML 和 
 
 而在`security/_macros.html`:
 
-```
+```py
 {% macro render_checkbox_with_errors(field) %}
   <div class="relative flex items-start">
     <div class="flex items-center h-5">
@@ -154,7 +154,7 @@ Flask-Security-Too 中的所有页面和电子邮件模板都是使用 HTML 和 
 
 然后在`security/register_user.html`中:
 
-```
+```py
 {% extends "security/base.html" %}
 {% from "security/_macros.html" import render_signup_login_field_w_errors %}
 
@@ -199,7 +199,7 @@ Flask-Security-Too 中的所有页面和电子邮件模板都是使用 HTML 和 
 
 如果您想添加一个 CSS 样式表，而不是更改模板，那会容易得多。您可以复制并粘贴原始文件内容，并链接 CSS 样式表，如下所示:
 
-```
+```py
 {% extends "security/base.html" %}
 {% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors, render_form_errors %}
 
@@ -244,7 +244,7 @@ Flask-Security-Too 中的所有页面和电子邮件模板都是使用 HTML 和 
 
 上面代码中添加到原始内容的唯一内容是 imports 下的内容。这里假设 CSS 文件名在`static/css/auth.css`下:
 
-```
+```py
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css) }}">
 {% endblock %} 
@@ -262,7 +262,7 @@ Flask-Security-Too 中的所有页面和电子邮件模板都是使用 HTML 和 
 
 这是我的模板的样子:
 
-```
+```py
 {# This template receives the following context:
   confirmation_link - the link that should be fetched (GET) to confirm
   confirmation_token - this token is part of confirmation link - but can be used to

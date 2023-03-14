@@ -9,7 +9,7 @@
 
 例如，假设你有一个函数，你想确保它按照你认为应该的方式工作。类似于这个反转列表的函数([来自我们之前的一篇博文](https://blog.teclado.com/coding-interview-problems-reversing-a-list-python/)):
 
-```
+```py
 def reverse_list(original: List):
 	return original[::-1] 
 ```
@@ -33,7 +33,7 @@ def reverse_list(original: List):
 
 让我们从编写第一个测试开始。通常我的第一个测试会是一个肯定的测试，这意味着“这个函数做了我期望它做的事情吗？”。
 
-```
+```py
 from unittest import TestCase
 from typing import List
 
@@ -62,7 +62,7 @@ class ReverseListTest(TestCase):
 *   如果使用 PyCharm，右击并按“用 unittest 运行测试...”。
 *   如果使用终端，输入`python -m unittest test_reverse.py`。
 
-```
+```py
 python -m unittest test_reverse.py
 .
 ----------------------------------------------------------------------
@@ -87,7 +87,7 @@ Ran 1 test in 0.000s
 
 如果你*永远不会*去做这件事，也许你想要的是不要意外地做这件事。我们的函数应该检查元素是否都是相同的类型吗？由您决定应该在您的代码库中发生什么。出于这个例子的目的，让我们这样做，我们不能有混合类型。
 
-```
+```py
 from unittest import TestCase
 from typing import List
 
@@ -122,7 +122,7 @@ class ReverseListTest(TestCase):
 
 这个测试之所以在这里，是因为如果将来我们决定在一个空列表被传递时引发一个错误，这个测试应该会失败。然后我们会回来修复它，高兴地知道我们的函数以我们期望的方式工作。
 
-```
+```py
 def test_reverses_empty_list(self):
 	original = []
 	expected = []
@@ -147,7 +147,7 @@ def test_reverses_empty_list(self):
 
 这就是为什么编写测试是重要的:如果有人后来修改了函数，如果新函数修改了列表，我们应该有一个失败的测试。
 
-```
+```py
 def test_reversal_gives_new_list(self):
 	original = [3, 5, 7]
 	expected = [3, 5, 7]
@@ -161,7 +161,7 @@ def test_reversal_gives_new_list(self):
 
 当列表有重复条目时，一些反转列表的方法可能不太适用，因此值得为此添加另一个测试——只要确保即使有重复的元素，反转也能得到预期的值。
 
-```
+```py
 def test_reversal_with_duplicates(self):
 	original = [3, 4, 3, 3, 9]
 	expected = [9, 3, 3, 4, 3]

@@ -10,7 +10,7 @@
 
 `print`实际上可以接受任意数量的位置参数，默认情况下它会将它们并排打印出来:
 
-```
+```py
 `print(1, 2, 3, 4, 5)  # 1 2 3 4 5` 
 ```
 
@@ -18,7 +18,7 @@
 
 我们可以这样明确地写:
 
-```
+```py
 `print(1, 2, 3, 4, 5, sep=" ")  # 1 2 3 4 5` 
 ```
 
@@ -42,7 +42,7 @@
 
 我们将定义一个名为`mul`的函数，它将接受任意两个数字作为参数(有两个参数)，并将它们相乘。然后我们将使用`*args`重新定义它。
 
-```
+```py
 `def mul(x, y):
     print(x * y)` 
 ```
@@ -53,7 +53,7 @@
 
 现在我们将使用`*args`来定义函数。该参数将收集任何没有分配给任何其他对象的位置参数，并将它们转换成一个值元组。现在我们必须这样做:
 
-```
+```py
 `def mul(*args):
     print(args[0] * args[1])
 
@@ -64,7 +64,7 @@ mul(5, 10)`
 
 但是看看另一个函数，它接受任意数量的朋友名字并问候他们:
 
-```
+```py
 `def multigreet(*args):
     for name in args:
         print(f"Hello, {name}!")
@@ -84,7 +84,7 @@ multigreet("Rolf", "Bob", "Anne")`
 
 在`multigreet`的情况下，因此用`*names`代替更合适，就像这样:
 
-```
+```py
 `def multigreet(*names):
     for name in names:
         print(f"Hello, {name}!")` 
@@ -100,7 +100,7 @@ multigreet("Rolf", "Bob", "Anne")`
 
 例如，如果我们将我们的`multigreet`函数更改为下面的代码，并尝试调用它，
 
-```
+```py
 `def multigreet(*names, other):
     for name in names:
         print(f"Hello, {name}!")
@@ -110,7 +110,7 @@ multigreet("Jose", "Phil")`
 
 我们得到一个`TypeError`。
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 6, in <module>
     multigreet("Jose", "Phil")
@@ -133,13 +133,13 @@ TypeError: multigreet() missing 1 required keyword-only argument: 'other'`
 
 例如，我们可以这样写:
 
-```
+```py
 `dict(name="Phil", age=29, city="Budapest", nationality="British")` 
 ```
 
 在这里，关键字变成了键，我们与每个关键字匹配的值变成了与这些键相关联的值。因此，上面的代码与下面的代码相同:
 
-```
+```py
 `{
     "name": "Phil",
     "age": 29,
@@ -154,7 +154,7 @@ TypeError: multigreet() missing 1 required keyword-only argument: 'other'`
 
 看一下这个例子，它以一种很好的格式打印出关键字参数:
 
-```
+```py
 `def pretty_print(**kwargs):
     for key, value in kwargs.items():
         print(f"{key}: {value}")
@@ -190,7 +190,7 @@ pretty_print(title="The Matrix", director="Wachowski", year=1999)
 
 例如，假设我想获取这个数字列表，并在一行中打印这些数字，在每个数字之间使用竖线(`|`)字符。我们可以这样做:
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 
 print(*numbers, sep=" | ")` 
@@ -202,7 +202,7 @@ print(*numbers, sep=" | ")`
 
 例如，此函数打印一部电影的详细信息:
 
-```
+```py
 `def print_movie(*args):
     for value in args:
         print(value)
@@ -222,7 +222,7 @@ print_movie(*movie.values())
 
 这个函数实际上是打印它接收到的参数，每行一个。例如，如果我们传入`movie.keys()`,它将打印键:
 
-```
+```py
 `print_movie(*movie.keys())
 
 # title
@@ -236,7 +236,7 @@ print_movie(*movie.values())
 
 将上面的函数与`**kwargs`和字典析构一起使用，我们得到:
 
-```
+```py
 `def print_movie(**kwargs):
     for key, value in kwargs.items():
         print(f"{key}: {value}")
@@ -258,7 +258,7 @@ print_movie(**movie)
 
 你也可以这样做:
 
-```
+```py
 `def print_movie(movie_details):
     for key, value in movie_details.items():
         print(f"{key}: {value}")
@@ -280,7 +280,7 @@ print_movie(movie)
 
 例如，我们可以这样做:
 
-```
+```py
 `def print_movie(**kwargs):
     for key, value in kwargs.items():
         print(f"{key}: {value}")
@@ -305,7 +305,7 @@ print_movie(studio="Warner Bros", **movie)
 
 例如，让我们回头看一个来自 [day 14 project](/30-days-of-python/python-30-day-14-project-regular/) 的例子，我们需要从字典列表中打印一些关于我们的书籍的输出。
 
-```
+```py
 `def show_books(books):
     # Adds an empty line before the output
     print()
@@ -318,7 +318,7 @@ print_movie(studio="Warner Bros", **movie)
 
 我们可以使用带有命名占位符的`format`方法，而不是在这里使用 f 字符串。然后我们可以将`**book`传递给`format`。
 
-```
+```py
 `def show_books(books):
     # Adds an empty line before the output
     print()
@@ -331,13 +331,13 @@ print_movie(studio="Warner Bros", **movie)
 
 这将为每本书创建一系列关键字参数，如下所示:
 
-```
+```py
 `title="1Q84", author="Haruki Murakami", year="2004"` 
 ```
 
 这种方法的好处之一是我们可以在其他地方定义模板，这也意味着我们可以在代码的多个地方引用它。
 
-```
+```py
 `book_template = "{title}, by {author} ({year})"
 
 def show_books(books):
@@ -360,7 +360,7 @@ def show_books(books):
 
 3)使用`format`方法和`**`拆包打印以下字典。
 
-```
+```py
  `country = {
     "name": "Germany",
     "population": "83 million",

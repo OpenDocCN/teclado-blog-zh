@@ -14,13 +14,13 @@ Image by Quartl, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
 
 在[之前的帖子](https://blog.teclado.com/python-list-comprehensions/)中，我们提供了列表理解的代码，该代码将计算两个六面骰子所有可能的掷骰子组合。
 
-```
+```py
 roll_combinations = [(d1, d2) for d1 in range(1, 7) for d2 in range(1, 7)] 
 ```
 
 我们可以使用`product`函数做同样的事情。
 
-```
+```py
 from itertools import product
 
 dice_combinations = product(range(1, 7), repeat=2) 
@@ -32,21 +32,21 @@ dice_combinations = product(range(1, 7), repeat=2)
 
 当我们提供两个或更多的 iterables 作为参数时，`product`函数将找到所有的方法来匹配这些 iterables 中的一个元素和其他 iterable 中的一个元素。例如，我们可能有这样一对列表:
 
-```
+```py
 list_1 = ["a", "b", "c"]
 list_2 = [1, 2, 3] 
 ```
 
 当我们将这些列表传递给 product 函数时，我们得到以下内容:
 
-```
+```py
 cartesian_product = product(list_1, list_2)
 # ('a', 1) ('a', 2) ('a', 3) ('b', 1) ('b', 2) ('b', 3) ('c', 1) ('c', 2) ('c', 3) 
 ```
 
 如果我们要添加第三个 iterable，这些元组中的每一个都将与第三个 iterable 中的一个条目匹配。例如，如果我们有包含`"x"`、`"y"`和`"z"`的第三个列表，我们将得到如下输出:
 
-```
+```py
 # ('a', 1, 'x') ('a', 1, 'y') ('a', 1, 'z') ('a', 2, 'x') ... etc. 
 ```
 
@@ -54,7 +54,7 @@ cartesian_product = product(list_1, list_2)
 
 如果当我们有多个可迭代对象时，我们将`repeat`的值设置为`2`或更大，`product`将复制**所有的可迭代对象，以便找到笛卡尔积。以下功能在功能上是相同的:**
 
-```
+```py
 c_product_1 = product(["a", "b", "c"], [1, 2, 3], repeat=2)
 c_product_2 = product(["a", "b", "c"], [1, 2, 3], ["a", "b", "c"], [1, 2, 3]) 
 ```

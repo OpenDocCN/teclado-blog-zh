@@ -6,7 +6,7 @@
 
 在列表理解中包含一个条件从句是非常简单的。我们只需在循环定义后使用 if 关键字:
 
-```
+```py
 names = ["Matthew", "John", "Helen", "Stephen", "Alexandra", "Rolf"]
 short_names = [name for name in names if len(name) < 6]
 
@@ -17,7 +17,7 @@ short_names = [name for name in names if len(name) < 6]
 
 人们常犯的一个错误是把一个条件放在列表理解的开始。这是合法的语法，但完全是另外一种意思。
 
-```
+```py
 names = ["Matthew", "John", "Helen", "Stephen", "Alexandra", "Rolf"]
 short_names = [len(name) < 6 for name in names]
 
@@ -28,7 +28,7 @@ short_names = [len(name) < 6 for name in names]
 
 与 for 子句一样，列表理解允许多个 if 子句按顺序出现:
 
-```
+```py
 names = ["Matthew", "John", "Helen", "Stephen", "Alexandra", "Rolf"]
 short_final_n = [name for name in names if len(name) < 6 if name[-1] == "n"]
 

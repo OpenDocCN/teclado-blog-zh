@@ -12,7 +12,7 @@
 
 第一种方法如下所示:
 
-```
+```py
 `target_number = 47
 
 guess = int(input("Enter a number: "))
@@ -30,7 +30,7 @@ print("You guessed correctly!")`
 
 另一种方法如下所示:
 
-```
+```py
 `target_number = 47
 
 while True:
@@ -51,7 +51,7 @@ Python 3.8 中还有第三种选择，使用[赋值表达式](https://blog.tecla
 
 现在我们已经有了循环的框架，我们需要给用户一些关于他们猜测的反馈。我们需要告诉他们这个数字是太高还是太低。我们可以用条件语句来实现。
 
-```
+```py
 `target_number = 47
 
 guess = int(input("Enter a number: "))
@@ -75,7 +75,7 @@ print("You guessed correctly!")`
 
 让我们从创建测试字符串开始，并写出循环的大致轮廓:
 
-```
+```py
 `sample_string = "Python"
 
 for character in sample_string:
@@ -86,7 +86,7 @@ for character in sample_string:
 
 检查`"o"`相当简单。我们已经一个接一个地得到了字符，所以我们只需检查一个给定的字符是否是`"o"`。如果是，我们可以使用 continue 关键字开始一个新的迭代，而不用打印`"o"`。
 
-```
+```py
 `sample_string = "Python"
 
 for character in sample_string:
@@ -100,7 +100,7 @@ for character in sample_string:
 
 对于解决方案，我将利用今天帖子中的实现:
 
-```
+```py
 `# Get a number to test from the user
 dividend = int(input("Please enter a number: "))
 
@@ -121,7 +121,7 @@ else:
 
 一个重要的细节是，我不会从`1`的`range`开始。我打算从`2`开始。我们一会儿会谈到原因。
 
-```
+```py
 `for dividend in range(2, 101):
     for divisor in range(2, dividend):
         if dividend % divisor == 0:
@@ -143,7 +143,7 @@ else:
 
 因为我们只需要打印出质数，所以我们可以稍微整理一下我们的解决方案:
 
-```
+```py
 `for dividend in range(2, 101):
     for divisor in range(2, dividend):
         if dividend % divisor == 0:
@@ -156,7 +156,7 @@ else:
 
 如果您愿意，也可以创建一个数字列表并打印出来，如下所示:
 
-```
+```py
 `primes = []
 
 for dividend in range(2, 101):
@@ -171,7 +171,7 @@ print(primes)`
 
 您也可以通过使用`join`让它变得更好。只是别忘了我们只能连接字符串集合！
 
-```
+```py
 `primes = []
 
 for dividend in range(2, 101):

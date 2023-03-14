@@ -20,7 +20,7 @@
 4.  请记住，我们收到的任何用户输入都将是一个字符串。虽然我们可以对字符串进行乘法运算，但在这种情况下，这并不完全符合您的要求。同样值得记住的是，员工的工资，或者他们工作的小时数，可能不是一个整数。
 5.  在处理了雇员的姓名并计算了他们一周的收入之后，程序应该将这些信息作为一个字符串输出。例如，类似这样的输出是合适的:
 
-```
+```py
 `Regina George earned $800 this week.` 
 ```
 
@@ -32,7 +32,7 @@
 
 首先，我们将向用户询问一些信息。我们不会处理任何字符串，也不会担心类型。我们只想从用户那里获取信息，并将这些信息存储在一些变量中。
 
-```
+```py
 `name = input("Please enter the employee's name: ")
 hourly_wage = input("What is their hourly wage? ")
 hours_worked = input("How many hours have they worked this week? ")` 
@@ -40,7 +40,7 @@ hours_worked = input("How many hours have they worked this week? ")`
 
 如果我们想测试事情是否正常，我们可以打印变量:
 
-```
+```py
 `print(name)
 print(hourly_wage)
 print(hours_worked)` 
@@ -50,7 +50,7 @@ print(hours_worked)`
 
 一种方法是创建三个不同的变量，并对每一行执行不同的操作:
 
-```
+```py
 `name = input("Please enter the employee's name: ")
 stripped_name = name.strip()
 title_name = stripped_name.title()` 
@@ -58,7 +58,7 @@ title_name = stripped_name.title()`
 
 这很好，但是我们不需要在这里使用不同的变量名。我们不会使用原始形式的`name`,所以我们不需要保存它。我们去掉了空格的字符串也是如此。我们只关心最终产品，所以我们可以在每个阶段安全地覆盖`name`:
 
-```
+```py
 `name = input("Please enter the employee's name: ")
 name = name.strip()
 name = name.title()` 
@@ -66,7 +66,7 @@ name = name.title()`
 
 如果我们想真正简洁，我们可以在`input`调用的末尾链接各种操作，如下所示:
 
-```
+```py
 `name = input("Please enter the employee's name: ").strip().title()` 
 ```
 
@@ -76,13 +76,13 @@ name = name.title()`
 
 让我们想象一下，用户输入`" rEGINA gEORGE "`，实际姓名周围都是空白。这是我们从`input`得到的结果，所以在`input`运行完毕后，我们的代码大致相当于这样:
 
-```
+```py
 `name = " rEGINA gEORGE  ".strip().title()` 
 ```
 
 现在要执行的下一个操作是`strip`调用。`strip`也计算出一个新的字符串，所以我们最终得到这样的结果:
 
-```
+```py
 `name = "rEGINA gEORGE".title()` 
 ```
 
@@ -90,7 +90,7 @@ name = name.title()`
 
 既然我们的员工姓名已经被正确处理，我们可以开始考虑计算他们的收入了。不幸的是，我们不能这样做:
 
-```
+```py
 `name = input("Please enter the employee's name: ").strip().title()
 hourly_wage = input("What is their hourly wage? ")
 hours_worked = input("How many hours have they worked this week? ")
@@ -100,7 +100,7 @@ earnings = hourly_wage * hours_worked`
 
 这将给我们一个`TypeError`:
 
-```
+```py
 `Traceback (most recent call last):
     File "main.py", line 5, in <module>
     earnings = hourly_wage * hours_worked
@@ -111,7 +111,7 @@ TypeError: can't multiply sequence by non-int of type 'str'`
 
 好吧，让我们把工作时间改成一个整数，看看会发生什么:
 
-```
+```py
 `name = input("Please enter the employee's name: ").strip().title()
 hourly_wage = input("What is their hourly wage? ")
 hours_worked = input("How many hours have they worked this week? ")
@@ -125,7 +125,7 @@ print(earnings)`
 
 考虑到这一点，我们需要将这两个值都转换成数字。然而，我们不是转换成整数，而是要转换成浮点数，因为这将允许我们接受用户工资或工作时间的非整数值。例如，我们希望能够以每小时 13.50 英镑的工资计算 32.5 小时的工作时间。
 
-```
+```py
 `name = input("Please enter the employee's name: ").strip().title()
 hourly_wage = input("What is their hourly wage? ")
 hours_worked = input("How many hours have they worked this week? ")
@@ -139,7 +139,7 @@ earnings = float(hourly_wage) * float(hours_worked)`
 
 既然我们已经编写了所有的程序逻辑，我们只需要向用户输出信息。这里我将使用 f 字符串，但是如果您愿意，也可以使用`format`或字符串连接。如果你使用连接，记住你只能连接字符串！
 
-```
+```py
 `name = input("Please enter the employee's name: ").strip().title()
 hourly_wage = input("What is their hourly wage? ")
 hours_worked = input("How many hours have they worked this week? ")
@@ -167,7 +167,7 @@ print(f"{name} earned ${earnings} this week.")`
 
 使用这些特殊的格式选项，我们的解决方案看起来是这样的:
 
-```
+```py
 `name = input("Please enter the employee's name: ").strip().title()
 hourly_wage = input("What is their hourly wage? ")
 hours_worked = input("How many hours have they worked this week? ")

@@ -32,7 +32,7 @@
 
 创建小部件非常简单:
 
-```
+```py
 import tkinter as tk
 from tkinter import ttk
 
@@ -45,7 +45,7 @@ scrollable_frame = ttk.Frame(canvas)
 
 现在让我们添加一些代码，每当可滚动框架的内容改变时，这些代码将调用一个函数。这是必要的，因为我们必须告诉画布框架将有多大，以便它知道它可以滚动多少:
 
-```
+```py
 scrollable_frame.bind(
     "<Configure>",
     lambda e: canvas.configure(
@@ -64,7 +64,7 @@ scrollable_frame.bind(
 
 接下来，我们必须告诉画布在它自己内部绘制`scrollable_frame`:
 
-```
+```py
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw") 
 ```
 
@@ -72,7 +72,7 @@ canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
 
 最后，我们必须配置画布，以便当它的 y 位置改变时，滚动条移动:
 
-```
+```py
 canvas.configure(yscrollcommand=scrollbar.set) 
 ```
 
@@ -82,7 +82,7 @@ canvas.configure(yscrollcommand=scrollbar.set)
 
 最终的代码可能如下所示:
 
-```
+```py
 import tkinter as tk
 from tkinter import ttk
 
@@ -119,7 +119,7 @@ root.mainloop()
 
 这里有一个`ScrollableFrame`类，你可以用它作为一个普通的框架！
 
-```
+```py
 import tkinter as tk
 from tkinter import ttk
 
@@ -147,7 +147,7 @@ class ScrollableFrame(ttk.Frame):
 
 如果你想使用这个类，记得把东西放在`self.scrollable_frame`里面，而不是直接放在这个类的一个对象里:
 
-```
+```py
 root = tk.Tk()
 
 frame = ScrollableFrame(root)

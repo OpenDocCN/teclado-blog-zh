@@ -15,7 +15,7 @@
 
 如果没有错误，Fizz Buzz 的前 15 轮应该是这样的:
 
-```
+```py
 `1
 2
 Fizz
@@ -49,14 +49,14 @@ Fizz Buzz`
 
 您可以使用的另一种方法是`is_integer`方法。我们可以在 float 上调用这个函数来检查它是否是一个整数。例如，我们可以这样写:
 
-```
+```py
 `(2.0).is_integer()  # True
 (3.7).is_integer()  # False` 
 ```
 
 我们可以这样测试除法的结果:
 
-```
+```py
 `(12 / 4).is_integer()  # True
 (12 / 5).is_integer()  # False` 
 ```
@@ -75,7 +75,7 @@ Fizz Buzz`
 
 我们可以通过把它转换成一个列表并打印出来来检查我们是否拥有了所有需要的东西。记住我们不能直接打印`range`，因为`range`很懒，直到我们要求时才会计算它的值。
 
-```
+```py
 `numbers = list(range(1, 101))
 
 print(numbers)` 
@@ -83,7 +83,7 @@ print(numbers)`
 
 假设我们没有任何问题，我认为下一个合乎逻辑的步骤是使用循环打印数字。此时，我们可以去掉列表和`numbers`变量，直接将`range`放入循环中:
 
-```
+```py
 `for number in range(1, 101):
     print(number)` 
 ```
@@ -94,7 +94,7 @@ print(numbers)`
 
 使用模方法，我们可以这样做:
 
-```
+```py
 `for number in range(1, 101):
     if number % 3 == 0:
         print("Fizz")
@@ -106,7 +106,7 @@ print(numbers)`
 
 如果我们想使用`is_integer`方法，解决方案看起来非常相似:
 
-```
+```py
  `for number in range(1, 101):
     if (number / 3).is_integer():
         print("Fizz")
@@ -118,7 +118,7 @@ print(numbers)`
 
 过程非常相似，我们只需添加一个`elif`子句来检查第二个条件。那个条件就是这个数是否能被`5`整除。
 
-```
+```py
 `for number in range(1, 101):
     if number % 3 == 0:
         print("Fizz")
@@ -132,7 +132,7 @@ print(numbers)`
 
 让我们看一个不正确的版本，并思考发生了什么:
 
-```
+```py
 `for number in range(1, 101):
     if number % 3 == 0:
         print("Fizz")
@@ -148,7 +148,7 @@ print(numbers)`
 
 首先，让我们看看如何使用嵌套条件来实现这一点:
 
-```
+```py
 `for number in range(1, 101):
     if number % 3 == 0:
         if number % 5 == 0:
@@ -167,7 +167,7 @@ print(numbers)`
 
 这里我们可以使用的选项是检查某物是否能被`15`整除。这是因为任何能被`3`和`5`整除的数也能被`15`整除。正如我已经提到的，我们把这个条件放在哪里非常重要。例如，如果我们尝试下面的方法，我们不会得到我们想要的输出:
 
-```
+```py
 `for number in range(1, 101):
     if number % 3 == 0:
         print("Fizz")
@@ -183,7 +183,7 @@ print(numbers)`
 
 要纠正这一点，我们需要把更具体的条件放在第一位。在这种情况下，被`3`整除是比被`15`整除更广泛的条件，因为被`15`整除的数字是被`3`整除的数字的一个更小的子集。因此，`15`检查可分性的条件需要放在第一位。
 
-```
+```py
 `for number in range(1, 101):
     if number % 15 == 0:
         print("Fizz Buzz")
@@ -203,7 +203,7 @@ print(numbers)`
 
 我们实际上可以使用一对特殊的布尔运算符`and`和`or`来计算多个表达式。在这种情况下，它们的用法相对简单易懂:
 
-```
+```py
 `for number in range(1, 101):
     if number % 3 == 0 and number % 5 == 0:
         print("Fizz Buzz")

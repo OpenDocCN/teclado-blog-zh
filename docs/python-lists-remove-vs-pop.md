@@ -12,7 +12,7 @@
 
 下面是如何在 Python 中使用`remove()`方法:
 
-```
+```py
 customers = [
     ['John', 1],
     ['John', 1],
@@ -26,7 +26,7 @@ customers.remove(['John', 1])
 
 如果运行这段代码，`customers`变量将如下所示:
 
-```
+```py
 customers = [
     ['John', 1],
     ['Lisa', 2],
@@ -49,7 +49,7 @@ customers = [
 
 如果使用不带任何参数的`pop()`，默认情况下，最后一项将从列表中删除并返回:
 
-```
+```py
 customers = [
     ['John', 1],
     ['Lisa', 2],
@@ -62,7 +62,7 @@ customer = customers.pop()  # ['John', 4]
 
 `customers`列表更改为:
 
-```
+```py
 customers = [
     ['John', 1],
     ['Lisa', 2],
@@ -72,20 +72,20 @@ customers = [
 
 `customer`变量现在看起来像这样:
 
-```
+```py
 customer = ['John', 4] 
 ```
 
 此方法还可以接受一个参数，该参数是要移除的项的索引:
 
-```
+```py
 customers.pop(1) 
 ```
 
 在这种情况下，第二项将从列表中删除并返回。请记住，您可以将返回值赋给变量。
 最后，`customers`变量现在看起来像这样:
 
-```
+```py
 customers = [
     ['John', 1],
     ['Rolf', 3]
@@ -96,7 +96,7 @@ customers = [
 
 您可能会遇到如下所示的列表:
 
-```
+```py
 customers = [
     [["John", 11],["Lisa", 12],["Rolf", 13]],
     [["Murilo", 21],["Joshua", 22]]
@@ -111,7 +111,7 @@ customers = [
 
 让我们像以前一样尝试从`customers`列表中删除`["John", 11]`:
 
-```
+```py
 customers.remove(["John", 11]) 
 ```
 
@@ -121,13 +121,13 @@ customers.remove(["John", 11])
 
 要删除此项，您需要先访问内部列表，然后删除它:
 
-```
+```py
 customers[0].remove(["John", 11]) 
 ```
 
 在这一行中，我们访问了列表的第一项，即内部列表，然后删除了第一个匹配值。更改后的列表如下所示:
 
-```
+```py
 customers = [
     [["Lisa", 12],["Rolf", 13]],
     [["Murilo", 21],["Joshua", 22]]
@@ -136,7 +136,7 @@ customers = [
 
 例如，如果您想要删除一整组客户，也可以删除整个内部列表。
 
-```
+```py
 customers.remove([["Lisa", 12],["Rolf", 13]]) 
 ```
 
@@ -146,7 +146,7 @@ customers.remove([["Lisa", 12],["Rolf", 13]])
 
 我们现在可以使用`pop()`方法从列表中删除一个项目:
 
-```
+```py
 customers = [
     [["John", 11],["Lisa", 12],["Rolf", 13]],
     [["Murilo", 21],["Joshua", 22]]
@@ -157,7 +157,7 @@ customer = customers.pop() # [["Murilo", 21],["Joshua", 22]]
 
 `customers`列表现在看起来像这样:
 
-```
+```py
 customers = [[["John", 11],["Lisa", 12],["Rolf", 13]]] 
 ```
 
@@ -165,19 +165,19 @@ customers = [[["John", 11],["Lisa", 12],["Rolf", 13]]]
 
 您还可以使用`pop()`方法从内部嵌套列表中删除项目:
 
-```
+```py
 customers[0].pop(1) 
 ```
 
 我们现在将该方法应用于`customers`列表的第一项:
 
-```
+```py
 [["John", 11],["Lisa", 12],["Rolf", 13]] 
 ```
 
 其中删除了它的第二项:`["Lisa", 12]`。之后，`customers`列表变成:
 
-```
+```py
 customers = [[["John", 11],["Rolf", 13]]] 
 ```
 

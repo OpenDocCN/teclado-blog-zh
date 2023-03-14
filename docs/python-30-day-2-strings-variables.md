@@ -22,13 +22,13 @@ Python 中的字符串是零个或多个字符的有序序列，我们可以用�
 
 我们可以使用单引号或双引号。它们在 Python 中没有任何不同的含义，也没有强烈的理由让你只使用其中的一个。
 
-```
+```py
 `'This is also a valid string!'` 
 ```
 
 然而，我们不能以一种类型的引用开始字符串，以另一种类型的引用结束字符串。这是无效语法:
 
-```
+```py
 `'This is not valid string!"` 
 ```
 
@@ -50,7 +50,7 @@ Python 中的字符串是零个或多个字符的有序序列，我们可以用�
 
 这里有几个例子:
 
-```
+```py
 `name = "Phillip Best"
 age = 28` 
 ```
@@ -63,7 +63,7 @@ age = 28`
 
 这些限制意味着以下所有变量名都是无效的:
 
-```
+```py
 `1st_value
 given-name
 john's_age
@@ -83,7 +83,7 @@ example variable`
 
 如果我们想用多个单词定义变量名，我们可以用下划线分隔这些单词，就像这样:
 
-```
+```py
 `given_name = "Phillip"
 surname = "Best"` 
 ```
@@ -104,7 +104,7 @@ surname = "Best"`
 
 例如，我们可以这样写:
 
-```
+```py
 `hourly_wage = 20.00
 hours_worked = 40
 
@@ -125,7 +125,7 @@ print(hourly_wage * hours_worked)`
 
 如果我们运行这个程序，我们将在控制台中看到一些愤怒的红色文本，看起来像这样:
 
-```
+```py
 `Traceback (most recent call last):
     File "main.py", line 1, in <module>
         name
@@ -146,7 +146,7 @@ NameError: name 'name' is not defined`
 
 还有另一种可能发生`NameError`的情况，让我们来看看:
 
-```
+```py
 `print(hourly_wage * hours_worked)
 
 hourly_wage = 20.00
@@ -155,7 +155,7 @@ hours_worked = 40`
 
 这里我们定义了两个变量名，但是如果我们运行代码，我们将在控制台中得到以下消息:
 
-```
+```py
 `Traceback (most recent call last):
     File "main.py", line 1, in <module>
         print(hourly_wage * hours_worked)
@@ -180,26 +180,26 @@ NameError: name 'hourly_wage' is not defined`
 
 虽然我们可以通过编写`input()`来调用`input`，但通常我们会希望提供某种提示，让用户知道我们想从他们那里得到什么。你的第一反应可能是这样做:
 
-```
+```py
 `print("Please enter your name:")
 input()` 
 ```
 
 这当然可行，但是`input`实际上能够提供自己的提示。我们只需要在调用该函数时，在括号内写出所需的提示:
 
-```
+```py
 `input("Please enter your name:")` 
 ```
 
 我鼓励你自己运行这一行代码，因为有一点问题。此刻，用户正直接写在我在提示末尾添加的冒号旁边。为了避免这种情况，请确保在提示的末尾留出一两个空格。这将对用户体验产生重大影响。
 
-```
+```py
 `input("Please enter your name: ")` 
 ```
 
 拼图的最后一块是将这个值存储在某个地方。请记住，函数调用是表达式，因此会计算出一些值。`input`函数计算出一个字符串，该字符串包含用户响应提示所写的任何内容。因此，如果需要，我们可以将该字符串赋给一个变量，如下所示:
 
-```
+```py
 `name = input("Please enter your name: ")` 
 ```
 
@@ -213,7 +213,7 @@ input()`
 2.  调查当你试图给一个已经定义好的变量赋值时会发生什么。尝试在重用该名称之前和之后打印变量。
 3.  下面你会发现一些有很多错误的代码。尝试一行一行地检查程序，并修复代码中的问题。我鼓励你在工作的时候试着运行这个程序，因为阅读错误信息对于调试你自己的程序是一个很好的练习。
 
-```
+```py
 `hourly_wage = input("Please enter your hourly wage: ')
 
 prnt("Hourly wage: ")

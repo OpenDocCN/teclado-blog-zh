@@ -34,7 +34,7 @@ Python 包含一个名为`split`的方便的字符串方法。你可以在[官�
 
 因此，我们可以这样做:
 
-```
+```py
 word_list = base_string.split(" ")
 # ["Lorem", "ipsum", "dolor", "sit", "amet,", ... etc.] 
 ```
@@ -53,7 +53,7 @@ word_list = base_string.split(" ")
 
 使用[列表理解](https://blog.teclado.com/python-list-comprehensions/)，我们可以迭代`word_list`并纠正标点符号问题:
 
-```
+```py
 word_list = base_string.split(" ")
 processed_words = [word.strip(".,?!\"\':;(){}[]") for word in word_list] 
 ```
@@ -70,13 +70,13 @@ processed_words = [word.strip(".,?!\"\':;(){}[]") for word in word_list]
 
 为了使用 Python 中的正则表达式，我们需要导入`re`模块，所以这是我们的第一步:
 
-```
+```py
 import re 
 ```
 
 接下来，我们将获取我们的`base_string`变量，包含我们的 *lorem ipsum* 文本，并作为参数提供给我们在`re`模块中找到的`findall`函数。与`base_string`一起，我们还将提供一个使用 RegEx 语法的模式，如下所示:
 
-```
+```py
 import re
 
 word_list = re.findall("[A-Za-z]+", base_string) 
@@ -98,7 +98,7 @@ RegEx 是出了名的神秘，但是我们这里的模式相对简单。它说�
 
 我们可能会提出一个很好的论点，即“约翰的”和“还没有”是单个词，在这种情况下，我们有一个问题。现在，如果我们对这个句子运行代码，我们会得到以下结果:
 
-```
+```py
 import re
 
 base_string = "John's dog hasn't eaten its food."
@@ -113,7 +113,7 @@ word_list = re.findall("[A-Za-z]+", base_string)
 
 `sub`接受一个模式、该模式的替换字符串和要搜索的字符串。
 
-```
+```py
 import re
 
 base_string = "John's dog hasn't eaten its food."
@@ -135,7 +135,7 @@ processed_words = [re.sub("[^A-Za-z]+", "", word) for word in word_list]
 
 让我们从字符串替换方法开始，使用我们原来的段落:
 
-```
+```py
 import re
 
 word_list = base_string.split(" ")
@@ -155,7 +155,7 @@ print(longest_word)  # consectetur
 
 我们可以利用`max`函数来代替这种相当手工的方法。
 
-```
+```py
 import re
 
 word_list = base_string.split(" ")
@@ -174,7 +174,7 @@ print(longest_word)  # consectetur
 
 为了找到所有最长的单词，现在我们知道最长的单词实际上是什么，我们可以对我们的`processed_words`进行第二次遍历。我们可以用一个条件列表理解来做到这一点。
 
-```
+```py
 import re
 
 word_list = base_string.split(" ")

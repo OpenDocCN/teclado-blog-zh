@@ -8,7 +8,7 @@
 
 让我们看一个简单的例子:
 
-```
+```py
 x = 6
 value = x if x < 10 else "Invalid value"  # 6 
 ```
@@ -17,7 +17,7 @@ value = x if x < 10 else "Invalid value"  # 6
 
 我们可以看到一种情况是`x`的值不小于下面的`10`:
 
-```
+```py
 x = 10
 value = x if x < 10 else "Invalid value"  # Invalid value 
 ```
@@ -26,7 +26,7 @@ value = x if x < 10 else "Invalid value"  # Invalid value
 
 首先，我们从条件为`True`时返回的值开始。在我们的例子中，这是`x`。然后我们有了跟随着一些条件的`if`关键字。在我们的例子中，这是一个使用小于运算符的比较，但是任何可以计算为布尔值的表达式都可以。在条件之后，我们使用`else`关键字，后跟如果条件评估为`False`时返回的值。
 
-```
+```py
 <value if condition True> if <condition> else <value if condition False> 
 ```
 
@@ -36,7 +36,7 @@ value = x if x < 10 else "Invalid value"  # Invalid value
 
 条件表达式可以通过追加到`else`子句来链接，但是语法已经够混乱了，所以我不建议这样做:
 
-```
+```py
 x = 16
 value = x if x < 10 else "Invalid value" if x < 15 else "Super invalid value" 
 ```
@@ -45,7 +45,7 @@ value = x if x < 10 else "Invalid value" if x < 15 else "Super invalid value"
 
 就我个人而言，我认为条件和返回值的顺序非常不直观，很难理解这些条件表达式的逻辑。通常只使用 if 语句会清楚得多，即使它稍微长一点:
 
-```
+```py
 x = 10
 
 if x < 10:

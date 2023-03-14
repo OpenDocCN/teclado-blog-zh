@@ -25,7 +25,7 @@
 
 例如，我们可以编写一个`while`循环，它将一直运行，直到用户输入 10 或更高的值。
 
-```
+```py
 `user_number = input("Please enter a number: ")
 
 while int(user_number) < 10:
@@ -59,7 +59,7 @@ print("Your number was at least 10.")`
 
 我不建议您运行这段代码，但是我们可以这样写:
 
-```
+```py
 `while True:
     print("Hello there!")` 
 ```
@@ -70,7 +70,7 @@ print("Your number was at least 10.")`
 
 例如，让我们创建一个简单文本菜单的框架。我们将有几个选项供用户选择，其中一个选项是关闭菜单。这个选项就是字符串`"q"`。
 
-```
+```py
 `while True:
     selected_option = input("Please enter 'a', 'b', or 'c', or enter 'q' to quit: ")
 
@@ -99,7 +99,7 @@ print("Your number was at least 10.")`
 
 如果你开始看别人的代码，你可能会看到一些像下面这样写的循环，用`1`作为循环条件:
 
-```
+```py
 `while 1:
     ... some actions here ...` 
 ```
@@ -116,7 +116,7 @@ print("Your number was at least 10.")`
 
 例如，让我们创建一个只打印偶数的循环:
 
-```
+```py
 `for number in range(10):
     if number % 2 != 0:
         continue
@@ -147,7 +147,7 @@ print("Your number was at least 10.")`
 
 如果我们只要发现一个数不是质数就中断，这意味着如果我们完成循环，并因此没有遇到`break`语句，我们就有一个质数。这些也是触发`else`子句的条件。
 
-```
+```py
 `# Get a number to test from the user
 dividend = int(input("Please enter a number: "))
 
@@ -164,7 +164,7 @@ else:
 
 我们也可以用一个`while`循环做类似的事情:
 
-```
+```py
 `# Get a number to test from the user, and set the initial divisor to 2
 dividend = int(input("Please enter a number: "))
 divisor = 2

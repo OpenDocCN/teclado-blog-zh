@@ -58,7 +58,7 @@ cookies 的这种机制允许 Flask 识别浏览器，对于每个浏览器，�
 
 让我们看看如何实现 Flask 端点来验证(登录)用户。我们必须通过模板中的表单从用户那里接收数据。这将通过一个`POST`请求来完成，因为这是提供的示例代码中表单的方法。
 
-```
+```py
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -79,7 +79,7 @@ def login():
 
 然后，我们将它们重定向到主页，如果用户名在会话中，我们将显示用户名(如果不在会话中，则显示`"Unknown"`):
 
-```
+```py
 @app.route("/")
 def home():
     return render_template("home.html", name=session.get("username", "Unknown")) 
@@ -93,7 +93,7 @@ def home():
 
 注册用户非常简单。根据他们给我们的用户名和密码数据，我们只需检查用户名是否已经存在。然后我们将它添加到字典中:
 
-```
+```py
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -111,7 +111,7 @@ def register():
 
 要注销用户，我们只需清除会话—从会话中删除用户名意味着后续请求将被视为“注销”。请注意，浏览器仍然有 cookie，Flask 仍然有会话。它只会是空的。
 
-```
+```py
 @app.route("/logout")
 def logout():
     session.clear()

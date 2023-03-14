@@ -6,20 +6,20 @@
 
 ### 1)下面你会发现一个包含几个充满数字的元组的列表。使用`map`函数计算每个元组中数字的总和。使用手动迭代打印由结果`map`对象提供的前两个结果。
 
-```
+```py
 `numbers = [(23, 3, 56), (98, 1034, 54), (254, 344, 5), (45, 2), (122, 63, 74)]` 
 ```
 
 首先，让我们创建我们的`map`对象。在这种情况下，我们不需要任何复杂的东西，比如 lambda 表达式或来自`operator`模块的东西:我们可以只使用`sum`函数。
 
-```
+```py
 `numbers = [(23, 3, 56), (98, 1034, 54), (254, 344, 5), (45, 2), (122, 63, 74)]
 totals = map(sum, numbers)` 
 ```
 
 现在我们有了一个分配给`totals`的`map`对象，我们只需要将这个`map`对象传递给`next`就可以从中获得一个项目。这是可能的，因为`map`对象是迭代器。
 
-```
+```py
 `numbers = [(23, 3, 56), (98, 1034, 54), (254, 344, 5), (45, 2), (122, 63, 74)]
 totals = map(sum, numbers)
 
@@ -37,7 +37,7 @@ print(next(totals))  # 1186`
 
 如果我们看一下文档，我们可以看到函数签名是这样的:
 
-```
+```py
 `itertools.cycle(iterable)` 
 ```
 
@@ -45,7 +45,7 @@ print(next(totals))  # 1186`
 
 记住这一点，让我们导入模块并创建两个`cycle`迭代器:一个用于雇员，一个用于一周中的日子。
 
-```
+```py
 `import itertools
 
 employees = itertools.cycle(["Peter", "Fiona", "Carl"])
@@ -54,7 +54,7 @@ days = itertools.cycle(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", 
 
 现在我们有了这个，剩下的解决方案就很简单了。我们只需要创建一个有 30 次迭代的`for`循环，这可以通过迭代一个`range`来完成。然后我们可以使用这个`range`中的值作为天数，我们可以使用`next`从两个周期中获取值。
 
-```
+```py
 `import itertools
 
 employees = itertools.cycle(["Peter", "Fiona", "Carl"])
@@ -66,7 +66,7 @@ for day_number in range(1, 31):
 
 这种解决方案的一个非常好的地方是，我们可以通过修改传递给 employees `cycle`的列表来添加或删除员工。我们不需要做任何其他的改变。
 
-```
+```py
 `import itertools
 
 employees = itertools.cycle(["Peter", "Fiona", "Carl", "Helen"])

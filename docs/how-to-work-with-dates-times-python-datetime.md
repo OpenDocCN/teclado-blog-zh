@@ -10,7 +10,7 @@
 
 简单地说，`datetime`对象是存储特定时间点信息的对象。年、月、日、小时、分钟和秒等信息。有了这些信息，我们就可以用一个`datetime`对象来指代某个特定的时刻。例如:
 
-```
+```py
 import datetime
 
 today = datetime.datetime(year=2019, month=12, day=23, hour=11, minute=49, second=30)
@@ -21,7 +21,7 @@ print(today)  # 2019-12-23 11:49:30
 
 例如，给定两个`datetime`物体，你可以比较它们，看看哪一个更接近未来。
 
-```
+```py
 import datetime
 
 today = datetime.datetime(year=2019, month=12, day=23, hour=11, minute=49, second=30)
@@ -35,7 +35,7 @@ print(today > tomorrow)  # False
 
 因为获取今天的日期非常常见，所以`datetime`类附带了一个方法，您可以使用该方法获取今天的日期的新的`datetime`对象:
 
-```
+```py
 import datetime
 
 print(datetime.datetime.now())
@@ -50,7 +50,7 @@ print(datetime.datetime.now())
 
 你不能把两个日期加在一起，因为那很少有意义。比如把“今天”加到“今天”上应该会怎么样？
 
-```
+```py
 import datetime
 
 print(datetime.datetime.now() + datetime.datetime.now())
@@ -59,7 +59,7 @@ print(datetime.datetime.now() + datetime.datetime.now())
 
 相反，当你想改变一个日期时——例如增加几天——我们使用`timedelta`类。数学中的一个“delta”就是“变化”的意思，所以这个名字就是这么来的。
 
-```
+```py
 import datetime
 
 today = datetime.datetime.now()
@@ -84,7 +84,7 @@ print(today + one_week) # 2019-12-30 11:58:52.073407
 
 您可以使用内置的`str()`函数将日期`print`转换成字符串，这样它们就会以这种格式显示:
 
-```
+```py
 import datetime
 
 print(datetime.datetime.now())
@@ -95,7 +95,7 @@ print(datetime.datetime.now())
 
 你可以通过使用`.strftime()`来做到这一点，它代表“**str**ing**f**format**time**”。
 
-```
+```py
 import datetime
 
 today = datetime.datetime.now()
@@ -119,7 +119,7 @@ print(today.strftime("%H:%M")
 
 我们可以使用`.strptime`将日期字符串解析成`datetime`对象:
 
-```
+```py
 import datetime
 
 user_date = input("Enter today's date: ")
@@ -141,7 +141,7 @@ print(today)  # 2019-12-23 00:00:00
 
 要获得时间戳，您可以调用任何`datetime`对象的`timestamp()`方法:
 
-```
+```py
 import datetime
 
 today = datetime.datetime.now()
@@ -150,7 +150,7 @@ print(today.timestamp())  # 1577104357.558527
 
 因为现在获取*的时间戳*非常常见，所以我们可以使用`time`模块更容易地获取它:**
 
-```
+```py
 import time
 
 print(time.time())  # 1577104492.7515678 
@@ -174,7 +174,7 @@ print(time.time())  # 1577104492.7515678
 
 我们称之为“偏移量”，通常放在日期和时间之后。例如:
 
-```
+```py
 2019-12-23 11:54:13+01:00 
 ```
 
@@ -188,7 +188,7 @@ print(time.time())  # 1577104492.7515678
 
 我们了解到，您可以像这样获取当地时间:
 
-```
+```py
 import datetime
 
 today = datetime.datetime.now()
@@ -197,7 +197,7 @@ print(today) # 2019-12-23 15:35:56.133138
 
 这样做的时候，你可以让 Python 获取当前时间，但是要转换成不同的时区。下面我们将`datetime.timezone.utc`传递给`.now()`,这样 Python 就会给出 UTC 时区的当前时间。
 
-```
+```py
 import datetime
 
 today = datetime.datetime.now(datetime.timezone.utc)
@@ -232,7 +232,7 @@ print(today) # 2019-12-23 15:35:56.133138+00:00
 
 `pytz`模块带有一个完整的时区数据库，可以通过它们的[官方名称](https://timezonedb.com/time-zones)访问:
 
-```
+```py
 import pytz
 
 eastern = pytz.timezone("US/Eastern")
@@ -243,7 +243,7 @@ amsterdam = pytz.timezone("Europe/Amsterdam")
 
 如果您有一个简单的`datetime`对象(来自内置模块)，您可以使用`pytz`来添加时区信息:
 
-```
+```py
 import datetime
 import pytz
 
@@ -261,7 +261,7 @@ print(eastern_time)  # 2020-02-12 11:47:21.817708-05:00
 
 如果你有一个 aware `datetime`对象，你想把它转换到另一个时区，那么你也可以用`pytz`来做这件事:
 
-```
+```py
 import datetime
 import pytz
 
@@ -294,7 +294,7 @@ print(amsterdam_time)  # 2020-02-12 17:47:21.817708+01:00
 
 `pytz`模块带有一个`pytz.utc`时区，你可以在构造`datetime`对象时使用它来简化这个过程:
 
-```
+```py
 import datetime
 import pytz
 

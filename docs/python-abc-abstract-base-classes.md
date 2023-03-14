@@ -10,7 +10,7 @@
 
 我认为最好的学习方法是使用示例，所以让我们来看看下面的代码:
 
-```
+```py
 class Lion:
     def give_food(self):
         print("Feeding a lion with raw meat!")
@@ -31,7 +31,7 @@ sam = Snake()
 
 我们的工作是使用 Python 脚本喂养所有的动物。一种方法是:
 
-```
+```py
 leo.give_food()
 po.feed_animal()
 sam.feed_snake() 
@@ -45,7 +45,7 @@ sam.feed_snake()
 
 我们希望优化流程，所以我们可以提出这样一个解决方案:
 
-```
+```py
 # Put all the animals in a list:
 zoo = [leo, po, sam] # Could be many more animals there!
 
@@ -74,7 +74,7 @@ for animal in zoo:
 
 让我们看一下代码:
 
-```
+```py
 from abc import ABC, abstractmethod
 # abc is a builtin module, we have to import ABC and abstractmethod
 
@@ -90,7 +90,7 @@ class Animal(ABC): # Inherit from ABC(Abstract base class)
 
 如果你从 Animal 类继承，但是没有实现抽象方法，你会得到一个错误:
 
-```
+```py
 class Panda(Animal): # If a class inherits from an ABC, it must implement all it's abstract methods!
     def wrong_name(self): # The method's name must match the name of the ABC's method
         print("Feeding a panda with some tasty bamboo!") 
@@ -100,7 +100,7 @@ class Panda(Animal): # If a class inherits from an ABC, it must implement all it
 
 记住这一点，我们需要让我们的动物(这次是正确的):
 
-```
+```py
 class Lion(Animal):
     def feed(self):
         print("Feeding a lion with raw meat!") 
@@ -116,7 +116,7 @@ class Snake(Animal):
 
 最后，这是我们创造和喂养动物所需的所有代码:
 
-```
+```py
 zoo = [Lion(), Panda(), Snake()]
 
 for animal in zoo:
@@ -127,7 +127,7 @@ for animal in zoo:
 
 当一个抽象方法有参数时会发生什么？当子类实现方法时，它也必须包含所有的参数。如果需要，子类的实现也可以添加额外的参数。
 
-```
+```py
 from abc import ABC,abstractmethod 
 
 class Animal(ABC):
@@ -148,7 +148,7 @@ class Snake(Animal):
         print(f"{action} a snake! At {time}") 
 ```
 
-```
+```py
 zoo = [Lion(), Panda(), Snake()]
 
 for animal in zoo:
@@ -157,7 +157,7 @@ for animal in zoo:
 
 运行上面的代码将会打印出:
 
-```
+```py
 feeding a lion! At 10:10 PM
 feeding a panda! At 10:10 PM
 feeding a snake! At 10:10 PM 
@@ -173,7 +173,7 @@ feeding a snake! At 10:10 PM
 
 看一下`Animal`、`Lion`、`Snake`的代码:
 
-```
+```py
 from abc import ABC, abstractmethod
 
 class Animal(ABC):
@@ -216,7 +216,7 @@ class Snake(Animal):
 
 我们可以创建两个对象，设置我们要喂它们的食物，然后调用`feed()`方法:
 
-```
+```py
 leo = Lion()
 leo.food_eaten = "antelope" 
 leo.feed("10:10 AM")
@@ -227,14 +227,14 @@ adam.feed("10:20 AM")
 
 它将打印出:
 
-```
+```py
 Feeding a lion with antelope meat! At 10:10 AM
 Feeding a snake with frog meat! At 10:10 AM 
 ```
 
 如果我们试图给动物喂食它不吃的东西:
 
-```
+```py
 leo = Lion()
 leo.food_eaten = "carrot" 
 leo.feed("10:10 AM") 
@@ -242,7 +242,7 @@ leo.feed("10:10 AM")
 
 `setter`将引发一个`ValueError`:
 
-```
+```py
 You can't feed this animal with carrot. 
 ```
 

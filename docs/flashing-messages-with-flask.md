@@ -18,7 +18,7 @@
 
 为了刷新消息，您必须有一个 Flask 端点，并且`flash`导入:
 
-```
+```py
 from flask import flash, render_template
 
 ...
@@ -39,7 +39,7 @@ def home():
 
 让我们来看看可以使用消息存储库的模板:
 
-```
+```py
 <!DOCTYPE html>
 <html>
   <head></head>
@@ -57,7 +57,7 @@ def home():
 
 如果您决定不止一次打电话给`flash()`:
 
-```
+```py
 @app.route("/")
 def home():
     flash("This is a flashed message.")
@@ -71,7 +71,7 @@ def home():
 
 假设我们有下面的代码，它允许用户登录:
 
-```
+```py
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -92,7 +92,7 @@ def login():
 
 这意味着如果我们想要显示消息，我们的`login.html`模板应该能够处理闪烁的消息。
 
-```
+```py
 <!DOCTYPE html>
 <html>
   <head>
@@ -127,7 +127,7 @@ def login():
 
 然后，在您的模板中，您可以通过使用`with_categories=True`参数来访问类别。注意，类别是返回的元组的第一个元素，后面是消息:
 
-```
+```py
 {% for category, message in get_flashed_messages(with_categories=True) %}
   <div class="alert-{{category}}">Error: {{ message }}</div>
 {% endfor %} 
@@ -137,7 +137,7 @@ def login():
 
 这意味着在我们的 CSS 中，我们现在可以这样:
 
-```
+```py
 .alert-error {
   background-color: red;
   color: white;
@@ -157,7 +157,7 @@ def login():
 
 如果你想给你的提醒添加更多的样式，你可以这样做:
 
-```
+```py
 .alert-error {
   padding: 12px;
   border-radius: 3px;
@@ -183,7 +183,7 @@ def login():
 
 在 CSS 中，您通常可以将它提取到另一个类中，并在 HTML 中应用两个类，而不是一个。这样做会更好:
 
-```
+```py
 .alert {
   padding: 12px;
   border-radius: 3px;
@@ -208,7 +208,7 @@ def login():
 
 然后，在 HTML 中，您将对元素应用`alert`和适当的 alert 类类型:
 
-```
+```py
 {% for category, message in get_flashed_messages(with_categories=True) %}
   <div class="alert alert-{{category}}">Error: {{ message }}</div>
 {% endfor %} 

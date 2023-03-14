@@ -16,13 +16,13 @@
 
 要在虚拟环境中安装库，请执行以下操作:
 
-```
+```py
 pip install flask-reuploaded 
 ```
 
 然后，在你的 Flask 应用程序中，你必须创建一个`UploadSet`。为了创建它，我们需要一个名为的*和一个允许的文件扩展名列表。这个名字很重要，因为我们以后会用到它。*
 
-```
+```py
 import secrets  # built-in module
 from flask import Flask, flash, render_template, request, redirect, url_for
 from flask_uploads import IMAGES, UploadSet, configure_uploads
@@ -37,7 +37,7 @@ photos = UploadSet("photos", IMAGES)
 
 调用 [`configure_uploads(app, photos)`](https://flask-reuploaded.readthedocs.io/en/latest/#app-configuration) 将每个`UploadSet`的配置存储在`app`中，这样 Flask 就可以访问了。
 
-```
+```py
 app.config["UPLOADED_PHOTOS_DEST"] = "static/img"
 app.config["SECRET_KEY"] = str(secrets.SystemRandom().getrandbits(128))
 configure_uploads(app, photos) 
@@ -45,7 +45,7 @@ configure_uploads(app, photos)
 
 最后，我们可以创建一个视图函数，接受来自`request.files`的文件，并使用存储在`photos`变量中的`UploadSet`实例来保存它:
 
-```
+```py
 @app.post("/upload")
 def upload():
     if "photo" in request.files:
@@ -56,7 +56,7 @@ def upload():
 
 我的`index` route 只是渲染一个显示文件上传表单的模板:
 
-```
+```py
 @app.get("/")
 def index():
     return render_template("upload.html") 
@@ -64,7 +64,7 @@ def index():
 
 这是`upload.html`模板:
 
-```
+```py
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,7 +115,7 @@ def index():
 
 让我们从制作一个 Flask 应用程序来服务模板(将包括 Dropzone.js)和处理块开始:
 
-```
+```py
 import os
 from pathlib import Path
 
@@ -141,7 +141,7 @@ def upload_chunk():
 
 如果你想用它做更高级的事情，一定要阅读 Dropzone.js 文档，因为有很多[配置选项](https://docs.dropzone.dev/configuration/basics/configuration-options)可用。
 
-```
+```py
 <html lang="en">
 <head>
 
@@ -182,7 +182,7 @@ def upload_chunk():
 
 这就是`dzuuid`字段派上用场的地方。我们只需在上传文件名中添加几个字符，就可以得到一个唯一的文件名:
 
-```
+```py
 @app.post("/upload")
 def upload_chunk():
     file = request.files["file"]
@@ -193,7 +193,7 @@ def upload_chunk():
 
 这样，我们现在可以想出一个保存图像的路径。假设我们想将它们保存到`static/img/FILENAME`。如果尚未创建`static/img`文件夹，请创建该文件夹:
 
-```
+```py
 @app.post("/upload")
 def upload_chunk():
     file = request.files["file"]
@@ -207,7 +207,7 @@ def upload_chunk():
 
 要转到文件的结尾，我们将使用`dzchunkbyteoffset`,因为它应该告诉我们文件的结尾:
 
-```
+```py
 @app.post("/upload")
 def upload_chunk():
     file = request.files["file"]
@@ -233,7 +233,7 @@ def upload_chunk():
 
 如果有错误，我们将用一条短消息和一个状态代码 500 来响应。这将显示在 Dropzone 表单中。
 
-```
+```py
 @app.post("/upload")
 def upload_chunk():
     file = request.files["file"]
@@ -260,7 +260,7 @@ def upload_chunk():
 
 好吧，还不算太糟！让我们再做一些。如果写入文件时出错怎么办。例如，文件已经存在，或者我们要保存文件的目录不存在。让我们在`open`文件时处理它:
 
-```
+```py
 @app.post("/upload")
 def upload_chunk():
     file = request.files["file"]

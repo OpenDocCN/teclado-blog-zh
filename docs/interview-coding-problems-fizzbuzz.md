@@ -10,7 +10,7 @@ FizzBuzz 是一种儿童计数游戏，常用于教除法。这也是一个非�
 
 因此，前 10 次迭代如下所示:
 
-```
+```py
 1
 2
 Fizz
@@ -33,7 +33,7 @@ Buzz
 
 现在我们将忘记循环体，写下`pass`来表明它是故意为空的。
 
-```
+```py
 for number in range(1, 101):
     pass 
 ```
@@ -51,21 +51,21 @@ for number in range(1, 101):
 
 如果一个数能被三整除，我们取模运算的结果应该是`0`，所以我们现在可以写一个简单的 If 条件。
 
-```
+```py
 if number % 3 == 0:
     pass 
 ```
 
 如果您愿意，您可以使用标准除法和`is_integer()`方法来代替:
 
-```
+```py
 if (number / 3).is_integer():
     pass 
 ```
 
 检查 FizzBuzz 的方法有很多。我们可以用`and`来检查一个数是否能被`3`和`5`整除，或者你可能意识到任何能被`3`和`5`整除的数都能被`15`整除:
 
-```
+```py
 if number % 3 == 0 and number % 5 == 0:
     print("FizzBuzz")
 
@@ -77,7 +77,7 @@ if number % 15 == 0:
 
 到目前为止一切顺利，但是如果我们不小心的话，很容易落入其他陷阱。我在学生中经常看到的一个问题是这样的:
 
-```
+```py
 for number in range(1, 101):
     if number % 3 == 0:
         print("Fizz")
@@ -91,7 +91,7 @@ for number in range(1, 101):
 
 这里其实有几个问题。第一个是我们在第 15 次迭代中得到一个不期望的输出:
 
-```
+```py
 ...
 13
 14
@@ -102,7 +102,7 @@ FizzBuzz
 
 我们触发了所有的 if 条件，因为我们忘记了将这些条件绑定到一个块中。我们应该使用`elif`来确保只有一个条件被触发。同样，我们没有必要对不符合任何特殊条件的数字进行最后的检查。我们用`else`就可以了。
 
-```
+```py
 for number in range(1, 101):
     if number % 3 == 0:
         print("Fizz")
@@ -116,7 +116,7 @@ for number in range(1, 101):
 
 这解决了我们的一些问题，并使我们的代码更整洁，但现在我们有了一个新问题:
 
-```
+```py
 ...
 13
 14
@@ -127,7 +127,7 @@ Fizz
 
 我们必须确保我们的“嘶嘶”状态排在第一位，保证我们不会过早地意外触发“嘶嘶”或“嗡嗡”状态。
 
-```
+```py
 for number in range(1, 101):
     if number % 15 == 0:
         print("FizzBuzz")
@@ -149,7 +149,7 @@ for number in range(1, 101):
 
 处理 for 循环内部逻辑的一种方法是将条件块放在其他条件块中。我们可以测试任何能被`3`整除的东西，看看它是否也能被`5`整除，帮助我们避免我们之前看到的阻止“FizzBuzz”打印到控制台的排序问题。
 
-```
+```py
 for number in range(1, 101):
     if number % 3 == 0:
         if number % 5 == 0:
@@ -170,7 +170,7 @@ for number in range(1, 101):
 
 一旦字符串准备好了，我们可以检查它是否还是空的，如果是，就打印出数字:
 
-```
+```py
 for number in range(1, 101):
     string = ""
 
@@ -187,7 +187,7 @@ for number in range(1, 101):
 
 通过利用 Python 的`or`操作符，可以缩短对空字符串的最后检查，该操作符总是返回一个操作数，而不是`True`或`False`。我们将在[的另一篇文章](https://blog.teclado.com/logical-comparisons-in-python-and-or/)中详细讨论。
 
-```
+```py
 for number in range(1, 101):
     string = ""
 
@@ -203,7 +203,7 @@ for number in range(1, 101):
 
 这个解决方案很像上面的解决方案，但是使用 Python 稍微有点晦涩的三元运算符语法来执行字符串连接。
 
-```
+```py
 for number in range(1, 101):
     string = "Fizz" if number % 3 == 0 else ""
     string += "Buzz" if number % 5 == 0 else ""
@@ -216,7 +216,7 @@ for number in range(1, 101):
 
 我们也可以在这里对`or`使用相同的技巧。
 
-```
+```py
 for number in range(1, 101):
     string = "Fizz" if number % 3 == 0 else ""
     string += "Buzz" if number % 5 == 0 else ""

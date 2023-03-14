@@ -45,14 +45,14 @@
 
 然后，您会想要保存`keyID`和`applicationKey`。为此，在您的项目目录中创建一个`.env`文件，并将值放在那里(我的是假值):
 
-```
+```py
 B2_KEY_ID=045f47eaec1gfgg94100002
 B2_APPLICATION_KEY=J131s4ffbaq6i41SR+Hk131k1kj1jak+ZI 
 ```
 
 现在我们已经在这里得到了这些文件，如果您打算使用 Git 来做这件事，许多人肯定会将`.env`添加到您的`.gitignore`中:
 
-```
+```py
 .env
 *.pyc
 .DS_Store
@@ -64,14 +64,14 @@ B2_APPLICATION_KEY=J131s4ffbaq6i41SR+Hk131k1kj1jak+ZI
 
 首先让我们创建一个名为`requirements.txt`的文件，其中包含以下内容:
 
-```
+```py
 b2sdk
 python-dotenv 
 ```
 
 `python-dotenv`库将用于读取我们的`.env`文件的内容，并将它们放入环境变量中。然后，我将创建一个虚拟环境，激活它，并安装两个库:
 
-```
+```py
 $ pyenv local 3.10.7
 $ pyenv exec python -m venv .venv
 $ source .venv/bin/activate  # different on Windows
@@ -80,7 +80,7 @@ $ pip install -r requirements.txt
 
 接下来，为实际的文件上传创建一个 Python 文件，比如`app.py`。此时，最好找到一个文件或图像来测试上传，并把它放在你的项目文件夹中！
 
-```
+```py
 import os
 import b2sdk.v2 as b2
 from dotenv import load_dotenv
@@ -102,7 +102,7 @@ b2_api.authorize_account("production", application_key_id, application_key)
 
 这个很简单:
 
-```
+```py
 bucket = b2_api.get_bucket_by_name("teclado-b2-upload") 
 ```
 
@@ -110,7 +110,7 @@ bucket = b2_api.get_bucket_by_name("teclado-b2-upload")
 
 用最简单的话来说，就是这样做:
 
-```
+```py
 from pathlib import Path
 
 file_name = "sample.png"
@@ -124,7 +124,7 @@ metadata = {"key": "value"}
 
 最后，要将文件推送到 B2 存储桶，请执行以下操作:
 
-```
+```py
 uploaded_file = bucket.upload_local_file(
     local_file=local_file,
     file_name=file_name,
@@ -154,7 +154,7 @@ print(b2_api.get_download_url_for_fileid(uploaded_file.id_))
 
 这是我的`app.py`上传文件到 Backblaze B2 的代码！
 
-```
+```py
 import os
 import b2sdk.v2 as b2
 from dotenv import load_dotenv
@@ -193,13 +193,13 @@ print(b2_api.get_download_url_for_fileid(uploaded_file.id_))
 
 我们的`requirements.txt`:
 
-```
+```py
 flask 
 ```
 
 我们的`app.py`:
 
-```
+```py
 import os
 from pathlib import Path
 
@@ -243,7 +243,7 @@ def upload_chunk():
 
 我们的`index.html`:
 
-```
+```py
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -293,7 +293,7 @@ def upload_chunk():
 
 在文件的顶部，创建应用程序后，我将添加我们已经看到的代码来授权帐户。我已经在已经存在的行上留下了评论。
 
-```
+```py
 import os  # existing code
 import b2sdk.v2 as b2
 from pathlib import Path  # existing code
@@ -321,7 +321,7 @@ bucket = b2_api.get_bucket_by_name("teclado-b2-upload")
 
 目前，我们的上传端点中有这组 if 语句:
 
-```
+```py
 if current_chunk + 1 == total_chunks:
     # This was the last chunk, the file should be complete and the size we expect
     if os.path.getsize(save_path) != int(request.form["dztotalfilesize"]):
@@ -332,7 +332,7 @@ if current_chunk + 1 == total_chunks:
 
 我们可以在内部 if 语句中添加一个`else`分支，当上传成功时它将运行。在那里，我们将进行上传！记住文件应该已经在`./static/img/{filename}`了。还要记住从本地磁盘上删除文件，这样它们就不会永远存在了:
 
-```
+```py
 if current_chunk + 1 == total_chunks:
     # This was the last chunk, the file should be complete and the size we expect
     if os.path.getsize(save_path) != int(request.form["dztotalfilesize"]):

@@ -28,7 +28,7 @@ Python 非常严格地检查缩进级别，如果缩进不正确，就会给出�
 
 作为一个例子，我们正在创建一个函数`a()`，在这个函数中，你可以看到两个最初带有空格的注释和一个最初带有空格的 pass 语句。这个“初始空间”叫做缩进，这三行是函数内部的代码块。
 
-```
+```py
 def a(param1, param2):
 
     # code line 1 with indentation
@@ -66,7 +66,7 @@ python 中有 5 种数据类型:数值型、序列型、布尔型、集合型和
 
 代码示例:
 
-```
+```py
 x = "Hello, world!"  # string
 x = 20  # int
 x = 20.5  # float
@@ -84,7 +84,7 @@ x = True  # boolean
 
 代码示例:
 
-```
+```py
 x = "The line below is a single-line comment."
 
 # This is a single-line comment in Python! 
@@ -94,7 +94,7 @@ x = "The line below is a single-line comment."
 
 代码示例:
 
-```
+```py
 """
 This is a Python code example.
 
@@ -114,7 +114,7 @@ Python 中有几种类型的运算符，让我们详细讨论每一种。
 
 代码示例将显示所有算术运算符以及每个运算符各自的输出。
 
-```
+```py
 x = 23
 y = 5
 
@@ -146,7 +146,7 @@ x ** y  # 6436343
 
 这个代码示例将向您展示 Python 中所有赋值操作符的工作方式。
 
-```
+```py
 x = 23
 x += 5  # 28
 x -= 5  # back to 23
@@ -164,7 +164,7 @@ x **= 2  # 9
 
 这个代码示例将向您展示每个比较运算符是如何工作的。
 
-```
+```py
 x = 5
 y = 6
 z = 5
@@ -185,7 +185,7 @@ x <= z  # True
 
 展示如何在 Python 中使用逻辑运算符的代码示例:
 
-```
+```py
 x = 3
 y = 4
 
@@ -199,7 +199,7 @@ not x > y  # True
 
 它们用于比较对象，如果它们是具有相同内存位置的相同对象，则返回`True`。
 
-```
+```py
 x = ["apple", "banana"]
 y = ["apple", "banana"]
 z = x
@@ -215,7 +215,7 @@ print(x is y)  # False, same values but different "thing"
 
 下面的代码摘自[这里的](https://www.geeksforgeeks.org/python-bitwise-operators/)，如果你感兴趣，可以在这里阅读深入的解释。
 
-```
+```py
 a = 10  # 1010
 b = 4  # 0100
 
@@ -238,7 +238,7 @@ print(a ^ b)  # 14
 *   否则，如果`a`等于`4`，那么我们就给它加上`3`。
 *   最后，如果上面两个都没有执行，我们就给它加上`2`。
 
-```
+```py
 a = 4
 
 if a > 5:

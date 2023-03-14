@@ -6,7 +6,7 @@ Python 列表有一个方便的方法叫做`reverse`，但是它并不总是我�
 
 使用切片，我们可以绕过这些限制，在将序列赋给一个新变量之前，反转我们喜欢的任何序列。如果我们想使用相同的变量名，当然可以，因为 Python 允许我们随意将名称绑定到新对象。
 
-```
+```py
 friends = ["Rolf", "John", "Mary"]
 friends_reversed = friends[::-1]
 print(friends_reversed)  # ['Mary', 'John', 'Rolf']

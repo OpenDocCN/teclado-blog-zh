@@ -14,7 +14,7 @@
 
 让我们来看一个例子，当列表理解可能是有用的。想象一下我有一个这样的名字列表:
 
-```
+```py
 `names = ["mary", "Richard", "Noah", "KATE"]` 
 ```
 
@@ -22,7 +22,7 @@
 
 我想确保所有的名字都是大写的，所以我要遍历这个列表，从每个名字创建一个新的大写字符串。
 
-```
+```py
 `names = ["mary", "Richard", "Noah", "KATE"]
 processed_names = []
 
@@ -39,14 +39,14 @@ for name in names:
 
 这就是理解语法的用武之地。在我们详细讨论语法之前，让我们看一下上面使用列表理解代替传统循环的例子:
 
-```
+```py
 `names = ["mary", "Richard", "Noah", "KATE"]
 processed_names = [name.title() for name in names]` 
 ```
 
 更好的是，我们可以重用`names`而不是分配给`processed_names`:
 
-```
+```py
 `names = ["mary", "Richard", "Noah", "KATE"]
 names = [name.title() for name in names]` 
 ```
@@ -63,7 +63,7 @@ names = [name.title() for name in names]`
 
 例如，我们可以采用这样的代码:
 
-```
+```py
 `names = ("mary", "Richard", "Noah", "KATE")
 ages = (36, 21, 40, 28)
 
@@ -76,7 +76,7 @@ for name, age in zip(names, ages):
 
 我们可以用一种理解来改写它:
 
-```
+```py
 `names = ("mary", "Richard", "Noah", "KATE")
 ages = (36, 21, 40, 28)
 
@@ -85,7 +85,7 @@ people = [(name.title(), age) for name, age in zip(names, ages)]`
 
 在这两种情况下，`people`列表最终包含以下内容:
 
-```
+```py
 `[('Mary', 36), ('Richard', 21), ('Noah', 40), ('Kate', 28)]` 
 ```
 
@@ -95,7 +95,7 @@ people = [(name.title(), age) for name, age in zip(names, ages)]`
 
 有时理解会变得相当长，特别是当我们有很长的变量名时。在这种情况下，将理解分成几行会很有帮助，如下所示:
 
-```
+```py
 `people = [
     (name.title(), age)
     for name, age in zip(names, ages)
@@ -114,14 +114,14 @@ people = [(name.title(), age) for name, age in zip(names, ages)]`
 
 理解的内部结构和列表理解是一样的，我们只需要把所有东西都用花括号括起来，而不是方括号。
 
-```
+```py
 `names = ["mary", "Richard", "Noah", "KATE"]
 names = {name.title() for name in names}` 
 ```
 
 现在`names`是包含四个标题案例字符串的集合:
 
-```
+```py
 `{'Mary', 'Richard', 'Noah', 'Kate'}` 
 ```
 
@@ -135,7 +135,7 @@ names = {name.title() for name in names}`
 
 例如，假设我们有这样一个循环:
 
-```
+```py
 `student_ids = (112343, 134555, 113826, 124888)
 names = ("mary", "Richard", "Noah", "KATE")
 
@@ -150,7 +150,7 @@ for student_id, name in zip(student_ids, names):
 
 我们将这些集合压缩在一起，这样在我们的`zip`对象中就有这样的东西:
 
-```
+```py
 `(112343, "mary"), (134555, "Richard"), (113826, "Noah"), (124888, "KATE")` 
 ```
 
@@ -158,13 +158,13 @@ for student_id, name in zip(student_ids, names):
 
 结果是这样的字典:
 
-```
+```py
 `{112343: 'Mary', 134555: 'Richard', 113826: 'Noah', 124888: 'Kate'}` 
 ```
 
 我们可以用这样的词典理解来生产同一本词典:
 
-```
+```py
 `student_ids = (112343, 134555, 113826, 124888)
 names = ("mary", "Richard", "Noah", "KATE")
 
@@ -178,13 +178,13 @@ students = {
 
 随后是一个循环定义，确定原始值的来源:
 
-```
+```py
 `for student_id, name in zip(student_ids, names)` 
 ```
 
 所有这些都放在花括号内，表示我们在使用字典理解:
 
-```
+```py
 `students = {
     student_id: name.title()
     for student_id, name in zip(student_ids, names)
@@ -199,7 +199,7 @@ students = {
 
 例如，对于常规循环，我们可以这样做:
 
-```
+```py
 `names = ["Mary", "Richard", "Noah", "Kate"]
 names_lower = []
 
@@ -213,7 +213,7 @@ print(name)  # This refers to the name variable we defined in the loop`
 
 如果我们用另一方面的理解，我们就不能这样做:
 
-```
+```py
 `names = ["Mary", "Richard", "Noah", "Kate"]
 names_lower = [name.lower() for name in names]
 
@@ -222,7 +222,7 @@ print(name)  # NameError`
 
 参考`name`给我们一个`NameError`，因为`name`没有被定义:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 4, in <module>
     print(name)  # NameError
@@ -233,14 +233,14 @@ NameError: name 'name' is not defined`
 
 这些差异的原因是理解实际上是函数。当我们写下这样的话:
 
-```
+```py
 `names = ["Mary", "Richard", "Noah", "Kate"]
 names_lower = [name.lower() for name in names]` 
 ```
 
 在幕后，Python 正在运行一个与此类似的函数:
 
-```
+```py
 `def temp():
     new_list = []
 
@@ -268,7 +268,7 @@ names_lower = [name.lower() for name in names]`
 
 1)将下面的 for 循环转换成一个理解:
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 squares = []
 
@@ -278,7 +278,7 @@ for number in numbers:
 
 2)使用字典理解从下面的字典创建新字典，其中每个值都是标题大小写。
 
-```
+```py
 `movie = {
     "title": "thor: ragnarok",
     "director": "taika waititi",

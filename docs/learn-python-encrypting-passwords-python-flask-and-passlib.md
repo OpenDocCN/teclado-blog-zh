@@ -34,7 +34,7 @@
 
 要安装 passlib，我们需要做的就是:
 
-```
+```py
 pip install passlib 
 ```
 
@@ -48,7 +48,7 @@ Passlib 通过定义上下文来工作。在其中，我们指定我们将使用
 
 使用 PBKDF2 创建上下文如下所示。将以下代码放入一个新文件(例如`security.py`):
 
-```
+```py
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(
@@ -74,7 +74,7 @@ pwd_context = CryptContext(
 
 现在我们有了我们的`CryptContext`，我们可以用它来加密和验证密码。让我们在创建上下文的同一个文件中添加几个函数:
 
-```
+```py
 def encrypt_password(password):
     return pwd_context.encrypt(password)
 

@@ -22,7 +22,7 @@
 
 app.py
 
-```
+```py
 `import pygame
 
 pygame.init()
@@ -50,7 +50,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 
 pygame.init()
@@ -93,7 +93,7 @@ RGBA 还有一个附加价值，那就是透明度。A 代表阿尔法。
 
 app.py
 
-```
+```py
 `import pygame
 
 pygame.init()
@@ -120,7 +120,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 
 pygame.init()
@@ -145,7 +145,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 from collections import namedtuple
 
@@ -193,7 +193,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 from collections import namedtuple
 
@@ -232,7 +232,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 from collections import namedtuple
 
@@ -273,7 +273,7 @@ main()`
 
 在表面上绘制文本稍微复杂一些。我们首先必须从`pygame.font`模块中创建一个`Font`对象，如下所示:
 
-```
+```py
 `font = pygame.font.Font(None, 28)` 
 ```
 
@@ -283,14 +283,14 @@ main()`
 
 `render`方法接受一个字符串，它将形成文本内容、一个布尔值和一个颜色。布尔值表示是否要使用抗锯齿。
 
-```
+```py
 `font = pygame.font.Font(None, 28)
 text = font.render("Woo! This is some text!", True, (0, 0, 0))` 
 ```
 
 最后，我们可以通过在我们想要绘制的表面上调用`blit`方法来将文本绘制到表面上。
 
-```
+```py
 `font = pygame.font.Font(None, 28)
 text = font.render("Woo! This is some text!", True, (0, 0, 0))
 screen.blit(text, (50, 50))` 
@@ -312,7 +312,7 @@ screen.blit(text, (50, 50))`
 
 app.py
 
-```
+```py
 `import pygame
 from collections import namedtuple
 
@@ -359,7 +359,7 @@ main()`
 
 app.py
 
-```
+```py
 `for event in pygame.event.get():
     if event.type == pygame.QUIT:
         return` 
@@ -377,7 +377,7 @@ app.py
 
 app.py
 
-```
+```py
 `import pygame
 
 pygame.init()
@@ -405,7 +405,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 from collections import namedtuple
 
@@ -450,7 +450,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 from collections import namedtuple
 from random import randint
@@ -493,7 +493,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 from collections import namedtuple
 from random import randint
@@ -546,7 +546,7 @@ main()`
 
 app.py
 
-```
+```py
 `import pygame
 from collections import namedtuple
 from random import randint

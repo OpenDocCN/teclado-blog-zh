@@ -18,7 +18,7 @@
 
 打开控制台，键入以下命令:
 
-```
+```py
 whoami 
 ```
 
@@ -26,7 +26,7 @@ whoami
 
 接下来，让我们导航到您用户的“个人”文件夹:
 
-```
+```py
 cd ~ 
 ```
 
@@ -37,7 +37,7 @@ cd ~
 要创建一个文件夹，我们使用`mkdir`命令。
 创建一个空文件，我们使用`touch`命令。
 
-```
+```py
 # This creates a folder 'documents' inside your home folder.
 mkdir ~/documents
 
@@ -47,7 +47,7 @@ touch ~/documents/hello.txt
 
 如果我们想在另一个文件夹中创建一个文件夹，而这两个文件夹都不存在:
 
-```
+```py
 mkdir -p ~/documents/work/journal 
 ```
 
@@ -57,7 +57,7 @@ mkdir -p ~/documents/work/journal
 
 最后，让我们看看删除。我们使用`rm`命令删除。
 
-```
+```py
 # This deletes the file 'hello.txt'
 rm ~/documents/hello.txt
 # This deletes the folder 'work', including everything it contains

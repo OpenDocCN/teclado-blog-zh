@@ -8,7 +8,7 @@
 
 为了使用一个`namedtuple`，我们需要为它定义一个蓝图。例如，如果我们想要一个名为`Student`的`namedtuple`，其中的元素是学生的姓名、年龄和主要教师，它可能看起来像这样:
 
-```
+```py
 from collections import namedtuple
 
 Student = namedtuple("Student", ["name", "age", "faculty"]) 
@@ -26,7 +26,7 @@ Student = namedtuple("Student", ["name", "age", "faculty"])
 
 既然我们已经定义了蓝图，我们可以在代码中使用`Student`。例如，我们可能会这样做:
 
-```
+```py
 from collections import namedtuple
 
 Student = namedtuple("Student", ["name", "age", "faculty"])
@@ -45,7 +45,7 @@ students = [
 
 在上面的例子中，我们使用了`*`语法来析构`zip`对象中的每个元组，但是我们有一些其他的选择。例如，我们可以使用关键字参数来定义一个`namedtuple`的值:
 
-```
+```py
 example_student = Student(name="James", age=18, faculty="Music") 
 ```
 
@@ -55,7 +55,7 @@ example_student = Student(name="James", age=18, faculty="Music")
 
 我们可以这样做:
 
-```
+```py
 oldest_student = max(students, key=lambda student: student.age) 
 ```
 
@@ -65,7 +65,7 @@ oldest_student = max(students, key=lambda student: student.age)
 
 使用常规元组或列表，可能看起来更像这样:
 
-```
+```py
 oldest_student = max(students, key=lambda student: student[1]) 
 ```
 
@@ -75,13 +75,13 @@ oldest_student = max(students, key=lambda student: student[1])
 
 为了结束上面的例子，让我们打印出`oldest_student`:
 
-```
+```py
 Student(name='Steve', age=20, faculty='Economics') 
 ```
 
 输出实际上非常易读，但是为了让用户看起来不那么像代码，我们可以使用 f 字符串:
 
-```
+```py
 print(f"{oldest_student.name} ({oldest_student.age}) - {oldest_student.faculty}")
 
 # Steve (20) - Economics 

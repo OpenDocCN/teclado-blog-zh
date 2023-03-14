@@ -24,7 +24,7 @@
 
 这将是对`math`模块的完美应用，因为我们可以利用`math`模块的`pi`常数:
 
-```
+```py
 `import math
 
 print(math.pi * 5**2)  # 78.53981633974483` 
@@ -36,7 +36,7 @@ print(math.pi * 5**2)  # 78.53981633974483`
 
 举以下例子:
 
-```
+```py
 `numbers = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
 print(sum(numbers))  # 0.9999999999999999` 
 ```
@@ -45,7 +45,7 @@ print(sum(numbers))  # 0.9999999999999999`
 
 然而，如果我们使用`fsum`函数，数学就会回归正常:
 
-```
+```py
 `import math
 
 numbers = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
@@ -84,7 +84,7 @@ print(math.fsum(numbers))  # 1.0`
 
 首先，我们来试试`import math`。我们可以看到全局名称空间中的内容如下:
 
-```
+```py
 `import math
 
 print(globals())` 
@@ -92,7 +92,7 @@ print(globals())`
 
 我们得到的是这样的字典:
 
-```
+```py
 `{
     '__name__': '__main__',
     '__doc__': None,
@@ -113,7 +113,7 @@ print(globals())`
 
 现在让我们看看当我们从`math`模块导入特定的项目时会发生什么。我将再次使用`pi`和`tau`常量，所以现在我们的代码看起来像这样
 
-```
+```py
 `from math import pi, tau
 
 print(globals())` 
@@ -121,7 +121,7 @@ print(globals())`
 
 我们得到以下输出:
 
-```
+```py
 `{
     '__name__': '__main__',
     '__doc__': None,
@@ -163,7 +163,7 @@ print(globals())`
 
 在这种情况下，让我们打印出最终出现在全局名称空间中的内容:
 
-```
+```py
 `import numpy as np
 
 print(globals())` 
@@ -171,7 +171,7 @@ print(globals())`
 
 如果你在 [repl.it](http://repl.it/) 上运行这段代码，你会得到类似下面的输出。如果您在本地 Python 安装中运行这个，代码可能不工作，因为`numpy`是第三方模块，必须安装。
 
-```
+```py
 `{
     '__name__': '__main__',
     '__doc__': None,
@@ -200,7 +200,7 @@ print(globals())`
 
 如果您想亲自查看，请运行下面的代码。
 
-```
+```py
 `from math import *
 
 print(globals())` 
@@ -220,7 +220,7 @@ print(globals())`
 
 2)仅从`math`模块导入`fsum`函数，并使用它来计算以下浮点序列的总和:
 
-```
+```py
 `numbers = [1.43, 1.1, 5.32, 87.032, 0.2, 23.4]` 
 ```
 

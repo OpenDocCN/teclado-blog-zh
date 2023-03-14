@@ -6,7 +6,7 @@
 
 ### 1)下面我们提供了一个元组列表，其中每个元组包含一个商店雇员的详细信息。以一种清晰易读的格式打印出每个员工在周末应得的工资。
 
-```
+```py
 `employees = [
     ("Rolf Smith", 35, 8.75),
     ("Anne Pun", 30, 12.50),
@@ -19,7 +19,7 @@
 
 在这种情况下，我的 for 循环将如下所示:
 
-```
+```py
 `for employee in employees:` 
 ```
 
@@ -31,14 +31,14 @@
 
 我想为每个员工做的第一件事是找出他们的总工资。这将是他们工作的小时数，乘以他们的时薪。这些是每个元组中的第二和第三项，我们将通过索引来访问这些值。
 
-```
+```py
 `for employee in employees:
     total_pay = employee[1] * employee[2]` 
 ```
 
 最后，我们需要打印信息。我将使用 f 弦，但如果您喜欢，也可以使用不同的方法。
 
-```
+```py
 `for employee in employees:
     total_pay = employee[1] * employee[2]
     print(f"{employee[0]} has to be paid £{total_pay}")` 
@@ -46,7 +46,7 @@
 
 如果我们想让它看起来更好一点，我们可以利用 Python 中一些额外的格式化选项。要将我们的`total_pay`值打印到两位小数，我们可以这样做:
 
-```
+```py
 `for employee in employees:
     total_pay = employee[1] * employee[2]
     print(f"{employee[0]} has to be paid £{total_pay:.2f}")` 
@@ -64,7 +64,7 @@
 
 我打算这样做:
 
-```
+```py
 `employees = [
     ("Rolf Smith", 35, 8.75),
     ("Anne Pun", 30, 12.50),
@@ -82,7 +82,7 @@ for employee in employees:
 
 接下来，我们需要知道我们有多少员工。我们可以为此使用另一个计数器。
 
-```
+```py
 `employees = [
     ("Rolf Smith", 35, 8.75),
     ("Anne Pun", 30, 12.50),
@@ -102,7 +102,7 @@ for employee in employees:
 
 我们现在可以这样计算平均工资:
 
-```
+```py
 `employees = [
     ("Rolf Smith", 35, 8.75),
     ("Anne Pun", 30, 12.50),
@@ -124,7 +124,7 @@ average_wage = total / count`
 
 如果员工的工资超过平均水平，我们可以打印出一条消息来表明这一点:
 
-```
+```py
 `employees = [
     ("Rolf Smith", 35, 8.75),
     ("Anne Pun", 30, 12.50),
@@ -150,13 +150,13 @@ for employee in employees:
 
 这是这样写的简写:
 
-```
+```py
 `total = total + employee[2]` 
 ```
 
 我们可以在解决方案的几个地方使用它。
 
-```
+```py
 `employees = [
     ("Rolf Smith", 35, 8.75),
     ("Anne Pun", 30, 12.50),
@@ -182,7 +182,7 @@ for employee in employees:
 
 这意味着我们不再需要我们的`count`变量。
 
-```
+```py
 `employees = [
     ("Rolf Smith", 35, 8.75),
     ("Anne Pun", 30, 12.50),

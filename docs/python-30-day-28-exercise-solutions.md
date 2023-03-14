@@ -6,7 +6,7 @@
 
 今天的练习是给我们的 [day 14](/30-days-of-python/python-30-day-14-files) 项目解决方案添加类型注释。我将使用我在项目的[难度版本中的解决方案，你可以在下面找到。](/30-days-of-python/python-30-day-14-project-hard)
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -123,7 +123,7 @@ while selected_option != "q":
 
 这里有很多代码，所以让我们一次处理一部分，从顶部开始使用`add_book`函数。
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -137,7 +137,7 @@ while selected_option != "q":
 
 在这种情况下，它们都是字符串。
 
-```
+```py
 `def add_book():
     title: str = input("Title: ").strip().title()
     author: str = input("Author: ").strip().title()
@@ -149,7 +149,7 @@ while selected_option != "q":
 
 接下来我们有`delete_book`。
 
-```
+```py
 `def delete_book(books, book_to_delete):
     books.remove(book_to_delete)` 
 ```
@@ -164,7 +164,7 @@ while selected_option != "q":
 
 对于任何具有类似字典结构的东西，有一个更通用的类型，叫做`Mapping`。在这里我们不需要担心，但这是你应该知道的。
 
-```
+```py
 `from typing import List, Dict
 
 Book = Dict[str, str]
@@ -183,7 +183,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 既然已经对`delete_book`进行了适当的注释，我们就可以开始处理`find_books`了。
 
-```
+```py
 `def find_books():
     reading_list = get_all_books()
     matching_books = []
@@ -199,7 +199,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 `find_books`没有参数，但是有返回值。注意，我们仍然可以在这里使用我们的`List[Book]`注释，尽管列表有时可能是空的。空列表在技术上并不违反这个注释，因为它只是一个零`Book`元素的列表。
 
-```
+```py
 `def find_books() -> List[Book]:
     reading_list: List[Book] = get_all_books()
     matching_books: List[Book] = []
@@ -215,7 +215,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 接下来是`get_all_books`，我们读取文件和格式化数据的辅助函数。
 
-```
+```py
 `def get_all_books():
     books = []
 
@@ -237,7 +237,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 这里的标注和`find_books`很像。这里我们没有任何参数，但是我们有一个需要注释的变量，以及一个返回值。这些应该是完全一样的，因为我们要返回那个变量。
 
-```
+```py
 `def get_all_books() -> List[Book]:
     books: List[Book] = []
 
@@ -259,7 +259,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 `mark_book_as_read`是我们的下一个函数，它将和`delete_book`几乎完全一样。
 
-```
+```py
 `def mark_book_as_read(books: List[Book], book_to_update: Book):
     index: int = books.index(book_to_update)
     books[index]['read'] = "Read"` 
@@ -267,7 +267,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 现在我们来看一些更复杂的东西。
 
-```
+```py
 `def update_reading_list(operation):
     books = get_all_books()
     matching_books = find_books()
@@ -288,7 +288,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 在使用`Callable`的时候，我们要为想要传入的函数提供一个签名。例如，下面将说明一个接受两个整数并返回一个浮点数的函数。
 
-```
+```py
 `Callable[[int, int], float]` 
 ```
 
@@ -296,7 +296,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 在我们的例子中，操作的函数签名如下所示:
 
-```
+```py
 `Callable[[List[Book], Book], Any]` 
 ```
 
@@ -306,7 +306,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 现在我们可以将`update_reading_list`注释如下:
 
-```
+```py
 `def update_reading_list(operation: Operation):
     books: List[Book] = get_all_books()
     matching_books: List[Book] = find_books()
@@ -323,7 +323,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 我们需要注释的最后一个函数是`show_books`，非常简单。它只接受一个参数。
 
-```
+```py
 `def show_books(books: List[Book]):
     # Adds an empty line before the output
     print()
@@ -336,7 +336,7 @@ def delete_book(books: List[Book], book_to_delete: Book):
 
 我们还可以继续注释菜单中使用的变量，等等。在这种情况下，我们完成的应用程序将如下所示:
 
-```
+```py
 `from typing import Any, Callable, Dict, List
 
 Book = Dict[str, str]

@@ -30,7 +30,7 @@ API 密钥类似于密码，通常提供给 API 的非人类用户。每当他�
 
 我还将向模型中添加一些辅助方法，以便稍后从我们的视图中更容易地进行交互:
 
-```
+```py
 from db import db
 import uuid
 
@@ -76,7 +76,7 @@ class DeviceModel(db.Model):
 
 我们在我们的`DeviceModel`中添加了一个`relationship`，所以现在是时候在关系的另一端做同样的事情了:
 
-```
+```py
  class UserModel(db.Model):
      __tablename__ = 'users'
 
@@ -92,7 +92,7 @@ class DeviceModel(db.Model):
 
 为此，我们将添加一个带有`post()`方法的 Flask-RESTful `Resource`，用户可以用设备名调用该方法。它还要求用户使用 JWT 进行身份验证:
 
-```
+```py
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required, current_identity
 from models.device import DeviceModel
@@ -124,7 +124,7 @@ class AddDevice(Resource):
 
 我们还需要将这个`Resource`注册到我们的 Flask 应用程序，以便生成端点并可以访问。在`app.py`中:
 
-```
+```py
 +from resources.device import AddDevice
 
 ...
@@ -133,7 +133,7 @@ class AddDevice(Resource):
 
 要添加一个新设备，人类用户必须使用如下所示的 JSON 主体和有效的 JWT 授权头向`/user/add-device`发出请求:
 
-```
+```py
 {
     "device_name": "New Device Example"
 } 
@@ -141,7 +141,7 @@ class AddDevice(Resource):
 
 他们会得到这样的回应:
 
-```
+```py
 {
     "api_key": "ef229daa-d058-4dd4-9c93-24761842aec5"
 } 
@@ -153,7 +153,7 @@ class AddDevice(Resource):
 
 您可以从添加一个类似于`security.py`中的装饰器开始:
 
-```
+```py
 from models.device import DeviceModel
 import functools
 from hmac import compare_digest
@@ -183,7 +183,7 @@ def api_required(func):
 
 当一个端点需要一个 API 键时，只需用`@api_required`修饰器来修饰它，就像我们在一些端点中使用`@jwt_required()`一样。然后，用户必须在他们的请求中包含一个 JSON 主体，如下所示:
 
-```
+```py
 {
     "api_key": "ef229daa-d058-4dd4-9c93-24761842aec5"
 } 

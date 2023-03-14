@@ -18,7 +18,7 @@
 
 以下是迄今为止完整的类定义:
 
-```
+```py
 class LockableList:
     def __init__(self, *values, locked=False):
         self.values = list(values)
@@ -104,7 +104,7 @@ class LockableList:
 
 运算符重载是许多语言的一个特性，它允许我们为现有的运算符定义与某些操作数类型相关的新行为。在 Python 中，我们使用特殊的方法来实现这种行为，我们之前已经提到过这种行为。注意，我们可以使用下标符号通过索引访问`LockableList`项。
 
-```
+```py
 l = LockableList(1, 2, 3)
 print(l[2])  # 3 
 ```
@@ -119,7 +119,7 @@ print(l[2])  # 3
 
 特殊方法的版本代表一种就地操作。这是一个不需要赋值的操作。
 
-```
+```py
 a = 5
 a = a + 1  # __add__
 
@@ -139,7 +139,7 @@ b += 1  # __iadd__
 
 ### 实施`__add__`
 
-```
+```py
 def __add__(self, other):
     if isinstance(other, (list, LockableList)):
         return LockableList(*(self.values + other))
@@ -165,7 +165,7 @@ def __add__(self, other):
 
 有了它，我们可以做一些很酷的事情:
 
-```
+```py
 numbers_one = LockableList(1, 2, 3)
 numbers_two = [4, 5, 6]
 
@@ -174,7 +174,7 @@ print(numbers_one + numbers_two)  # [1, 2, 3, 4, 5, 6]
 
 但是正如我提到的，有一个问题:
 
-```
+```py
 numbers_one = LockableList(1, 2, 3)
 numbers_two = LockableList(4, 5, 6)
 
@@ -191,7 +191,7 @@ print(numbers_one + numbers_two)  # TypeError
 
 我们对`__radd__`的实现将与`__add__`几乎相同，但是`other`和`self.values`的顺序颠倒了。这是为了根据操作数的顺序保持值的顺序。
 
-```
+```py
 def __radd__(self, other):
     if isinstance(other, (list, LockableList)):
         return LockableList(*(other + self.values))
@@ -205,7 +205,7 @@ def __radd__(self, other):
 
 现在我们可以避免之前出现的错误:
 
-```
+```py
 numbers_one = LockableList(1, 2, 3)
 numbers_two = LockableList(4, 5, 6)
 
@@ -218,7 +218,7 @@ print(numbers_one + numbers_two)  # [1, 2, 3, 4, 5, 6]
 
 有一点不同，因为我们必须注意我们的锁状态，但是我们实现的其余部分是相当相似的。
 
-```
+```py
 def __iadd__(self, other):
     if self._locked:
         raise RuntimeError(
@@ -238,7 +238,7 @@ def __iadd__(self, other):
 
 在`__iadd__`的情况下，我们直接更新内部列表，然后返回一个对当前对象的引用。这允许我们保留相同的对象，同时更新包含在给定的`LockableList`中的值。
 
-```
+```py
 numbers_one = LockableList(1, 2, 3)
 numbers_two = LockableList(4, 5, 6)
 numbers_one += numbers_two
@@ -256,7 +256,7 @@ print(numbers_one)  # [1, 2, 3, 4, 5, 6]
 
 这样，我们的类定义变得非常大，但是我们已经完成了很多:
 
-```
+```py
 class LockableList:
     def __init__(self, *values, locked=False):
         self.values = list(values)

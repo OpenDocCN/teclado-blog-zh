@@ -18,7 +18,7 @@
 
 下面是一些描述一个简单网页的 HTML。
 
-```
+```py
 `<!DOCTYPE html>
 
 <html lang="en">
@@ -52,7 +52,7 @@
 
 例如，让我们看看下面这段 HTML 代码:
 
-```
+```py
 `<div>
     <p>
         Spicy jalapeno bacon ipsum dolor amet id tongue pork belly andouille.
@@ -76,7 +76,7 @@
 
 下面是一个设置了`class`和`id`属性的 HTML 元素的例子。
 
-```
+```py
 `<body>
     <h1 class="header" id="pageTitle">Hello World!</h1>
 </body>` 
@@ -104,7 +104,7 @@ CSS 是另一种语言(简称为**C**as cading**S**tyle**S**sheets ),用于定�
 
 回到这个例子，
 
-```
+```py
 `<body>
     <h1 class="header" id="pageTitle">Hello World!</h1>
 </body>` 
@@ -136,7 +136,7 @@ CSS 是另一种语言(简称为**C**as cading**S**tyle**S**sheets ),用于定�
 
 让我们试着从`BeautifulSoup`文档中解析一些样本 HTML，看起来像这样:
 
-```
+```py
 `html_doc = """
 <html>
 
@@ -165,7 +165,7 @@ CSS 是另一种语言(简称为**C**as cading**S**tyle**S**sheets ),用于定�
 
 `BeautifulSoup`的导入有点奇怪。
 
-```
+```py
 `from bs4 import BeautifulSoup` 
 ```
 
@@ -173,7 +173,7 @@ CSS 是另一种语言(简称为**C**as cading**S**tyle**S**sheets ),用于定�
 
 导入`BeautifulSoup`后，我们需要做的就是解析文件:
 
-```
+```py
 `from bs4 import BeautifulSoup
 
 html_doc = """
@@ -216,7 +216,7 @@ soup = BeautifulSoup(html_doc, "html.parser")`
 
 例如，假设我们想从上面的 HTML 文档中获取姐妹的名字。我们可以这样做:
 
-```
+```py
 `from bs4 import BeautifulSoup
 
 html_doc = """
@@ -267,7 +267,7 @@ for sister in sisters:
 
 在做这些之前，您需要获得实际的 HTML 文档。为此，请在文件中添加以下几行:
 
-```
+```py
 `import requests
 
 data = requests.get("http://books.toscrape.com/").content` 
@@ -283,7 +283,7 @@ data = requests.get("http://books.toscrape.com/").content`
 
 首先，让我们把所有的进口和初始设置有序。
 
-```
+```py
 `import requests
 from bs4 import BeautifulSoup
 
@@ -296,7 +296,7 @@ soup = BeautifulSoup(data, "html.parser")`
 
 每本书都作为有序列表(`<ol>`标签)的一部分存储为列表项(`<li>`标签)，如下所示:
 
-```
+```py
 `<li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
     <article class="product_pod">
         <div class="image_container">
@@ -346,7 +346,7 @@ soup = BeautifulSoup(data, "html.parser")`
 
 对于价格，我们关心的是这一部分:
 
-```
+```py
 `<div class="product_price">
     <p class="price_color">£51.77</p>
     <p class="instock availability">
@@ -368,7 +368,7 @@ soup = BeautifulSoup(data, "html.parser")`
 
 标题有点复杂。它位于这里:
 
-```
+```py
 `<h3>
     <a href="catalogue/a-light-in-the-attic_1000/index.html" title="A Light in the Attic">
         A Light in the ...
@@ -386,7 +386,7 @@ soup = BeautifulSoup(data, "html.parser")`
 
 最后，让我们看看评级的 HTML。
 
-```
+```py
 `<p class="star-rating Three">
     <i class="icon-star"></i>
     <i class="icon-star"></i>
@@ -402,7 +402,7 @@ soup = BeautifulSoup(data, "html.parser")`
 
 作为一个小提示，我将把我们的选择器存储在变量中，这样它们更容易重用。
 
-```
+```py
 `import requests
 from bs4 import BeautifulSoup
 
@@ -423,7 +423,7 @@ ratings = soup.select(rating_selector)`
 
 然后我们可以使用一个`for`循环来迭代`zip`对象，这样我们就可以处理给定书籍的所有数据。现在我只关注打印值，但是这个`for`循环最终会转移到上下文管理器中。
 
-```
+```py
 `import requests
 from bs4 import BeautifulSoup
 
@@ -447,7 +447,7 @@ for price, title, rating in zip(prices, titles, ratings):
 
 Title 稍微难一点，但是仍然可以管理，因为我们有一个包含完整标题的属性。正如我们在`BeautifulSoup`的简短介绍中所讨论的，我们可以像字典一样对待标签，像键一样访问属性值。
 
-```
+```py
 `import requests
 from bs4 import BeautifulSoup
 
@@ -471,7 +471,7 @@ for price, title, rating in zip(prices, titles, ratings):
 
 我还将定义一个字典，以便我们可以将给定的类名映射到更有用的东西。在这种情况下，我将把类名映射到由`"★"`字符组成的字符串。
 
-```
+```py
 `rating_mappings = {
     "One":   "★",
     "Two":   "★ ★",
@@ -492,7 +492,7 @@ def get_rating(tag):
 
 如果找到匹配，我们返回与我们的`rating_mappings`字典中的关键字相关联的星级字符串。
 
-```
+```py
 `import requests
 from bs4 import BeautifulSoup
 
@@ -527,7 +527,7 @@ for price, title, rating in zip(prices, titles, ratings):
 
 一旦我们确认一切正常，我们就可以修改我们的`for`循环，这样我们就可以写入一个文件。在这种情况下，因为我使用了一个特殊的`★`字符，我们需要显式地为我们的文件指定一个编码。
 
-```
+```py
 `import requests
 from bs4 import BeautifulSoup
 
@@ -565,7 +565,7 @@ with open("books.csv", "w", encoding="utf-8") as book_file:
 
 如果我们看一下我们的`books.csv`文件，我们现在有这样的内容:
 
-```
+```py
 `A Light in the Attic,£51.77,★ ★ ★
 Tipping the Velvet,£53.74,★
 Soumission,£50.10,★

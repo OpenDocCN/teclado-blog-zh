@@ -12,7 +12,7 @@ Python 实际上有许多巧妙的隐藏特性。我只打算在这里展示一�
 
 如果你查看`this.py`的源代码，你会发现一片混乱，就像这样:
 
-```
+```py
 s = """Gur Mra bs Clguba, ol Gvz Crgref
 Ornhgvshy vf orggre guna htyl.
 Rkcyvpvg vf orggre guna vzcyvpvg.

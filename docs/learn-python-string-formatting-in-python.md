@@ -12,7 +12,7 @@
 
 最现代的字符串格式化方法是 f-strings，Python3.6 中新增的。这是我推荐的字符串格式化方法！
 
-```
+```py
 user_name = input('Enter your name: ')  # Ask user for their name
 greeting = f'Hello, {user_name}!'  # Construct a greeting phrase
 print(greeting) 
@@ -26,7 +26,7 @@ f-string 将用作用域中的变量替换花括号内的内容。因此，变�
 
 这里有一个例子:
 
-```
+```py
 user_name = input('Enter your name: ')
 greeting = 'Hello, {}!'.format(user_name)
 print(greeting) 
@@ -40,7 +40,7 @@ print(greeting)
 
 这里有一个例子:
 
-```
+```py
 from string import Template
 user_name = input('Enter your name: ')
 greeting_template = Template('Hello, $who!')
@@ -54,7 +54,7 @@ print(greeting)
 
 这里有一个例子:
 
-```
+```py
 user_name = input('Enter your name: ')
 greeting = 'Hello, ' + user_name + '!'
 print(greeting) 
@@ -62,7 +62,7 @@ print(greeting)
 
 然而，当将不是字符串的东西连接在一起时，很容易在 Python 代码中产生意外错误，正如我们从下面的示例中看到的:
 
-```
+```py
 age = 30
 greeting = 'You are ' + age + ' years old.'  # This raises an error!
 print(greeting) 

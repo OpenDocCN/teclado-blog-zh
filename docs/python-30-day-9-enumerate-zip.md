@@ -14,7 +14,7 @@
 
 以我们目前的知识，我们必须做这样的事情:
 
-```
+```py
 `movie = ("12 Angry Men", "Sidney Lumet", 1957)
 
 title = movie[0]
@@ -24,7 +24,7 @@ year = movie[2]`
 
 不过这有点乏味，谢天谢地还有更好的方法。不用写单独的赋值和访问索引，我们可以简单地这样写:
 
-```
+```py
 `movie = ("12 Angry Men", "Sidney Lumet", 1957)
 
 title, director, year = movie` 
@@ -34,7 +34,7 @@ title, director, year = movie`
 
 名称的数量必须与 iterable 中元素的数量相匹配，否则我们将会得到如下异常:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 3, in <module>
     title, director, year = movie
@@ -47,7 +47,7 @@ ValueError: not enough values to unpack (expected 3, got 2)`
 
 让我们回到我们的电影库示例，其中我们有一个包含几个电影元组的列表:
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -71,7 +71,7 @@ ValueError: not enough values to unpack (expected 3, got 2)`
 
 该循环如下所示:
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -100,7 +100,7 @@ for movie in movies:
 
 如果我们仔细想想，这和这样做很相似:
 
-```
+```py
 `movie = ("Memento", "Christopher Nolan", 2000)` 
 ```
 
@@ -108,13 +108,13 @@ for movie in movies:
 
 然而，我们刚刚看到了一个这样的元组被解包成三个变量的例子，如下所示:
 
-```
+```py
 `title, director, year = ("Memento", "Christopher Nolan", 2000)` 
 ```
 
 事实证明，我们可以在 for 循环中做完全相同的事情:
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -151,7 +151,7 @@ for title, director, year in movies:
 
 换句话说，我想要这样的输出:
 
-```
+```py
 `1. Eternal Sunshine of the Spotless Mind (2004), by Michel Gondry
 2. Memento (2000), by Christopher Nolan
 3. Requiem for a Dream (2000), by Darren Aronofsky` 
@@ -161,7 +161,7 @@ for title, director, year in movies:
 
 通过某种方式，我们需要生成某种计数器。下面是我经常看到的解决这个问题的一个非常常见的方法:
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -202,7 +202,7 @@ for index in range(len(movies)):
 
 好吧，这不是一个很好的解决方案，但是有什么更好的方法呢？好吧，我们可以在循环之外定义一个计数器，然后我们可以在每次迭代中递增计数器:
 
-```
+```py
 `movies = [ ... ]
 counter = 1
 
@@ -219,7 +219,7 @@ for title, director, year in movies:
 
 我们先来看一个简单的例子。我只想创建一个名字列表旁边的计数器。我们可以这样做:
 
-```
+```py
 `names = ["Harry", "Rachel", "Brian"]
 
 for counter, name in enumerate(names):
@@ -228,13 +228,13 @@ for counter, name in enumerate(names):
 
 在这种情况下,`enumerate`包含的是这样的一系列元组:
 
-```
+```py
 `(0, "Harry"), (1, "Rachel"), (2, "Brian")` 
 ```
 
 我们的输出看起来像这样:
 
-```
+```py
 `0. Harry
 1. Rachel
 2. Brian` 
@@ -242,7 +242,7 @@ for counter, name in enumerate(names):
 
 这并不是我想要的，因为我想要值从`1`开始。这很容易解决，因为我们可以在调用`enumerate`时为计数器设置一个初始值:
 
-```
+```py
 `names = ["Harry", "Rachel", "Brian"]
 
 for counter, name in enumerate(names, start=1):
@@ -251,7 +251,7 @@ for counter, name in enumerate(names, start=1):
 
 现在我们得到了我们想要的输出:
 
-```
+```py
 `1. Harry
 2. Rachel
 3. Brian` 
@@ -259,7 +259,7 @@ for counter, name in enumerate(names, start=1):
 
 让我们回到最初的电影例子。这里的事情不太容易，因为我们的每个项目本身就是一个元组。我们可以这样做:
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -284,7 +284,7 @@ for counter, movie in enumerate(movies, start=1):
 
 这里`enumerate`的结果是这样的:
 
-```
+```py
 `(1, ("Eternal Sunshine of the Spotless Mind", "Michel Gondry", 2004)),
 (2, ("Memento", "Christopher Nolan", 2000)),
 (3, ("Requiem for a Dream", "Darren Aronofsky", 2000))` 
@@ -294,19 +294,19 @@ for counter, movie in enumerate(movies, start=1):
 
 然而，我仍然希望能够将这个电影元组解包到我们之前拥有的这些描述性变量名称中。但是我们如何解开像这样的东西:
 
-```
+```py
 `(2, ("Memento", "Christopher Nolan", 2000))` 
 ```
 
 我们所要做的就是匹配我们要打开的东西的结构。这里我们有一个两个元素的元组，其中第二项是一个三个元素的元组。所以我们可以像这样解开上面的结构:
 
-```
+```py
 `counter, (title, director, year) = 2, ("Memento", "Christopher Nolan", 2000)` 
 ```
 
 在我们的循环中，我们只需要做同样的事情:
 
-```
+```py
 `movies = [ ... ]
 
 for counter, (title, director, year) in enumerate(movies, start=1):
@@ -315,7 +315,7 @@ for counter, (title, director, year) in enumerate(movies, start=1):
 
 注意这里的括号**是**真的很重要。如果我们写这个，
 
-```
+```py
 `movies = [ ... ]
 
 for counter, title, director, year in enumerate(movies, start=1):
@@ -330,14 +330,14 @@ for counter, title, director, year in enumerate(movies, start=1):
 
 例如，假设我们有两个这样的列表:
 
-```
+```py
 `pet_owners = ["Paul", "Andrea", "Marta"]
 pets = ["Fluffy", "Bubbles", "Captain Catsworth"]` 
 ```
 
 `zip`将允许我们把它变成一个新的 iterable，它包含以下内容:
 
-```
+```py
 `("Paul", "Fluffy"), ("Andrea", "Bubbles"), ("Marta", "Captain Catsworth")` 
 ```
 
@@ -345,7 +345,7 @@ pets = ["Fluffy", "Bubbles", "Captain Catsworth"]`
 
 要使用`zip`，我们所要做的就是调用函数并传入我们想要压缩在一起的 iterables。
 
-```
+```py
 `pet_owners = ["Paul", "Andrea", "Marta"]
 pets = ["Fluffy", "Bubbles", "Captain Catsworth"]
 
@@ -356,7 +356,7 @@ pets_and_owners = zip(pet_owners, pets)`
 
 与`range`非常相似，`zip`是懒惰的，这意味着它只在我们请求它的时候计算下一个值。因此我们不能直接打印它，但是如果我们想看到输出，我们可以把它转换成类似列表的东西:
 
-```
+```py
 `print(list(pets_and_owners))
 
 # [('Paul', 'Fluffy'), ('Andrea', 'Bubbles'), ('Marta', 'Captain Catsworth')]` 
@@ -370,7 +370,7 @@ pets_and_owners = zip(pet_owners, pets)`
 
 我们可以使用`zip`和一点析构来以一种非常清晰的方式做到这一点，因为我们可以在循环中使用清晰的变量名:
 
-```
+```py
 `pet_owners = ["Paul", "Andrea", "Marta"]
 pets = ["Fluffy", "Bubbles", "Captain Catsworth"]
 
@@ -386,7 +386,7 @@ for owner, pet in zip(pet_owners, pets):
 
 这里有一个例子，我们将调用`zip`的结果赋给一个变量:
 
-```
+```py
 `movie_titles = [
     "Forrest Gump",
     "Howl's Moving Castle",
@@ -404,14 +404,14 @@ movies = zip(movie_titles, movie_directors)`
 
 我们可以毫无问题地迭代电影:
 
-```
+```py
 `for title, director in movies:
     print(f"{title} by {director}.")` 
 ```
 
 然而，如果我们现在再次尝试使用`movies`，我们会发现它是空的。尝试运行下面的代码来查看这一点:
 
-```
+```py
 `movie_titles = [
     "Forrest Gump",
     "Howl's Moving Castle",
@@ -441,7 +441,7 @@ print(f"These are our movies: {movies_list}.")`
 
 绕过这个限制的一个简单方法是将迭代器转换成非迭代器集合，比如列表或元组。
 
-```
+```py
 `movie_titles = [
     "Forrest Gump",
     "Howl's Moving Castle",
@@ -463,7 +463,7 @@ movies = list(zip(movie_titles, movie_directors))`
 
 1)以下是一些关于 BoJack Horseman 中角色的简单数据:
 
-```
+```py
 `main_characters = [
     ("BoJack Horseman", "Will Arnett", "Horse"),
     ("Princess Carolyn", "Amy Sedaris", "Cat"),
@@ -477,7 +477,7 @@ movies = list(zip(movie_titles, movie_directors))`
 
 编写一个使用析构的 for 循环，以便可以按以下格式打印每个元组:
 
-```
+```py
 `BoJack Horseman is a horse voiced by Will Arnet.` 
 ```
 
@@ -485,7 +485,7 @@ movies = list(zip(movie_titles, movie_directors))`
 
 2)将以下元组解包为 4 个变量:
 
-```
+```py
 `("John Smith", 11743, ("Computer Science", "Mathematics"))` 
 ```
 

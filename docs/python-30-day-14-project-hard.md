@@ -32,7 +32,7 @@
 
 你可以随意给我用不同的书，但是如果你想用同样的书，这里有我的例子:
 
-```
+```py
 `1Q84,Haruki Murakami,2009,Read
 The Picture of Dorian Gray,Oscar Wilde,1890,Not Read` 
 ```
@@ -41,7 +41,7 @@ The Picture of Dorian Gray,Oscar Wilde,1890,Not Read`
 
 因为菜单会很长，我强烈建议您将提示存储在一个变量中。否则会把菜单弄得乱七八糟。
 
-```
+```py
 `menu_prompt = """Please enter one of the following options:
 
 - 'a' to add a book
@@ -56,7 +56,7 @@ What would you like to do? """`
 
 菜单本身与我们之前看到的非常相似。现在，我们只是通过打印出用户选择的选项来检查事情是否正常。如果他们输入一个无效的选项，我们将在一个`else`子句中捕捉到这个问题，并打印一条消息通知他们这个问题。
 
-```
+```py
 `menu_prompt = """Please enter one of the following options:
 
 - 'a' to add a book
@@ -92,7 +92,7 @@ while selected_option != "q":
 
 我们可以改进这个菜单的一个方法是处理用户的选择，确保去掉空格，并且大小写正确。这种额外的灵活性确实会改善用户体验。
 
-```
+```py
 `menu_prompt = """Please enter one of the following options:
 
 - 'a' to add a book
@@ -138,7 +138,7 @@ while selected_option != "q":
 
 然后，我将使用上下文管理器在 append 模式(`"a"`)下打开该文件，并且我将使用 f 字符串格式化我们想要写入的字符串。
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -152,7 +152,7 @@ while selected_option != "q":
 
 现在我们已经写好了函数，我们可以在菜单中调用它并进行测试。
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -202,7 +202,7 @@ while selected_option != "q":
 
 然后，我们可以通过将这些字典附加到一个列表中来收集它们，然后我们可以从函数中返回这个列表。
 
-```
+```py
 `# Helper function for retrieving data from the csv file
 def get_all_books():
     books = []
@@ -228,7 +228,7 @@ def get_all_books():
 
 当用户从菜单中选择`"l"`时，我们将首先使用新的`get_all_books`函数收集整个阅读列表，并将结果传递给`show_books`以获得一些不错的输出。
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -304,7 +304,7 @@ while selected_option != "q":
 
 我认为这里一个好的方法是检查变量`reading_list`的真值，如果`reading_list`有内容就只调用`show_books`。
 
-```
+```py
 `elif selected_option == "l":
     # Retrieves the whole reading list for printing
     reading_list = get_all_books()
@@ -324,7 +324,7 @@ while selected_option != "q":
 
 第一步是调用我们的`get_all_books`函数，这样我们在过滤时就有了一个集合。我还将创建一个名为`matching_books`的空列表。这是我们要放符合我们搜索条件的书的地方。
 
-```
+```py
 `def find_books():
     reading_list = get_all_books()
     matching_books = []` 
@@ -334,7 +334,7 @@ while selected_option != "q":
 
 在比较术语时，我们还将把书名转换成小写，这将允许我们匹配大小写与用户指定不同的书籍。
 
-```
+```py
 `def find_books():
     reading_list = get_all_books()
     matching_books = []
@@ -346,7 +346,7 @@ while selected_option != "q":
 
 对于该条件，我们将使用`in`关键字，它将告诉我们搜索词是否包含在书名中。
 
-```
+```py
 `def find_books():
     reading_list = get_all_books()
     matching_books = []
@@ -360,7 +360,7 @@ while selected_option != "q":
 
 现在我们有了匹配书籍的列表，我们可以将其退回。
 
-```
+```py
 `def find_books():
     reading_list = get_all_books()
     matching_books = []
@@ -376,7 +376,7 @@ while selected_option != "q":
 
 在菜单内部，我们将采取与我们在条件语句的`"l"`分支中所做的相似的方法。首先我们将调用`find_books`来获取匹配的书籍。如果我们有匹配的书籍，我们将把列表传递给`show_books`，否则我们将打印一条消息说我们没有找到任何东西。
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()
@@ -481,7 +481,7 @@ while selected_option != "q":
 
 4.  我将以写模式打开`books.csv`文件，并将所有剩余的书籍添加回该文件。
 
-```
+```py
 `def delete_book():
     books = get_all_books()
     matching_books = find_books()
@@ -500,7 +500,7 @@ while selected_option != "q":
 
 我们将使用非常相似的方法来更新书籍的阅读状态。主要区别是我们要找出匹配书的索引，然后我们要更新它的值。
 
-```
+```py
 `def mark_book_as_read():
     books = get_all_books()
     matching_books = find_books()
@@ -524,7 +524,7 @@ while selected_option != "q":
 
 然后我们将削减`delete_book`和`mark_book_as_read`来处理一个非常小的操作。
 
-```
+```py
 `def delete_book(books, book_to_delete):
     books.remove(book_to_delete)
 
@@ -550,7 +550,7 @@ def update_reading_list(operation):
 
 至此，我们已经实现了所有需要的功能，完成的程序如下所示:
 
-```
+```py
 `def add_book():
     title = input("Title: ").strip().title()
     author = input("Author: ").strip().title()

@@ -40,7 +40,7 @@
 
 例如，从列表中获取第一个元素。输入大小不影响该算法，因为无论输入大小如何，第一个元素总是第一个。
 
-```
+```py
 def get_first(data):
     return data[0]
 
@@ -56,7 +56,7 @@ get_first(data)
 
 我们来看看实现。
 
-```
+```py
 # Iterative Binary Search Function
 # It returns the index of x in the given list if present,
 # else returns -1
@@ -117,7 +117,7 @@ else:
 
 下面是实现过程:
 
-```
+```py
 #Define the linear search function
 def search(lst, x):
 
@@ -142,7 +142,7 @@ print(search(lst, "find me"))
 
 但是如果你有嵌套循环，就像这个例子？
 
-```
+```py
 lst = [1, 3, 5]
 for x in lst:
     for y in lst:
@@ -153,7 +153,7 @@ for x in lst:
 
 冒泡排序就是一个很好的例子:
 
-```
+```py
 def bubbleSort(lst):
     n = len(lst)
 
@@ -191,7 +191,7 @@ bubbleSort(lst)
 
 指数时间算法的一个例子是斐波那契数的递归计算:
 
-```
+```py
 def fibonacci(n):
     if n <= 1:
         return n

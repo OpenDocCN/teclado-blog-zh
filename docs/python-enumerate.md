@@ -10,7 +10,7 @@ Python 的`enumerate`函数是一个很棒的工具，它允许我们在迭代�
 
 发现`enumerate`被使用的最常见地方是在类似 for 循环的地方，枚举对象[中的元组将](https://blog.teclado.com/destructuring-in-python/)析构为两个独立的循环变量。
 
-```
+```py
 friends = ["Rolf", "John", "Anna"]
 
 for counter, friend in enumerate(friends, start=1):
@@ -23,7 +23,7 @@ for counter, friend in enumerate(friends, start=1):
 
 然而,`enumerate`的使用不仅限于循环；例如，我们也可以利用`enumerate`作为列表理解的一部分，或者甚至作为参数传递给`dict`。
 
-```
+```py
 friends = ["Rolf", "John", "Anna"]
 friends_dict = dict(enumerate(friends))  # {0: 'Rolf', 1: 'John', 2: 'Anna'} 
 ```

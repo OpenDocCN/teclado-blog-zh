@@ -38,7 +38,7 @@
 
 那么当我们用 Python 写`0.1`时会发生什么呢？让我们来看看:
 
-```
+```py
 print(f"{0.1:.20f}")  # 0.10000000000000000555 
 ```
 
@@ -50,7 +50,7 @@ print(f"{0.1:.20f}")  # 0.10000000000000000555
 
 这在进行比较时尤其普遍:
 
-```
+```py
 a = 10
 b = a / 77
 c = b * 77
@@ -63,7 +63,7 @@ if a != c:
 
 如果我们打印`a`和`c`，我们可以看到发生了什么:
 
-```
+```py
 print(f"{a:.20f}")  # 10.00000000000000000000
 print(f"{c:.20f}")  #  9.99999999999999822364 
 ```
@@ -84,7 +84,7 @@ print(f"{c:.20f}")  #  9.99999999999999822364
 
 创建一个`Decimal`对象的第一种方法是使用一个整数。在这种情况下，我们简单地将整数作为参数传递给`Decimal`构造函数:
 
-```
+```py
 import decimal
 
 x = decimal.Decimal(34)  # 34 
@@ -92,7 +92,7 @@ x = decimal.Decimal(34)  # 34
 
 我们现在可以像使用任何其他数字一样使用`x`，并且在执行数学运算时，我们将获得一个`Decimal`对象:
 
-```
+```py
 x = decimal.Decimal(34)
 
 print(x + 7)         # 41
@@ -106,7 +106,7 @@ print(type(x // 7))  # <class 'decimal.Decimal'>
 
 可能有点令人惊讶的是，用分数成分制作`Decimal`对象的最简单方法之一是使用字符串。我们只需要将数字的字符串表示传递给`Decimal`，剩下的事情就交给它了:
 
-```
+```py
 x = decimal.Decimal("0.1")
 
 print(x)            # 0.1
@@ -121,7 +121,7 @@ print(f"{x:.20f}")  # 0.10000000000000000000
 
 也可以从一个 float 创建一个`Decimal`对象，但是我一般不建议这样做。下面的例子应该清楚地说明了原因:
 
-```
+```py
 x = decimal.Decimal(0.1)
 print(x)  # 0.1000000000000000055511151231257827021181583404541015625 
 ```
@@ -140,7 +140,7 @@ print(x)  # 0.1000000000000000055511151231257827021181583404541015625
 
 数字`-13.042`的完整示例如下:
 
-```
+```py
 x = decimal.Decimal((1, (1, 3, 0, 4, 2), -3))
 print(x)  # -13.042 
 ```
@@ -157,7 +157,7 @@ print(x)  # -13.042
 
 让我们来看看默认的`Context`对象是什么样子的:
 
-```
+```py
 import decimal
 
 print(decimal.getcontext())
@@ -168,7 +168,7 @@ print(decimal.getcontext())
 
 例如，我们可能决定需要 10 个有效数字的精度，我们可以这样设置:
 
-```
+```py
 import decimal
 
 decimal.getcontext().prec = 10
@@ -179,7 +179,7 @@ print(x)  # 0.1428571429
 
 请注意，这个新的精度仅在数学运算期间相关。我们可以用任意精度定义一个`Decimal`对象，即使我们使用`getcontext`设置了较低的精度。
 
-```
+```py
 import decimal
 
 decimal.getcontext().prec = 10
@@ -198,7 +198,7 @@ print(x / y)  # 0.1493933505
 
 使用`getcontext`,我们可能会改变 Python 的舍入行为，使以`5`结尾的小数总是远离`0`,这就是我们在日常生活中的舍入方式:
 
-```
+```py
 import decimal
 
 decimal.getcontext().prec = 1
@@ -223,7 +223,7 @@ print(x / y)  # 3
 
 `sqrt`方法允许我们以指定的精度获得任意`Decimal`的平方根。
 
-```
+```py
 import decimal
 
 decimal.getcontext().prec = 15
@@ -236,7 +236,7 @@ print(x)  # 1.41421356237310
 
 `quantize`方法用于将`Decimal`对象更改为新的指数。例如，假设我们有一个数字`1.41421356`，我们想改变这个数字来匹配模式`1.000`，我们可以写如下:
 
-```
+```py
 import decimal
 
 x = decimal.Decimal("1.41421356")
@@ -247,7 +247,7 @@ print(y)  # 1.414
 
 使用`quantize`方法需要注意的一点是，如果最终值超过了定义的精度级别，它将引发一个`InvalidOperation`异常。
 
-```
+```py
 import decimal
 
 decimal.getcontext().prec = 1
@@ -262,7 +262,7 @@ y = x.quantize(decimal.Decimal("1.000"))
 
 `as_tuple`方法给了我们一个`Decimal`对象的元组表示，就像我们使用元组语法创建一个对象一样。
 
-```
+```py
 import decimal
 
 x = decimal.Decimal("1.41421356")

@@ -10,19 +10,19 @@
 
 假设我们有一个这样的列表:
 
-```
+```py
 base = [1, 2, 3, 4, 5] 
 ```
 
 如果我们将列表向右旋转一个位置，我们会将每个值向右移动一个位置，列表末尾的项目会绕到前面:
 
-```
+```py
 right_rotation = [5, 1, 2, 3, 4] 
 ```
 
 向左旋转一个位置将得到以下结果:
 
-```
+```py
 left_rotation = [2, 3, 4, 5, 1] 
 ```
 
@@ -42,7 +42,7 @@ left_rotation = [2, 3, 4, 5, 1]
 
 我们可以从获取基表的最终值开始。现在，我们可以从头开始使用我们的示例列表:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 final_value = base[-1]  # 5 
 ```
@@ -51,7 +51,7 @@ final_value = base[-1]  # 5
 
 当从原始列表中删除项目时，我们有两个主要选项。如果我们能保证所有项目都是唯一的，我们可以使用`remove`方法:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 final_value = base[-1]    # 5
 base.remove(final_value)  # [1, 2, 3, 4] 
@@ -59,7 +59,7 @@ base.remove(final_value)  # [1, 2, 3, 4]
 
 然而，在大多数情况下，您会想要使用`del`关键字，因为`del`依赖于索引，而不是值，因此在这种情况下不容易出错。
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 final_value = base[-1]  # 5
 del base[-1]            # [1, 2, 3, 4] 
@@ -69,7 +69,7 @@ del base[-1]            # [1, 2, 3, 4]
 
 如果您不熟悉`pop`，这个方法既从列表中移除一个项目，又返回那个值。它还可以使用索引，所以对于包含重复元素的列表是安全的，默认情况下，它会删除最后一项。非常适合我们的用例。
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 final_value = base.pop() 
 ```
@@ -80,7 +80,7 @@ final_value = base.pop()
 
 首先，我们可以使用`+`操作符进行简单的连接。在这种情况下，我们必须将`final_value`转换为单个条目列表，因为 Python 不允许我们连接字符串和整数。
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 final_value = base.pop()
 rotated_list = [final_value] + base  # [5, 1, 2, 3, 4] 
@@ -88,7 +88,7 @@ rotated_list = [final_value] + base  # [5, 1, 2, 3, 4]
 
 另一种选择是`insert`方法。`insert`让我们在我们喜欢的任何索引处插入一个条目，因此我们可以将`final_value`放在基本列表中的位置`0`。关于这个方法需要注意的一点是，我们并没有得到一个新的列表:我们只是修改了`base`列表。这可能适合您的用例，也可能不适合。
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 final_value = base.pop()
 base.insert(0, final_value)  # [5, 1, 2, 3, 4] 
@@ -98,7 +98,7 @@ base.insert(0, final_value)  # [5, 1, 2, 3, 4]
 
 同样，我们需要将`final_value`转换成一个列表才能工作。
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 final_value = base.pop()
 rotated_list = [final_value]
@@ -117,14 +117,14 @@ rotated_list.extend(base)
 
 关于`pop`，我们现在需要提供一个索引作为参数，因为我们不再需要`pop`原始列表的最终值:我们需要的是第一个值。
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 first_value = base.pop(0)  # 1 
 ```
 
 使用串联，我们现在只需颠倒值的顺序，如下所示:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 first_value = base.pop(0)
 rotated_list = base + [first_value]  # [2, 3, 4, 5, 1] 
@@ -132,7 +132,7 @@ rotated_list = base + [first_value]  # [2, 3, 4, 5, 1]
 
 我们也可以使用`insert`方法，但是对于这种情况来说这也有点大材小用，因为我们只想把`first_value`放在最后。因此，我们不妨使用`append`:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 first_value = base.pop(0)
 base.append(first_value)  # [2, 3, 4, 5, 1] 
@@ -148,14 +148,14 @@ base.append(first_value)  # [2, 3, 4, 5, 1]
 
 顺时针:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 rotated_list = [base.pop()] + base  # [5, 1, 2, 3, 4] 
 ```
 
 逆时针方向:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 rotated_list = base + [base.pop(0)]  # [2, 3, 4, 5, 1] 
 ```
@@ -172,14 +172,14 @@ rotated_list = base + [base.pop(0)]  # [2, 3, 4, 5, 1]
 
 顺时针:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 rotated_list = base[-1:] + base[:-1]  # [5, 1, 2, 3, 4] 
 ```
 
 逆时针方向:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 rotated_list = base[1:] + base[:1]  # [2, 3, 4, 5, 1] 
 ```
@@ -190,7 +190,7 @@ rotated_list = base[1:] + base[:1]  # [2, 3, 4, 5, 1]
 
 顺时针:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 *head, tail = base
 rotated_list = [tail, *head]  # [5, 1, 2, 3, 4] 
@@ -198,7 +198,7 @@ rotated_list = [tail, *head]  # [5, 1, 2, 3, 4]
 
 逆时针方向:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 head, *tail = base
 rotated = [*tail, head]  # [2, 3, 4, 5, 1] 
@@ -220,7 +220,7 @@ rotated = [*tail, head]  # [2, 3, 4, 5, 1]
 
 顺时针:
 
-```
+```py
 from collections import deque
 
 base = deque([1, 2, 3, 4, 5])
@@ -229,7 +229,7 @@ base.rotate()  # deque([5, 1, 2, 3, 4]
 
 逆时针方向:
 
-```
+```py
 from collections import deque
 
 base = deque([1, 2, 3, 4, 5])
@@ -246,7 +246,7 @@ base.rotate(-1)  # deque([2, 3, 4, 5, 1]
 
 让我们首先定义一个函数并设置一些初始值:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 rotations = 3
 
@@ -260,7 +260,7 @@ def rotate(base_list, r):
 
 还有另一个关于模和负数的问题，我们已经在另一篇文章中[详细介绍过了，所以我们打算使用`abs`函数让`r`为这个操作的正数。](https://blog.teclado.com/pythons-modulo-operator-and-floor-division/)
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 rotations = 3
 
@@ -274,7 +274,7 @@ def rotate(base_list, r):
 
 为了解决这个问题，我们可以给一个同名的变量分配一个`base_list`的副本。现在，当我们用`pop`方法修改`base_list`时，我们正在修改一个不同的列表对象。
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 rotations = 3
 
@@ -296,7 +296,7 @@ def rotate(base_list, r):
 
 我们只需要一个`if`声明来确定正确的方法:
 
-```
+```py
 base = [1, 2, 3, 4, 5]
 rotations = 3
 
@@ -319,7 +319,7 @@ print(rotate(base, -12))        # [3, 4, 5, 1, 2]
 
 如下图所示，结果与使用`deque`类型时相同:
 
-```
+```py
 deque_1 = deque([1, 2, 3, 4, 5])
 deque_1.rotate(3)  # deque([3, 4, 5, 1, 2])
 

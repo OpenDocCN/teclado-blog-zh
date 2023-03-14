@@ -41,13 +41,13 @@ JWT 代表 JSON Web Token，它是一段编码了一些信息的文本。
 
 要安装 Flask-JWT，请激活您的虚拟环境，然后执行以下操作:
 
-```
+```py
 pip install flask-jwt 
 ```
 
 然后，在定义你的应用程序的文件中，你需要导入弗拉斯克-JWT 并创建`JWT`对象。您还需要将`app.secret_key`定义为用于签署 JWT，这样您就知道是您的应用程序创建了它，而不是其他任何人:
 
-```
+```py
 from flask import Flask
 from flask_jwt import JWT
 from security import authenticate, identity
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
 这意味着该代码中的简单应用程序已经有了一个用户可以访问的端点。默认情况下，用户应该能够向`/auth`端点发送带有一些 JSON 有效负载的 POST 请求:
 
-```
+```py
 {
   "username": "their_username",
   "password": "their_plaintext_password"
@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
 大概是这样的:
 
-```
+```py
 from werkzeug.security import safe_str_cmp
 from models.user import UserModel
 
@@ -114,13 +114,13 @@ def authenticate(username, password):
 
 在我们的任何端点(除了`/auth`端点)，用户可以向我们发送一个 JWT 以及他们的数据。为此，他们会在请求中添加一个标题:
 
-```
+```py
 Authorization: JWT <JWT_VALUE_HERE> 
 ```
 
 当这种情况发生时，弗拉斯克-JWT 公司将接管 JWT 并从中获取数据。存储在 JWT 中的数据被称为“有效载荷”，因此我们的`identity`函数接受该有效载荷作为参数:
 
-```
+```py
 def identity(payload):
     user_id = payload['identity']
     return UserModel.find_by_id(user_id) 
@@ -132,7 +132,7 @@ def identity(payload):
 
 **重要的**:除非我们用`@jwt_required()`装饰器装饰端点，否则不会调用`identity`函数，如下所示:
 
-```
+```py
 from flask_jwt import jwt_required, current_identity
 
 @app.route('/protected')

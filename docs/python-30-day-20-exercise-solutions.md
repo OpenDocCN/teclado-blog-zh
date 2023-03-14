@@ -6,7 +6,7 @@
 
 ### 1)使用`map`调用下面列表中每个字符串的`strip`方法。在控制台的不同行上打印童谣的行。
 
-```
+```py
 `humpty_dumpty = [
     "  Humpty Dumpty sat on a wall,  ",
     "Humpty Dumpty had a great fall;     ",
@@ -17,7 +17,7 @@
 
 首先，让我们通过定义一个单独的函数在给定的行上执行 strip 来解决这个问题。我准备叫我的`line_stripper`，不过你爱怎么叫都行。
 
-```
+```py
 `def line_stripper(line):
     return line.strip()` 
 ```
@@ -26,7 +26,7 @@
 
 然后我们可以解包`map`对象并将其传递给`print`。
 
-```
+```py
 `def line_stripper(line):
     return line.strip()
 
@@ -44,7 +44,7 @@ print(*map(line_stripper, humpty_dumpty), sep="\n")`
 
 除了定义这个`line_stripper`函数，我们还可以使用 lambda 表达式:
 
-```
+```py
 `humpty_dumpty = [
     "  Humpty Dumpty sat on a wall,  ",
     "Humpty Dumpty had a great fall;     ",
@@ -57,7 +57,7 @@ print(*map(lambda line: line.strip(), humpty_dumpty), sep="\n")`
 
 但是如果我们不想用 lambda 定义函数，我们也可以使用来自`operator`模块的`methodcaller`函数。
 
-```
+```py
 `from operator import methodcaller
 
 humpty_dumpty = [
@@ -74,13 +74,13 @@ print(*map(methodcaller("strip"), humpty_dumpty), sep="\n")`
 
 ### 2)下面你会发现一个包含几个名字的元组。使用带有过滤条件的列表理解，以便只有少于 8 个字符的名称出现在新列表中。确保新列表中的每个名字都是大写的。
 
-```
+```py
 `names = ("bob", "Christopher", "Rachel", "MICHAEL", "jessika", "francine")` 
 ```
 
 首先，让我们创建一个理解，把名字变成小写。一旦我们知道过滤条件有效，我们就可以添加过滤条件。
 
-```
+```py
 `names = ("bob", "Christopher", "Rachel", "MICHAEL", "jessika", "francine")
 names = [name.title() for name in names]` 
 ```
@@ -89,14 +89,14 @@ names = [name.title() for name in names]`
 
 我们可以使用`len`函数找出一个字符串中有多少个字符，并且我们可以使用`<`将结果与`8`进行比较。
 
-```
+```py
 `names = ("bob", "Christopher", "Rachel", "MICHAEL", "jessika", "francine")
 names = [name.title() for name in names if len(name) < 8]` 
 ```
 
 如果你想知道我们如何用`map`和`filter`复制这样的东西，我们可以像这样将调用`filter`的结果传递给`map`:
 
-```
+```py
 `from operator import methodcaller
 
 names = ("bob", "Christopher", "Rachel", "MICHAEL", "jessika", "francine")
@@ -109,7 +109,7 @@ names_title = map(methodcaller("title"), filter(lambda name: len(name) < 8, name
 
 如果我们愿意，我们实际上可以在一行中这样做:
 
-```
+```py
 `print(*filter(lambda number: number >= 0, range(-5, 11)))` 
 ```
 
@@ -117,7 +117,7 @@ names_title = map(methodcaller("title"), filter(lambda name: len(name) < 8, name
 
 这是极其简洁的；然而，在这种情况下，我认为为我们的`filter`谓词创建一个单独的函数很有意义。
 
-```
+```py
 `def is_positive(number):
     return number >= 0
 

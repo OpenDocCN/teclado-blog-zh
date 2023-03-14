@@ -17,7 +17,7 @@
 
 我想从上一篇文章的练习中的一个例子开始:
 
-```
+```py
 `hourly_wage = input("Please enter your hourly wage: ")
 hours_worked = input("How many hours did you work this week? ")
 
@@ -36,7 +36,7 @@ print(hours_worked)`
 
 在 Python 中，我们可以使用`+`操作符来实现这一点，就像这样:
 
-```
+```py
 `hourly_wage = input("Please enter your hourly wage: ")
 hours_worked = input("How many hours did you work this week? ")
 
@@ -46,7 +46,7 @@ print("Hours worked:" + hours_worked)`
 
 这里有一个问题，很像我们在编写输入提示时遇到的问题。`hourly_wage`和`hours_worked`的值将直接在我们要连接的字符串的最后一个字符旁边结束。为了避免这种情况，我们需要记住添加一个空格:
 
-```
+```py
 `hourly_wage = input("Please enter your hourly wage: ")
 hours_worked = input("How many hours did you work this week? ")
 
@@ -60,13 +60,13 @@ print("Hours worked: " + hours_worked)`
 
 例如，我们不能这样做，我们试图将一个整数连接到一个字符串上:
 
-```
+```py
 `print("Hourly wage: " + 20)` 
 ```
 
 如果我们运行这段代码，Python 将会引发一个异常:
 
-```
+```py
 `Traceback (most recent call last):
     File "main.py", line 1, in <module>
         print("Hourly wage: " + 20)
@@ -93,13 +93,13 @@ TypeError: can only concatenate str (not "int") to str`
 
 如果我们试图传递一个带有小数部分的数字的字符串表示，我们将得到一个`TypeError`。例如，类似这样的事情:
 
-```
+```py
 `hourly_wage = int("18.50")` 
 ```
 
 将引发以下异常:
 
-```
+```py
 `Traceback (most recent call last):
     File "main.py", line 1, in <module>
         int("18.50")
@@ -108,7 +108,7 @@ ValueError: invalid literal for int() with base 10: '18.50'`
 
 Instead of `int` , we’d need to call `float` here instead:
 
-```
+```py
 `hourly_wage = float("18.50")` 
 ```
 
@@ -136,7 +136,7 @@ Instead of `int` , we’d need to call `float` here instead:
 
 在这两种情况下，为了填充值，我们需要用占位符对字符串调用`format`方法，这将产生一个新的字符串。我们使用如下的点符号:
 
-```
+```py
 `"{} is {} years old!".format()` 
 ```
 
@@ -144,7 +144,7 @@ Instead of `int` , we’d need to call `float` here instead:
 
 例如，我们可以这样做:
 
-```
+```py
 `"{} is {} years old!".format("John", 24)` 
 ```
 
@@ -156,19 +156,19 @@ Instead of `int` , we’d need to call `float` here instead:
 
 例如，假设我们有这样一个字符串:
 
-```
+```py
 `"{} is {} years old, and {} works as a {}."` 
 ```
 
 这里的目的是让我们的输出看起来像这样:
 
-```
+```py
 `"John is 24 years old, and John works as a web developer"` 
 ```
 
 这里我们在两个不同的地方使用这个名字。利用我们现有的知识，我们可以按顺序为每个占位符传入一个值:
 
-```
+```py
 `output = "{} is {} years old, and {} works as a {}."
 
 print(output.format("John", 24, "John", "web developer"))` 
@@ -180,7 +180,7 @@ print(output.format("John", 24, "John", "web developer"))`
 
 考虑到这一点，我们将上面的代码重写如下:
 
-```
+```py
 `output = "{0} is {1} years old, and {0} works as a {2}."
 
 print(output.format("John", 24, "web developer"))` 
@@ -190,13 +190,13 @@ print(output.format("John", 24, "web developer"))`
 
 我们首先在每个占位符中写一些名字，如下所示:
 
-```
+```py
 `output = "{name} is {age} years old, and {name} works as a {job}."` 
 ```
 
 现在我们可以这样调用`format`方法:
 
-```
+```py
 `print(output.format(name="John", age=24, job="web developer"))` 
 ```
 
@@ -210,7 +210,7 @@ print(output.format("John", 24, "web developer"))`
 
 我们先来看一个例子。这里是我们早期使用`format`的一个例子:
 
-```
+```py
 `name = "John"
 age = 24
 
@@ -219,7 +219,7 @@ age = 24
 
 下面是使用较新的 f 字符串语法的相同示例:
 
-```
+```py
 `name = "John"
 age = 24
 
@@ -232,7 +232,7 @@ f"{name} is {age} years old!"`
 
 我们可以在这里写任何我们想要的表达式。例如，让我们在字符串中计算 John 的月龄:
 
-```
+```py
 `name = "John"
 age = 24
 
@@ -241,7 +241,7 @@ f"{name} is {age  *  12} months old!"`
 
 如果你想知道的话，f 字符串也是表达式，所以我们可以把它们赋给名字，或者我们可以打印出来。
 
-```
+```py
 `name = "John"
 age = 24
 
@@ -256,7 +256,7 @@ print(f"{name} is {age  *  12} months old!")`
 
 为了写评论，我们只需要在想要写的消息前直接加一个`#`。这将告诉 Python 不要把后面的内容当作代码。
 
-```
+```py
 `name = "John"
 age = 24
 
@@ -278,7 +278,7 @@ print(f"{name} is {age  *  12} months old!")`
 
 为了使用这些方法，我们只需要再次使用点符号，就像使用`format`一样。
 
-```
+```py
 `"Hello, World!".lower()       # "hello, world!"
 "Hello, World!".upper()       # "HELLO, WORLD!"
 "Hello, World!".capitalize()  # "Hello, world!"
@@ -293,7 +293,7 @@ print(f"{name} is {age  *  12} months old!")`
 
 我们使用它的方式和`lower`、`upper`等完全一样。
 
-```
+```py
 `"  Hello, World!  ".strip()  # "Hello, World!"` 
 ```
 
@@ -303,7 +303,7 @@ print(f"{name} is {age  *  12} months old!")`
 
 第一种方法是创建一个变量，并在每次方法调用时给它重新赋值，如下所示:
 
-```
+```py
 `user_name = " ROLF SMITH  "
 user_name = user_name.strip()  # "ROLF SMITH"
 user_name = user_name.title()  # "Rolf Smith"` 
@@ -313,7 +313,7 @@ user_name = user_name.title()  # "Rolf Smith"`
 
 第二种方法是使用每一步*的结果内联*，就像这样:
 
-```
+```py
 `user_name = " ROLF SMITH  ".strip().title()` 
 ```
 
@@ -327,7 +327,7 @@ user_name = user_name.title()  # "Rolf Smith"`
 
 1.  使用下面的变量，打印`"Hello, world!"`。
 
-```
+```py
 `greeting = "Hello, world"` 
 ```
 
@@ -343,7 +343,7 @@ user_name = user_name.title()  # "Rolf Smith"`
 
 1.  使用字符串插值法格式化并打印以下信息:
 
-```
+```py
 `title = "Joker"
 director = "Todd Phillips"
 release_year = 2019` 
@@ -351,7 +351,7 @@ release_year = 2019`
 
 输出应该如下所示:
 
-```
+```py
 `Joker (2019), directed by Todd Phillips` 
 ```
 

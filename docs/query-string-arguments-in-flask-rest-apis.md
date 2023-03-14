@@ -6,13 +6,13 @@
 
 因此，带有查询字符串参数的完整 URL 可能如下所示:
 
-```
+```py
 http://your-api.com/item/?tag=furniture 
 ```
 
 要获得多个值，您需要包含两个或多个相同的查询字符串参数:
 
-```
+```py
 http://your-api.com/item/?tag=furniture&tag=office 
 ```
 
@@ -33,7 +33,7 @@ VIDEO
 
 这里有一个示例端点，它返回数据库中的所有商店。
 
-```
+```py
 @app.route("/store")
 def get_stores():
     return [{"name": store.name, "id": store.id} for store in StoreModel.query.all()] 
@@ -43,7 +43,7 @@ def get_stores():
 
 为了获得查询字符串参数值，我们使用`request.args.get("name")`:
 
-```
+```py
 # at top of file
 from flask import app, request
 
@@ -56,7 +56,7 @@ def get_stores():
 
 然后我们可以在调用`.all()`之前给`.query`添加一个过滤器:
 
-```
+```py
 # at top of file
 from flask import request
 
@@ -72,7 +72,7 @@ def get_stores():
 
 顺便说一下，如果您想在商店名称的任何地方搜索给定值，而不是`.startswith`，您可以使用:
 
-```
+```py
 StoreModel.query.filter(StoreModel.name.like(f"%{name}%")).all() 
 ```
 
@@ -80,13 +80,13 @@ StoreModel.query.filter(StoreModel.name.like(f"%{name}%")).all()
 
 首先，确保用户像这样发送查询字符串:
 
-```
+```py
 ?tags=furniture&tags=office 
 ```
 
 然后在 Flask 中，像这样访问这些值:
 
-```
+```py
 request.args.getlist("tags")  # ["furniture", "office"] 
 ```
 
@@ -94,7 +94,7 @@ request.args.getlist("tags")  # ["furniture", "office"]
 
 或者，您*可以*(但我不推荐)，这样做来处理逗号分隔的值:
 
-```
+```py
 request.args.get("tags").split(",") 
 ```
 
@@ -104,7 +104,7 @@ request.args.get("tags").split(",")
 
 这里有一个示例`Resource`类，它返回数据库中的所有商店。这类似于我们之前展示的端点。
 
-```
+```py
 @blp.route("/store")
 class StoreList(MethodView):
     @blp.response(200, StoreSchema(many=True))
@@ -118,14 +118,14 @@ class StoreList(MethodView):
 
 首先，我们将为查询字符串参数定义一个模式:
 
-```
+```py
 class StoreSearchQueryArgs(BaseSchema):
     name: str | None 
 ```
 
 然后我们用一个`@blp.arguments()`装饰器来装饰`get`方法，确保通过`location="query"`，就像这样:
 
-```
+```py
 @blp.route("/store")
 class StoreList(MethodView):
     @blp.arguments(StoreSearchQueryArgs, location="query")
@@ -136,7 +136,7 @@ class StoreList(MethodView):
 
 然后我们可以在调用`.all()`之前将过滤器添加到`.query`:
 
-```
+```py
 @blp.route("/store")
 class StoreList(MethodView):
     @blp.arguments(StoreSearchQueryArgs, location="query")

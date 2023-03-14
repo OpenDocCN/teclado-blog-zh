@@ -6,7 +6,7 @@
 
 例如:
 
-```
+```py
 @user_has_permission
 @user_name_starts_with_j
 def double_decorator():
@@ -19,7 +19,7 @@ def double_decorator():
 
 所以如果我们有这个:
 
-```
+```py
 @user_name_starts_with_j
 def decorated_function():
     return 'I ran.' 
@@ -38,7 +38,7 @@ def decorated_function():
 
 当你有两个装修工时，同样的事情也适用。让我们以这段代码为例:
 
-```
+```py
 @user_has_permission
 @user_name_starts_with_j
 def double_decorator():

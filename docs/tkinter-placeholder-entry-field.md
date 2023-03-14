@@ -25,7 +25,7 @@ HTML 占位符的行为稍有不同，但是它们的行为更难用 Tkinter 复
 
 让我们从在一个新类中继承`ttk.Entry`开始:
 
-```
+```py
 from tkinter import ttk
 
 class PlaceholderEntry(ttk.Entry):
@@ -40,7 +40,7 @@ class PlaceholderEntry(ttk.Entry):
 
 让我们来看看如何做到这一点:
 
-```
+```py
 from tkinter import ttk
 
 class PlaceholderEntry(ttk.Entry):
@@ -56,7 +56,7 @@ class PlaceholderEntry(ttk.Entry):
 
 为了在文本获得焦点时删除内容，我们将向该字段添加一个事件绑定。函数可以绑定在特定的事件上，如`<KeyPressed>`、`<FocusIn>`或`<FocusOut>`。我们将利用后两种方法来实现:
 
-```
+```py
 from tkinter import ttk
 
 class PlaceholderEntry(ttk.Entry):
@@ -72,7 +72,7 @@ class PlaceholderEntry(ttk.Entry):
 
 接下来，让我们这样做，当字段失去焦点时，占位符被添加回来(只要字段中还没有文本)。
 
-```
+```py
 from tkinter import ttk
 
 class PlaceholderEntry(ttk.Entry):
@@ -107,7 +107,7 @@ Tkinter 字段有背景色(文本框的颜色)和前景色(文本的颜色)。�
 
 每当我们清除占位符时，我们会将样式重置回默认值`"TEntry"`。在这里，我们也可以这样做，这样每当字段失去焦点时，我们也不会删除用户的内容:
 
-```
+```py
 import tkinter as tk
 from tkinter import ttk
 
@@ -149,7 +149,7 @@ root.mainloop()
 
 请记住，如果我们的字段试图使用`"Placeholder.TEntry"`，但是用户之前没有定义，我们将会崩溃并出现错误。
 
-```
+```py
 class PlaceholderEntry(ttk.Entry):
     def __init__(self, container, placeholder, *args, **kwargs):
         super().__init__(container, *args, **kwargs)
@@ -176,7 +176,7 @@ class PlaceholderEntry(ttk.Entry):
 
 有了这些改变，现在我们可以像这样创建`PlaceholderEntry`小部件:
 
-```
+```py
 entry = PlaceholderEntry(
     root,
 	"Sample Placeholder",

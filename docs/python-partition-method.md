@@ -8,14 +8,14 @@
 
 对于那些不熟悉`split`的人来说，这是一个字符串方法，用于根据某种分隔符将字符串分成多个部分。例如，我们可能有这样的东西:
 
-```
+```py
 price = 12.50
 split_price = price.split(".")  # ['12', '50'] 
 ```
 
 通常你会把这个列表分解成几个变量，如下所示:
 
-```
+```py
 prince = 12.50
 dollars, cents = prince.split(".")
 
@@ -31,7 +31,7 @@ print(cents)    # 50
 
 那么`partition`呢？让我们来看看:
 
-```
+```py
 price = 12.50
 partition_price = price.partition(".")  # ('12', '.', '50') 
 ```
@@ -40,7 +40,7 @@ partition_price = price.partition(".")  # ('12', '.', '50')
 
 那么，当我们遇到分隔符的多个实例时怎么办呢？
 
-```
+```py
 file_name = "grand_canyon.005.png"
 partition_file_name = file_name.partition(".")  # ("grand_canyon", ".", "005.png") 
 ```
@@ -51,7 +51,7 @@ partition_file_name = file_name.partition(".")  # ("grand_canyon", ".", "005.png
 
 那么如果分隔符不在字符串中呢？
 
-```
+```py
 name = "Jose"
 partition_name = name.partition(".")  # ('Jose', '', '') 
 ```
@@ -62,7 +62,7 @@ partition_name = name.partition(".")  # ('Jose', '', '')
 
 除了`partition`之外，还有一个`rpartition`方法，它从字符串的末尾开始扫描。这意味着第一个遇到的分隔符实例是字符串中最后一个出现的。例如，这对于一次性获取文件扩展名、分隔符和文件名可能很有用。
 
-```
+```py
 file_name = "grand_canyon.005.png"
 
 name, seperator, extension = file_name.rpartition(".") 

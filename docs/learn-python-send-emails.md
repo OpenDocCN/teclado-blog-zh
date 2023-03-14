@@ -8,7 +8,7 @@ Python 附带了几个库，允许我们创建电子邮件并发送它们。这�
 
 有了`email`库，使用 Python 创建电子邮件变得很容易。我们将只定义内容及其元数据(From、To、Subject)。
 
-```
+```py
 from email.message import EmailMessage
 
 email = EmailMessage()
@@ -32,7 +32,7 @@ email.set_content('Hello, John')
 
 在这个例子中，我们将使用一个假冒的 Gmail 帐户发送邮件。如果你愿意，你可以使用你自己的帐户！
 
-```
+```py
 import smtplib
 
 s = smtplib.SMTP(host='smtp.gmail.com', port=587)
@@ -48,7 +48,7 @@ s.login('[[email protected]](/cdn-cgi/l/email-protection)', 'password')
 
 一旦我们收到`MIMEMultipart`消息并登录，我们就准备发送它。
 
-```
+```py
 s.send_message(email)
 s.quit() 
 ```
@@ -57,7 +57,7 @@ s.quit()
 
 下面是您可以用 Python 发送电子邮件的完整代码。试着把它的一部分或全部放入函数中，这样重用它就变得非常简单了！
 
-```
+```py
 import smtplib
 
 from email.message import EmailMessage

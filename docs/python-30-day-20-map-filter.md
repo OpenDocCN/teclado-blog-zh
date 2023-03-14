@@ -12,21 +12,21 @@
 
 当我们想从其他可重复的事物中收集新的集合时，我们使用理解。然而，有些情况下，我们想做一个新的集合，理解是没有必要的。当我们制作这个新系列的时候，我们只有在想要改变一些价值观的时候才会用到理解。例如，我们可能希望将列表中的每个字符串转换为标题大小写:
 
-```
+```py
 `names = ["tom", "richard", "harold"]
 names = [name.title() for name in names]` 
 ```
 
 如果我们只是想把`names`列表变成一个集合，我们可以这样做:
 
-```
+```py
 `names = ["tom", "richard", "harold"]
 names = set(names)` 
 ```
 
 我们不必为更加冗长的集合理解而烦恼:
 
-```
+```py
 `names = ["tom", "richard", "harold"]
 names = {name for name in names}` 
 ```
@@ -41,7 +41,7 @@ names = {name for name in names}`
 
 假设我想对数字列表中的每个数字进行立方运算。我们可以这样使用`map`:
 
-```
+```py
 `def cube(number):
     return number ** 3
 
@@ -55,7 +55,7 @@ cubed_numbers = map(cube, numbers)`
 
 你们中的一些人可能试图打印上面例子中的`cubed_numbers`,但是也许你没有得到你想要的。我们得到的不是立方数的列表，而是类似这样的东西:
 
-```
+```py
 `<map object at 0x7f8a284ab3d0>` 
 ```
 
@@ -65,7 +65,7 @@ cubed_numbers = map(cube, numbers)`
 
 那么我们如何从一个`map`对象中得到东西呢？它们是可迭代的，所以我们可以迭代这些值:
 
-```
+```py
 `def cube(number):
     return number ** 3
 
@@ -78,7 +78,7 @@ for number in cubed_numbers:
 
 因为它们是可迭代的，我们也可以使用`*`来解包它们:
 
-```
+```py
 `def cube(number):
     return number ** 3
 
@@ -90,7 +90,7 @@ print(*cubed_numbers, sep=", ")`
 
 如果愿意，我们还可以将它们转换为普通收藏:
 
-```
+```py
 `def cube(number):
     return number ** 3
 
@@ -106,7 +106,7 @@ cubed_numbers = list(map(cube, numbers))`
 
 假设我们有两个数字列表:`odds`和`evens`。我想将`odds`中的第一个值添加到`evens`中的第一个值，然后我想添加每个集合的第二个值，以此类推。用`map`很容易做到这一点。
 
-```
+```py
 `def add(a, b):
     return a + b
 
@@ -127,7 +127,7 @@ print(*totals, sep=", ")  # 3, 7, 11, 15, 19`
 
 例如，我们可以使用 lambda 表达式重新创建上面的`cube`示例，如下所示:
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 cubed_numbers = map(lambda number: number ** 3, numbers)` 
 ```
@@ -142,7 +142,7 @@ cubed_numbers = map(lambda number: number ** 3, numbers)`
 
 让我们再来看看我们的`add`例子。
 
-```
+```py
 `def add(a, b):
     return a + b
 
@@ -155,7 +155,7 @@ print(*totals, sep=", ")  # 3, 7, 11, 15, 19`
 
 我们可以像这样使用 lambda 表达式:
 
-```
+```py
 `odds = [1, 3, 5, 7, 9]
 evens = [2, 4, 6, 8, 10]
 
@@ -167,7 +167,7 @@ print(*totals, sep=", ")  # 3, 7, 11, 15, 19`
 
 `operator`有一个`add`函数已经准备好了，所以我们不必自己定义它。
 
-```
+```py
 `from operator import add
 
 odds = [1, 3, 5, 7, 9]
@@ -181,7 +181,7 @@ print(*totals, sep=", ")  # 3, 7, 11, 15, 19`
 
 例如，我们可以对列表中的每个名字调用`title`方法，如下所示:
 
-```
+```py
 `from operator import methodcaller
 
 names = ["tom", "richard", "harold"]
@@ -190,7 +190,7 @@ title_names = map(methodcaller("title"), names)`
 
 在我看来，这比 lambda 表达式方法好得多:
 
-```
+```py
 `names = ["tom", "richard", "harold"]
 title_names = map(lambda name: name.title(), names)` 
 ```
@@ -205,7 +205,7 @@ title_names = map(lambda name: name.title(), names)`
 
 例如，假设我们有一组数字，我只想要偶数。我们可以使用条件理解来实现这一点:
 
-```
+```py
 `numbers = [1, 56, 3, 5, 24, 19, 88, 37]
 even_numbers = [number for number in numbers if number % 2 == 0]` 
 ```
@@ -214,7 +214,7 @@ even_numbers = [number for number in numbers if number % 2 == 0]`
 
 这种理解相当于这样写一个`for`循环:
 
-```
+```py
 `numbers = [1, 56, 3, 5, 24, 19, 88, 37]
 even_numbers = []
 
@@ -225,7 +225,7 @@ for number in numbers:
 
 我们可以对任何一种理解进行过滤操作，例如，我们可以对一组理解做同样的事情。
 
-```
+```py
 `numbers = [1, 56, 3, 5, 24, 19, 88, 37]
 even_numbers = {number for number in numbers if number % 2 == 0}` 
 ```
@@ -242,7 +242,7 @@ even_numbers = {number for number in numbers if number % 2 == 0}`
 
 例如，我们可以这样改写上面例子中的条件理解:
 
-```
+```py
 `numbers = [1, 56, 3, 5, 24, 19, 88, 37]
 even_numbers = filter(lambda number: number % 2 == 0, numbers)` 
 ```
@@ -251,7 +251,7 @@ even_numbers = filter(lambda number: number % 2 == 0, numbers)`
 
 在这种情况下，我认为定义一个小的助手函数是值得的，因为它使事情更具可读性。
 
-```
+```py
 `def is_even(number):
     return number % 2 == 0
 
@@ -269,7 +269,7 @@ even_numbers = filter(is_even, numbers)`
 
 在这种情况下，`filter`将保留原始 iterable 中的所有真值，而所有假值将被丢弃。
 
-```
+```py
 `values = [0, "Hello", [], {}, 435, -4.2, ""]
 truthy_values = filter(None, values)
 
@@ -280,7 +280,7 @@ print(*truthy_values, sep=", ")  # Hello, 435, -4.2`
 
 1)使用`map`调用下面列表中每个字符串的`strip`方法:
 
-```
+```py
 `humpty_dumpty = [
     "  Humpty Dumpty sat on a wall,  ",
     "Humpty Dumpty had a great fall;     ",
@@ -295,7 +295,7 @@ print(*truthy_values, sep=", ")  # Hello, 435, -4.2`
 
 2)下面你会发现一个包含几个名字的元组:
 
-```
+```py
 `names = ("bob", "Christopher", "Rachel", "MICHAEL", "jessika", "francine")` 
 ```
 

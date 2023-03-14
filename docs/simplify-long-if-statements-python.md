@@ -11,7 +11,7 @@
 
 假设您有一个像这样的 if 语句(假设已经定义了`average`函数):
 
-```
+```py
 numbers = [1, 4, 16, 20]
 action = input(f"What would you like to do with {numbers}?")  # e.g. add
 
@@ -29,7 +29,7 @@ else:
 
 在[比赛中...案例"](https://blog.teclado.com/python-match-case/)，我们仍然需要告诉 Python 不同的选项是什么，以及在每种情况下做什么:
 
-```
+```py
 def average(seq):
 	return sum(seq) / len(seq)
 
@@ -57,7 +57,7 @@ match action:
 
 您可以将用户的选项存储在一个字典中，而不是使用 log if-elif 链或长的 match-case 链:
 
-```
+```py
 options = {
     "add": sum,
     "avg": average,
@@ -67,7 +67,7 @@ options = {
 
 然后你可以问用户他们想要使用哪个选项(从字典中):
 
-```
+```py
 options = {
     "add": sum,
     "avg": average,
@@ -80,7 +80,7 @@ action = input(f"What would you like to do with {numbers}?")  # e.g. add
 
 这样，我们可以直接从字典中检索函数:
 
-```
+```py
 options = {
     "add": sum,
     "avg": average,
@@ -99,7 +99,7 @@ operation = options.get(action)
 
 我们还应该做一些错误检查，以确保我们不会试图运行一个不存在的函数，如果用户输入的东西不是字典的键之一。
 
-```
+```py
 options = {
     "add": sum,
     "avg": average,
@@ -121,7 +121,7 @@ else:
 
 另一个好处是，通过使用字典键，您可以很容易地告诉用户哪些选项是可用的:
 
-```
+```py
 option_texts = '|'.join(options.keys()
 action = input(f"What would you like to do with {numbers}? ({option_texts}) ")
 # Would show "What would you like to do with [1, 4, 16, 20]? (add|avg|max) " 

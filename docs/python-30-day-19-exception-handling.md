@@ -12,7 +12,7 @@
 
 目前，在运行我们的代码时遇到这些异常之一对应用程序来说是致命的。如果我们试图将用户输入转换成一个整数，并且用户输入了`"Five"`，程序将会终止，我们将会在控制台中看到一些可爱的红色文本，显示`"Five"`不是一个基数为 10 的整数。
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 1, in <module>
     int("Five")
@@ -33,7 +33,7 @@ ValueError: invalid literal for int() with base 10: 'Five'`
 
 我们的代码可能看起来像这样:
 
-```
+```py
 `number = int(input("Please enter a whole number: "))` 
 ```
 
@@ -49,7 +49,7 @@ ValueError: invalid literal for int() with base 10: 'Five'`
 
 这对于我们手动来说有点棘手，但是如果你一直在寻找我们对字符串可用的方法，你可能已经找到了`isnumeric`方法。因此，我们可以这样写:
 
-```
+```py
 `while  True:
     user_number = input("Please enter a whole number: ")
 
@@ -66,7 +66,7 @@ ValueError: invalid literal for int() with base 10: 'Five'`
 
 这是个问题，但不是不可克服的。我们可以去掉任何初始的`-`符号，因为我们知道`int`可以处理这些符号。为此，我们可以使用`lstrip`，而不是普通的`strip`，因为`lstrip`只是从字符串的左边移除字符。
 
-```
+```py
 `while  True:
     user_number = input("Please enter a whole number: ")
 
@@ -85,7 +85,7 @@ ValueError: invalid literal for int() with base 10: 'Five'`
 
 如果我们尝试`--3`，我们得到一个`ValueError`。
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 5, in <module>
     number = int(user_number)
@@ -108,7 +108,7 @@ ValueError: invalid literal for int() with base 10: '--3'`
 
 让我们再来看看我们的数字示例，看看一个`try`语句在起作用:
 
-```
+```py
 `while True:
     try:
         number = int(input("Please enter a whole number: "))
@@ -145,7 +145,7 @@ ValueError: invalid literal for int() with base 10: '--3'`
 
 我们将从这里开始:
 
-```
+```py
 `import math
 
 def average(numbers):
@@ -167,7 +167,7 @@ def average(numbers):
 
 既然我们知道什么可能出错，我们可以写下我们的`try`语句。
 
-```
+```py
 `import math
 
 def average(numbers):
@@ -184,7 +184,7 @@ def average(numbers):
 
 如果我们想捕捉两个异常并做同样的事情，我们不需要两个`except`子句。我们可以用同一个`except`子句捕获多个异常，如下所示:
 
-```
+```py
 `import math
 
 def average(numbers):
@@ -199,7 +199,7 @@ def average(numbers):
 
 在某些时候，您可能会遇到这样的代码:
 
-```
+```py
 `import math
 
 def average(numbers):
@@ -229,7 +229,7 @@ def average(numbers):
 
 运用你的判断力。对于非常简单的例子来说，这可能有些过分，就像下面的例子:
 
-```
+```py
 `import math
 
 def average(numbers):
@@ -257,7 +257,7 @@ def average(numbers):
 
 如果我们从`try`语句中的一个函数返回，`finally`将中断这个返回，首先运行它自己的代码。通过运行以下代码，您可以看到一个示例:
 
-```
+```py
 `def finally_flex():
     try:
         return

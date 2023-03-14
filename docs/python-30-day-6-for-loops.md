@@ -19,7 +19,7 @@
 
 让我们用一个我们以前的帖子中的例子，我们定义了一个表示电影库中电影的元组列表。
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -43,7 +43,7 @@
 
 假设我们想打印出这个电影列表的内容。利用我们目前的知识，我们可能会这样做:
 
-```
+```py
 `movie = movies[0]
 print(f"{movie[0]} ({movie[2]}), by {movie[1]}")
 
@@ -56,7 +56,7 @@ print(f"{movie[0]} ({movie[2]}), by {movie[1]}")`
 
 这将为我们提供如下输出:
 
-```
+```py
 `Eternal Sunshine of the Spotless Mind (2004), by Michel Gondry
 Memento (2000), by Christopher Nolan
 Requiem for a Dream (2000), by Darren Aronofsky` 
@@ -64,7 +64,7 @@ Requiem for a Dream (2000), by Darren Aronofsky`
 
 如果我们想更简洁一点，我们可以放弃`movie`变量，将几个订阅表达式连接在一起:
 
-```
+```py
 `print(f"{movies[0][0]} ({movies[0][2]}), by {movies[0][1]}")
 print(f"{movies[1][0]} ({movies[1][2]}), by {movies[1][1]}")
 print(f"{movies[2][0]} ({movies[2][2]}), by {movies[2][1]}")` 
@@ -74,13 +74,13 @@ print(f"{movies[2][0]} ({movies[2][2]}), by {movies[2][1]}")`
 
 我们上面写的代码有一些问题。首先，我们有很多重复的代码，这使得这个程序很难维护。想象一下，如果我们想改变输出:
 
-```
+```py
 `Eternal Sunshine of the Spotless Mind (2004), by Michel Gondry` 
 ```
 
 对此:
 
-```
+```py
 `Eternal Sunshine of the Spotless Mind (2004) - Michel Gondry` 
 ```
 
@@ -100,7 +100,7 @@ Python 中的`for`循环是对集合中的每一项，或者更一般地说，�
 
 以下是一个具体的循环示例，用于以我们之前使用的格式打印`movies`列表中的每部电影:
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -147,7 +147,7 @@ for movie in movies:
 
 在循环的第一次迭代(循环)中，我们从`movies`中获取第一项，它是这个元组:
 
-```
+```py
 `(
     "Eternal Sunshine of the Spotless Mind",
     "Michel Gondry",
@@ -157,7 +157,7 @@ for movie in movies:
 
 这个元组被赋值给`movie`，然后我们运行循环体中的代码。我们在主体中只有一行代码，看起来像这样:
 
-```
+```py
 `print(f"{movie[0]} ({movie[2]}), by {movie[1]}")` 
 ```
 
@@ -165,7 +165,7 @@ for movie in movies:
 
 我们现在已经运行完了循环体中的代码，所以我们尝试从`movies`中获取另一个值。由于列表中还有电影，Python 给了我们下一个元组:
 
-```
+```py
 `(
     "Memento",
     "Christopher Nolan",
@@ -179,17 +179,17 @@ for movie in movies:
 
 需要记住的一件重要事情是，从功能的角度来看，`movie`这个名字并不重要。Python 并没有神奇地将名字`movie`和`movies`联系起来。我们可以做以下任何一项，效果都是一样的:
 
-```
+```py
 `for m in movies:
     print(f"{m[0]} ({m[2]}), by {m[1]}")` 
 ```
 
-```
+```py
 `for film in movies:
     print(f"{film[0]} ({film[2]}), by {film[1]}")` 
 ```
 
-```
+```py
 `for movie_details in movies:
     print(f"{movie_details[0]} ({movie_details[2]}), by {movie_details[1]}")` 
 ```
@@ -210,7 +210,7 @@ for movie in movies:
 
 使用`break`语句的一个常见方法是防止不必要的操作。例如，假设我们想要检查某部电影是否在我们一直引用的电影库中。
 
-```
+```py
 `movies = [
     (
         "Eternal Sunshine of the Spotless Mind",
@@ -251,7 +251,7 @@ Python 有一个名为`range`的内置函数，它能够根据某种设定的模
 
 这将给我们一个整数序列，从零开始，一直到停止值，但不包括停止值。`range(10)`因此会给我们一个这样的序列:
 
-```
+```py
 `0, 1, 2, 3, 4, 5, 6, 7, 8, 9` 
 ```
 
@@ -265,14 +265,14 @@ Python 有一个名为`range`的内置函数，它能够根据某种设定的模
 
 如果我们想得到每隔一个数字，我们可以指定一个步骤`2`。如果我们想要每三个数字，我们将指定一个步骤`3`。
 
-```
+```py
 `range(0, 10, 2)  # 0, 2, 4, 6, 8
 range(0, 10, 3)  # 0, 3, 6, 9` 
 ```
 
 我们也可以指定一个负的步长值，这意味着我们从起始值向后移动到终止值。
 
-```
+```py
 `range(10, 0, -1)  # 10, 9, 8, 7, 6, 5, 4, 3, 2, 1` 
 ```
 
@@ -284,7 +284,7 @@ range(0, 10, 3)  # 0, 3, 6, 9`
 
 当您打印一个`range`时，您可能会看到这样的内容:
 
-```
+```py
 `print(range(0, 10))
 # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]` 
 ```
@@ -295,7 +295,7 @@ range(0, 10, 3)  # 0, 3, 6, 9`
 
 这意味着如果你试图打印一个`range`，你不会看到所有的值:
 
-```
+```py
 `print(range(1000))  # range(0, 1000)` 
 ```
 
@@ -305,7 +305,7 @@ range(0, 10, 3)  # 0, 3, 6, 9`
 
 我们可以使用`list`和`tuple`函数来实现这一点，就像我们使用`int`、`float`和`str`来转换整数、浮点数和字符串一样。
 
-```
+```py
 `numbers = list(range(10))             # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 immutable_numbers = tuple(range(10))  # (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)` 
 ```
@@ -316,7 +316,7 @@ immutable_numbers = tuple(range(10))  # (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)`
 
 如果我们使用类似于`range(10)`的东西生成一个`range`，这个`range`能够提供十个数字。如果我们迭代这个集合，`range`将一次给我们一个数字，我们将为每个数字运行一次循环体。
 
-```
+```py
 `for number in range(10):
     print(number)
 
@@ -331,14 +331,14 @@ immutable_numbers = tuple(range(10))  # (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)`
 
 例如，我们可以像这样将一个给定的字符串打印十次:
 
-```
+```py
 `for number in range(10):
     print("Hello!")` 
 ```
 
 输出:
 
-```
+```py
 `Hello!
 Hello!
 Hello!
@@ -361,7 +361,7 @@ Hello!`
 
 使用`_`作为循环变量的最佳时机如下:
 
-```
+```py
 `for _ in range(10):
     print("Hello!")` 
 ```
@@ -370,7 +370,7 @@ Hello!`
 
 然而，我们不应该在如下所示的循环中使用`_`:
 
-```
+```py
 `for _ in range(10):
     print(_)` 
 ```
@@ -381,7 +381,7 @@ Hello!`
 
 1)下面我们提供了一个元组列表，其中每个元组包含一个商店雇员的详细信息:他们的姓名、上周工作的小时数以及他们的时薪。以一种清晰易读的格式打印出每个员工在周末应得的工资。
 
-```
+```py
 `employees = [
     ("Rolf Smith", 35, 8.75),
     ("Anne Pun", 30, 12.50),

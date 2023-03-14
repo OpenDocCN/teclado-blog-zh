@@ -8,7 +8,7 @@
 
 下面是它如何工作的一个例子:
 
-```
+```py
 friends = LockableList("Rolf", "Bob", "Jen")
 friends.append("Adam")
 print(friends)  # ['Rolf', 'Bob', 'Jen', 'Adam']
@@ -25,7 +25,7 @@ friends.append("Anne")  # Error
 
 首先，如果我们需要为我们的`LockableList`定义一个类。在该类中，我们将创建属性来存储列表的值，并跟踪对象的锁定状态。我们还将定义大量的方法，这些方法将允许我们重新创建 Python 的标准列表类型的行为，只是有我们自己的特殊变化。
 
-```
+```py
 class LockableList:
 	def __init__(self):
 		pass 
@@ -33,7 +33,7 @@ class LockableList:
 
 我们已经遇到了我们的第一个特殊方法:`__init__`。与我们将要定义的其他方法不同，`__init__`在创建对象实例时被自动调用，它允许我们设置一些初始值。现在，我们的`__init__`方法做得不太好，所以让我们来解决这个问题。
 
-```
+```py
 class LockableList:
 	def __init__(self, values):
 		self.values = values 
@@ -41,14 +41,14 @@ class LockableList:
 
 我们现在已经为`__init__`定义了第二个参数，称为`values`，这意味着我们现在可以在创建我们的`LockableList`的实例时传入一些参数。我们传入的值随后存储在`self.values`中。我们可以这样检查这个作品:
 
-```
+```py
 l = LockableList([1, 2, 3, 4, 5])
 print(l.values)  # [1, 2, 3, 4, 5] 
 ```
 
 除了存储一组值，我们还需要跟踪我们的锁状态。默认情况下，我认为创建我们的`LockableList` unlocked 是有意义的，如果用户愿意，可以选择指定锁定状态。
 
-```
+```py
 class LockableList:
 	def __init__(self, values, locked=False):
 		self.values = values
@@ -63,7 +63,7 @@ class LockableList:
 
 目前我们有一点小问题。如果用户像这样创建一个`LockableList`,会发生什么:
 
-```
+```py
 l = LockableList(2, 6) 
 ```
 
@@ -88,7 +88,7 @@ l = LockableList(2, 6)
 
 我将把它转换成一个列表，而不是使用标准的`values`元组:
 
-```
+```py
 class LockableList:
 	def __init__(self, *values, locked=False):
 		self.values = list(values)
@@ -105,7 +105,7 @@ class LockableList:
 
 `__str__`允许我们定义给定对象的用户友好表示。在我们的例子中，我认为使用标准的列表语法来表示我们的`LockableList`是相当安全的，但是我们真的可以返回我们想要的任何东西。我们需要记住的唯一规则是它必须返回一个字符串。
 
-```
+```py
 class LockableList:
 	def __init__(self, *values, locked=False):
 		self.values = list(values)
@@ -117,7 +117,7 @@ class LockableList:
 
 因为我们已经在内部使用了一个列表来存储一个`LockableList`中的值，所以我们可以使用`{self.values}`来获取这个列表并将其放入一个 f 字符串中。现在我们可以这样做:
 
-```
+```py
 friends = LockableList("John", "Rolf", "Mary")
 print(friends)  # ['John', 'Rolf', 'Mary'] 
 ```
@@ -130,7 +130,7 @@ Python 有一个方便的内置函数叫做`len`,它让我们可以测量物体�
 
 如果我们试图得到一个`LockableList`的`len`会发生什么？
 
-```
+```py
 friends = LockableList("John", "Rolf", "Mary")
 print(len(friends))  # TypeError: object of type 'LockableList' has no len() 
 ```
@@ -143,7 +143,7 @@ print(len(friends))  # TypeError: object of type 'LockableList' has no len()
 
 实现`__len__`是一个相对简单的任务。在内部，我们使用一个标准的列表来存储用户的值，并且一个列表已经实现了`len`，所以我们不需要自己计算值。
 
-```
+```py
 class LockableList:
 	def __init__(self, *values, locked=False):
 		self.values = list(values)
@@ -180,7 +180,7 @@ print(len(friends))  # 3
 
 这样，我们可以实现`__getitem__`的第一部分来处理特定索引项的检索:
 
-```
+```py
 class LockableList:
     def __init__(self, *values, locked=False):
         self.values = list(values)
@@ -219,7 +219,7 @@ class LockableList:
 
 这实际上非常重要，因为我们现在可以对我们的`LockableList`对象做些别的事情:我们可以对它们进行循环！
 
-```
+```py
 friends = LockableList("John", "Rolf", "Mary")
 
 for friend in friends:
@@ -236,7 +236,7 @@ for friend in friends:
 
 一旦我们知道我们正在处理一个切片，我们就可以利用`indices`方法，它将返回我们为调用它的切片对象传入的特定序列的具体范围值。
 
-```
+```py
 friends = ["John", "Rolf", "Mary", "Adam", "Jose"]
 my_slice = slice(-3, -1, 1)  # akin to [-3:-1]
 my_slice.indices(len(friends))  # (2, 4, 1) 
@@ -246,7 +246,7 @@ my_slice.indices(len(friends))  # (2, 4, 1)
 
 我们可以将这些值直接放入`range`中，以创建我们应该返回值的索引序列。然后，我们可以循环遍历所需的索引，并通过解包一个 list comprehension 将值作为一个新的`LockableList`返回。
 
-```
+```py
 class LockableList:
 	def __init__(self, *values, locked=False):
         self.values = list(values)

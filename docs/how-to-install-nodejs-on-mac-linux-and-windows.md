@@ -10,7 +10,7 @@
 
 官方指令是[页面中的](https://github.com/creationix/nvm#installation)，或者在控制台中执行以下命令:
 
-```
+```py
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | bash 
 ```
 
@@ -18,7 +18,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | b
 
 如果没有，运行`touch ~/.bash_profile`并再次运行安装脚本:
 
-```
+```py
 touch ~/.bash_profile
 
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | bash 
@@ -26,13 +26,13 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | b
 
 如果这仍然不能解决您的问题，那么运行以下命令并重新启动您的终端:
 
-```
+```py
 echo "source ~/.bashrc" >> ~/.bash_profile 
 ```
 
 现在，我们准备使用 nvm 安装最新版本的 Node:
 
-```
+```py
 nvm install node 
 ```
 

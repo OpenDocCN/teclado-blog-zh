@@ -10,7 +10,7 @@
 
 使用`cat`命令，您可以查看文件的文本内容:
 
-```
+```py
 cat my_file.txt 
 ```
 
@@ -18,7 +18,7 @@ cat my_file.txt
 
 **下面的代码将**“Hello，world”追加到文件`my_file.txt`中。
 
-```
+```py
 cat >> my_file.txt
 Hello, world
 
@@ -27,7 +27,7 @@ Hello, world
 
 **下面的代码用“Hello，world”这几个字覆盖了** `my_file.txt`。
 
-```
+```py
 cat > my_file.txt
 Hello, world
 
@@ -44,7 +44,7 @@ Vi 是一个文本编辑器。您可以打开、编辑和保存文件。
 
 像这样打开文件:
 
-```
+```py
 vi my_file.txt 
 ```
 

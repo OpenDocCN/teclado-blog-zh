@@ -47,7 +47,7 @@
 
 我是这样做的(没有什么比代码更好的解释了):
 
-```
+```py
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def fetch_user_info(user_id):
@@ -82,7 +82,7 @@ with ThreadPoolExecutor(max_workers=20) as executor:
 
 我是这样做的:
 
-```
+```py
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 def run_nlp(filename):

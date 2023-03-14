@@ -6,7 +6,7 @@
 
 首先让我们来看看当我们正常地迭代一个字典时会发生什么:
 
-```
+```py
 example_dict = {
     "name": "James",
     "age": 25,
@@ -23,7 +23,7 @@ for x in example_dict:
 
 默认情况下，我们只是在迭代一个字典时得到键。这可能是我们想要的，但是如果我们想要的是价值观呢？嗯，我们可以用`values`的方法。
 
-```
+```py
 for value in example_dict.values():
 	print(value)
 
@@ -40,7 +40,7 @@ for value in example_dict.values():
 
 一般来说，我们会想要将这个元组分解成单独的值，如下所示:
 
-```
+```py
 for key, value in example_dict.items():
     print(key, value)
 

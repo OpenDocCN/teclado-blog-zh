@@ -31,14 +31,14 @@
 
 如果你不清楚如何得到前十个偶数，我们可以像这样使用`for`循环和`range`:
 
-```
+```py
 `for number in range(1, 11):
     print(number * 2)` 
 ```
 
 我们还可以向名为`step`的`range`传递第三个值，这允许我们创建具有不同模式的序列。例如，指定一个`2`的`step`将允许我们获得指定范围内的每秒钟的数字。
 
-```
+```py
 `for number in range(2, 21, 2):
     print(number)` 
 ```
@@ -55,7 +55,7 @@
 
 函数体直接写在定义函数名的那一行的下面，必须缩进，就像我们使用 for 循环或条件语句一样。
 
-```
+```py
 `def get_even_numbers():
     for number in range(1, 11):
         print(number * 2)` 
@@ -63,7 +63,7 @@
 
 这样，我们就有了一个完全可用的函数，我们可以像调用任何内置函数一样调用它:
 
-```
+```py
 `def get_even_numbers():
     for number in range(1, 11):
         print(number * 2)
@@ -85,14 +85,14 @@ get_even_numbers()`
 
 甚至有些函数我们必须向 T2 传递一个值。例如，我们不能在不传递集合的情况下调用`len`。这是无效的:
 
-```
+```py
 `len([1, 3, 5])  # 3
 len()  # Error!` 
 ```
 
 在第二行中我们没有传递给它一个集合，所以我们得到一个`TypeError`:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 1, in <module>
     len()
@@ -109,7 +109,7 @@ TypeError: len() takes exactly one argument (0 given)`
 
 在`get_even_numbers`的情况下，我将通过在括号之间写`amount`来定义一个名为`amount`的参数。然后我将在函数体中使用这个参数来修改`range`。
 
-```
+```py
 `def get_even_numbers(amount):
     for number in range(1, amount + 1):
         print(number * 2)` 
@@ -119,7 +119,7 @@ TypeError: len() takes exactly one argument (0 given)`
 
 现在，如果我们调用我们的`get_even_numbers`函数并传入一个整数作为参数，我们将能够改变我们输出的数字数量。
 
-```
+```py
 `def get_even_numbers(amount):
     for number in range(1, amount + 1):
         print(number * 2)
@@ -131,7 +131,7 @@ get_even_numbers(5)`
 
 您可能会注意到，我们不再能够在不传入任何参数的情况下调用函数。如果我们尝试，我们将得到一个`TypeError`，就像我们在没有传入参数的情况下试图调用`len`一样。
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 6, in <module>
     get_even_numbers()
@@ -150,7 +150,7 @@ TypeError: get_even_numbers() missing 1 required positional argument: 'amount'`
 
 我们预计`Hello!`会打印到控制台 5 次，如下所示:
 
-```
+```py
 `Hello!
 Hello!
 Hello!
@@ -162,7 +162,7 @@ Hello!`
 
 下面是`x_print`的一个可能的实现:
 
-```
+```py
 `def x_print(requested_output, quantity):
     for _ in range(quantity):
         print(requested_output)` 
@@ -180,7 +180,7 @@ Hello!`
 
 这个事实意味着我们为函数提供参数的顺序可能非常重要，如果我们不小心，可能会出现一些错误。例如，如果我们写这样的东西，
 
-```
+```py
 `def x_print(requested_output, quantity):
     for _ in range(quantity):
         print(requested_output)
@@ -192,7 +192,7 @@ x_print(5, "Hello")`
 
 在这种情况下，我们得到的是一个`TypeError`:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 6, in <module>
     x_print(5, "Hello")
@@ -207,7 +207,7 @@ TypeError: 'str' object cannot be interpreted as an integer`
 
 例如，我们可以这样调用我们的`x_print`函数:
 
-```
+```py
 `def x_print(requested_output, quantity):
     for _ in range(quantity):
         print(requested_output)
@@ -219,7 +219,7 @@ x_print(requested_output="Hello", quantity=5)`
 
 例如，这样就可以了:
 
-```
+```py
 `x_print(quantity=5, requested_output="Hello")` 
 ```
 
@@ -227,13 +227,13 @@ x_print(requested_output="Hello", quantity=5)`
 
 我们不能在关键字参数后提供位置参数。这在 Python 中是无效的语法:
 
-```
+```py
  `x_print(requested_output="Hello", 5)` 
 ```
 
 如果我们提供一个映射到给定参数的位置参数，我们就不能为同一个参数提供关键字参数。例如，我们不能这样做:
 
-```
+```py
  `x_print(5, requested_output="Hello")` 
 ```
 
@@ -241,7 +241,7 @@ x_print(requested_output="Hello", quantity=5)`
 
 如果我们想为我们的`x_print`函数混合位置和关键字参数，我们只有一个可行的选择:
 
-```
+```py
 `x_print("Hello", quantity=5)` 
 ```
 
@@ -263,7 +263,7 @@ x_print(requested_output="Hello", quantity=5)`
 
 2)定义一个名为`print_show_info`的函数，它只有一个参数。传递给它的参数将是一个字典，其中包含一些关于电视节目的信息。例如:
 
-```
+```py
  `tv_show = {
     "title": "Breaking Bad",
     "seasons": 5,
@@ -275,7 +275,7 @@ x_print(requested_output="Hello", quantity=5)`
 
 函数应该以一种很好的方式打印存储在字典中的信息。例如:
 
-```
+```py
  `Breaking Bad (2008) - 5 seasons` 
 ```
 
@@ -283,7 +283,7 @@ x_print(requested_output="Hello", quantity=5)`
 
 3)以下是包含多部电视连续剧详细信息的列表。
 
-```
+```py
  `series = [
     {"title": "Breaking Bad", "seasons": 5, "initial_release": 2008},
     {"title": "Fargo", "seasons": 4, "initial_release": 2014},

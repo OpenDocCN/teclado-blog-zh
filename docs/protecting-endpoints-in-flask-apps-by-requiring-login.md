@@ -14,7 +14,7 @@
 
 例如，让我们以这个端点为例:
 
-```
+```py
 @app.route("/profile")
 def profile():
     return render_template("profile.html", name=session["username"]) 
@@ -24,7 +24,7 @@ def profile():
 
 让我们添加一个检查并保护这个端点:
 
-```
+```py
 @app.route("/profile")
 def profile():
     if "email" not in session:
@@ -42,7 +42,7 @@ def profile():
 
 装饰器将像这样使用:
 
-```
+```py
 @app.route("/profile")
 @login_required
 def profile():
@@ -53,7 +53,7 @@ def profile():
 
 为了定义装饰器，我们编写一个函数，它将另一个函数作为参数。这里有一个装饰器，它根本不修改函数。
 
-```
+```py
 def login_required(func):
     return func 
 ```
@@ -68,7 +68,7 @@ def login_required(func):
 
 大概是这样的:
 
-```
+```py
 def login_required(func):
     def secure_function():
         if "email" not in session:
@@ -84,7 +84,7 @@ def login_required(func):
 
 同样，请记住此处应用了装饰器:
 
-```
+```py
 @app.route("/profile")
 @login_required
 def profile():
@@ -103,7 +103,7 @@ Flask 在某些事情上使用函数名，比如在使用`url_for`时，所以�
 
 我们将使用一个名为`functools`的内置模块来保留原来的函数名称，具体来说就是函数`wraps`:
 
-```
+```py
 import functools
 
 def login_required(func):
@@ -126,7 +126,7 @@ def login_required(func):
 
 为了让我们的`secure_function`有任意数量的参数，我们可以使用`*args`和`**kwargs`。如果你不熟悉这些，[这里有一个很好的解释](https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3)它们的意思！
 
-```
+```py
 import functools
 
 def login_required(func):
@@ -151,7 +151,7 @@ def login_required(func):
 
 我们可以做的是，当我们将用户发送到`login`端点时，也在 URL 中包含他们想要访问应用程序的哪一部分:
 
-```
+```py
 def login_required(func):
     @functools.wraps(func)
     def secure_function(*args, **kwargs):
@@ -174,7 +174,7 @@ def login_required(func):
 
 只要确保装修工在`@app.route...`线下就行了！
 
-```
+```py
 @app.route("/profile")
 @login_required
 def profile():

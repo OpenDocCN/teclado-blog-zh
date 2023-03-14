@@ -14,7 +14,7 @@
 
 我们必须记住的另一件事是，除以`0`会产生一个异常。如果我们尝试，我们会得到一个`ZeroDivisionError`:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 1, in <module>
     8 / 0
@@ -25,7 +25,7 @@ ZeroDivisionError: division by zero`
 
 让我们从定义`add`函数开始。您可以为这些函数使用您喜欢的任何参数名称。我将调用操作数`a`和`b`。
 
-```
+```py
 `def add(a, b):
     print(a + b)` 
 ```
@@ -36,7 +36,7 @@ ZeroDivisionError: division by zero`
 
 `subtract`和`multiply`非常相似，但是我们必须小心保持`subtract`的操作数顺序正确:
 
-```
+```py
 `def add(a, b):
     print(a + b)
 
@@ -51,7 +51,7 @@ def multiply(a, b):
 
 `divide`稍微复杂一点，因为我们必须检查第二个参数不是`0`。我们可以用一个简单的条件语句来实现这一点:
 
-```
+```py
 `def add(a, b):
     print(a + b)
 
@@ -76,7 +76,7 @@ def divide(a, b):
 
 本练习的目标是定义一个名为`print_show_info`的函数，它可以接受这样一个字典:
 
-```
+```py
 `tv_show = {
     "title": "Breaking Bad",
     "seasons": 5,
@@ -86,13 +86,13 @@ def divide(a, b):
 
 并输出如下字符串:
 
-```
+```py
 `Breaking Bad (2008) - 5 seasons` 
 ```
 
 我们的`print_show_info`，它有一个参数，我称之为`show`。`show`想要一个以上格式的字典。
 
-```
+```py
 `def print_show_info(show):
     pass` 
 ```
@@ -101,14 +101,14 @@ def divide(a, b):
 
 在这种情况下，我们希望我们的函数以良好的格式打印显示数据，我将使用上面的示例作为模板。我们可以通过访问`show`的键来访问提供的字典中的值。
 
-```
+```py
 `def print_show_info(show):
     print(f"{show['title']} ({show['initial_release']}) - {show['seasons']} season(s)")` 
 ```
 
 现在我们只需要调用我们的函数！
 
-```
+```py
 `def print_show_info(show):
     print(f"{show['title']} ({show['initial_release']}) - {show['seasons']} season(s)")
 
@@ -123,7 +123,7 @@ print_show_info(tv_show)`
 
 ### 3)以下是包含多部电视连续剧详细信息的列表。使用函数 print_show_info 和一个 for 循环来迭代序列列表，并在每次迭代中调用一次函数，传入每个字典。
 
-```
+```py
 `series_data = [
     {"title": "Breaking Bad", "seasons": 5, "initial_release": 2008},
     {"title": "Fargo", "seasons": 4, "initial_release": 2014},
@@ -136,21 +136,21 @@ print_show_info(tv_show)`
 
 因为我们已经定义了函数，所以除了编写实际的循环，我们没有什么要做的。我将使用`show`作为循环变量，因此我的循环定义将如下所示:
 
-```
+```py
 `for show in series_data:
     pass` 
 ```
 
 现在我们只需要在循环体中调用我们的函数，将`show`作为参数传入，因为对于循环的每次迭代，我们的一个字典将被分配给`show`:
 
-```
+```py
 `for show in series_data:
     print_show_info(show)` 
 ```
 
 因此，完整的解决方案如下所示:
 
-```
+```py
 `def print_show_info(show):
     print(f"{show['title']} ({show['initial_release']}) - {show['seasons']} season(s)")
 
@@ -169,7 +169,7 @@ for show in series_data:
 
 这应该会给我们这样的输出:
 
-```
+```py
 `Breaking Bad (2008) - 5 season(s)
 Fargo (2014) - 4 season(s)
 Firefly (2002) - 1 season(s)
@@ -184,7 +184,7 @@ Westworld (2016) - 3 season(s)`
 
 首先，我们需要定义我们的函数，它将接收一个`word`。我们要清理一下这个字符串，去掉所有的空格，把所有的字符都改成相同的大小写。
 
-```
+```py
 `def is_palindrome(word):
     word = word.strip().lower()` 
 ```
@@ -193,7 +193,7 @@ Westworld (2016) - 3 season(s)`
 
 我们必须对`reversed`小心一点，因为它会给我们一个惰性类型，并且它的值在任何情况下都不会等同于一个字符串。我们将从`reversed`对象中获取字符。在这种情况下，我们将把它转换成一个列表。
 
-```
+```py
 `def is_palindrome(word):
     word = word.strip().lower()
     reversed_word = reversed(word)
@@ -208,7 +208,7 @@ Westworld (2016) - 3 season(s)`
 
 我们可以用如下几个例子来测试我们的功能:
 
-```
+```py
 `def is_palindrome(word):
     word = word.strip().lower()
     reversed_word = reversed(word)
@@ -226,7 +226,7 @@ is_palindrome("Fred")    # False`
 
 除了使用列表，我们还可以使用`join`从`reversed`对象创建一个字符串:
 
-```
+```py
 `def is_palindrome(word):
     word = word.strip().lower()
     reversed_word = reversed(word)
@@ -248,7 +248,7 @@ is_palindrome("Fred")    # False`
 
 但是我们必须小心使用这种方法，因为我们只是想要一个值的副本。如果我们尝试这样做:
 
-```
+```py
 `def is_palindrome(word):
     word = list(word.strip().lower())
     reversed_word = word
@@ -259,7 +259,7 @@ is_palindrome("Fred")    # False`
 
 有几种方法可以解决这个问题。首先，我们可以在执行`reversed_word`赋值时传递`word`到`list`:
 
-```
+```py
 `def is_palindrome(word):
     word = list(word.strip().lower())
     reversed_word = list(word)
@@ -268,7 +268,7 @@ is_palindrome("Fred")    # False`
 
 创建一个新列表，所以我们创建第二个具有相同值的列表。列表也有一个名为`copy`的方法来做这件事:
 
-```
+```py
 `def is_palindrome(word):
     word = list(word.strip().lower()):
     reversed_word = word.copy()
@@ -277,7 +277,7 @@ is_palindrome("Fred")    # False`
 
 这两个都可以。然后，我们可以对列表进行直接比较:
 
-```
+```py
 `def is_palindrome(word):
     word = list(word.strip().lower())
     reversed_word = word.copy()
@@ -294,7 +294,7 @@ is_palindrome("Fred")    # False`
 
 我想向您展示的最后一种方法是使用切片，因为在这种情况下，它们提供了一种极其优雅的解决方案:
 
-```
+```py
 `def is_palindrome(word):
     word = word.strip().lower()
 
@@ -313,7 +313,7 @@ is_palindrome("Fred")    # False`
 
 如果您愿意，我们可以使用变量名来更好地描述这个值的含义:
 
-```
+```py
 `def is_palindrome(word):
     word = word.strip().lower()
     reversed_word = word[::-1]

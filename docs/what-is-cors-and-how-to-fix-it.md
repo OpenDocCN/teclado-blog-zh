@@ -42,7 +42,7 @@ CORS 问题可能非常烦人，尤其是对学习者而言。本文将总结一
 
 这里有一段来自[https://enable-cors.org/server_nginx.html](https://enable-cors.org/server_nginx.html)的代码片段，展示了如何配置一个完全开放的 CORS 策略。
 
-```
+```py
 if ($request_method = 'OPTIONS') {
   add_header 'Access-Control-Allow-Origin' '*';
   add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
@@ -76,7 +76,7 @@ if ($request_method = 'POST') {
 
 这里我要用一个 **Flask** app 进行演示，这是一个非常流行的 **Python** 框架(抱歉 **Django** 爱好者！).
 
-```
+```py
 app = Flask(__name__)
 
 @app.after_request

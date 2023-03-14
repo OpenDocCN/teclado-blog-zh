@@ -14,7 +14,7 @@
 
 元组和列表有一个字符串表示，但这通常不是我们想要的。如果我们试图将一个列表传递给`str`来创建一个新的字符串，就像这样:
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 numbers = str(numbers)` 
 ```
@@ -25,7 +25,7 @@ numbers = str(numbers)`
 
 就代码而言，这就是你最终得到的结果。包含方括号、数字和逗号的字符串:
 
-```
+```py
 `numbers = "[1, 2, 3, 4, 5]"` 
 ```
 
@@ -33,13 +33,13 @@ numbers = str(numbers)`
 
 例如，也许我有一个描述谁在某个项目中工作的名字列表，我想将这些名字作为句子的一部分打印出来:
 
-```
+```py
 `The people who worked on this project are: Mike, Sofia, Helen.` 
 ```
 
 我不想要的是:
 
-```
+```py
 `The people who worked on this project are: [Mike, Sofia, Helen].` 
 ```
 
@@ -47,7 +47,7 @@ numbers = str(numbers)`
 
 我们在一个字符串上调用`join`,这个字符串就是我们想要放在集合中想要粘合在一起的项目之间的内容。在上面的示例中，我们只想使用逗号和空格连接这些值，因此我们的代码如下所示:
 
-```
+```py
 `project_authors = ["Mike", "Sofia", "Helen"]
 project_authors = ", ".join(project_authors)
 
@@ -56,13 +56,13 @@ print(f"The people who worked on this project are: {project_authors}.")`
 
 现在输出正是我们想要的:
 
-```
+```py
 `The people who worked on this project are: Mike, Sofia, Helen.` 
 ```
 
 我们可以通过将`join`调用放在 f 字符串的花括号内来实现同样的事情:
 
-```
+```py
 `project_authors = ["Mike", "Sofia", "Helen"]
 
 print(f"The people who worked on this project are: {', '.join(project_authors)}.")` 
@@ -77,7 +77,7 @@ print(f"The people who worked on this project are: {', '.join(project_authors)}.
 *   使用一个`for`循环，我们遍历`numbers`列表。我们将每个数字转换成一个字符串，并将其附加到`stringified_numbers`。
 *   最后，我们用`join`搭配`stringified_numbers`。
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 
 stringified_numbers = []
@@ -98,7 +98,7 @@ print(', '.join(stringified_numbers)) # 1, 2, 3, 4, 5`
 
 例如，假设我们想从用户那里获得五个数字，我们要求这些数字用逗号分隔。我们可能会这样写:
 
-```
+```py
 `user_numbers = input("Please enter 5 numbers separated by commas: ") # 1,2,3,4,5
 numbers_list = user_numbers.split(",")
 
@@ -109,7 +109,7 @@ print(numbers_list) # ['1', '2', '3', '4', '5']`
 
 我们可以要求用户输入用破折号分隔的数字，然后我们必须传递一个破折号给`split`作为分隔符:
 
-```
+```py
 `user_numbers = input("Please enter 5 numbers separated by dashes: ") # 1-2-3-4-5
 numbers_tuple = user_numbers.split("-")
 
@@ -118,7 +118,7 @@ print(numbers_tuple) # ['1', '2', '3', '4', '5']`
 
 我们从`split`得到的是一个列表，但是我们总是可以通过将结果传递给`tuple`来创建另一种类型的集合，例如，如果这是我们想要的:
 
-```
+```py
 `user_numbers = input("Please enter 5 numbers separated by commas: ") # 1,2,3,4,5
 numbers_tuple = tuple(user_numbers.split(","))
 
@@ -127,7 +127,7 @@ print(numbers_tuple) # ('1', '2', '3', '4', '5')`
 
 需要注意的一点是`split`不会为我们去掉任何空白。如果用户写的数字带有逗号，后跟空格，这些空格将出现在我们放入新集合的字符串中:
 
-```
+```py
 `user_numbers = input("Please enter 5 numbers separated by commas: ") # 1, 2, 3, 4, 5
 numbers_list = user_numbers.split(",")
 
@@ -136,7 +136,7 @@ print(numbers_list) # ['1', ' 2', ' 3', ' 4', ' 5']`
 
 有时候这并不是一个真正的问题，但是有时候你可能需要使用一个`for`循环来遍历集合，并使用`strip`来清理。
 
-```
+```py
 `user_numbers = input("Please enter 5 numbers separated by commas: ") # 1, 2, 3, 4, 5
 user_numbers = user_numbers.split(",")
 
@@ -154,7 +154,7 @@ print(numbers_list) # ['1', '2', '3', '4', '5']`
 
 我们仍然会得到这样一个列表:
 
-```
+```py
 `['1', '2', '3', '4', '5']` 
 ```
 
@@ -162,7 +162,7 @@ print(numbers_list) # ['1', '2', '3', '4', '5']`
 
 我们并不总是需要调用`split`。如果我们只想将每个字符作为不同的条目放入一个列表或元组中，我们可以将字符串传递给`list`或`tuple`函数:
 
-```
+```py
 `sample_string = "Python"
 
 print(list(sample_string)) # ['P', 'y', 't', 'h', 'o', 'n']
@@ -177,13 +177,13 @@ print(tuple(sample_string)) # ('P', 'y', 't', 'h', 'o', 'n')`
 
 在 Python 中，我们将这个字符表示为`\n`，我们可以像其他任何字符一样在字符串中使用它。例如，我可以写一个这样的字符串:
 
-```
+```py
 `print("Super Special Mega Awesome Program\n\nBy Phillip Best")` 
 ```
 
 这里我在某个程序的标题后添加了两个换行符，然后是关于程序作者的信息。输出将如下所示:
 
-```
+```py
 `Super Special Mega Awesome Program
 
 By Phillip Best` 
@@ -199,7 +199,7 @@ By Phillip Best`
 
 让我们看一个字符串的例子。假设我们有一个字符串`Python`，出于某种原因，我想要这个字符串的前 3 个字符。使用切片，我们可以这样写:
 
-```
+```py
 `original_string = "Python"
 sliced_string = original_string[0:3]
 
@@ -212,7 +212,7 @@ print(sliced_string)  # Pyt`
 
 所以如果我们写这个`[3:]`，这意味着给我从索引`3`开始的所有内容。我们可以在这里看到一个例子:
 
-```
+```py
 `original_string = "Python"
 sliced_string = original_string[3:]
 
@@ -223,7 +223,7 @@ print(sliced_string)  # hon`
 
 当我们写`[3:-1]`时，我们说我们想要从索引`3`到最后一个元素的所有内容，但不包括最后一个元素。当我们写`[3:]`时，我们说我们想要从索引`3`开始的所有内容。我们可以看到这里的区别:
 
-```
+```py
 `original_string = "Python"
 
 print(original_string[3:])  # hon
@@ -240,7 +240,7 @@ print(original_string[3:-1])  # ho`
 
 这将适用于字符串、元组、列表以及我们将在本系列后面看到的任何其他类型。如果你试图在一个不支持这个操作的类型上调用`len`，你会得到一个类似这样的异常:
 
-```
+```py
 `Traceback (most recent call last):
   File "main.py", line 1, in <module>
     len(12)
@@ -249,7 +249,7 @@ TypeError: object of type 'int' has no len()`
 
 假设将一个适当的类型传递给`len`，它将返回一个表示集合中项目数量的整数:
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 len(numbers) # 5` 
 ```
@@ -262,7 +262,7 @@ len(numbers) # 5`
 
 3)下面是简短的报价列表:
 
-```
+```py
  `quotes = [
     "'What a waste my life would be without all the beautiful mistakes I've made.'",
     "'A bend in the road is not the end of the road... Unless you fail to make the turn.'",

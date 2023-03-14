@@ -14,7 +14,7 @@ Python 3.9 于 2020 年 10 月 5 日发布，它引入了一些简洁的功能�
 
 让我们从一个简短的例子开始，展示合并两个字典的老方法:
 
-```
+```py
 x = {"key1": "value1 from x", "key2": "value2 from x"}
 y = {"key2": "value2 from y", "key3": "value3 from y"}
 
@@ -36,7 +36,7 @@ print(z)
 
 下面的例子演示了新的字典合并操作符，`|`:
 
-```
+```py
 x = {"key1": "value1 from x", "key2": "value2 from x"}
 y = {"key2": "value2 from y", "key3": "value3 from y"}
 
@@ -47,7 +47,7 @@ print(z)
 
 但是请记住，merge 操作符创建新的字典，并保持两个合并的字典不变:
 
-```
+```py
 # before merging
 x = {"key1": "value1 from x", "key2": "value2 from x"}
 y = {"key2": "value2 from y", "key3": "value3 from y"}
@@ -70,7 +70,7 @@ print(z is y)  # False
 
 相同的概念适用于遗留合并方法:
 
-```
+```py
 # before merging
 x = {"key1": "value1 from x", "key2": "value2 from x"}
 y = {"key2": "value2 from y", "key3": "value3 from y"}
@@ -95,7 +95,7 @@ print(z is y)  # False
 
 为了演示合并操作符`|`的用处，让我们看看下面这个使用 [defaultdict](https://blog.teclado.com/python-30-day-26-standard-library/) 的例子:
 
-```
+```py
 from collections import defaultdict
 
 user_not_found_message = 'Could not find any user matching the specified user id.'
@@ -113,7 +113,7 @@ author = defaultdict(
 
 通过使用双星号`**`，可以合并两个字典，但是该方法不知道类对象，所以我们将使用传统的字典:
 
-```
+```py
 print({**author, **ceo})
 # {'id': 2, 'name': 'Jose', 'title': 'Author', 'title': 'Instructor'}
 
@@ -123,7 +123,7 @@ print({**ceo, **author})
 
 合并操作符`|`的强大之处在于它知道类对象。因此，将返回一个`defaultdict`:
 
-```
+```py
 print(author | ceo)
 # defaultdict(<function <lambda> at 0x000002212125DE50>, {'id': 2, 'name': 'Jose', 'title': 'Instructor'})
 
@@ -137,7 +137,7 @@ print(ceo | author)
 
 让我们展示一个实际的例子:
 
-```
+```py
 basic_data = {'id': 1, 'name': 'Vlad'}
 get_role = {'title': 'Teaching Assistant'}
 details = {'country': 'Denmark', 'active': True}
@@ -151,7 +151,7 @@ print(vlad_info)
 
 在下面的例子中，字典`y`正在更新字典`x`，演示了`.update()`方法:
 
-```
+```py
 x = {"key1": "value1 from x", "key2": "value2 from x"}
 y = {"key2": "value2 from y", "key3": "value3 from y"}
 
@@ -166,7 +166,7 @@ print(x)
 
 使用**更新操作符**、`|=`，我们可以用更简洁的语法实现相同的功能:
 
-```
+```py
 x = {"key1": "value1 from x", "key2": "value2 from x"}
 y = {"key2": "value2 from y", "key3": "value3 from y"}
 
@@ -185,7 +185,7 @@ print(x)
 
 让我们看看如何用遗留的`.update()`方法或者用**更新操作符** `|=`更新字典，既不改变对象的 **id** ，也不创建一个新的:
 
-```
+```py
 # before update
 x = {"key1": "value1 from x", "key2": "value2 from x"}
 y = {"key2": "value2 from y", "key3": "value3 from y"}
@@ -205,7 +205,7 @@ print(id(y))  # 2627652603200
 
 另一个例子是通过使用**更新操作符** `|=`来扩展具有元组列表的字典:
 
-```
+```py
 author = {'id': 1, 'name': 'Vlad'}
 author |= [('title', 'Teaching Assistant')]
 
@@ -215,7 +215,7 @@ print(author)
 
 上面的例子是遗留`.update()`方法的语法糖:
 
-```
+```py
 author = {'id': 1, 'name': 'Vlad'}
 new_key = dict([('title', 'Teaching Assistant')])
 author.update(new_key)
@@ -229,7 +229,7 @@ print(author)
 **旧版本**
 字典更新操作符`|=`和合并操作符`|`是 Python 3.9 中的新特性，所以如果你试图在早期版本中使用它们，你会遇到类似这样的错误，所以一定要更新到最新版本:
 
-```
+```py
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 TypeError: unsupported operand type(s) for |=: 'dict' and 'dict' 

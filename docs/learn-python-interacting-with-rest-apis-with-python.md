@@ -22,13 +22,13 @@ API 文档将为您提供关于向哪个端点请求特定数据的信息。
 
 您必须安装流行的`requests`库，以便用 Python 轻松地发出 HTTP 请求:
 
-```
+```py
 pip install requests 
 ```
 
 然后，您将能够执行如下所示的文件来发出 GET 请求:
 
-```
+```py
 import requests
 
 resp = requests.get('http://api.example.com/')
@@ -39,7 +39,7 @@ print(resp.json())
 
 POST 请求通常用于向服务器发送数据。例如，您可以发送一些 JSON 数据:
 
-```
+```py
 import requests
 
 payload = {'name': 'Example'}
@@ -50,7 +50,7 @@ print(resp.json())
 
 如果需要，您还可以包括自定义标题:
 
-```
+```py
 import requests
 
 payload = {'name': 'Example'}
@@ -66,7 +66,7 @@ print(resp.json())
 
 在 URL 中:
 
-```
+```py
 import requests
 
 API_KEY = '123abc'
@@ -77,7 +77,7 @@ print(resp.json())
 
 在有效载荷中:
 
-```
+```py
 import requests
 
 payload = {'key': '123abc'}
@@ -88,7 +88,7 @@ print(resp.json())
 
 在标题中:
 
-```
+```py
 import requests
 
 headers = {'Authorization': 'Bearer 123abc'}  # Having 'Bearer' is common. Check your API documentation to see if it is required!

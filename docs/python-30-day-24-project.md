@@ -28,7 +28,7 @@
 
 app.py
 
-```
+```py
 `print("Hello from app.py")` 
 ```
 
@@ -56,7 +56,7 @@ app.py
 
 app.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser()` 
@@ -66,7 +66,7 @@ parser = argparse.ArgumentParser()`
 
 app.py
 
-```
+```py
 `parser = argparse.ArgumentParser(description="Returns a number raised to a specified power.")` 
 ```
 
@@ -78,7 +78,7 @@ app.py
 
 app.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="Returns a number raised to a specified power.")
@@ -95,7 +95,7 @@ parser.add_argument("base", help="A number to raise to the specified power")`
 
 app.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="Returns a number raised to a specified power.")
@@ -108,13 +108,13 @@ print(args.base)  # access the value of the base argument`
 
 现在我们可以将我们的`.replit`文件修改成这样:
 
-```
+```py
 `run = "python app.py --help"` 
 ```
 
 只要确保将文件名更改为您编写所有代码的位置。如果一切正常，您应该能够按下 run 按钮并得到如下输出:
 
-```
+```py
 `usage: app.py [-h] base
 
 Returns a number raised to a specified power.
@@ -140,7 +140,7 @@ optional arguments:
 
 app.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="Returns a number raised to a specified power.")
@@ -158,7 +158,7 @@ print(args.exponent)`
 
 app.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="Returns a number raised to a specified power.")
@@ -176,7 +176,7 @@ print(args.exponent)`
 
 app.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="Returns a number raised to a specified power.")
@@ -197,7 +197,7 @@ print(args.base ** args.exponent)`
 
 现在我们可以将我们的`.replit`文件修改成这样:
 
-```
+```py
 `run = "python app.py 2 -e 5"` 
 ```
 
@@ -215,7 +215,7 @@ print(args.base ** args.exponent)`
 
 使用`random`模块，我们将模拟用户请求的骰子滚动，我们将在控制台中输出一些结果，如下所示:
 
-```
+```py
 `Rolls: 1, 2, 4
 Total: 7
 Average: 2.33` 
@@ -225,13 +225,13 @@ Average: 2.33`
 
 除了将这个结果打印到控制台，我们还将在一个名为`roll_log.txt`的文件中保存一个永久的掷骰子日志。如果用户愿意，他们可以使用名为`--log`的选项参数指定不同的日志文件。
 
-```
+```py
 `python main.py 2d10 --log rolls.txt` 
 ```
 
 除了指定自定义日志文件，用户还可以使用`--repeat`标志指定掷骰子的次数。
 
-```
+```py
 `python main.py 6d4 --repeat 2` 
 ```
 
@@ -245,7 +245,7 @@ Average: 2.33`
 
 parser.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="A command line dice roller")
@@ -263,7 +263,7 @@ position 参数将捕捉用户使用我们的`xdy`语法指定的骰子配置。
 
 parser.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="A command line dice roller")
@@ -283,7 +283,7 @@ args = parser.parse_args()`
 
 parser.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="A command line dice roller")
@@ -311,7 +311,7 @@ args = parser.parse_args()`
 
 parser.py
 
-```
+```py
 `import argparse
 
 parser = argparse.ArgumentParser(description="A command line dice roller")
@@ -343,7 +343,7 @@ args = parser.parse_args()`
 
 parser.py
 
-```
+```py
 `def parse_roll(args):
     quantity, die_size = [int(arg) for arg in args.dice.split("d")]
 
@@ -358,7 +358,7 @@ parser.py
 
 parser.py
 
-```
+```py
 `def parse_roll(args):
     try:
         quantity, die_size = [int(arg) for arg in args.dice.split("d")]
@@ -384,7 +384,7 @@ parser.py
 
 main.py
 
-```
+```py
 `import parser
 import random
 
@@ -395,7 +395,7 @@ args = parser.args`
 
 main.py
 
-```
+```py
 `import parser
 import random
 
@@ -408,7 +408,7 @@ log_file = args.log`
 
 现在我们有了所有我们需要的信息，我们可以开始实际模拟骰子滚动。对于单个滚动，逻辑将如下所示:
 
-```
+```py
 `rolls = [random.randint(1, die_size)  for _ in  range(quantity)]
 total = sum(rolls)
 average = total / len(rolls)` 
@@ -424,7 +424,7 @@ average = total / len(rolls)`
 
 main.py
 
-```
+```py
 `import parser
 import random
 
@@ -448,7 +448,7 @@ for _ in  range(repetitions):
 
 output.py
 
-```
+```py
 `roll_template = """Rolls: {}
 Total: {}
 Average: {}
@@ -476,7 +476,7 @@ def log_result(rolls, total, average, log_file):
 
 main.py
 
-```
+```py
 `import output
 import parser
 import random
@@ -498,7 +498,7 @@ for _ in  range(repetitions):
 
 现在是时候用各种测试用例来测试我们的程序了。以下是一组有效参数的情况:
 
-```
+```py
 `> python main.py 8d10 -r 3
 Rolls: 3, 3, 1, 3, 8, 8, 8, 9
 Total: 43
@@ -515,7 +515,7 @@ Average: 6.0`
 
 而这里是`roll_log.txt`的内容:
 
-```
+```py
 `Rolls: 3, 3, 1, 3, 8, 8, 8, 9
 Total: 43
 Average: 5.375
@@ -532,7 +532,7 @@ Average: 6.0
 
 我们还可以使用`-h`或`--help`标志来查看我们可爱的生成文档:
 
-```
+```py
 `usage: main.py [-h] [-r number] [-l path] dice
 
 A command line dice roller

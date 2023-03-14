@@ -8,14 +8,14 @@
 
 就像我们都在同一页上一样，字符串插值是我们把一个字符串放在另一个字符串里面。例如，像这样:
 
-```
+```py
 name = "Jose"
 print(f"Hello, {name}")  # Hello, Jose 
 ```
 
 我们也可以使用`format`方法:
 
-```
+```py
 name = "Jose"
 print("Hello, {}".format(name))  # Hello, Jose 
 ```
@@ -34,7 +34,7 @@ print("Hello, {}".format(name))  # Hello, Jose
 
 首先是硬编码版本，这样我们就知道要比较什么了:
 
-```
+```py
 number_of_files = 3
 
 for file_number in range(1, number_of_files + 1):
@@ -47,7 +47,7 @@ for file_number in range(1, number_of_files + 1):
 
 现在是嵌套版本:
 
-```
+```py
 number_of_files = 3
 number_digits = int(input("How many digits are used in the numbering scheme? "))
 
@@ -65,7 +65,7 @@ for file_number in range(1, number_of_files + 1):
 
 如果我们使用位置参数，嵌套的占位符被认为是直接跟在它们所在的占位符后面。所以上面的例子使用了位置参数，看起来像这样:
 
-```
+```py
 number_of_files = 3
 number_digits = int(input("How many digits are used in the numbering scheme? "))
 
@@ -75,7 +75,7 @@ for file_number in range(1, number_of_files + 1):
 
 我认为这有点令人困惑，所以如果出于某种原因你必须使用`format`，我会选择这样的关键字参数:
 
-```
+```py
 number_of_files = 3
 number_digits = int(input("How many digits are used in the numbering scheme? "))
 

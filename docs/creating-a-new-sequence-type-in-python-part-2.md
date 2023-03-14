@@ -10,7 +10,7 @@
 
 首先，让我们快速回顾一下到目前为止我们所做的工作。目前，我们的`LockableList`类是这样的:
 
-```
+```py
 class LockableList:
     def __init__(self, *values, locked=False):
         self.values = list(values)
@@ -55,13 +55,13 @@ class LockableList:
 
 是我们迄今为止实现的最复杂的方法。`__getitem__`允许我们访问列表中的特定项目或项目范围。如果我们像这样创建一个可锁定列表:
 
-```
+```py
 friends = LockableList("Rolf", "John", "Anna") 
 ```
 
 我们可以像访问列表一样访问项目:
 
-```
+```py
 print(friends[0])    # Rolf
 print(friends[1:3])  # ['John', 'Anna'] 
 ```
@@ -76,7 +76,7 @@ print(friends[1:3])  # ['John', 'Anna']
 
 `lock`和`unlock`方法本身非常简单。所有检查锁状态的逻辑都将在别处完成。`lock`和`unlock`只关心一件事:将`self._locked`的值从`True`改为`False`和*，反之亦然*。
 
-```
+```py
 def lock(self):
     self._locked = True
 
@@ -86,7 +86,7 @@ def unlock(self):
 
 我们可以这样测试这个作品:
 
-```
+```py
 friends = LockableList("Rolf", "John", "Anna")
 
 friends.lock()
@@ -104,7 +104,7 @@ print(friends._locked)  # False
 
 在我们的例子中，我们将展示如何定义一个`LockableList`对象，我们将展示重新创建调用`__repr__`的特定`LockableList`实例所需的参数。
 
-```
+```py
 def __repr__(self):
     return f"LockableList({self.values})"
 
@@ -115,7 +115,7 @@ def __repr__(self):
 
 因此，我们将对`self.values`中的每个项目调用`__repr__`，根据它们的类型，以值的形式为每个对象获取适当的表示。然后我们用`", "`作为连接字符串`join`每个值。
 
-```
+```py
 def __repr__(self):
     values = ", ".join([value.__repr__() for value in self.values])
     return f"LockableList({values})"
@@ -125,7 +125,7 @@ def __repr__(self):
 
 这样，我们的`LockableList`类看起来像这样:
 
-```
+```py
 class LockableList:
     def __init__(self, *values, locked=False):
         self.values = list(values)
@@ -177,14 +177,14 @@ print(repr(test))  # LockableList('Rolf', 'John', 'Anna', 3, ['Hello', 'World'])
 
 现在是开始实现`__setitem__`的时候了，这将让我们将新的对象分配给我们的`LockableList`的特定索引。换句话说，我们可以做这样的事情:
 
-```
+```py
 friends = LockableList("Rolf", "John", "Anna")
 friends[1] = "Jose" 
 ```
 
 此时，如果我们尝试这样做，Python 会引发一个异常:
 
-```
+```py
 TypeError: 'LockableList' object does not support item assignment 
 ```
 
@@ -200,7 +200,7 @@ TypeError: 'LockableList' object does not support item assignment
 
 对于`__setitem__`，我们将指定三个参数:`self`，因为我们需要访问`self._locked`；`i`代表某个指标或指标范围；和`values`，它代表我们想要添加到我们的`LockableList`对象中的项目。
 
-```
+```py
 def __setitem__(self, i, value):
     if self._locked == True:
         raise RuntimeError(
@@ -218,7 +218,7 @@ def __setitem__(self, i, value):
 
 我们实现的不同之处在于我们如何处理没有错误发生的情况。我们不是返回给定索引处的项，而是给它赋值。由于我们在内部使用一个列表来存储我们的值，这应该相对容易:
 
-```
+```py
 def __setitem__(self, i, values):
     if self._locked == True:
         raise RuntimeError(
@@ -257,7 +257,7 @@ def __setitem__(self, i, values):
 
 我们现在可以执行一个检查，看看步长值是否为 1 以外的任何值。如果是，我们知道`rng`的`len`一定等于传入`__setitem__`的`values`的`len`。如果这个条件不满足，我们就抛出`ValueError`。
 
-```
+```py
 elif isinstance(i, slice):
     start, stop, step = i.indices(len(self.values))
     rng = range(start, stop, step)
@@ -273,7 +273,7 @@ elif isinstance(i, slice):
 
 在本例中，我将使用`zip`创建一系列元组，第一个值是`rng`中的一个索引，第二个值是`values`中的一个条目。
 
-```
+```py
 elif isinstance(i, slice):
     start, stop, step = i.indices(len(self.values))
     rng = range(start, stop, step)
@@ -290,7 +290,7 @@ elif isinstance(i, slice):
 
 现在，我们可以将一个步长值不为 1 的扩展切片赋值，如下所示:
 
-```
+```py
 friends = LockableList("Rolf", "John", "Anna")
 
 friends[0:3:2] = ["Jose", "Mary"]
@@ -308,7 +308,7 @@ print(friends)  # ["Anna", "John", "Rolf"]
 
 因此，我们可以这样做:
 
-```
+```py
 self.values = self.values[:start] + values + self.values[stop:] 
 ```
 
@@ -322,7 +322,7 @@ self.values = self.values[:start] + values + self.values[stop:]
 
 对于我们所有的新代码，我们最终会得到这样的结果:
 
-```
+```py
 class LockableList:
     def __init__(self, *values, locked=False):
         self.values = list(values)

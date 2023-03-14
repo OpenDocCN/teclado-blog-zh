@@ -10,14 +10,14 @@
 
 如果我们将这些数字代入`divmod`，我们得到的就是:
 
-```
+```py
 euclidean_divison = divmod(5, 2)
 print(euclidean_divison)  # (2, 1) 
 ```
 
 `divmod`返回一个元组，其中第一个值是商(整数结果)，第二个值是余数。因为我们有结果的严格排序，如果我们需要独立使用两部分，我们可以[析构](https://blog.teclado.com/destructuring-in-python/)元组:
 
-```
+```py
 quotient, remainder = divmod(5, 2) 
 ```
 
@@ -25,7 +25,7 @@ quotient, remainder = divmod(5, 2)
 
 我们没有提到的一种情况是浮动。完全可以将浮点数与`divmod`一起使用，结果元组中的两个数字也将是浮点数:
 
-```
+```py
 print(divmod(5.5, 2))  # (2.0, 1.5)
 print(divmod(6.0, 2))  # (3.0, 0.0) 
 ```
@@ -36,7 +36,7 @@ print(divmod(6.0, 2))  # (3.0, 0.0)
 
 我们解决这个问题的方法是通过获取我们的初始秒值，我们称之为`raw_time`，首先把它分解成分和秒。我们将通过使用`divmod`执行欧几里德除法来实现这一点，其中`raw_time`除以 60。然后我们可以将结果元组析构为一个`minutes`值和`seconds`值:
 
-```
+```py
 raw_time = 8594
 minutes, seconds = divmod(raw_time, 60)  # (143, 14) 
 ```
@@ -45,7 +45,7 @@ minutes, seconds = divmod(raw_time, 60)  # (143, 14)
 
 一旦我们完成了，我们可以打印一些消息给我们的用户，让他们知道转换的结果:
 
-```
+```py
 raw_time = 8594
 
 minutes, seconds = divmod(raw_time, 60)

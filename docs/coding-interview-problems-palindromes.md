@@ -34,14 +34,14 @@
 
 既然我们要检查多个字符串，我们应该从定义一个函数开始。我们知道我们必须传入一个字符串进行测试，所以我们将创建一个`test_string`参数。
 
-```
+```py
 def check_if_palindrome(test_string):
 	pass 
 ```
 
 我们的第一步应该是将`test_string`转换成一个列表，我们称之为`characters`。然后我们可以在这个新列表上调用`reverse`方法。
 
-```
+```py
 def check_if_palindrome(test_string):
 	characters = list(test_string)
 	characters.reverse() 
@@ -49,7 +49,7 @@ def check_if_palindrome(test_string):
 
 然而，在我们创建这个新的`characters`列表之前，我们必须利用`casefold`来删除字符串中任何可能导致我们的比较出现问题的大写字母。
 
-```
+```py
 def check_if_palindrome(test_string):
 	characters = list(test_string.casefold())
 	characters.reverse() 
@@ -57,7 +57,7 @@ def check_if_palindrome(test_string):
 
 现在我们有了反转的字符，我们可以使用`join`将列表转换回字符串，然后我们可以将新的反转字符串与大小写折叠的原始字符串进行比较:
 
-```
+```py
 def check_if_palindrome(test_string):
 	characters = list(test_string.casefold())
 	characters.reverse()
@@ -70,7 +70,7 @@ def check_if_palindrome(test_string):
 
 如果我们用`"Hannah"`和`"Peter"`测试我们的函数，我们可以看到一切都按预期工作:
 
-```
+```py
 def check_if_palindrome(test_string):
 	characters = list(test_string.casefold())
 	characters.reverse()
@@ -88,7 +88,7 @@ check_if_palindrome("Peter")   # Peter is not a palindrome.
 
 再一次，我们将从定义一个单参数的函数开始。然而，这一次，我们不需要对列表做任何事情，因为我们将直接遍历字符串。
 
-```
+```py
 def check_if_palindrome(test_string):
 	pass 
 ```
@@ -101,7 +101,7 @@ def check_if_palindrome(test_string):
 
 就像以前一样，我们还必须确保从字符串中删除任何大写字母，以便我们比较所有大小写相同的字符:
 
-```
+```py
 def check_if_palindrome(test_string):
 	for index, letter in enumerate(test_string.casefold(), start=1):
 		pass 
@@ -111,7 +111,7 @@ def check_if_palindrome(test_string):
 
 我们实际上要测试字符串是否是**而不是**一个回文，一会儿就有意义了。如果我们发现一个不匹配的字符，我们将立即执行`break`，因为没有必要检查任何其他字符。我们已经知道字符串不是回文。
 
-```
+```py
 def check_if_palindrome(test_string):
 	for index, letter in enumerate(test_string.casefold(), start=1):
 		if letter != test_string[-index].casefold():
@@ -129,7 +129,7 @@ def check_if_palindrome(test_string):
 
 因此，我们可以把我们的“...是回文。”此`else`子句中的消息。
 
-```
+```py
 def check_if_palindrome(test_string):
 	for index, letter in enumerate(test_string.casefold(), start=1):
 		if letter != test_string[-index].casefold():
@@ -152,7 +152,7 @@ check_if_palindrome("Peter")   # Peter is not a palindrome.
 
 我们的解决方案本质上只是一个单独的`if`语句，其中我们比较两个大小写折叠字符串。
 
-```
+```py
 def check_if_palindrome(test_string):
 	if test_string.casefold() == test_string[::-1].casefold():
 		print(f"{test_string} is a palindrome.")
@@ -175,7 +175,7 @@ Python 有一个处理正则表达式的模块叫做`re`，所以我们需要将
 
 现在让我们从函数定义开始:
 
-```
+```py
 def check_if_palindrome(test_string):
 	pass 
 ```
@@ -184,7 +184,7 @@ def check_if_palindrome(test_string):
 
 `sub`函数将允许我们过滤掉`test_string`中的所有非字母字符。我们将使用的正则表达式模式是`[^a-z]+`。这看起来很神秘，但是它的意思是匹配任意数量的不是字母`a`到`z`的字符。注意，因为我们已经对`test_string`进行了装箱，所以我们不需要检查大写版本。
 
-```
+```py
 import re
 
 def check_if_palindrome(test_string):
@@ -195,14 +195,14 @@ def check_if_palindrome(test_string):
 
 如果我们传入一个充满标点符号的字符串，我们将得到一个完全小写的字符串，只包含字母字符。
 
-```
+```py
 check_if_palindrome("NeVeR! - oDd! - Or! - eVEn!")
 # neveroddoreven 
 ```
 
 现在，我们可以利用我们的任何一个单词解决方案，只需稍加修改。我们已经对所有文本进行了大小写折叠，因此没有必要继续这样做:
 
-```
+```py
 import re
 
 def check_if_palindrome(test_string):

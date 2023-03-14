@@ -14,7 +14,7 @@
 
 为了在 MacOS 上安装`pyenv`,我选择了自制软件:
 
-```
+```py
 brew update
 brew install pyenv 
 ```
@@ -31,13 +31,13 @@ brew install pyenv
 
 首先，查看您想要的 Python 版本是否可用(您可能需要更新`pyenv`才能看到最近的版本，我使用`brew update && brew upgrade pyenv`):
 
-```
+```py
 pyenv install --list 
 ```
 
 这将向您显示一个很长的输出，其中可能包含如下内容:
 
-```
+```py
 ...
 3.10.1
 3.10.2
@@ -56,7 +56,7 @@ pyenv install --list
 
 要安装 Python 版本:
 
-```
+```py
 pyenv install 3.10.7 
 ```
 
@@ -64,13 +64,13 @@ pyenv install 3.10.7
 
 您可以使用以下命令查看当前选择的 Python 版本:
 
-```
+```py
 pyenv version 
 ```
 
 您可以看到所有版本(包括当前选定的版本),包括:
 
-```
+```py
 pyenv versions 
 ```
 
@@ -78,7 +78,7 @@ pyenv versions
 
 您可以使用以下选项选择本地版本:
 
-```
+```py
 pyenv local 3.10.7 
 ```
 
@@ -86,7 +86,7 @@ pyenv local 3.10.7
 
 如果要更改全局 Python 版本:
 
-```
+```py
 pyenv global 3.10.7 
 ```
 
@@ -94,7 +94,7 @@ pyenv global 3.10.7
 
 现在，让我们使用`pyenv`创建一个虚拟环境:
 
-```
+```py
 pyenv exec python -m venv .venv 
 ```
 

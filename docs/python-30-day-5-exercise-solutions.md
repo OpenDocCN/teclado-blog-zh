@@ -12,7 +12,7 @@
 
 如果我们想验证两个列表是完全相同的列表，我们可以这样做:
 
-```
+```py
 `list_1 = [1, 2, 3, 4, 5]
 list_2 = [1, 2, 3, 4, 5]
 
@@ -21,7 +21,7 @@ print(id(list_1) == id(list_2))  # False`
 
 以下是两个列表相同的示例:
 
-```
+```py
 `list_1 = [1, 2, 3, 4, 5]
 list_2 = list_1
 
@@ -30,7 +30,7 @@ print(id(list_1) == id(list_2))  # True`
 
 我们可以通过检查使用`is`时是否得到相同的结果来验证我们的答案:
 
-```
+```py
 `list_1 = [1, 2, 3, 4, 5]
 list_2 = list_1
 
@@ -39,7 +39,7 @@ print(list_1 is list_2)  # True`
 
 ### 2)尝试使用`is`运算符或`id`函数来研究以下各项之间的差异:
 
-```
+```py
 `numbers = [1, 2, 3, 4]
 new_numbers = numbers + [5]
 
@@ -51,7 +51,7 @@ numbers.append(5)`
 
 对于第一段代码，我们可以简单地检查`numbers`是否与`new_numbers`是同一个列表，如下所示:
 
-```
+```py
 `numbers = [1, 2, 3, 4]
 new_numbers = numbers + [5]
 
@@ -62,7 +62,7 @@ print(numbers is new_numbers)  # False`
 
 对于第二段代码，我们可以在`append`调用前后找到`numbers`的`id`:
 
-```
+```py
 `numbers = [1, 2, 3, 4]
 print(id(numbers))  # 140220707722752
 
@@ -72,7 +72,7 @@ print(id(numbers))  # 140220707722752`
 
 我们通过人工检查可以看到，这两个数字是相同的。如果你想在这里使用`is`,我们需要引用原始的`numbers`列表，并附加一个变量名，如下所示:
 
-```
+```py
 `numbers = [1, 2, 3, 4]
 numbers_copy = numbers
 
@@ -89,7 +89,7 @@ print(numbers is numbers_copy)  # True`
 
 我们的第一步应该是从用户那里获取数字，并使用`float`函数将其转换成浮点数。如果愿意，您可以将用户输入转换为整数，但是我们只能处理整数。
 
-```
+```py
 `user_number = float(input("Please enter a number: "))` 
 ```
 
@@ -97,7 +97,7 @@ print(numbers is numbers_copy)  # True`
 
 我的条件语句有三个分支。最初，我要检查数字是否大于`0`。我觉得这是最有可能的结果，所以把这个放在第一位是有道理的。接下来，我将使用一个`elif`子句来检查数字是否小于`0`。最后，我将使用一个`else`子句，只有当一个数字既不大于`0`，也不小于`0`时才会触发。换句话说，数字正好是`0`。
 
-```
+```py
 `user_number = float(input("Please enter a number: "))
 
 if user_number > 0:
@@ -110,7 +110,7 @@ else:
 
 虽然这里可以使用三个独立的条件语句，比如:
 
-```
+```py
 `user_number = float(input("Please enter a number: "))
 
 if user_number > 0:
@@ -133,7 +133,7 @@ if user_number == 0:
 
 对于工作时间和小时工资，我将把用户输入转换成浮点数。这是因为我们可以合理地预计每小时工资大约为 16.50 英镑，人们的工作时间不到一小时。
 
-```
+```py
 `employee_name = input("Enter the employee's name: ")
 hours_worked = float(input(f"How many hours did {employee_name} work this week? "))
 hourly_wage = float(input(f"What is {employee_name}'s hourly wage? "))` 
@@ -143,7 +143,7 @@ hourly_wage = float(input(f"What is {employee_name}'s hourly wage? "))`
 
 现在我们有了需要的信息，我们可以开始研究逻辑了。首先，我将确定该用户的工作时间是否超过 40 小时，如下所示:
 
-```
+```py
 `employee_name = input("Enter the employee's name: ")
 hours_worked = float(input(f"How many hours did {employee_name} work this week? "))
 hourly_wage = float(input(f"What is {employee_name}'s hourly wage? "))
@@ -156,7 +156,7 @@ else:
 
 如果这一阶段一切正常，我们就可以开始计算欠这个员工的工资了。让我们从他们工作少于 40 小时的情况开始，因为这是更简单的情况。
 
-```
+```py
 `employee_name = input("Enter the employee's name: ")
 hours_worked = float(input(f"How many hours did {employee_name} work this week? "))
 hourly_wage = float(input(f"What is {employee_name}'s hourly wage? "))
@@ -170,7 +170,7 @@ else:
 
 在这个阶段，我们有一个小问题。考虑以下用户交互:
 
-```
+```py
 `Enter the employee's name: John Smith
 How many hours did John Smith work this week? 31.75
 What is John Smith's hourly wage? 14.56
@@ -183,7 +183,7 @@ John Smith is owed $462.28000000000003.`
 
 我们有两个主要的选择来纠正这个问题。首先，我们可以通过将结果传递给`int`来丢弃数字的小数内容。这将为我们提供一个大概的数字，但会影响我们的准确性:
 
-```
+```py
 `employee_name = input("Enter the employee's name: ")
 hours_worked = float(input(f"How many hours did {employee_name} work this week? "))
 hourly_wage = float(input(f"What is {employee_name}'s hourly wage? "))
@@ -197,7 +197,7 @@ else:
 
 另一种方法是使用一些特殊的字符串格式语法。这确实是更高级的东西，但是我们可以像这样限制浮点数的小数位数:
 
-```
+```py
 `employee_name = input("Enter the employee's name: ")
 hours_worked = float(input(f"How many hours did {employee_name} work this week? "))
 hourly_wage = float(input(f"What is {employee_name}'s hourly wage? "))
@@ -216,7 +216,7 @@ else:
 1.  我要计算`40`乘以员工的时薪。
 2.  我将从工作时间中减去`40`，然后将结果乘以小时工资的 110%。
 
-```
+```py
 `employee_name = input("Enter the employee's name: ")
 hours_worked = float(input(f"How many hours did {employee_name} work this week? "))
 hourly_wage = float(input(f"What is {employee_name}'s hourly wage? "))
@@ -234,7 +234,7 @@ else:
 
 因为我们实际上在两个分支中都有相同的`print`调用，所以我们可以通过将`print`调用移出条件语句来稍微改进一下，如下所示:
 
-```
+```py
 `employee_name = input("Enter the employee's name: ")
 hours_worked = float(input(f"How many hours did {employee_name} work this week? "))
 hourly_wage = float(input(f"What is {employee_name}'s hourly wage? "))

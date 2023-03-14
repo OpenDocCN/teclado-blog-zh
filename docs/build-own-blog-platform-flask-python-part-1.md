@@ -28,7 +28,7 @@
 
 在整个应用程序中，我们将使用几个不同的库，但在本文中，我们只需要安装两个:
 
-```
+```py
 pip install flask
 pip install sqlmodel 
 ```
@@ -41,7 +41,7 @@ Flask 中的工厂模式允许我们推迟创建`Flask`对象，直到我们调�
 
 这是我们创建 Flask 应用程序的方式:
 
-```
+```py
 from flask import Flask
 
 def create_app():
@@ -58,7 +58,7 @@ def create_app():
 
 让我们创建一个`routes/post.py`文件。在里面，我们将定义我们的蓝图:
 
-```
+```py
 from flask import Blueprint, request
 
 post_pages = Blueprint("posts", __name__)
@@ -100,7 +100,7 @@ def create_post():
 
 为此，我们只需在应用程序中导入蓝图，并注册它:
 
-```
+```py
 from flask import Flask
 +from routes.post import post_pages
 
@@ -123,7 +123,7 @@ def create_app():
 
 我已经创建了一个`templates`文件夹，在里面我将放置`new_post.html`:
 
-```
+```py
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,7 +158,7 @@ def create_app():
 
 让我们转到 Flask 端点，处理呈现模板和获取表单数据:
 
-```
+```py
  from flask import Blueprint, render_template, redirect, url_for, request # New imports added
 
 ...
@@ -183,7 +183,7 @@ def create_post():
 
 让我们使用 Jinja 来显示帖子。我将创建一个`templates/post.html`文件:
 
-```
+```py
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -205,7 +205,7 @@ def create_post():
 
 在我们的 Flask 应用程序中，我们所要做的就是获取文章标题和内容，并将其传递给我们的`render_template`调用:
 
-```
+```py
 @post_pages.get("/post/<string:title>")
 def display_post(title):
     content = "..." # How do we get the content?
@@ -224,7 +224,7 @@ def display_post(title):
 
 我将制作`models/post.py`，并编写以下代码:
 
-```
+```py
 from typing import Optional
 from datetime import datetime
 from sqlmodel import Field, SQLModel
@@ -253,7 +253,7 @@ class Post(SQLModel, table=True):
 
 我们来看一下`app.py`:
 
-```
+```py
 +from sqlmodel import SQLModel, create_engine
 +from models.post import Post
 
@@ -264,7 +264,7 @@ def create_app():
 
 现在我们已经得到了，我们必须使用`app.engine`来创建我们的表。我发现的最好方法是在处理任何请求之前确保该表存在。在注册蓝图之前，我将添加以下内容:
 
-```
+```py
 @app.before_first_request
 def create_db():
     SQLModel.metadata.create_all(app.engine) 
@@ -278,7 +278,7 @@ def create_db():
 
 我们需要一些新的进口商品:
 
-```
+```py
 from flask import current_app  # Add this to the existing flask imports
 from sqlmodel import Session, select
 from models.post import Post 
@@ -286,7 +286,7 @@ from models.post import Post
 
 让我们从添加帖子开始:
 
-```
+```py
 @post_pages.route("/post/", methods=["GET", "POST"])
 def create_post():
     if request.method == "POST":
@@ -301,7 +301,7 @@ def create_post():
 
 这里的新代码是:
 
-```
+```py
 with Session(current_app.engine) as session:
     session.add(Post(title=title, content=content))
     session.commit() 
@@ -319,7 +319,7 @@ with Session(current_app.engine) as session:
 
 我们可以在我们的`display_post`端点中做类似的事情，使用 SQLModel 的`select`函数从数据库中获取数据:
 
-```
+```py
 @post_pages.get("/post/<string:title>")
 def display_post(title):
     with Session(current_app.engine) as session:

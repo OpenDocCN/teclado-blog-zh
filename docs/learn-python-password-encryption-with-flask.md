@@ -28,7 +28,7 @@
 
 > 想用 Python 加密，但不用 Flask？查看我们的另一篇博文。
 
-```
+```py
 from werkzeug.security import generate_password_hash, check_password_hash
 
 ...

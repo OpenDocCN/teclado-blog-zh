@@ -10,12 +10,12 @@
 
 您可以使用`which`程序找到程序可执行文件的位置:
 
-```
+```py
 $ which mkdir
 /bin/cd 
 ```
 
-```
+```py
 $ which which
 /usr/bin/which 
 ```
@@ -41,13 +41,13 @@ $ which which
 
 例如，执行以下命令:
 
-```
+```py
 man mkdir 
 ```
 
 您甚至可以获得 BASH 内置命令的帮助页面:
 
-```
+```py
 man cd 
 ```
 

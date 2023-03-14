@@ -28,7 +28,7 @@
 
 现在，我们将这些数字相加，并添加校验数字:
 
-```
+```py
 `7 + 2 + 5 + 5 + 8 + 5 + 2 + 1 + 8 + 0 + 7 + 3 + 9 + 8 + 1 + 9` 
 ```
 
@@ -52,7 +52,7 @@
 
 当您需要转到反转数字的步骤时，您可以使用`reversed`函数，它将接受任何序列类型:
 
-```
+```py
 `language = "Python"
 numbers = [1, 2, 3, 4, 5]
 letters = ("a", "b", "c", "d", "e")
@@ -66,7 +66,7 @@ letters = reversed(letters)      # ('e', 'd', 'c', 'b', 'a')`
 
 如果我们的数字在一个列表中，我们可以使用`reverse`方法。这直接修改了原始列表:
 
-```
+```py
 `numbers = [1, 2, 3, 4, 5]
 numbers.reverse()
 
@@ -87,13 +87,13 @@ print(numbers)  # [5, 4, 3, 2, 1]`
 
 我们的第一步只是接受用户的卡号:
 
-```
+```py
 `card_number = input("Please enter a card number: ")` 
 ```
 
 因为我们需要能够接受在开头或结尾添加了空格的卡号，所以我们需要对从用户那里得到的字符串进行少量处理。在这种情况下,`strip`就是我们所需要的，它会处理掉任何多余的空白。
 
-```
+```py
 `card_number = input("Please enter a card number: ").strip()` 
 ```
 
@@ -101,7 +101,7 @@ print(numbers)  # [5, 4, 3, 2, 1]`
 
 让我们从转换`card_number`开始:
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())` 
 ```
 
@@ -109,7 +109,7 @@ print(numbers)  # [5, 4, 3, 2, 1]`
 
 现在我们有了列表，让我们提取校验位并反转剩余的数字:
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number
@@ -125,7 +125,7 @@ card_number.reverse()`
 
 在`for`循环中，我们可以检查索引是否能被`2`整除。如果是，我们知道我们有一个均匀的指数。如果你需要复习如何检查一个数是否能被另一个数整除，我们在昨天的 Fizz Buzz 项目中讨论过。
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number
@@ -148,7 +148,7 @@ for digit in card_number:
 
 我们还可以利用今天学到的`enumerate`函数，这样我们就不必自己跟踪这个计数器了:
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number
@@ -168,7 +168,7 @@ for index, digit in enumerate(card_number):
 
 我们需要添加的第一件事是存储我们修改过的数字的地方。为此，我们将创建一个名为`processed_digits`的空列表。然后我们将通过从`for`循环中追加条目来填充这个列表。
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number
@@ -188,7 +188,7 @@ for index, digit in enumerate(card_number):
 
 对于奇数指数，我们的任务很简单。我们只需要将`digit`转换成一个整数(记住我们目前有一个字符串列表)，然后我们需要调用`append`将该整数添加到`processed_digits`。
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number
@@ -210,7 +210,7 @@ for index, digit in enumerate(card_number):
 
 然后我们需要检查这个操作的结果是否大于`9`。如果是，我们需要从结果中减去`9`。然后我们需要将这个数字添加到`processed_digits`中。
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number
@@ -240,7 +240,7 @@ for index, digit in enumerate(card_number):
 
 对于循环的每一次迭代，我们都要在这个总数上再加一个数字，我们将得到所有已处理数字的总和，以及校验位。
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number
@@ -273,7 +273,7 @@ for digit in processed_digits:
 
 虽然这种方法可行，但有一种更简单的方法可以将 iterable 中的数字相加。我们可以将 iterable 传递给`sum`:
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number
@@ -303,7 +303,7 @@ total = int(check_digit) + sum(processed_digits)`
 
 现在我们已经有了卡片数字的总和，我们只需要测试总和是否能被`10`整除。我们可以使用与测试偶数指数相同的方法。
 
-```
+```py
 `card_number = list(input("Please enter a card number: ").strip())
 
 # Remove the last digit from the card number

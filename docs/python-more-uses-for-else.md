@@ -8,7 +8,7 @@ Python 的 else 语句非常通用，不仅可以用于 if 条件语句。还可
 
 在 try / except 的情况下，如果在 try 块中没有遇到异常，else 块就会运行。
 
-```
+```py
 # Print whether or a not an integer is prime for all integers from 2 to 100
 for dividend in range(2,101):
     divisor = 2

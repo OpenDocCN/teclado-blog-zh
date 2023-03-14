@@ -6,7 +6,7 @@
 
 ### 1)使用下面的变量，打印`"Hello, world!"`。
 
-```
+```py
 `greeting = "Hello, world"` 
 ```
 
@@ -20,7 +20,7 @@
 
 首先，我们来看看`format`，因为我认为`format`是目前为止这种情况下最差的选择。
 
-```
+```py
 `greeting = "Hello, world"
 
 print("{}!".format(greeting))` 
@@ -32,7 +32,7 @@ print("{}!".format(greeting))`
 
 接下来，让我们看看 f 弦，在我看来，它提供了一个更好的解决方案。
 
-```
+```py
 `greeting = "Hello, world"
 
 print(f"{greeting}!")` 
@@ -42,7 +42,7 @@ print(f"{greeting}!")`
 
 然而，我认为我最喜欢的版本是将`greeting`和`"!"`连接起来。
 
-```
+```py
 `greeting = "Hello, world"
 
 print(greeting + "!")` 
@@ -54,7 +54,7 @@ print(greeting + "!")`
 
 首先，我们需要知道这个人的名字。这意味着我们需要`input`函数。
 
-```
+```py
 `name = input("Please enter your name: ")` 
 ```
 
@@ -62,20 +62,20 @@ print(greeting + "!")`
 
 下一步是处理用户名。我们需要删除任何多余的空白，并将其转换为标题的情况。这意味着我们需要`strip`和`title`方法，我们可以在从`input`返回的字符串上直接调用这个方法。
 
-```
+```py
 `name = input("Please enter your name: ").strip().title()` 
 ```
 
 如果您愿意，您可以在另一行上这样做:
 
-```
+```py
 `name = input("Please enter your name: ")
 name = name.strip().title()` 
 ```
 
 现在我们有了用户的名字，我们必须放入某种问候字符串。在这种情况下，我将使用 f 弦:
 
-```
+```py
 `name = input("Please enter your name: ").strip().title()
 
 print(f"Hello, {name}!")` 
@@ -87,20 +87,20 @@ print(f"Hello, {name}!")`
 
 现在我们有一个值可以引用，我们可以这样做:
 
-```
+```py
 `age = 29
 print("I am " + str(age))` 
 ```
 
 如果你不想过多地打乱`print`调用，你可以使用一些额外的变量。这两者都是完全合理的，例如:
 
-```
+```py
 `age = str(age)
 
 print("I am " + age)` 
 ```
 
-```
+```py
 `age = 29
 output_string = "I am " + str(age)
 
@@ -109,7 +109,7 @@ print(output_string)`
 
 ### 4)使用字符串插值法格式化并打印以下信息。
 
-```
+```py
 `title = "Joker"
 director = "Todd Phillips"
 release_year = 2019` 
@@ -117,13 +117,13 @@ release_year = 2019`
 
 对于本练习，我们的目标输出是这样的:
 
-```
+```py
 `Joker (2019), directed by Todd Phillips` 
 ```
 
 在这里，我认为最好的方法是使用 f 弦。由于数据已经被很好地命名，我们不必担心 f 字符串的类型，解决方案相对简单。
 
-```
+```py
 `title = "Joker"
 director = "Todd Phillips"
 release_year = 2019
