@@ -1,4 +1,4 @@
-# 第 13 天:作用域和函数返回值| Teclado
+# 第 13 天:作用域和函数返回值
 
 > 原文：<https://blog.teclado.com/python-30-day-13-return-statements/>
 

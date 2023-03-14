@@ -1,4 +1,4 @@
-# 第三天项目:一个简单的收入计算器| Teclado
+# 第三天项目:一个简单的收入计算器
 
 > 原文：<https://blog.teclado.com/python-30-day-3-project/>
 

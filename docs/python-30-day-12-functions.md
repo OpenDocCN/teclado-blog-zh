@@ -1,4 +1,4 @@
-# 第 12 天:功能| Teclado
+# 第 12 天:功能
 
 > 原文：<https://blog.teclado.com/python-30-day-12-functions/>
 

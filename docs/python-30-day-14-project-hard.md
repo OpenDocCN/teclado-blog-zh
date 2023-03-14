@@ -1,4 +1,4 @@
-# 第 14 天项目:阅读清单(硬)|泰克拉多
+# 第 14 天项目:阅读清单(硬)
 
 > 原文：<https://blog.teclado.com/python-30-day-14-project-hard/>
 

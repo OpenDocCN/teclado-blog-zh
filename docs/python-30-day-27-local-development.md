@@ -1,4 +1,4 @@
-# 第 27 天:设置本地开发环境| Teclado
+# 第 27 天:设置本地开发环境
 
 > 原文：<https://blog.teclado.com/python-30-day-27-local-development/>
 

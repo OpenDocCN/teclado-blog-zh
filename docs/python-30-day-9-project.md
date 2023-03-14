@@ -1,4 +1,4 @@
-# 第九天项目:信用卡验证器| Teclado
+# 第九天项目:信用卡验证器
 
 > 原文：<https://blog.teclado.com/python-30-day-9-project/>
 

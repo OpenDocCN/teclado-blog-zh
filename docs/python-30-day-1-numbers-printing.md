@@ -1,4 +1,4 @@
-# 第一天:数字、算术和打印到控制台| Teclado
+# 第一天:数字、算术和打印到控制台
 
 > 原文：<https://blog.teclado.com/python-30-day-1-numbers-printing/>
 

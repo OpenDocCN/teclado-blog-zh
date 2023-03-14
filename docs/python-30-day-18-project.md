@@ -1,4 +1,4 @@
-# 第 18 天项目:JSON 阅读清单| Teclado
+# 第 18 天项目:JSON 阅读清单
 
 > 原文：<https://blog.teclado.com/python-30-day-18-project/>
 

@@ -1,4 +1,4 @@
-# 第 26 天:利用标准库| Teclado
+# 第 26 天:利用标准库
 
 > 原文：<https://blog.teclado.com/python-30-day-26-standard-library/>
 

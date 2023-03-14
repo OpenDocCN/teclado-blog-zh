@@ -1,4 +1,4 @@
-# 第 28 天项目:网络搜集| Teclado
+# 第 28 天项目:网络搜集
 
 > 原文：<https://blog.teclado.com/python-30-day-28-project-web-scraping/>
 

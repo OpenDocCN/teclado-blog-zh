@@ -1,4 +1,4 @@
-# 第 24 天项目:掷骰子| Teclado
+# 第 24 天项目:掷骰子
 
 > 原文：<https://blog.teclado.com/python-30-day-24-project/>
 

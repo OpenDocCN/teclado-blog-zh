@@ -1,4 +1,4 @@
-# 第 30 天项目:蛇|泰克拉多
+# 第 30 天项目:蛇
 
 > 原文：<https://blog.teclado.com/python-30-day-30-project/>
 

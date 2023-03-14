@@ -1,4 +1,4 @@
-# 第 14 天:使用文件| Teclado
+# 第 14 天:使用文件
 
 > 原文：<https://blog.teclado.com/python-30-day-14-files/>
 

@@ -1,4 +1,4 @@
-# 第 21 天项目:绘制图表| Teclado
+# 第 21 天项目:绘制图表
 
 > 原文：<https://blog.teclado.com/python-30-day-21-project/>
 

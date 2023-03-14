@@ -1,4 +1,4 @@
-# 第 19 天:异常处理| Teclado
+# 第 19 天:异常处理
 
 > 原文：<https://blog.teclado.com/python-30-day-19-exception-handling/>
 

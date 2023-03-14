@@ -1,4 +1,4 @@
-# 第 30 天:项目准备(pygame 基础)| Teclado
+# 第 30 天:项目准备(pygame 基础)
 
 > 原文：<https://blog.teclado.com/python-30-day-30-project-preparation/>
 

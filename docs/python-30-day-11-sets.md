@@ -1,4 +1,4 @@
-# 第 11 天:布景|台克拉多
+# 第 11 天:布景
 
 > 原文：<https://blog.teclado.com/python-30-day-11-sets/>
 

@@ -1,4 +1,4 @@
-# 第 6 天:锻炼解决方案| Teclado
+# 第 6 天:锻炼解决方案
 
 > 原文：<https://blog.teclado.com/python-30-day-6-exercise-solutions/>
 

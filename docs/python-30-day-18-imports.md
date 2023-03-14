@@ -1,4 +1,4 @@
-# 第 18 天:进口| Teclado
+# 第 18 天:进口
 
 > 原文：<https://blog.teclado.com/python-30-day-18-imports/>
 

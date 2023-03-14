@@ -1,4 +1,4 @@
-# 第 0 天:开始设置| Teclado
+# 第 0 天:开始设置
 
 > 原文：<https://blog.teclado.com/python-30-day-0-getting-set-up/>
 

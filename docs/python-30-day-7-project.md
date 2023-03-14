@@ -1,4 +1,4 @@
-# 第 7 天项目:电影预算| Teclado
+# 第 7 天项目:电影预算
 
 > 原文：<https://blog.teclado.com/python-30-day-7-project/>
 

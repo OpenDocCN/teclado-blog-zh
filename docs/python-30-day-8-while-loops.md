@@ -1,4 +1,4 @@
-# 第八天:While Loops | Teclado
+# 第八天:While Loops 
 
 > 原文：<https://blog.teclado.com/python-30-day-8-while-loops/>
 

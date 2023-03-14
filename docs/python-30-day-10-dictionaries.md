@@ -1,4 +1,4 @@
-# 第 10 天:字典|泰克拉多
+# 第 10 天:字典
 
 > 原文：<https://blog.teclado.com/python-30-day-10-dictionaries/>
 

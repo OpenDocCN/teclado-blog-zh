@@ -1,4 +1,4 @@
-# 第 7 天:分割、连接和切片| Teclado
+# 第 7 天:分割、连接和切片
 
 > 原文：<https://blog.teclado.com/python-30-day-7-split-join/>
 

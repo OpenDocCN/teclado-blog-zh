@@ -1,4 +1,4 @@
-# 第 28 天:类型提示| Teclado
+# 第 28 天:类型提示
 
 > 原文：<https://blog.teclado.com/python-30-day-28-type-hinting/>
 

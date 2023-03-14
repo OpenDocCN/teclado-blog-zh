@@ -1,4 +1,4 @@
-# 第 6 天项目:嘶嘶作响| Teclado
+# 第 6 天项目:嘶嘶作响
 
 > 原文：<https://blog.teclado.com/python-30-day-6-project/>
 

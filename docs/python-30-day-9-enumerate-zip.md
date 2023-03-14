@@ -1,4 +1,4 @@
-# 第 9 天:解包、枚举和 zip 函数| Teclado
+# 第 9 天:解包、枚举和 zip 函数
 
 > 原文：<https://blog.teclado.com/python-30-day-9-enumerate-zip/>
 

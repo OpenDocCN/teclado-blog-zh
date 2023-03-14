@@ -1,4 +1,4 @@
-# 第 22 天:迭代器| Teclado
+# 第 22 天:迭代器
 
 > 原文：<https://blog.teclado.com/python-30-day-22-iterators/>
 

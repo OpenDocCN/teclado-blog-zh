@@ -1,4 +1,4 @@
-# 第 25 天:编写地道的 Python | Teclado
+# 第 25 天:编写地道的 Python 
 
 > 原文：<https://blog.teclado.com/python-30-day-25-idiomatic-python/>
 

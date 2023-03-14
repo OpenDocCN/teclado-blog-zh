@@ -1,4 +1,4 @@
-# 第 24 天:高级异常处理和引发异常| Teclado
+# 第 24 天:高级异常处理和引发异常
 
 > 原文：<https://blog.teclado.com/python-30-day-24-exceptions-advanced/>
 

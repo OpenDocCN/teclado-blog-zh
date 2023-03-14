@@ -1,4 +1,4 @@
-# 第 4 天:基本 Python 集合| Teclado
+# 第 4 天:基本 Python 集合
 
 > 原文：<https://blog.teclado.com/python-30-day-4-lists-tuples/>
 
