@@ -1,0 +1,178 @@
+<html>
+<head>
+<title>Day 6: Exercise Solutions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第6天:锻炼解决方案| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-6-exercise-solutions/">https://blog.teclado.com/python-30-day-6-exercise-solutions/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>以下是我们在<a href="https://blog.teclado.com/30-days-of-python/"> 30天Python </a>系列中<a href="/30-days-of-python/python-30-day-6-for-loops">第6天练习</a>的解决方案。在检查解决方案之前，请确保您亲自尝试了这些练习！</p>
+<h3>1)下面我们提供了一个元组列表，其中每个元组包含一个商店雇员的详细信息。以一种清晰易读的格式打印出每个员工在周末应得的工资。</h3>
+<div class="codehilite"><pre><span/><code><span class="n">employees</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Rolf Smith"</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">8.75</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Anne Pun"</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">12.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Charlie Lee"</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">15.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Bob Smith"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">7.00</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>首先，我们试图对集合中的每一项执行一些操作，所以我们知道我们需要一个for循环。在本例中，我们试图为<code>employees</code>中的每一项打印一些内容。</p>
+<p>在这种情况下，我的for循环将如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+</code></pre></div>
+
+<p>这里需要记住的一件重要事情是，Python不会神奇地知道我们所使用的术语的含义。名称<code>employee</code>实际上只是一个常规的变量名，我们将用它来表示从<code>employees</code>列表中得到的每一项。</p>
+<p>如果我们愿意，我们可以称它为<code>e</code>，或者<code>worker</code>:这只是一个名字。重要的是我们选择一些描述性的东西来使我们的代码易于理解。</p>
+<p>现在我们已经建立了for循环的框架，我们需要在循环体中放一些东西。这是我们放置想要执行的动作的地方。</p>
+<p>我想为每个员工做的第一件事是找出他们的总工资。这将是他们工作的小时数，乘以他们的时薪。这些是每个元组中的第二和第三项，我们将通过索引来访问这些值。</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total_pay</span> <span class="o">=</span> <span class="n">employee</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</code></pre></div>
+
+<p>最后，我们需要打印信息。我将使用f弦，但如果您喜欢，也可以使用不同的方法。</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total_pay</span> <span class="o">=</span> <span class="n">employee</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">employee</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> has to be paid £</span><span class="si">{</span><span class="n">total_pay</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果我们想让它看起来更好一点，我们可以利用Python中一些额外的格式化选项。要将我们的<code>total_pay</code>值打印到两位小数，我们可以这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total_pay</span> <span class="o">=</span> <span class="n">employee</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">employee</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> has to be paid £</span><span class="si">{</span><span class="n">total_pay</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们会在我们的博客上更详细地讨论这个问题<a href="https://blog.teclado.com/python-formatting-numbers-for-printing/">。</a></p>
+<h3>2)对于上述员工，打印出时薪高于平均水平的员工。</h3>
+<p>这是一个我们必须分两步解决的练习。首先，我们需要实际计算平均工资，然后我们必须将每个员工的工资与我们计算的平均工资进行比较。</p>
+<p>先说拿平均工资。为了计算平均值，我们需要两样东西。我们需要所有工资的总和，我们需要知道我们有多少员工。</p>
+<p>工资是每个元组中的第三个项目，因此我们需要循环遍历<code>employees</code>列表，并以某种方式将每个元组的索引<code>2</code>处的项目加在一起。</p>
+<p>我打算这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="n">employees</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Rolf Smith"</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">8.75</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Anne Pun"</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">12.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Charlie Lee"</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">15.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Bob Smith"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">7.00</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</code></pre></div>
+
+<p>这里我创建了一个名为<code>total</code>的变量，它从<code>0</code>开始，然后我们每次将员工的工资加到这个总数中。到我们完事的时候，<code>total</code>包含了所有工资的总和。</p>
+<p>接下来，我们需要知道我们有多少员工。我们可以为此使用另一个计数器。</p>
+<div class="codehilite"><pre><span/><code><span class="n">employees</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Rolf Smith"</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">8.75</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Anne Pun"</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">12.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Charlie Lee"</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">15.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Bob Smith"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">7.00</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</code></pre></div>
+
+<p>这次计数器从<code>0</code>开始计数，我们在循环中每遇到一个新员工就加<code>1</code>。这意味着当我们完成时，counter包含了我们列表中的雇员数量。</p>
+<p>我们现在可以这样计算平均工资:</p>
+<div class="codehilite"><pre><span/><code><span class="n">employees</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Rolf Smith"</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">8.75</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Anne Pun"</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">12.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Charlie Lee"</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">15.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Bob Smith"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">7.00</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">average_wage</span> <span class="o">=</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span>
+</code></pre></div>
+
+<p>现在我们需要将每个员工的工资与我们计算的平均工资进行比较。我们可以为此使用另一个循环，在循环中我们可以放一个条件语句来比较雇员的工资和平均工资。</p>
+<p>如果员工的工资超过平均水平，我们可以打印出一条消息来表明这一点:</p>
+<div class="codehilite"><pre><span/><code><span class="n">employees</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Rolf Smith"</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">8.75</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Anne Pun"</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">12.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Charlie Lee"</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">15.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Bob Smith"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">7.00</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">average_wage</span> <span class="o">=</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">average_wage</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">employee</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> earns more than average."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们可以做几件事情来使它变得更整洁。首先，我们可以使用<code>+=</code>操作符，就像这样:</p>
+
+
+<p>这是这样写的简写:</p>
+<div class="codehilite"><pre><span/><code><span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</code></pre></div>
+
+<p>我们可以在解决方案的几个地方使用它。</p>
+<div class="codehilite"><pre><span/><code><span class="n">employees</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Rolf Smith"</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">8.75</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Anne Pun"</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">12.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Charlie Lee"</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">15.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Bob Smith"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">7.00</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">+=</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">average_wage</span> <span class="o">=</span> <span class="n">total</span> <span class="o">/</span> <span class="n">count</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">average_wage</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">employee</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> earns more than average."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>其次，还有另一种方法可以找到集合中的项目数量。我们可以使用<code>len</code>函数。当我们将一个集合传递给<code>len</code>时，它会告诉我们里面有多少元素。</p>
+<p>这意味着我们不再需要我们的<code>count</code>变量。</p>
+<div class="codehilite"><pre><span/><code><span class="n">employees</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Rolf Smith"</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mf">8.75</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Anne Pun"</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">12.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Charlie Lee"</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mf">15.50</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Bob Smith"</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">7.00</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">+=</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">average_wage</span> <span class="o">=</span> <span class="n">total</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">employees</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">employee</span> <span class="ow">in</span> <span class="n">employees</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">employee</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">average_wage</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">employee</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> earns more than average."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们明天会更详细地讨论<code>len</code>。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

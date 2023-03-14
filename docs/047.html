@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>How to interact with APIs using Python</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何使用Python与API交互</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/how-to-interact-with-apis-using-python/">https://blog.teclado.com/how-to-interact-with-apis-using-python/</a></blockquote><div><div class="post-content">
+<p>通常我们开始学习编码是因为我们想用代码做一些事情。例如，您可能想从Shopify下载一份销售清单，并将其放入电子表格中。或者你可能会在Twitter上搜索，数一数你的网站被人们分享了多少次。你可能每天晚上都想做这些事情，因此从长远来看，写一些代码来帮助你将会节省你很多时间。</p><p>这就是API的用武之地。</p><p>API是一个程序，它接受你的数据，并把数据返回给你。比如Twitter有一个API。</p><p>这个API接受数据(您的搜索词)并返回数据(与搜索词匹配的推文)。</p><p>Twitter的API也可以接受其他东西，比如用户名，并返回用户的信息。</p><p>这些API通常被设计成允许你以一种更加程序友好的方式检索网站持有的信息。不用加载网站，你可以直接获取你感兴趣的数据。</p><p>归根结底，网站是给人们使用的。您可以使用Twitter网站获取Twitter的数据。它以一种很好的方式展示出来，这样你会喜欢使用这个网站并再次访问它。程序不需要精确，所以当你与API交互时，程序得到的只是原始数据。大概是这样的:</p><pre><code class="language-json">{
+  "tweets": [
+    {
+      "body": "Learning #Python today with @TecladoCode!",
+      "user": "Phil Best"
+    },
+    {
+      "body": "We've just put out a new #Python course, going from beginner to expert. #LearnPython",
+      "user": "TecladoCode"
+    },
+    {
+      "body": "Writing some code to search the Twitter API for cat images. So far just getting back dog images though... :thinking:",
+      "user": "Rolf Smith"
+    }
+  ]
+}
+
+</code></pre>
+<p>这是API <strong>返回的数据可能</strong>的样子。而在网站上，你会看到这些卡片和彩色的推文等等，程序只需要最少的。像这样通过互联网发送文本比发送整个网站要快得多，也便宜得多。</p><h2 id="what-data-do-you-need-to-send-an-api">发送一个API需要哪些数据？</h2><p>简而言之:取决于API。Twitter搜索API需要一个搜索词。如果您想要使用Shopify Orders API来检索订单，您将需要您想要从中获取数据的月份，以及许多其他信息:</p><ul><li>你想拿回多少订单；</li><li>你是想得到挂单还是所有订单；</li><li>您是否希望获得付款、退款、作废或所有订单；</li><li>是否要拿到已经发货的订单；</li></ul><p>API通常会给你一个冗长的引用，准确地列出你可以发送给它们的所有内容，这样它们就可以把你感兴趣的数据发送给你。</p><p>为了完整起见，这里有<a href="https://help.shopify.com/en/api/reference/orders/order#index"> Shopify订单API参考</a>。刚开始看的时候很混乱！</p><h2 id="what-data-does-an-api-return">API返回什么数据？</h2><p>还是那句话，取决于API。Twitter搜索API返回与您的搜索词匹配的推文。Shopify Orders API返回发生在Shopify商店的订单。Shopify Customers API返回在您的商店购物的人的客户信息。诸如此类。</p><p>当你想从一个网站获取数据时，检查一下他们的API是值得的，看看他们是否能给你你想要的。</p><p>有些网站没有API。这可能是因为他们还没有开发它们，或者因为他们不想让你访问他们的数据！</p><h2 id="can-an-api-do-something-other-than-take-and-return-data">除了获取和返回数据，API还能做什么吗？</h2><p>是的，API也可以执行处理或存储。例如，可能存在一个API，您可以向它发送一个图像，它将压缩该图像并将其存储在互联网上的服务器上。</p><p>我希望像这样的API给你一个地址，你可以用它来访问图像。</p><p>例如，imgur API就是这样做的。你给它发一张图片，他们会存储下来并给你一个链接。转到该链接会将图像加载到您的浏览器中。</p><p>下面是<a href="https://apidocs.imgur.com/#c85c9dfc-7487-4de2-9ecd-66f727cf3139"> imgur图像上传API文档</a>。</p><h2 id="example-interaction-openexchangerates">交互示例:OpenExchangeRates</h2><p>在本例中，我们将与OpenExchangeRates API通信，使用Python检索汇率，以便我们可以将一种货币转换为另一种货币。</p><p>API通常会要求您向它们注册。这是因为API需要花钱来维护。他们必须为服务器和带宽付费，所以许多API不会是免费的。</p><p>Twitter、Shopify和imgur APIs可以免费使用。OpenExchangeRates API不是免费的，但是有一个免费的计划，在这个计划中，您可以每月与它交互1000次。</p><p>为了使用OpenExchangeRates API，首先您<a href="https://openexchangerates.org/signup/free">必须注册</a>。</p><p>然后，您必须生成一个<strong>应用ID </strong>。</p><p>每当您向OpenExchangeRates发出请求时，您还需要向他们发送您的应用ID。这就是API知道您有一个帐户的方式。</p><p>一旦你获得了你的应用ID，用Python安装<code>requests</code>库:</p><pre><code>pip install requests
+</code></pre><p>然后我们就可以开始编写与OpenExchangeRates交互的代码了！</p><pre><code class="language-python">import requests
+
+APP_ID = "72dba35061ifjs4cf9ad3ffbbjha8de9174"
+</code></pre>
+<p>接下来，您必须找到需要与之通信的URL，以便获取汇率信息。</p><p>API文档会有一个URL列表。当谈到API时，这些被称为“端点”。</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="../Images/d708b71f41b14742358cfc1f47b725e3.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/05/Screenshot-2019-05-03-at-09.35.17.png"/><figcaption>API Endpoints (screenshot from <a href="https://docs.openexchangerates.org/">https://docs.openexchangerates.org/</a>)</figcaption></figure><p>我们想要访问最新的货币兑换信息，所以我们将使用<code>GET /latest.json</code>。</p><p>点击它会把我们带到<a href="https://docs.openexchangerates.org/">文档</a>，它告诉我们我们想要发送数据的URL是<code>https://openexchangerates.org/api/latest.json</code>。让我们把它添加到我们的程序中:</p><pre><code class="language-python">import requests
+
+APP_ID = "72dba35061ifjs4cf9ad3ffbbjha8de9174"
+ENDPOINT = "https://openexchangerates.org/api/latest.json"
+</code></pre>
+<p>接下来，我们可以看看例子，看看我们必须如何与API通信。</p><p>在示例中，我们可以看到我们必须发出这样的请求:</p><pre><code>https://openexchangerates.org/api/latest.json?app_id=YOUR_APP_ID</code></pre><p>这意味着我们必须使用Python向这个URL发送一个<code>GET</code>请求，确保其中包含我们的应用ID。有几种不同类型的请求，比如<code>GET</code>和<code>POST</code>。这只是API期望的另一部分数据。根据请求类型，有时API会在单个端点中做不同的事情。</p><p>然后我们将得到类似这样的结果(在官方文档中也有显示):</p><pre><code class="language-javascript">{
+    disclaimer: "https://openexchangerates.org/terms/",
+    license: "https://openexchangerates.org/license/",
+    timestamp: 1449877801,
+    base: "USD",
+    rates: {
+        AED: 3.672538,
+        AFN: 66.809999,
+        ALL: 125.716501,
+        AMD: 484.902502,
+        ANG: 1.788575,
+        AOA: 135.295998,
+        ARS: 9.750101,
+        AUD: 1.390866,
+        /* ... */
+    }
+}
+
+</code></pre>
+<p>让我们继续使用Python代码来发出请求:</p><pre><code class="language-python">import requests
+
+APP_ID = "72dba35061ifjs4cf9ad3ffbbjha8de9174"
+ENDPOINT = "https://openexchangerates.org/api/latest.json"
+
+response = requests.get(f"{ENDPOINT}?app_id={APP_ID}")
+print(response.content)
+</code></pre>
+<p>这里我们已经构建了最终的URL，<code>f"{ENDPOINT}?app_id={APP_ID}"</code>，然后将它传递给<code>requests.get()</code>，后者发出一个<code>GET</code>请求。</p><p>然后我们打印出API发出的响应的<code>.content</code>属性。</p><p>运行这个程序，我们会得到这样的结果:</p><pre><code>b'{\\n  "disclaimer": "Usage subject to terms: &lt;https://openexchangerates.org/terms&gt;",\\n  "license": "&lt;https://openexchangerates.org/license&gt;",\\n  "timestamp": 1555491600,\\n  "base": "USD",\\n  "rates": {\\n    "AED": 3.673158,\\n    "AFN": 77.858,\\n    "ALL": 110,\\n    "AMD": 485.09686,\\n    "ANG": 1.865264,\\n    "AOA": 319.444,\\n    "ARS": 42.326,\\n    "AUD": 1.388915,\\n    "AWG": 1.799996,\\n    "AZN": 1.7025,\\n    "BAM": 1.730939,\\n    "BBD": 2,\\n    "BDT": 84.466,\\n    "BGN": 1.728662,\\n    "BHD": 0.377029,\\n    "BIF": 1832.588039,\\n    "BMD": 1,\\n    "BND": 1.350506,\\n    "BOB": 6.91995,\\n    "BRL": 3.905103,\\n    "BSD": 1,\\n    "BTC": 0.000191995978,\\n    "BTN": 69.571652,\\n    "BWP": 10.619946,\\n    "BYN": 2.104887,\\n    "BZD": 2.018566,\\n    "CAD": 1.332235,\\n    "CDF": 1639.646042,\\n    "CHF": 1.007504,\\n    "CLF": 0.023989,\\n    "CLP": 661.937398,\\n    "CNH": 6.68448,\\n    "CNY": 6.6885,\\n    "COP": 3135.861326,\\n    "CRC": 599.770986,\\n    "CUC": 1,\\n    "CUP": 25.75,\\n    "CVE": 97.7155,\\n    "CZK": 22.688056,\\n    "DJF": 178.05,\\n    "DKK": 6.596294,\\n    "DOP": 50.645,\\n    "DZD": 118.94,\\n    "EGP": 17.3057,\\n    "ERN": 14.996713,\\n    "ETB": 28.744636,\\n    "EUR": 0.883718,\\n    "FJD": 2.127047,\\n    "FKP": 0.766763,\\n    "GBP": 0.766763,\\n    "GEL": 2.69,\\n    "GGP": 0.766763,\\n    "GHS": 5.1291,\\n    "GIP": 0.766763,\\n    "GMD": 49.545,\\n    "GNF": 9143.139456,\\n    "GTQ": 7.638581,\\n    "GYD": 209.929837,\\n    "HKD": 7.845773,\\n    "HNL": 24.482066,\\n    "HRK": 6.57345,\\n    "HTG": 85.159527,\\n    "HUF": 282.042195,\\n    "IDR": 14011.55,\\n    "ILS": 3.575446,\\n    "IMP": 0.766763,\\n    "INR": 69.361,\\n    "IQD": 1194.896167,\\n    "IRR": 42105,\\n    "ISK": 119.860455,\\n    "JEP": 0.766763,\\n    "JMD": 129.98,\\n    "JOD": 0.708001,\\n    "JPY": 112.00975,\\n    "KES": 101.24,\\n    "KGS": 68.658487,\\n    "KHR": 4081.48868,\\n    "KMF": 436.375832,\\n    "KPW": 900,\\n    "KRW": 1132.98,\\n    "KWD": 0.304023,\\n    "KYD": 0.833511,\\n    "KZT": 380.443475,\\n    "LAK": 8663.377025,\\n    "LBP": 1509.05,\\n    "LKR": 174.64,\\n    "LRD": 166.000015,\\n    "LSL": 14.104137,\\n    "LYD": 1.391801,\\n    "MAD": 9.5813,\\n    "MDL": 17.874788,\\n    "MGA": 3622.722764,\\n    "MKD": 54.395,\\n    "MMK": 1517.16056,\\n    "MNT": 2513.624129,\\n    "MOP": 8.079097,\\n    "MRO": 357,\\n    "MRU": 36.6,\\n    "MUR": 34.78973,\\n    "MVR": 15.35504,\\n    "MWK": 728.489606,\\n    "MXN": 18.829774,\\n    "MYR": 4.140531,\\n    "MZN": 64.481897,\\n    "NAD": 14.104137,\\n    "NGN": 360.77,\\n    "NIO": 32.882163,\\n    "NOK": 8.469935,\\n    "NPR": 111.463545,\\n    "NZD": 1.484078,\\n    "OMR": 0.384954,\\n    "PAB": 1,\\n    "PEN": 3.300003,\\n    "PGK": 3.379726,\\n    "PHP": 51.715,\\n    "PKR": 141.65,\\n    "PLN": 3.778095,\\n    "PYG": 6217.386761,\\n    "QAR": 3.640738,\\n    "RON": 4.207089,\\n    "RSD": 104.24191,\\n    "RUB": 63.9525,\\n    "RWF": 906.006092,\\n    "SAR": 3.7497,\\n    "SBD": 8.171964,\\n    "SCR": 13.728573,\\n    "SDG": 47.687925,\\n    "SEK": 9.224838,\\n    "SGD": 1.352501,\\n    "SHP": 0.766763,\\n    "SLL": 8390,\\n    "SOS": 579.371256,\\n    "SRD": 7.458,\\n    "SSP": 130.2634,\\n    "STD": 21050.59961,\\n    "STN": 21.73,\\n    "SVC": 8.751192,\\n    "SYP": 514.989937,\\n    "SZL": 14.104106,\\n    "THB": 31.7655,\\n    "TJS": 9.436072,\\n    "TMT": 3.50998,\\n    "TND": 3.019007,\\n    "TOP": 2.262773,\\n    "TRY": 5.754018,\\n    "TTD": 6.78365,\\n    "TWD": 30.820944,\\n    "TZS": 2313,\\n    "UAH": 26.752,\\n    "UGX": 3740.410238,\\n    "USD": 1,\\n    "UYU": 34.130689,\\n    "UZS": 8450.117652,\\n    "VEF": 248487.642241,\\n    "VES": 4091.49358,\\n    "VND": 23168.81998,\\n    "VUV": 111.129115,\\n    "WST": 2.607179,\\n    "XAF": 579.681272,\\n    "XAG": 0.06653372,\\n    "XAU": 0.00078336,\\n    "XCD": 2.70255,\\n    "XDR": 0.717165,\\n    "XOF": 579.681272,\\n    "XPD": 0.00073341,\\n    "XPF": 105.455657,\\n    "XPT": 0.00113123,\\n    "YER": 250.300682,\\n    "ZAR": 13.954551,\\n    "ZMW": 12.293,\\n    "ZWL": 322.355011\\n  }\\n}'
+</code></pre>
+<p>这看起来像是一大堆胡言乱语，但它几乎和我们之前看到的一样。</p><p>如果我们使用<code>.json()</code>而不是<code>.content</code>,<code>requests</code>库将获取内容并将其转换成Python字典:</p><pre><code class="language-python">import requests
+
+APP_ID = "72dba35061ifjs4cf9ad3ffbbjha8de9174"
+ENDPOINT = "https://openexchangerates.org/api/latest.json"
+
+response = requests.get(f"{ENDPOINT}?app_id={APP_ID}")
+print(response.content)
+</code></pre>
+<p>跑步给了我们:</p><pre><code class="language-python">{'disclaimer': 'Usage subject to terms: &lt;https://openexchangerates.org/terms&gt;', 'license': '&lt;https://openexchangerates.org/license&gt;', 'timestamp': 1555491600, 'base': 'USD', 'rates': {'AED': 3.673158, 'AFN': 77.858, 'ALL': 110, 'AMD': 485.09686, 'ANG': 1.865264, 'AOA': 319.444, 'ARS': 42.326, 'AUD': 1.388915, 'AWG': 1.799996, 'AZN': 1.7025, 'BAM': 1.730939, 'BBD': 2, 'BDT': 84.466, 'BGN': 1.728662, 'BHD': 0.377029, 'BIF': 1832.588039, 'BMD': 1, 'BND': 1.350506, 'BOB': 6.91995, 'BRL': 3.905103, 'BSD': 1, 'BTC': 0.000191995978, 'BTN': 69.571652, 'BWP': 10.619946, 'BYN': 2.104887, 'BZD': 2.018566, 'CAD': 1.332235, 'CDF': 1639.646042, 'CHF': 1.007504, 'CLF': 0.023989, 'CLP': 661.937398, 'CNH': 6.68448, 'CNY': 6.6885, 'COP': 3135.861326, 'CRC': 599.770986, 'CUC': 1, 'CUP': 25.75, 'CVE': 97.7155, 'CZK': 22.688056, 'DJF': 178.05, 'DKK': 6.596294, 'DOP': 50.645, 'DZD': 118.94, 'EGP': 17.3057, 'ERN': 14.996713, 'ETB': 28.744636, 'EUR': 0.883718, 'FJD': 2.127047, 'FKP': 0.766763, 'GBP': 0.766763, 'GEL': 2.69, 'GGP': 0.766763, 'GHS': 5.1291, 'GIP': 0.766763, 'GMD': 49.545, 'GNF': 9143.139456, 'GTQ': 7.638581, 'GYD': 209.929837, 'HKD': 7.845773, 'HNL': 24.482066, 'HRK': 6.57345, 'HTG': 85.159527, 'HUF': 282.042195, 'IDR': 14011.55, 'ILS': 3.575446, 'IMP': 0.766763, 'INR': 69.361, 'IQD': 1194.896167, 'IRR': 42105, 'ISK': 119.860455, 'JEP': 0.766763, 'JMD': 129.98, 'JOD': 0.708001, 'JPY': 112.00975, 'KES': 101.24, 'KGS': 68.658487, 'KHR': 4081.48868, 'KMF': 436.375832, 'KPW': 900, 'KRW': 1132.98, 'KWD': 0.304023, 'KYD': 0.833511, 'KZT': 380.443475, 'LAK': 8663.377025, 'LBP': 1509.05, 'LKR': 174.64, 'LRD': 166.000015, 'LSL': 14.104137, 'LYD': 1.391801, 'MAD': 9.5813, 'MDL': 17.874788, 'MGA': 3622.722764, 'MKD': 54.395, 'MMK': 1517.16056, 'MNT': 2513.624129, 'MOP': 8.079097, 'MRO': 357, 'MRU': 36.6, 'MUR': 34.78973, 'MVR': 15.35504, 'MWK': 728.489606, 'MXN': 18.829774, 'MYR': 4.140531, 'MZN': 64.481897, 'NAD': 14.104137, 'NGN': 360.77, 'NIO': 32.882163, 'NOK': 8.469935, 'NPR': 111.463545, 'NZD': 1.484078, 'OMR': 0.384954, 'PAB': 1, 'PEN': 3.300003, 'PGK': 3.379726, 'PHP': 51.715, 'PKR': 141.65, 'PLN': 3.778095, 'PYG': 6217.386761, 'QAR': 3.640738, 'RON': 4.207089, 'RSD': 104.24191, 'RUB': 63.9525, 'RWF': 906.006092, 'SAR': 3.7497, 'SBD': 8.171964, 'SCR': 13.728573, 'SDG': 47.687925, 'SEK': 9.224838, 'SGD': 1.352501, 'SHP': 0.766763, 'SLL': 8390, 'SOS': 579.371256, 'SRD': 7.458, 'SSP': 130.2634, 'STD': 21050.59961, 'STN': 21.73, 'SVC': 8.751192, 'SYP': 514.989937, 'SZL': 14.104106, 'THB': 31.7655, 'TJS': 9.436072, 'TMT': 3.50998, 'TND': 3.019007, 'TOP': 2.262773, 'TRY': 5.754018, 'TTD': 6.78365, 'TWD': 30.820944, 'TZS': 2313, 'UAH': 26.752, 'UGX': 3740.410238, 'USD': 1, 'UYU': 34.130689, 'UZS': 8450.117652, 'VEF': 248487.642241, 'VES': 4091.49358, 'VND': 23168.81998, 'VUV': 111.129115, 'WST': 2.607179, 'XAF': 579.681272, 'XAG': 0.06653372, 'XAU': 0.00078336, 'XCD': 2.70255, 'XDR': 0.717165, 'XOF': 579.681272, 'XPD': 0.00073341, 'XPF': 105.455657, 'XPT': 0.00113123, 'YER': 250.300682, 'ZAR': 13.954551, 'ZMW': 12.293, 'ZWL': 322.355011}}
+
+</code></pre>
+<p>我们现在可以使用这些数据将<code>USD</code>(基数)转换成任何其他货币。让我们试着把<code>USD</code>转换成<code>GBP</code>(英镑):</p><pre><code class="language-python">import requests
+
+APP_ID = "72dba35061ifjs4cf9ad3ffbbjha8de9174"
+ENDPOINT = "https://openexchangerates.org/api/latest.json"
+
+response = requests.get(f"{ENDPOINT}?app_id={APP_ID}")
+exchange_rates = response.json()
+
+usd_amount = 1000
+gbp_amount = usd_amount * exchange_rates['rates']['GBP']
+
+print(f"USD{usd_amount} is GBP{gbp_amount}")
+</code></pre>
+<p>运行这个程序会告诉我们1000美元等于多少英镑:</p><pre><code>USD1000 is GBP766.7629999999999
+</code></pre><p>瞧！我们已经与我们的第一个API进行了交互。</p><ul><li>API需要一些数据，比如请求类型(<code>GET</code>、<code>POST</code>等)...)，以及处理您的请求所需的任何数据(如应用ID、Twitter搜索词、Shopify商店信息等)。</li><li>API返回数据，以便您的程序可以使用它们。API不是给人们看的(这就是网站的用途！).</li><li>开发API是为了获取数据并以数据响应——所以它们非常具体。你不能只是给他们发送任何东西，然后期望他们用有效的输出来响应！</li><li>可以使用Python中的<code>requests</code>库与API进行交互，这可能是最流行的一种！</li></ul>
+</div>
+</div>    
+</body>
+</html>

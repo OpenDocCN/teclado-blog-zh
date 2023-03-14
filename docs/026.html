@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>Sending e-mails with Python</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>用Python发送电子邮件</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/learn-python-send-emails/">https://blog.teclado.com/learn-python-send-emails/</a></blockquote><div><div class="post-content">
+<p>Python附带了几个库，允许我们创建电子邮件并发送它们。这些是<code>email</code>和<code>smtp</code>库。</p>
+<h2 id="creatingtheemail">创建电子邮件</h2>
+<p>有了<code>email</code>库，使用Python创建电子邮件变得很容易。我们将只定义内容及其元数据(From、To、Subject)。</p>
+<pre><code class="language-python">from email.message import EmailMessage
+
+email = EmailMessage()
+
+email['Subject'] = 'Test email'
+email['From'] = '<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1a7f777b73765a7d777b737634797577">[email protected]</a>'
+email['To'] = '<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="056f6a6d6b456268646c692b666a68">[email protected]</a>'
+
+email.set_content('Hello, John')
+</code></pre>
+<h2 id="sendingtheemail">发送电子邮件</h2>
+<p>发送电子邮件可能有点复杂。电子邮件是通过SMTP发送的，所以我们需要一个SMTP服务器来处理邮件的发送。</p>
+<p>如果您在公司环境中工作，您可能会访问SMTP服务器。如果你没有，你可以随时使用Gmail或Hotmail发送电子邮件。<strong>警告</strong>:不要使用个人账户发送大量电子邮件。如果许多人将你的邮件标记为垃圾邮件，你可能会看到你的个人邮件的投递率下降。</p>
+<p>我们将使用<code>smtp</code>库发送电子邮件。</p>
+<h3 id="logintothegmailsmtpserver">登录到Gmail SMTP服务器</h3>
+<p>在这个例子中，我们将使用一个假冒的Gmail帐户发送邮件。如果你愿意，你可以使用你自己的帐户！</p>
+<pre><code class="language-python">import smtplib
+
+s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+s.starttls()
+s.login('<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5e27312b1e39333f3732703d3133">[email protected]</a>', 'password')
+</code></pre>
+<div class="banner info">
+<p>如果您在密码正确的情况下得到一个<code>SMTPAuthenticationError</code>，那么您可能启用了双因素身份验证。你需要使用一个<a href="https://support.google.com/accounts/answer/185833">应用密码</a>来代替你的普通密码登录。</p>
+<p>如果你没有启用2-FA，你必须在你的Gmail安全首选项中允许不太安全的应用程序访问——尽管记住在你学习完使用Python发送电子邮件后要禁用它！</p>
+</div>
+<h3 id="sendingtheemail">发送电子邮件</h3>
+<p>一旦我们收到<code>MIMEMultipart</code>消息并登录，我们就准备发送它。</p>
+<pre><code class="language-python">s.send_message(email)
+s.quit()
+</code></pre>
+<h2 id="completecode">完全码</h2>
+<p>下面是您可以用Python发送电子邮件的完整代码。试着把它的一部分或全部放入函数中，这样重用它就变得非常简单了！</p>
+<pre><code class="language-python">import smtplib
+
+from email.message import EmailMessage
+
+email = EmailMessage()
+
+email['Subject'] = 'Test email'
+email['From'] = '<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="83e6eee2eaefc3e4eee2eaefade0ecee">[email protected]</a>'
+email['To'] = '<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0a606562644a6d676b636624696567">[email protected]</a>'
+
+email.set_content('Hello, John')
+
+s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+s.starttls()
+s.login('<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="463f293306212b272f2a6825292b">[email protected]</a>', 'password')
+
+s.send_message(email)
+s.quit()
+</code></pre>
+<p>使用Python发送电子邮件非常简单！我们要做的就是:</p>
+<ol>
+<li>使用<code>EmailMessage</code>对象创建电子邮件；</li>
+<li>设置我们的SMTP服务器连接；</li>
+<li>发送消息！</li>
+</ol>
+<p>享受从Python应用程序发送电子邮件的乐趣！如果你正在开发一个可以发送更多电子邮件的应用程序，那么研究一下像<a href="https://www.mailgun.com"> Mailgun </a>这样的电子邮件服务是值得的。</p>
+
+</div>
+</div>    
+</body>
+</html>

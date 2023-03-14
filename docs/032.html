@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>Token Authentication and Refreshing using Flask-JWT-Extended</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>使用Flask-JWT扩展的令牌认证和刷新</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/jwt-authentication-and-token-refreshing-in-rest-apis/">https://blog.teclado.com/jwt-authentication-and-token-refreshing-in-rest-apis/</a></blockquote><div><div class="post-content">
+<p>在<a href="https://blog.teclado.com/learn-python-advanced-configuration-of-flask-jwt/">之前的博文</a>中，我们谈到了Flask扩展<code>Flask-JWT</code>，它允许我们在Flask应用中创建jwt(JSON Web令牌)。弗拉斯克-JWT是方便的，并提供了一个最小的功能集，我们将需要基于令牌的认证。然而，随着我们的应用程序变得越来越复杂，我们可能会发现它有点受限。</p>
+<p>请继续阅读，寻找更强大的替代方案！</p>
+<h2 id="introduction">介绍</h2>
+<p>在这篇文章中，我们介绍了一个新的烧瓶扩展:<code>Flask-JWT-Extended</code>。它具有一组更高级的功能，使我们能够设计更实用的身份认证工作流。</p>
+<p><code>Flask-JWT-Extended</code>相比<code>Flask-JWT</code>有很多优势。例如，它支持令牌刷新，这可能会产生更加实用和用户友好的身份验证工作流。它还有一个更加活跃的社区来维护和升级项目，因此它更有可能引入新的特性并保持稳定。在本帖中，我们将重点关注认证工作流。</p>
+<h2 id="arecommendedauthenticationworkflow">推荐的身份验证工作流程</h2>
+<h3 id="tokenbasedauthentication">基于令牌的认证</h3>
+<p>非常像在<code>Flask-JWT</code>中，我们可以使用<code>Flask-JWT-Extended</code>执行基于令牌的认证。用户通过身份验证，他们的信息被加密并作为访问令牌返回(JWT)。</p>
+<p>每当用户想告诉我们他们是谁时，他们就发送访问令牌和他们的请求。访问令牌让我们对用户的身份有了一定程度的信任，并提高了安全性，因为所有用户的信息都是加密的，不太可能被泄露。</p>
+<h3 id="tokenrefreshing">令牌刷新</h3>
+<p>出于安全目的，每个访问令牌必须有一个到期时间。通常设置为5到15分钟，之后用户必须重新认证。</p>
+<p>在<code>Flask-JWT</code>中，重新认证将要求用户再次输入用户名和密码。这对用户来说是非常乏味的！</p>
+<p><strong>令牌刷新</strong>正是为了这个目的。第一次通过凭证进行身份验证时，我们不仅返回包含用户帐户信息的访问令牌，还返回仅用于刷新访问令牌的刷新令牌。</p>
+<p>当访问令牌过期时，我们提供刷新令牌，<code>Flask-JWT-Extended</code>验证它并返回新的有效访问令牌。这样，用户可以继续使用该访问令牌来访问受保护的服务。</p>
+<p>每当原始访问令牌过期时，都会重复这个过程...那么这是否意味着用户再也不用输入他们的凭证了呢？</p>
+<h3 id="tokenfreshness">象征性新鲜度</h3>
+<p>根据上面的描述，有人可能会问，使用令牌刷新工作流和拥有永不过期的访问令牌之间有什么区别？</p>
+<p>确实，如果我们简单地允许令牌刷新而没有进一步的限制，这并没有什么不同。但是，有一个解决方案可以使我们的身份验证工作流更加健壮。</p>
+<p>这里有一个常见的用例:一旦我们登录，我们通常可以继续使用应用程序，而无需输入凭据。然而，如果我们试图执行一个“关键”操作——比如删除一些数据或者完成一次银行交易——我们经常会被要求提供凭证(或者至少是密码)。</p>
+<p>这是怎么回事？</p>
+<p>进入，<strong>令牌新鲜度</strong>。根据经验，通过凭证获取的任何访问令牌被标记为<code>fresh</code>，而通过刷新机制获取的访问令牌被标记为<code>non-fresh</code>。</p>
+<p>回到我们之前的身份验证工作流，用户第一次使用其凭证登录时，他将获得一个<code>fresh</code>访问令牌和一个刷新令牌。如果他尝试重新登录并发现他的当前访问令牌已经过期，他使用他的刷新令牌来获得新的访问令牌。这个新的访问令牌应该是<code>non-fresh</code>，因为它不是通过凭证获得的。</p>
+<p>当用户出示<code>non-fresh</code>访问令牌时，我们仍然<em>对用户有一些</em>信任。但是，当他试图执行一个关键的操作时，比如一个事务，应用程序不会接受这个访问令牌。相反，他需要再次输入他的凭证，并获得一个新的<code>fresh</code>访问令牌来继续关键操作。</p>
+<p>让我们来看看一些代码。</p>
+<h2 id="flaskjwtextendedinaction">烧瓶-JWT-延伸行动</h2>
+<h3 id="authentication">证明</h3>
+<p>下面使用来自<code>Flask-RESTful</code>的基于类的视图显示了用户登录端点的代码片段。如果你学过我们的REST API课程，这看起来会很熟悉。</p>
+<pre><code class="language-python">from models.user import UserModel
+from flask_restful import Resource, reqparse
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token
+)
+from werkzeug.security import safe_str_cmp
+
+class UserLogin(Resource):
+    # defining the request parser and expected arguments in the request
+    parser = reqparse.RequestParser()
+    parser.add_argument('username',
+                        type=str,
+                        required=True,
+                        help="This field cannot be blank."
+                        )
+    parser.add_argument('password',
+                        type=str,
+                        required=True,
+                        help="This field cannot be blank."
+                        )
+
+    def post(self):
+        data = self.parser.parse_args()
+        # read from database to find the user and then check the password
+        user = UserModel.find_by_username(data['username'])
+
+        if user and safe_str_cmp(user.password, data['password']):
+            # when authenticated, return a fresh access token and a refresh token
+            access_token = create_access_token(identity=user.id, fresh=True)
+            refresh_token = create_refresh_token(user.id)
+            return {
+                'access_token': access_token,
+                'refresh_token': refresh_token
+            }, 200
+
+        return {"message": "Invalid Credentials!"}, 401
+</code></pre>
+<h3 id="tokenrefreshing">令牌刷新</h3>
+<p>以下代码片段显示了令牌刷新端点的工作方式。</p>
+<pre><code class="language-python">class TokenRefresh(Resource):
+    @jwt_refresh_token_required
+    def post(self):
+        # retrive the user's identity from the refresh token using a Flask-JWT-Extended built-in method
+        current_user = get_jwt_identity()
+        # return a non-fresh token for the user
+        new_token = create_access_token(identity=current_user, fresh=False)
+        return {'access_token': new_token}, 200
+</code></pre>
+<p>用<code>@jwt_refresh_token_required</code>修饰的端点要求在请求中包含一个<code>Authorization: Bearer {refresh_token}</code>头。</p>
+<h3 id="definedifferentprotectionlevelsusingtokenfreshness">使用令牌新鲜度定义不同的保护级别</h3>
+<p>然后，我们可以保护我们的端点，并定义不同的保护级别，如下所示:</p>
+<pre><code class="language-python"># An endpoint that requires a valid access token (non-expired, either fresh or non-fresh)
+@jwt_required
+def get(self):
+    pass
+
+# An endpoint that requires a valid fresh access token (non-expired and fresh only)
+@fresh_jwt_required
+def post(self):
+    pass
+</code></pre>
+<h2 id="acknowledgements">承认</h2>
+<p>是一个开源的python项目，由一个活跃而令人敬畏的社区维护。你可以参考原始文档以及他们的GitHub repo上的源代码:【https://github.com/vimalloc/flask-jwt-extended<a href="https://github.com/vimalloc/flask-jwt-extended"/>。</p>
+<p>想了解更多关于开发带有身份验证、数据存储、关系数据库和部署的REST APIs吗？查看我们的<a href="https://www.udemy.com/rest-api-flask-and-python/?couponCode=BLOGGER">旗舰课程</a>！</p>
+
+</div>
+</div>    
+</body>
+</html>

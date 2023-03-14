@@ -1,0 +1,239 @@
+<html>
+<head>
+<title>Day 12 Project: Reading List | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第12天项目:阅读清单|泰克拉多</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-12-project/">https://blog.teclado.com/python-30-day-12-project/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到<a href="https://blog.teclado.com/30-days-of-python">Python</a>30天<a href="/30-days-of-python/python-30-day-12-functions">第12 </a>天项目！我们将创建一个程序，可以存储和显示用户阅读列表中的书籍。</p>
+<p>下面是完整的项目简介以及我们解决方案的演示。请记住，您的解决方案不必与我们的完全一致！</p>
+<h2>案情摘要</h2>
+<p>对于这个项目，应用程序需要具有以下功能:</p>
+<ul>
+<li>用户应该能够通过提供书名、作者姓名和出版年份将一本书添加到他们的阅读列表中。</li>
+<li>该程序应该将所有这些书籍的信息存储在一个Python列表中。</li>
+<li>用户应该能够显示他们阅读列表中的所有书籍，并且这些书籍应该以用户友好的格式打印出来。</li>
+<li>用户应该能够从文本菜单中选择这些选项，并且他们应该能够在不重启程序的情况下执行多个操作。你可以在while loops(第8天)的文章中看到一个工作菜单的例子。</li>
+</ul>
+<p>这个项目比我们以前处理过的项目要大一点，所以要确保一次处理一个项目。</p>
+<p>这个项目需要注意的是，因为阅读列表中的书籍存储在Python列表中，所以当程序结束时，阅读列表数据将会丢失。</p>
+<p>几天后，在第14天，我们将回到这个项目并扩展它，确保我们在程序结束时不会丢失数据！</p>
+<p>祝你好运，希望你玩得开心！</p>
+<h2>我们的演练</h2>
+<p>我们的完整演练如下，但如果你更喜欢视频版本，看看这里:</p>
+<p>项目演练[</p>
+<p>参考书目</p>
+<p>15:50</p>
+<p>](https://www . YouTube . com/watch？v=muWDANDvjA8)</p>
+<p>我们开发这个程序的第一步是创建一个地方来存放我们的阅读清单。目前，这将是一个Python列表:</p>
+
+
+<p>然后，我们可能还想定义用户将与之交互的菜单。尽早这样做也给了我们一些继续编码的结构。通过写出菜单，我们可以清楚地知道用户需要从哪些选项中选择:</p>
+<div class="codehilite"><pre><span/><code><span class="n">reading_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+</code></pre></div>
+
+<p>现在我们有了这个，我们可以开始写菜单了。我们将为此使用while循环和if语句:</p>
+<div class="codehilite"><pre><span/><code><span class="n">reading_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Adding..."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Displaying..."</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="c1"># Allow the user to change their selection at the end of each iteration</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>请注意，我们已经编写了循环和if语句，但是目前除了打印用户选择的内容之外，它们没有做什么。</p>
+<p>在这一点上，我们应该运行我们的程序，以确保一切按预期工作！</p>
+<p>请注意，如果您愿意，您可以<em>像这样编写while循环:</em></p>
+<div class="codehilite"><pre><span/><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"q"</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Adding..."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Displaying..."</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>  
+</code></pre></div>
+
+<p>这样我们就减少了<code>selected_option</code>变量的重复。</p>
+<p>不过这完全取决于你，两者都完全有效。选择对你来说最自然的方式吧！</p>
+<p>在制作这些菜单时，我们经常想要为if语句的每个分支创建一个函数。</p>
+<p>这是因为每个分支做自己的事情，创建一个函数来处理这种情况可以使我们的程序更容易阅读。</p>
+<p>我们现在要做的是:</p>
+<div class="codehilite"><pre><span/><code><span class="n">reading_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Adding..."</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">show_books</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Displaying..."</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="n">add_book</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="n">show_books</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="c1"># Allow the user to change their selection at the end of each iteration</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这种方法的好处是，现在我们可以在每个功能内部工作，知道它们将独立和分开操作。</p>
+<p>另外，它使我们的循环比把所有代码都放在里面更短！</p>
+<p>要添加新书，我们将向用户询问书籍的详细信息。然后我们会把它们放进字典，并把它们添加到阅读列表中:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Author: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Year of publication: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="n">new_book</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="s2">"author"</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+        <span class="s2">"year"</span><span class="p">:</span> <span class="n">year</span>
+    <span class="p">}</span>
+
+    <span class="n">reading_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_book</span><span class="p">)</span>
+</code></pre></div>
+
+<p>当该函数在循环中运行时，它会要求用户提供每本书所需的三条信息。然后它创建一个字典，并将它存储在<code>reading_list</code>中。</p>
+<p>请注意，我们可以创建字典并将其追加到同一行中。这一点有时会更清楚:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Author: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Year of publication: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="n">reading_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="s2">"author"</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+        <span class="s2">"year"</span><span class="p">:</span> <span class="n">year</span>
+    <span class="p">})</span>
+</code></pre></div>
+
+<p>尝试现在运行项目并添加一本新书！</p>
+<p>应该都可以用了，书会加进去的。</p>
+<p>然而，我们还没有一种方法来显示阅读列表中的书籍。让我们继续下一个:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">show_books</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Displaying..."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我们要遍历<code>reading_list</code>变量，打印每本书的信息。</p>
+<p>我们可以只使用for循环，并使用f字符串打印字典中的属性:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">show_books</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">, by </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'author'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>或者，我们可以使用解包和字典的<code>.values()</code>方法来使代码更加清晰:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">show_books</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="n">title</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">, by </span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我认为对于像这段代码这样的东西，创建单独的变量可能有点过头了。我只是想让你知道你可以做到这一点！如果它能让你更清楚或更易读，那就去做吧！</p>
+<p>目前，我们的代码如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">reading_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Author: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Year of publication: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="n">reading_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="s2">"author"</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+        <span class="s2">"year"</span><span class="p">:</span> <span class="n">year</span>
+    <span class="p">})</span>
+
+<span class="k">def</span> <span class="nf">show_books</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="n">title</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">, by </span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="n">add_book</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="n">show_books</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>我们可以对此再做一个改进。</p>
+<p>如果我们调用<code>show_books()</code>，但是<code>reading_list</code>是空的，那么这个函数什么也不做。该循环根本不会运行。</p>
+<p>因此，如果<code>reading_list</code>为空，让我们打印一条漂亮的消息！</p>
+<p>我们会在循环中进行。<code>show_books()</code>函数应该与显示书籍有关，而不是显示书籍<em>或</em>如果没有书籍的消息。</p>
+<p>让你的函数只做一件事是简化代码的好方法！</p>
+<p>在循环中，我们将添加一个if语句来检查阅读列表是否为空:</p>
+<div class="codehilite"><pre><span/><code><span class="o">...</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="n">show_books</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Your reading list is empty."</span><span class="p">)</span>
+<span class="o">...</span>
+</code></pre></div>
+
+<p>记住，执行<code>if reading_list</code>会将<code>reading_list</code>传递给<code>bool()</code>函数。如果<code>reading_list</code>为空，则计算结果为<code>False</code>。否则，评估为<code>True</code>。</p>
+<p>这样，我们就完成了这个项目！</p>
+<p>我们还可以添加更多改进:</p>
+<ol>
+<li>我们可以使用实参、参数和返回值(明天将介绍)，这样我们的函数就不会直接与全局变量<code>reading_list</code>交互。不与全局变量交互的函数通常更容易思考，并使代码更少纠缠在一起。</li>
+<li>我们可以允许用户通过例如作者来搜索书籍。那么我们只会展示那个作者的书。</li>
+<li>我们可以在每次修改时将<code>reading_list</code>的内容永久保存到一个文件中，这样当程序结束时用户的阅读列表不会丢失。</li>
+</ol>
+<p>我们将在第14天做出这些改变，敬请关注！在那之前，如果你喜欢挑战，可以试着自己实现它！</p>
+<p>感谢您的阅读，明天见！</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>Python's symmetric_difference Method for Sets</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python对集合的对称差分方法</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-symmetric-difference/">https://blog.teclado.com/python-symmetric-difference/</a></blockquote><div><div class="post-content">
+<p>欢迎来到另一篇<a href="https://blog.teclado.com/tag/python-snippets/"> Python片段</a>的帖子。今天我要讲一个不太为人所知的集合运算，叫做对称差。如果你对集合不是很熟悉，你可能想看看我们之前关于这个主题的帖子:<a href="https://teclado.com/30-days-of-python/python-30-day-11-sets/">第11天:集合</a>，<a href="https://blog.teclado.com/python-set-operators/">集合运算符</a>。</p><p>关于<code>difference</code>方法，许多学生没有意识到的一件事是，它会为相同的两个集合产生不同的输出，这取决于你在哪个集合上调用了该方法。</p><pre><code class="language-python">s1 = {1, 3, 4, 5, 7, 8}
+s2 = {2, 3, 4, 6, 8, 9}
+
+print(s1.difference(s2))  # {1, 5, 7}
+print(s2.difference(s1))  # {9, 2, 6}
+</code></pre>
+<p>当使用<code>-</code>操作符而不是方法语法时，情况也是如此。</p><p><code>symmetric_difference</code>是不同的，它实际上与大多数人期望的<code>difference</code>非常相似。<code>symmetric_difference</code>返回没有出现在<strong>和</strong>集合中的所有值。</p><p>对于集合<code>s1</code>和<code>s2</code>，<code>s1</code>和<code>s2</code>的对称差相当于<code>s1.difference(s2)</code>和<code>s2.difference(s1)</code>的并集。</p><pre><code class="language-python">s1 = {1, 3, 4, 5, 7, 8}
+s2 = {2, 3, 4, 6, 8, 9}
+
+s3 = s1.symmetric_difference(s2)
+s4 = s1.difference(s2) | s2.difference(s1)
+
+print(s3)  # {1, 2, 5, 6, 7, 9}
+print(s4)  # {1, 2, 5, 6, 7, 9}
+</code></pre>
+<p>对于那些喜欢使用集合操作符而不是方法语法的人来说，对称差的操作符是<code>^</code>。</p><h2 id="wrapping-up">包扎</h2><p>希望你学到了一些新东西，下周一定要回来查看另一个Python片段！如果你等不及了，为什么不看看我们的<a href="https://go.tecla.do/complete-python-sale">完整Python课程</a>？有超过35个小时的材料，让你忙起来，随着测验，练习，和几个大项目！</p><p>如果您注册了下面的邮件列表，我们将不胜感激。这是了解我们所有内容的最佳方式，我们还会定期分享我们课程的折扣代码，确保您获得最优惠的价格。</p>
+</div>
+</div>    
+</body>
+</html>

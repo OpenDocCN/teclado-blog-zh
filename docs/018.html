@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Basic Linux console commands</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>基本Linux控制台命令</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/basic-linux-console-commands/">https://blog.teclado.com/basic-linux-console-commands/</a></blockquote><div><div class="post-content">
+<p>就像浏览桌面一样，能够浏览控制台也很重要。</p>
+<p>本帖是<a href="http://jslvtr.com/what-is-sudo">“sudo是什么？”</a>系列，旨在帮助理解Linux和文本控制台。</p>
+<h2 id="dealingwithfiles">处理文件</h2>
+<p>除了根文件夹之外，系统中的每个文件夹都在另一个文件夹中。这个文件夹是父文件夹。根文件夹，或最顶层的文件夹，是包含系统中所有内容的文件夹。</p>
+<p>根文件夹是:<code>/</code>。</p>
+<p>您系统中的一些用户已经关联了“个人”文件夹。你可以把这个文件夹想象成用户通常放他们自己的“文档”、“照片”等的地方。</p>
+<p>无论何时使用系统，您都必须以特定用户的身份登录。我们来看看你现在的用户是什么。</p>
+<p>打开控制台，键入以下命令:</p>
+<pre><code class="language-bash">whoami
+</code></pre>
+<p>这将告诉您当前登录的用户名。</p>
+<p>接下来，让我们导航到您用户的“个人”文件夹:</p>
+<pre><code class="language-bash">cd ~
+</code></pre>
+<p><code>cd</code>命令执行一个<strong> c </strong>焊割<strong> d </strong>工厂命令。<code>~</code>文件夹是当前用户的“个人”文件夹。</p>
+<h3 id="creatingfilesandfolders">创建文件和文件夹</h3>
+<p>要创建一个文件夹，我们使用<code>mkdir</code>命令。<br/>创建一个空文件，我们使用<code>touch</code>命令。</p>
+<pre><code class="language-bash"># This creates a folder 'documents' inside your home folder.
+mkdir ~/documents
+
+# This creates an empty file 'hello.txt' in the documents folder.
+touch ~/documents/hello.txt
+</code></pre>
+<p>如果我们想在另一个文件夹中创建一个文件夹，而这两个文件夹都不存在:</p>
+<pre><code class="language-bash">mkdir -p ~/documents/work/journal
+</code></pre>
+<p>这会创建一个名为“work”的文件夹，然后在其中创建一个名为“journal”的文件夹。如果我们省略<code>-p</code>，那么它会给出一个错误，因为它试图在一个尚不存在的文件夹中创建‘journal’文件夹(‘work’)。</p>
+<h3 id="deletingfilesandfolders">删除文件和文件夹</h3>
+<p>最后，让我们看看删除。我们使用<code>rm</code>命令删除。</p>
+<pre><code class="language-bash"># This deletes the file 'hello.txt'
+rm ~/documents/hello.txt
+# This deletes the folder 'work', including everything it contains
+rm -rf ~/documents/work
+</code></pre>
+<p>删除文件夹需要<code>-rf</code>参数。这是因为我们希望删除文件夹中的所有内容，以及文件夹。<code>r</code>代表“递归”,它告诉<code>rm</code>命令进入每个子文件夹并删除其中的所有内容。<code>f</code>参数试图删除文件，即使它们不属于当前登录的用户。</p>
+<h2 id="review">回顾</h2>
+<ul>
+<li><code>whoami</code>显示当前登录的用户。</li>
+<li><code>cd [args]</code>将目录切换到另一个目录。</li>
+<li>创建一个目录。</li>
+<li>创建一个空文件。</li>
+<li><code>rm [-rf] [args]</code>删除文件或目录。</li>
+</ul>
+
+</div>
+</div>    
+</body>
+</html>

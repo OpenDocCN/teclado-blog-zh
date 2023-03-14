@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>How to add user logins to your Flask website</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何添加用户登录到您的Flask网站</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/how-to-add-user-logins-to-your-flask-website/">https://blog.teclado.com/how-to-add-user-logins-to-your-flask-website/</a></blockquote><div><div class="post-content">
+<p>在本文中，我们将在Flask应用程序中添加基于会话的身份验证。基于会话的认证非常简单和灵活，非常适合使用<code>render_template</code>的Flask应用程序。这些应用程序最适合我们将在本帖中添加的用户登录类型。</p><h2 id="prerequisites">先决条件</h2><p>如果你手头没有Flask应用程序，这里有一些你可以使用的启动代码。它是不完整的，因为我们将在本帖中完成它！</p><p>链接:<a href="https://github.com/tecladocode/simple-flask-template-app">https://github.com/tecladocode/simple-flask-template-app</a></p><p>提供的Flask应用程序有三个端点，<code>home</code>、<code>login</code>和<code>register</code>。<code>login</code>和<code>register</code>端点包含表单。我们将使用这些表单从用户那里接收数据。</p><p>还定义了一个<code>app.secret_key</code>，用于对cookies进行加密签名(马上了解更多！).</p><h2 id="how-authentication-works">身份验证的工作原理</h2><h3 id="first-request">第一个请求</h3><p>Flask在每次请求时都会向用户发送一个cookie。这是自动发生的。用户的浏览器存储Flask发送的cookie以及发送它的网站的域。然后，每次用户访问该域时，浏览器都会发回cookie。</p><p>例如，假设用户首先通过访问域<a href="http://127.0.0.1:5000/hello">http://127 . 0 . 0 . 1:5000/hello</a>来访问我们的网站。由于这是用户第一次访问我们的网站，他们的浏览器中没有与我们的网站相关的cookie，所以他们无法向我们发送cookie。</p><p>Flask生成一个新的浏览器，并在其中存储这个新浏览器的唯一标识字符串。请记住，一个浏览器可能是一个用户，但也可能是多人在使用同一个浏览器。这个以后会有关系。</p><p>当我们的Flask应用程序响应时，它将自动附加这个新的cookie。然后用户的浏览器存储它(只要用户启用了cookies！).在将来的请求中，用户的浏览器将包含这个cookie和其他请求数据。</p><p>现在让我们看看任何后续请求会发生什么。</p><h3 id="subsequent-requests">后续请求</h3><p>假设现在用户向<a href="http://127.0.0.1:5000/another">http://127 . 0 . 0 . 1:5000/另一个</a>发出请求。这一次，用户的浏览器有一个与我们的域相关的cookie，所以默认情况下它会将它包含在请求中。</p><p>当Flask收到请求中的cookie时，它提取唯一标识发出请求的浏览器的信息。现在Flask知道了发出请求的浏览器的一些信息。但是它知道什么呢？嗯，那要看我们想存什么了！</p><p>cookies的这种机制允许Flask识别浏览器，对于每个浏览器，它可以存储任意信息。例如，如果用户向我们发送他们的名字，我们可以根据他们的浏览器存储他们的名字，这样如果他们向我们发送cookie，我们就可以在后续的请求中记住他们的名字。</p><p>我们用<code>secret_key</code>给饼干签名。这就是我们的Flask应用程序可以告诉<em>它</em>创建了cookie，而不是一个不同的应用程序。<code>secret_key</code>应该是长的、安全的、秘密的。否则，很容易有人创建一个假的cookie，并将其输入我们的应用程序。他们可以欺骗我们，让我们以为他们是以另一个用户的身份登录的，然后窃取他们的数据！</p><p>针对浏览器存储数据称为“创建会话”。因此，cookie是浏览器保存的数据，会话是服务器保存的数据。他们是有联系的，但也是分离的。</p><h2 id="user-authentication">用户认证</h2><p>通过这种机制，我们将实现用户登录。因为我们可以为每个浏览器存储一些信息，所以我们可以使用这些信息来存储浏览器是否“登录”。</p><p>流程是这样的:</p><ol><li>用户向我们发送有效的用户名和密码。</li><li>我们验证它们是有效的。</li><li>如果是，我们将用户的用户名存储在会话中的浏览器中。</li><li>当这个浏览器向我们发送请求时，我们可以将其视为“已登录”的浏览器。我们这样做是因为它们包含了适当的cookie，当我们得到相关的会话时，我们可以看到其中有一个用户名。请记住，只有在他们之前成功登录的情况下，才会有用户名。</li><li>如果用户想要注销，我们只需从他们的会话中删除数据。在以后的请求中，我们不会在那里看到用户名，所以我们将浏览器视为“注销”。</li></ol><p>概括一下:如果会话包含用户名，我们将该请求视为登录请求。如果没有，我们会将其视为注销请求。</p><h3 id="implementing-login">实现登录</h3><p>让我们看看如何实现Flask端点来验证(登录)用户。我们必须通过模板中的表单从用户那里接收数据。这将通过一个<code>POST</code>请求来完成，因为这是提供的示例代码中表单的方法。</p><pre><code class="language-python">@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username in users and users[username][1] == password:
+            session["username"] = username
+            return redirect(url_for("home"))
+    return render_template("login.jinja2")
+</code></pre>
+<p>我们在这里所做的首先是，允许这个端点接收<code>GET</code>和<code>POST</code>请求。</p><p>然后，如果我们正在处理一个<code>POST</code>请求，我们知道我们正在处理表单数据。我们将尝试从表单数据中获取用户名和密码。</p><p>如果用户名是我们的用户之一，并且他们的密码是正确的，那么我们将把他们的用户名存储在会话中的<code>session["username"]</code>下。</p><p>然后，我们将它们重定向到主页，如果用户名在会话中，我们将显示用户名(如果不在会话中，则显示<code>"Unknown"</code>):</p><pre><code class="language-python">@app.route("/")
+def home():
+    return render_template("home.html", name=session.get("username", "Unknown"))
+</code></pre>
+<p>在任何其他端点中，您可以检查用户是否登录，有可能将他们重定向到他们可以登录的另一个端点。</p><p>正常的流程是检查<code>session</code>是否包含用户名。如果是，那么用户被登录，您可以允许您的端点做它的事情。如果没有，那么您可以将它们重定向到登录端点(以与上面相同的方式)。</p><h3 id="implementing-register">实现寄存器</h3><p>注册用户非常简单。根据他们给我们的用户名和密码数据，我们只需检查用户名是否已经存在。然后我们将它添加到字典中:</p><pre><code class="language-python">@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username not in users:
+            users[username] = (username, password)
+    return render_template("register.html")
+</code></pre>
+<p>注意，<code>login</code>和<code>register</code>端点都缺少一些关键的错误处理。当用户的用户名或密码不正确时，以及当他们试图注册一个已经存在的用户名时，告诉他们总是好的。目前我们的代码两者都没有。</p><h3 id="implementing-logout">实施注销</h3><p>要注销用户，我们只需清除会话—从会话中删除用户名意味着后续请求将被视为“注销”。请注意，浏览器仍然有cookie，Flask仍然有会话。它只会是空的。</p><pre><code class="language-python">@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("home"))
+</code></pre>
+<h3 id="final-code">最终代码</h3><p>请看一下我们带有用户认证的简单应用程序的最终完整代码。</p><p>我们已经实现了登录、注销和用户注册。</p><p>链接:<a href="https://github.com/tecladocode/simple-flask-template-app/tree/feature/login">https://github . com/tecladocode/simple-flask-template-app/tree/feature/log in</a></p><h2 id="on-flask-apps-that-don-t-render-templates">在不渲染模板的Flask应用程序上</h2><p>这种身份验证方法只适用于既提供内容又处理用户数据的应用程序。它不能在用JavaScript开发的网络应用上运行。这是因为这种基于会话的身份验证要求Python代码可以在每次请求或页面更改时读取针对用户存储的数据。</p><p>对于使用JavaScript的web应用程序，您可能希望使用基于令牌的身份验证。我们在<a href="https://blog.teclado.com/simple-jwt-authentication-with-flask-jwt/">这篇博文</a>中谈到了这一点。</p><p>想了解关于基于会话的身份验证的更多信息，包括如何拥有不同类型的用户和访问级别？查看<a href="https://blog.teclado.com/learn-python-defining-user-access-roles-in-flask/">这篇博文</a>！</p><h2 id="authentication-extensions-for-flask">Flask的验证扩展</h2><p>Flask有一些扩展可以帮你做很多这方面的工作。然而，在使用它们之前，理解这一切在幕后是如何工作的是很重要的。现在您已经知道了它是如何工作的，您可以考虑使用一个扩展。</p><p><a href="https://flask-login.readthedocs.io/en/latest/"> Flask-Login </a>就是这样一个扩展，它可以为你做以下事情:</p><ul><li>将活动用户的ID存储在会话中，让您可以轻松地登录和注销他们。</li><li>允许您将视图限制为登录(或注销)的用户。</li><li>处理通常棘手的“记住我”功能。</li><li>帮助保护您的用户会话不被cookie窃贼窃取。</li></ul><p>如果您想了解更多信息，我建议您阅读官方文档。</p><h2 id="wrapping-up">包扎</h2><p>如果你正在学习Python，并且对这类内容感兴趣，一定要在<a href="https://twitter.com/TecladoCode"> Twitter </a>上关注我们，或者注册我们的邮件列表，以获得所有最新内容。如果你感兴趣，在这一页的底部有一个表格。</p><p>我们还有一个<a href="https://www.udemy.com/the-complete-python-web-course-learn-by-building-8-apps?couponCode=BLOGGER">完整的Python Web课程</a>用于更深入的培训和教程，以及多个项目的演练。我们有一个30天的退款保证，所以你真的没有什么损失，尝试一下。我们很希望你能来！</p><p>另外，注册我们下面的邮件列表。我们将每月向我们的订户发送折扣代码！</p>
+</div>
+</div>    
+</body>
+</html>

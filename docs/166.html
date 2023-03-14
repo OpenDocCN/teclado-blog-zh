@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>Day 27: Setting Up a Local Development Environment | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第27天:设置本地开发环境| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-27-local-development/">https://blog.teclado.com/python-30-day-27-local-development/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第27天！今天我们将离开repl.it，建立一个本地开发环境！</a></p>
+<p>这意味着我们将安装Python的本地版本，以及一个功能更全的编辑器PyCharm。我们还将讨论如何安装软件包，以便您可以使用第三方库。</p>
+<h2>为什么要建立本地开发环境？</h2>
+<p>当考虑是否从<a href="http://repl.it"> repl.it </a>迁移到本地环境时，最重要的问题是:为什么？</p>
+<p>第一个原因是可靠性。</p>
+<p>如果你已经在电脑上安装了你的作品和代码编辑器，那么你就不需要依赖<a href="http://repl.it"> repl.it </a>为你工作来编写代码。你不需要互联网连接，也不需要repl，它是服务器在工作。</p>
+<p>第二个原因是速度。</p>
+<p>随着应用程序变得越来越大越来越复杂，<a href="http://repl.it"> repl.it </a>会变得很慢。这是因为在<a href="http://repl.it"> repl.it </a>上运行代码需要很多额外的步骤。毕竟，使用replit时，我们实际上不是在自己的电脑上运行代码，而是在<em>他们的</em>电脑上运行代码。</p>
+<p>您的计算机也可能比repl.it使用的计算机功能强大得多，因为功能强大的计算机运行起来更昂贵。</p>
+<p>Repl.it 非常适合入门、分享代码和创建小应用程序。随着您越来越熟练并创建更大的应用程序，使用本地开发环境变得不可避免。</p>
+<h2>您当地的发展选择</h2>
+<p>当建立本地开发环境时，我们需要做的第一件事是建立一个新的地方来实际编写我们的代码。在本帖中，我们将设置PyCharm。</p>
+<p>PyCharm是一个代码编辑器，因为它允许您编辑代码，但它实际上远不止于此。它有内置的工具来帮助您处理数据库、网络连接和非常大的Python应用程序。这是一个完全围绕开发Python应用程序而构建的代码编辑器。</p>
+<p>这当然不是你唯一的选择。代码编辑器，如Atom、Sublime Text、Vim或Visual Studio代码，也是优秀的工具，但它们通常需要更多的初始设置，并且它们不像PyCharm那样为您做很多事情。</p>
+<p>随着您对Python了解的越来越多，以及您探索本地开发的不同选择，您可能会发现您更喜欢使用某种工具而不是另一种。</p>
+<p>那完全没问题！每个人都有自己的喜好！</p>
+<p>但是由于这是我们第一次设置本地开发环境，我们将指导您安装PyCharm。我们认为这是你起步时最好的工具。</p>
+<h2>如何安装Python</h2>
+<p>自然地，为了在你的计算机上编写和运行Python代码，我们现在必须安装Python。</p>
+<p>当我们安装Python时，我们得到了一个可以执行我们的Python文件的程序。</p>
+<p>这个程序叫做“Python解释器”。它解释并运行我们的Python代码，允许我们做Python能做的一切。</p>
+<p>要安装Python我会推荐去<a href="https://python.org">官网</a>下载最新版本。目前，这是Python 3.8。</p>
+<p>文件下载完成后，像打开普通程序一样打开安装程序。</p>
+<h3>注意</h3>
+<p>如果您使用的是Windows，请确保在安装程序的第一个屏幕中选中“将Python添加到路径”复选框。</p>
+<p>您应该将Python安装在您想要存储代码的同一个驱动器中。如果你只有一个驱动器，那么不要担心这个。</p>
+<p>像往常一样浏览安装程序屏幕，当你看到告诉你<em>Python将被安装在哪里的屏幕时，一定要记住它将被安装在哪里。我们以后需要这个！</em></p>
+<p>一旦安装完成，Python就安装好了！</p>
+<h2>你的第一个PyCharm项目</h2>
+<h3>安装PyCharm</h3>
+<p>PyCharm有两个版本:社区版和专业版。我们想安装社区版，因为它是免费的。</p>
+<p>你可以从这里下载社区版:<a href="https://www.jetbrains.com/pycharm/download/">https://www.jetbrains.com/pycharm/download/</a></p>
+<p>您可以像安装任何其他程序一样安装PyCharm，只需运行安装程序屏幕。</p>
+<h3>选择口译员</h3>
+<p>当您启动PyCharm时，您会看到这样一个屏幕。我在那里有很多项目，但你目前不会有任何项目！<img alt="" src="../Images/926c31f34033dbfe59abda2ad835decb.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.15.16.png"/>我们想要创建一个新项目，所以让我们点击“创建新项目”按钮。然后您会看到类似这样的内容:<img alt="" src="../Images/cec8e1f4577f4ea8e1e0381e6f8dfb39.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.15.47.png"/>这里我们想为我们的项目选择一个位置。对我来说，那就是<code>/Users/jslvtr/Documents/first-pycharm-project</code>。我的项目文件夹会是<code>first-pycharm-project</code>。我所有的代码都将存放在那里。</p>
+<p>然后，我们想告诉PyCharm这个项目将在哪个版本的Python上运行。</p>
+<p>为此，单击旁边的小箭头展开“项目解释器”下拉菜单:<img alt="" src="../Images/ce48ec9b6bbb16ef3917da97236d9c78.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.16.01.png"/>，然后选择“现有解释器”:<img alt="" src="../Images/9b81db4627717adc1d1ab256ab6f0cd0.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.18.56.png"/>，找到您已经安装的Python版本。您应该可以在那里看到Python 3.8。</p>
+<h3>注意</h3>
+<p>如果您看不到Python 3.8，并且您刚刚安装了Python，请重启您的计算机，然后重试。如果这不起作用，那么我们必须告诉PyCharm在哪里可以找到Python。</p>
+<p>现在我们要添加一个新的解释器到PyCharm，点击下拉菜单旁边的三个点:<img alt="" src="../Images/6fa564318d4b79c76840ec617694fb1a.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.18.56--1-.png"/>，然后点击“系统解释器”。<img alt="" src="../Images/789daff77be9126d38201ef92ba407ed.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.18.52.png"/>在这个下拉列表中，您可以找到Python 3.8。如果有，选择它并按“确定”。如果没有，那么单击这三个点，然后导航到安装Python的文件夹。然后找到<code>python.exe</code>文件(如果在Windows上)或<code>python</code>文件(如果在Mac或Linux上)。</p>
+<p>单击OK，PyCharm现在将知道您的Python安装在哪里。</p>
+<p>接下来，我们可以在新项目窗口中单击“Create ”, py charm将开始创建我们的项目！</p>
+<h3>安装所需的软件包</h3>
+<p>我们经常需要使用外部包。在<a href="http://repl.it"> repl.it </a>上，每当我们运行使用它们的应用程序时，它们就会被自动安装。</p>
+<p>在这里，我们必须在运行应用程序之前安装它们。</p>
+<p>这样做的好处是，一旦安装了它们，就不必每次都重新安装。这样我们会节省很多时间！</p>
+<p>要安装软件包，我们必须进入PyCharm设置(在Windows上)或PyCharm首选项(在Mac上)。</p>
+<p>然后，找到项目{name} →项目解释器面板:<img alt="" src="../Images/ad475799f4d6b4cde32a8727541715ef.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.19.27.png"/>一旦我们到了那里，我们会看到实际上已经安装了几个包。这很正常，因为Python附带了一些有用的包。你可能没有我安装的那么多软件包！</p>
+<p>我们可以点击小的“加号”图标来找到要安装的新包:<img alt="" src="../Images/eaf7b3affb23f72c1d50ea436b53a5f7.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.19.27--1-.png"/>，在那里，键入我们想要的包的名称。比如<code>requests</code>。<img alt="" src="../Images/67cde352b2e13395b4f2cad4d0a926bb.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.19.55.png"/>注意，可能会出现许多名称相似的包。我们必须小心选择正确的。</p>
+<p>单击“安装”，软件包将被安装。从现在开始，任何使用与这个项目相同的解释器的Python项目都可以使用我们安装的包。</p>
+<h3>运行我们的Python文件</h3>
+<p>为了运行我们的Python文件，我们必须告诉PyCharm如何做。</p>
+<p>首先，让我们通过右键单击项目文件夹(在左侧)来创建一个<code>app.py</code>文件，并在那里创建该文件。<img alt="" src="../Images/40595886278f99c88207cb111c4c6925.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.20.50.png"/>创建完成后，我们可以添加一些代码来确保它正常工作:</p>
+
+
+<p>然后，右键单击该文件(不需要保存，PyCharm会帮您保存)并找到“Run ...”菜单。<img alt="" src="../Images/49f724e0c5e588cf1f9141a470318f32.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.21.10.png"/>就是这样！您应该在底部看到输出。</p>
+<p>在右上方，你也可以看到一个“播放”按钮，只有在你运行该文件后它才会被激活。从现在开始，你可以用那个按钮运行同一个文件。</p>
+<p>如果你想运行一个不同的文件，右击它并运行它。然后会添加到右上方，如下图:<img alt="" src="../Images/306e5e3bed70aaca4b5b29b8f27af14b.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Screenshot_2020-04-10_at_18.21.48.png"/>只要记得选择你要运行的文件就可以了！忘记这样做是一个常见的错误，然后当事情没有像预期的那样工作时，它会令人困惑！</p>
+<h2>练习</h2>
+<p>说到练习，我们今天没什么可要求你做的！</p>
+<p>安装PyCharm，创建一个项目，然后用它来玩一玩！试着在那里运行一些你的repl.it项目。</p>
+<p>你也可以改变PyCharm的设置(如主题和字体)来适应你喜欢的。我经常使用深色主题，和比大多数人使用的更大的字体！</p>
+<h2>项目</h2>
+<p>虽然今天没有什么练习，但是今天是项目日！今天我们将学习如何使用一个名为<code>pandas</code>的非常强大的库，它用于处理关系数据。</p>
+<p>我们将使用<code>pandas</code>非常容易地分析超过18，000行的真实数据集。点击查看<a href="/30-days-of-python/python-30-day-27-project">。</a></p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

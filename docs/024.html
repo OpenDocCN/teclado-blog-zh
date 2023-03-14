@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>How to install NodeJS on Mac, Linux, and Windows</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何在Mac、Linux和Windows上安装NodeJS</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/how-to-install-nodejs-on-mac-linux-and-windows/">https://blog.teclado.com/how-to-install-nodejs-on-mac-linux-and-windows/</a></blockquote><div><div class="post-content">
+<p>安装NodeJS可能是一个痛苦和令人困惑的经历。有官方安装程序，包管理器，脚本...你应该用哪一个？</p>
+<h2 id="onunixosxlinux">在UNIX上(OS X和Linux)</h2>
+<p>如果您还没有安装NodeJS的版本，最简单的安装方法是使用节点版本管理器。</p>
+<p>官方指令是<a href="https://github.com/creationix/nvm#installation">页面中的</a>，或者在控制台中执行以下命令:</p>
+<pre><code>curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | bash
+</code></pre>
+<p>然后，重启终端并执行<code>nvm</code>命令。您应该会看到除“未找到命令”之外的内容。</p>
+<p>如果没有，运行<code>touch ~/.bash_profile</code>并再次运行安装脚本:</p>
+<pre><code>touch ~/.bash_profile
+
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | bash
+</code></pre>
+<p>如果这仍然不能解决您的问题，那么运行以下命令并重新启动您的终端:</p>
+<pre><code>echo "source ~/.bashrc" &gt;&gt; ~/.bash_profile
+</code></pre>
+<p>现在，我们准备使用nvm安装最新版本的Node:</p>
+<pre><code>nvm install node
+</code></pre>
+<blockquote>
+<p>如果这是您随nvm安装的第一个node版本，它将自动成为默认版本。例如，如果您想更改默认设置，可以通过<code>nvm alias default 8.5.0</code>来实现。</p>
+</blockquote>
+<h2 id="onwindows">在Windows上</h2>
+<p>如果你只需要NodeJS的一个版本(即你不需要任何东西的多个版本)，那么<a href="https://nodejs.org/en/download/">官方安装程序</a>是Windows中最简单的方法。</p>
+<p>一旦安装完毕，你应该能够打开<code>cmd.exe</code>并运行<code>node</code>和<code>npm</code>命令！</p>
+
+</div>
+</div>    
+</body>
+</html>

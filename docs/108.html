@@ -1,0 +1,275 @@
+<html>
+<head>
+<title>Day 3: Formatting Strings and Processing User Input | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第3天:格式化字符串和处理用户输入</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-3-string-formatting/">https://blog.teclado.com/python-30-day-3-string-formatting/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第3天！在本帖中，我们将讨论连接字符串(将字符串连接在一起)、字符串插值(将值放入字符串)以及处理用户输入。我们还将讨论如何使用注释更好地记录我们的代码。</a></p>
+<p>如果你错过了<a href="/30-days-of-python/python-30-day-2-strings-variables">第二天</a>，如果你对以下任何一点感到不舒服，我建议你检查一下:</p>
+<ul>
+<li>用线串</li>
+<li>定义变量</li>
+<li><code>input</code>功能</li>
+<li>如何阅读错误信息</li>
+</ul>
+<p>我希望你对此感到兴奋，因为这些工具将让我们做一些非常酷的事情！</p>
+<h2>串并置</h2>
+<p>我想从上一篇文章的练习中的一个例子开始:</p>
+<div class="codehilite"><pre><span/><code><span class="n">hourly_wage</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your hourly wage: "</span><span class="p">)</span>
+<span class="n">hours_worked</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"How many hours did you work this week? "</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hourly wage:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hourly_wage</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hours worked:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hours_worked</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我们要求用户提供两条信息，然后我们将这些信息连同一些标题一起打印回控制台。</p>
+<p>这很好，但是如果我们能让<code>hourly_wage</code>值和<code>"Hourly wage:"</code>标签在同一行不是很好吗？这就是字符串连接(将两个或多个字符串连接在一起)的用武之地。</p>
+<p>连接东西意味着把东西连接在一起，这就是我们想用绳子做的事情。我们想要获取字符串<code>"Hourly wage:"</code>，并且我们想要将我们分配给变量<code>hourly_wage</code>的字符串连接到它。</p>
+<p>在Python中，我们可以使用<code>+</code>操作符来实现这一点，就像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">hourly_wage</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your hourly wage: "</span><span class="p">)</span>
+<span class="n">hours_worked</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"How many hours did you work this week? "</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hourly wage:"</span> <span class="o">+</span> <span class="n">hourly_wage</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hours worked:"</span> <span class="o">+</span> <span class="n">hours_worked</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里有一个问题，很像我们在编写输入提示时遇到的问题。<code>hourly_wage</code>和<code>hours_worked</code>的值将直接在我们要连接的字符串的最后一个字符旁边结束。为了避免这种情况，我们需要记住添加一个空格:</p>
+<div class="codehilite"><pre><span/><code><span class="n">hourly_wage</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your hourly wage: "</span><span class="p">)</span>
+<span class="n">hours_worked</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"How many hours did you work this week? "</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hourly wage: "</span> <span class="o">+</span> <span class="n">hourly_wage</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hours worked: "</span> <span class="o">+</span> <span class="n">hours_worked</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这个操作是另一个表达式，它将计算包含两个字符串的字符的新字符串。</p>
+<p>就像我们使用<code>+</code>将数字相加一样，我们可以使用<code>+</code>将任意多的字符串链接在一起。但是，我们必须非常小心，不要组合类型。</p>
+<p>例如，我们不能这样做，我们试图将一个整数连接到一个字符串上:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="s2">"Hourly wage: "</span> <span class="o">+</span> <span class="mi">20</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果我们运行这段代码，Python将会引发一个异常:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+    <span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Hourly wage: "</span> <span class="o">+</span> <span class="mi">20</span><span class="p">)</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">can</span> <span class="n">only</span> <span class="n">concatenate</span> <span class="nb">str</span> <span class="p">(</span><span class="ow">not</span> <span class="s2">"int"</span><span class="p">)</span> <span class="n">to</span> <span class="nb">str</span>
+</code></pre></div>
+
+<p>这次我们得到了一个<code>TypeError</code>，它告诉我们我们已经尝试将一个<code>int</code>(整数)连接到一个<code>str</code>(字符串)，但是这个操作只在字符串之间受支持。</p>
+<p>所以现在的问题是，如果我们需要执行一些算术运算，然后把结果放在一个字符串中，我们该怎么办？幸运的是，Python为我们提供了一些将一种类型的值转换成另一种类型的工具。</p>
+<h2>转换字符串、整数和浮点数</h2>
+<p>首先，我们来谈谈整数和浮点到字符串的转换。我们将要使用的工具被方便地命名为<code>str</code>，我们可以认为它非常像一个函数。</p>
+<p>当我们调用<code>str</code>时，传入一个整数或一个浮点数，我们将得到一个新的字符串，其中包含组成数字的数字，以及一个小数点字符(在浮点数的情况下)。</p>
+<p>例如，我们可以这样写:</p>
+
+
+<p>它会给<code>age</code>赋值，就像我们写的一样:</p>
+
+
+<p>从字符串到整数或浮点数的转换稍微复杂一些，因为不是每个字符串都是有效数字。此外，即使一个字符串是一个有效的数字，它也可能不是我们要转换的类型的有效数字。</p>
+<p>如果我们想把一个字符串转换成一个整数，我们需要调用<code>int</code>，传入字符串。字符串中的字符必须代表整数。</p>
+
+
+<p>如果我们试图传递一个带有小数部分的数字的字符串表示，我们将得到一个<code>TypeError</code>。例如，类似这样的事情:</p>
+<div class="codehilite"><pre><span/><code><span class="n">hourly_wage</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s2">"18.50"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>将引发以下异常:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+    <span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+        <span class="nb">int</span><span class="p">(</span><span class="s2">"18.50"</span><span class="p">)</span>
+<span class="ne">ValueError</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">literal</span> <span class="k">for</span> <span class="nb">int</span><span class="p">()</span> <span class="k">with</span> <span class="n">base</span> <span class="mi">10</span><span class="p">:</span> <span class="s1">'18.50'</span>
+</code></pre></div>
+
+<p>Instead of <code>int</code> , we’d need to call <code>float</code> here instead:</p>
+<div class="codehilite"><pre><span/><code><span class="n">hourly_wage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"18.50"</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>float</code>也可以处理没有小数成分的输入。例如，如果我们传入<code>"20"</code>，我们将把浮动<code>20.0</code>拿回来。</p>
+<p>除了从字符串到整数和浮点数的转换，以及从<em>到整数和浮点数的转换</em>，我们还可以使用相同的<code>int</code>和<code>float</code>在整数和浮点数之间进行转换。在这种情况下，向<code>int</code>传递一个浮点数是可行的，但是它将“截断”这个浮点数，实质上是丢弃小数点后的所有内容。</p>
+<p>截断是指通过删除某些部分来缩短某物的行为。例如，我们可以截断一个浮点数，这意味着我们要删除小数点后的所有内容。</p>
+<h2>用<code>format</code>方法进行字符串插值</h2>
+<p>字符串连接是一个需要了解的有用的东西，但是它有点笨拙，并且容易出现空格错误，正如我们已经看到的。更好的方法通常是使用字符串插值，尤其是在处理具有类似句子结构的内容时。</p>
+<p>字符串插值是将一些新内容插入到现有字符串中的行为。</p>
+<p>与串联不同，插值依赖于我们在字符串中放置占位符，我们可以用值来填充。这使得格式问题变得更加困难，因为占位符就在值将要占据的位置上。插值的另一个好处是:我们不用担心类型！Python将确保我们得到所有值的字符串表示。</p>
+<p>在Python中有几种方法可以执行字符串插值，但首先我们要看看如何使用<code>format</code>方法。</p>
+<p>当使用<code>format</code>方法时，我们的值的占位符是花括号，看起来像这样:<code>{}</code>。例如，假设我们要编写一个字符串，如下所示:</p>
+
+
+<p>但是，我们希望能够在这里写出任何姓名和年龄，而不仅仅是<code>"John"</code>和<code>"24"</code>。我们要做的就是用花括号替换<code>"John"</code>和<code>"24"</code>，就像这样:</p>
+
+
+<p>这是一个完全有效的字符串，我们甚至可以以它当前的形式打印它。如果我们愿意，我们也可以把它赋给一个变量，这通常是非常有用的。</p>
+<p>在这两种情况下，为了填充值，我们需要用占位符对字符串调用<code>format</code>方法，这将产生一个新的字符串。我们使用如下的点符号:</p>
+<div class="codehilite"><pre><span/><code><span class="s2">"</span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2"> years old!"</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+</code></pre></div>
+
+<p>但是我们还没有完成，因为<code>format</code>需要知道哪些值应该放入字符串中。实际上有几种方法可以做到这一点，但最简单的方法是按照我们希望占位符放置的顺序为每个占位符传递一个format表达式。</p>
+<p>例如，我们可以这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="s2">"</span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2"> years old!"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"John"</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span>
+</code></pre></div>
+
+<p>给我们一个新的字符串，结果字符串将包含:</p>
+
+
+<h2>使用<code>format</code>的替代方式</h2>
+<p>通常只需按顺序传入值就足够了，但是我们还有其他选择。</p>
+<p>例如，假设我们有这样一个字符串:</p>
+<div class="codehilite"><pre><span/><code><span class="s2">"</span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2"> years old, and </span><span class="si">{}</span><span class="s2"> works as a </span><span class="si">{}</span><span class="s2">."</span>
+</code></pre></div>
+
+<p>这里的目的是让我们的输出看起来像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="s2">"John is 24 years old, and John works as a web developer"</span>
+</code></pre></div>
+
+<p>这里我们在两个不同的地方使用这个名字。利用我们现有的知识，我们可以按顺序为每个占位符传入一个值:</p>
+<div class="codehilite"><pre><span/><code><span class="n">output</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2"> years old, and </span><span class="si">{}</span><span class="s2"> works as a </span><span class="si">{}</span><span class="s2">."</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"John"</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="s2">"John"</span><span class="p">,</span> <span class="s2">"web developer"</span><span class="p">))</span>
+</code></pre></div>
+
+<p>然而，这有点笨拙。我们可以给占位符编号，而不是这样做，这将让我们重用值。</p>
+<p>需要注意的一点是，我们在编程时从<code>0</code>开始计数，所以我们传入的第一个值是值<code>0</code>，而不是值<code>1</code>。</p>
+<p>考虑到这一点，我们将上面的代码重写如下:</p>
+<div class="codehilite"><pre><span/><code><span class="n">output</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2"> is </span><span class="si">{1}</span><span class="s2"> years old, and </span><span class="si">{0}</span><span class="s2"> works as a </span><span class="si">{2}</span><span class="s2">."</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"John"</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="s2">"web developer"</span><span class="p">))</span>
+</code></pre></div>
+
+<p>这要好得多，尤其是如果我们一次又一次地使用相同的值。然而，更好的方法通常是为占位符使用名称。这很像使用变量。</p>
+<p>我们首先在每个占位符中写一些名字，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">output</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{name}</span><span class="s2"> is </span><span class="si">{age}</span><span class="s2"> years old, and </span><span class="si">{name}</span><span class="s2"> works as a </span><span class="si">{job}</span><span class="s2">."</span>
+</code></pre></div>
+
+<p>现在我们可以这样调用<code>format</code>方法:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"John"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">job</span><span class="o">=</span><span class="s2">"web developer"</span><span class="p">))</span>
+</code></pre></div>
+
+<p>我们这里说的是，我们希望用<code>"John"</code>代替<code>name</code>；<code>age</code>替换为<code>24</code>；将<code>job</code>替换为<code>"web developer"</code>。</p>
+<p>在本系列的后面，我们将更详细地了解实际发生的情况。</p>
+<h2>用f-字符串进行字符串插值</h2>
+<p><code>format</code>方法真的很有用，但是在Python 3.6中，我们有了一个叫做f-strings的新语法，这使得字符串插值在很多情况下变得更加容易。</p>
+<p>我们先来看一个例子。这里是我们早期使用<code>format</code>的一个例子:</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="s2">"John"</span>
+<span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+
+<span class="s2">"</span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2"> years old!"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span>
+</code></pre></div>
+
+<p>下面是使用较新的f字符串语法的相同示例:</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="s2">"John"</span>
+<span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+
+<span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old!"</span>
+</code></pre></div>
+
+<p>首先要注意的是这个<code>f</code>就在我们要插入值的字符串之前。这就是f字符串得名的地方，它告诉Python我们想要格式化下面的字符串。</p>
+<p>另一件有趣的事情是，我们在占位符中直接引用了值。这不像在<code>format</code>中，我们命名占位符:我们直接引用花括号中的值。</p>
+<p>我们可以在这里写任何我们想要的表达式。例如，让我们在字符串中计算John的月龄:</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="s2">"John"</span>
+<span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+
+<span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">12</span><span class="si">}</span><span class="s2"> months old!"</span>
+</code></pre></div>
+
+<p>如果你想知道的话，f字符串也是表达式，所以我们可以把它们赋给名字，或者我们可以打印出来。</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="s2">"John"</span>
+<span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">12</span><span class="si">}</span><span class="s2"> months old!"</span><span class="p">)</span>
+</code></pre></div>
+
+<h2>评论</h2>
+<p>使用好的、描述性的名字，我们可以做很多事情来使我们的代码自文档化；然而，有时即使伟大的代码也很难推理。毕竟，有些事情很复杂。</p>
+<p>在这种情况下，使用注释向我们代码的读者(包括我们)解释代码在做什么是很有用的。</p>
+<p>为了写评论，我们只需要在想要写的消息前直接加一个<code>#</code>。这将告诉Python不要把后面的内容当作代码。</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="s2">"John"</span>
+<span class="n">age</span> <span class="o">=</span> <span class="mi">24</span>
+
+<span class="c1"># prints the person's name and age in months</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">age</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">12</span><span class="si">}</span><span class="s2"> months old!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>尽量不要使用过多的注释，因为在每隔一行使用注释对于可读性来说弊大于利。</p>
+<h2>基本字符串处理</h2>
+<p>在这篇文章中，我想提到的最后一件事是一些常见的字符串处理操作，比如改变字母的大小写，或者删除空格(空格字符、制表符、换行符等等。)从弦的两端。当我们处理用户输入时，这种事情经常发生。</p>
+<p>我们有许多不同的选项来改变字符串中字母的大小写。这里我们将重点关注四个重要选项:<code>lower</code>、<code>upper</code>、<code>capitalize</code>和<code>title</code>。</p>
+<p><code>lower</code>和<code>upper</code>分别将整个字符串变成小写和大写。没有大小写的字符，如标点符号，将被忽略。</p>
+<p><code>capitalize</code>将要把第一个字符变成大写，其余的都是小写。<code>title</code>将把字符串转换为标题大小写，这意味着每个单词都以大写字母开头，所有其他字母都转换为小写字母。</p>
+<p>为了使用这些方法，我们只需要再次使用点符号，就像使用<code>format</code>一样。</p>
+<div class="codehilite"><pre><span/><code><span class="s2">"Hello, World!"</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>       <span class="c1"># "hello, world!"</span>
+<span class="s2">"Hello, World!"</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>       <span class="c1"># "HELLO, WORLD!"</span>
+<span class="s2">"Hello, World!"</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>  <span class="c1"># "Hello, world!"</span>
+<span class="s2">"hello, world!"</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>       <span class="c1"># "Hello, World!"</span>
+</code></pre></div>
+
+<p>在每种情况下，我们都要写一个表达式，在所请求的情况下，表达式的值是一个新的字符串。</p>
+<p>在改变大小写方面没有太多的问题，但是从字符串末尾删除空白又如何呢？为此，我们可以使用<code>strip</code>方法。</p>
+<p>实际上比这要灵活得多，我们可以让它删除我们喜欢的任何内容，但默认情况下，它会给我们一个闪亮的新字符串，两端任何多余的空白都被删除了。</p>
+<p>我们使用它的方式和<code>lower</code>、<code>upper</code>等完全一样。</p>
+<div class="codehilite"><pre><span/><code><span class="s2">"  Hello, World!  "</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># "Hello, World!"</span>
+</code></pre></div>
+
+<h3>多次处理</h3>
+<p>我们可以对一个字符串应用多种处理方法。让我告诉你两种方法。</p>
+<p>第一种方法是创建一个变量，并在每次方法调用时给它重新赋值，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">user_name</span> <span class="o">=</span> <span class="s2">" ROLF SMITH  "</span>
+<span class="n">user_name</span> <span class="o">=</span> <span class="n">user_name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># "ROLF SMITH"</span>
+<span class="n">user_name</span> <span class="o">=</span> <span class="n">user_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>  <span class="c1"># "Rolf Smith"</span>
+</code></pre></div>
+
+<p>虽然这非常冗长，并且多次重新分配给一个变量通常感觉不是最佳的和低效的(尽管无论如何也不会<em>慢</em>，Python可以非常快地重新分配给变量)。</p>
+<p>第二种方法是使用每一步<em>的结果内联</em>，就像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">user_name</span> <span class="o">=</span> <span class="s2">" ROLF SMITH  "</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+</code></pre></div>
+
+<p>当我们看函数和返回值的时候，我们将会更好地了解它是如何工作的，但是现在把每个方法调用，比如<code>" ROLF SMITH  ".strip()</code>，当作它将返回给你的字符串。</p>
+<p>因此，即使在这样的内联调用中，这三个也是等价的:</p>
+<p><img alt="Equivalent code expressions when calling methods in Python" src="../Images/85d3c430782215c5abd2f8f828d47c9f.png" data-original-src="https://images.ctfassets.net/qmzb3ejrt9aj/3zBoINiXvmEXkonyMt5ZxD/7900e4867866033c55c7d9a8e9b6ffff/Equivalent_code_expressions.png"/></p>
+<h2>练习</h2>
+<ol>
+<li>使用下面的变量，打印<code>"Hello, world!"</code>。</li>
+</ol>
+<div class="codehilite"><pre><span/><code><span class="n">greeting</span> <span class="o">=</span> <span class="s2">"Hello, world"</span>
+</code></pre></div>
+
+<p>您可以使用字符串串联、<code>format</code>或f字符串来添加缺少的感叹号。选择权在你。</p>
+<ol>
+<li>询问用户的姓名，然后问候用户，将他们的姓名作为问候的一部分。名称应该是大写的，并且不应该被任何多余的空格包围。</li>
+</ol>
+<p>例如，如果用户输入<code>"lewis "</code>，您的输出应该是这样的:</p>
+
+
+<ol>
+<li>将字符串<code>"I am "</code>和整数<code>29</code>连接起来，产生一个字符串<code>"I am 29"</code>。</li>
+</ol>
+<p>请记住，我们只能将字符串连接到其他字符串，因此在执行连接之前，您必须将整数转换为字符串。</p>
+<ol>
+<li>使用字符串插值法格式化并打印以下信息:</li>
+</ol>
+<div class="codehilite"><pre><span/><code><span class="n">title</span> <span class="o">=</span> <span class="s2">"Joker"</span>
+<span class="n">director</span> <span class="o">=</span> <span class="s2">"Todd Phillips"</span>
+<span class="n">release_year</span> <span class="o">=</span> <span class="mi">2019</span>
+</code></pre></div>
+
+<p>输出应该如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Joker</span> <span class="p">(</span><span class="mi">2019</span><span class="p">),</span> <span class="n">directed</span> <span class="n">by</span> <span class="n">Todd</span> <span class="n">Phillips</span>
+</code></pre></div>
+
+<p>完成练习后，请务必对照<a href="/30-days-of-python/python-30-day-3-exercise-solutions">我们的答案</a>检查您的答案。如果你有替代的解决方案，请在我们的<a href="https://discord.gg/BBWwyMq">不和谐服务器</a>上分享！</p>
+<h2>项目</h2>
+<p>一旦你完成了上面的练习，你应该试试我们的第一个迷你项目。</p>
+<h2>额外资源</h2>
+<p>除了我们在这里看到的方法之外，还有大量的字符串方法可供我们使用。你可以在文档中找到一个全面的列表<a href="https://docs.python.org/3/library/stdtypes.html#string-methods">。</a></p>
+<p>不要觉得你必须记住所有这些。如果忘记了方法名，您可以随时查找它们，文档描述了如何使用它们。</p>
+<p>如果你感兴趣，我们也有<a href="https://blog.teclado.com/python-a-closer-look-at-print/">一个帖子</a>涵盖了使用<code>print</code>时的一些额外选项。这篇文章的后半部分讨论了文件，我建议现在跳过这一部分。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

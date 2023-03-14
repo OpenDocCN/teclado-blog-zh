@@ -1,0 +1,223 @@
+<html>
+<head>
+<title>Day 7: split, join, and Slices | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第7天:分割、连接和切片| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-7-split-join/">https://blog.teclado.com/python-30-day-7-split-join/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第7天！今天我们将回到集合，我们将主要讨论字符串和其他集合类型如列表和元组之间的转换。我们将学习如何使用切片来获取集合的子集。</a></p>
+<p>如果你错过了<a href="/30-days-of-python/python-30-day-6-for-loops">第6天</a>，如果你不知道以下任何一项，我建议你查看一下:</p>
+<ul>
+<li><code>for</code>循环</li>
+<li><code>break</code>声明</li>
+<li><code>range</code>功能</li>
+</ul>
+<h2>将元组和列表转换为字符串</h2>
+<p>元组和列表有一个字符串表示，但这通常不是我们想要的。如果我们试图将一个列表传递给<code>str</code>来创建一个新的字符串，就像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果我们试着打印出来，我们会看到这样的东西:</p>
+
+
+<p>你们中的一些人可能已经注意到，如果我们试图打印一个列表，这正是我们得到的。这是因为当我们将一个列表传递给<code>print</code>，<code>print</code>会为我们将列表转换成一个字符串。</p>
+<p>就代码而言，这就是你最终得到的结果。包含方括号、数字和逗号的字符串:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="s2">"[1, 2, 3, 4, 5]"</span>
+</code></pre></div>
+
+<p>然而，在这种情况下，我实际上想要的是这样的东西:</p>
+
+
+<p>例如，也许我有一个描述谁在某个项目中工作的名字列表，我想将这些名字作为句子的一部分打印出来:</p>
+<div class="codehilite"><pre><span/><code><span class="n">The</span> <span class="n">people</span> <span class="n">who</span> <span class="n">worked</span> <span class="n">on</span> <span class="n">this</span> <span class="n">project</span> <span class="n">are</span><span class="p">:</span> <span class="n">Mike</span><span class="p">,</span> <span class="n">Sofia</span><span class="p">,</span> <span class="n">Helen</span><span class="o">.</span>
+</code></pre></div>
+
+<p>我不想要的是:</p>
+<div class="codehilite"><pre><span/><code><span class="n">The</span> <span class="n">people</span> <span class="n">who</span> <span class="n">worked</span> <span class="n">on</span> <span class="n">this</span> <span class="n">project</span> <span class="n">are</span><span class="p">:</span> <span class="p">[</span><span class="n">Mike</span><span class="p">,</span> <span class="n">Sofia</span><span class="p">,</span> <span class="n">Helen</span><span class="p">]</span><span class="o">.</span>
+</code></pre></div>
+
+<p>我们问题的解决方案是<code>join</code>方法。</p>
+<p>我们在一个字符串上调用<code>join</code>,这个字符串就是我们想要放在集合中想要粘合在一起的项目之间的内容。在上面的示例中，我们只想使用逗号和空格连接这些值，因此我们的代码如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">project_authors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Mike"</span><span class="p">,</span> <span class="s2">"Sofia"</span><span class="p">,</span> <span class="s2">"Helen"</span><span class="p">]</span>
+<span class="n">project_authors</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_authors</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The people who worked on this project are: </span><span class="si">{</span><span class="n">project_authors</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在输出正是我们想要的:</p>
+<div class="codehilite"><pre><span/><code><span class="n">The</span> <span class="n">people</span> <span class="n">who</span> <span class="n">worked</span> <span class="n">on</span> <span class="n">this</span> <span class="n">project</span> <span class="n">are</span><span class="p">:</span> <span class="n">Mike</span><span class="p">,</span> <span class="n">Sofia</span><span class="p">,</span> <span class="n">Helen</span><span class="o">.</span>
+</code></pre></div>
+
+<p>我们可以通过将<code>join</code>调用放在f字符串的花括号内来实现同样的事情:</p>
+<div class="codehilite"><pre><span/><code><span class="n">project_authors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Mike"</span><span class="p">,</span> <span class="s2">"Sofia"</span><span class="p">,</span> <span class="s2">"Helen"</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The people who worked on this project are: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_authors</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>只是要小心你的报价！如果您使用相同的引号来定义连接字符串，那么您将很快切断外部字符串。</p>
+<p>使用<code>join</code>时需要注意的一点是，我们只能连接字符串集合。如果我们有一个数字列表，我们必须首先将每个数字转换成一个字符串。</p>
+<ul>
+<li>我们从一系列数字开始，称为<code>numbers</code>。</li>
+<li>然后我们创建一个空列表，<code>stringified_numbers</code>。这将把我们的数字转换成字符串。</li>
+<li>使用一个<code>for</code>循环，我们遍历<code>numbers</code>列表。我们将每个数字转换成一个字符串，并将其附加到<code>stringified_numbers</code>。</li>
+<li>最后，我们用<code>join</code>搭配<code>stringified_numbers</code>。</li>
+</ul>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="n">stringified_numbers</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="n">stringified_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stringified_numbers</span><span class="p">))</span> <span class="c1"># 1, 2, 3, 4, 5</span>
+</code></pre></div>
+
+<p>我知道这看起来很麻烦，但是有更有效、更简洁的方法来做这样的事情，我们将在本系列的后面探索。</p>
+<h2>分割字符串</h2>
+<p>通常，我们不是将一个集合组合成一个字符串，而是将一个字符串转换成另一个包含几个项目的集合。例如，在处理用户输入时，如果用户提供多个值来响应一个提示，我们可能希望这样做。</p>
+<p>一种常见的方法是使用<code>split</code>方法。当调用<code>split</code>时，我们经常需要传入第二个字符串，我们将使用它作为分隔符序列。每当遇到这个字符序列，就标志着一个值的结束和下一个值的开始。</p>
+<p>例如，假设我们想从用户那里获得五个数字，我们要求这些数字用逗号分隔。我们可能会这样写:</p>
+<div class="codehilite"><pre><span/><code><span class="n">user_numbers</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter 5 numbers separated by commas: "</span><span class="p">)</span> <span class="c1"># 1,2,3,4,5</span>
+<span class="n">numbers_list</span> <span class="o">=</span> <span class="n">user_numbers</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers_list</span><span class="p">)</span> <span class="c1"># ['1', '2', '3', '4', '5']</span>
+</code></pre></div>
+
+<p>这里我们指定了一个逗号作为分隔符序列，所以每个逗号都标记了我们想要添加到集合中的值的结尾。</p>
+<p>我们可以要求用户输入用破折号分隔的数字，然后我们必须传递一个破折号给<code>split</code>作为分隔符:</p>
+<div class="codehilite"><pre><span/><code><span class="n">user_numbers</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter 5 numbers separated by dashes: "</span><span class="p">)</span> <span class="c1"># 1-2-3-4-5</span>
+<span class="n">numbers_tuple</span> <span class="o">=</span> <span class="n">user_numbers</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"-"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers_tuple</span><span class="p">)</span> <span class="c1"># ['1', '2', '3', '4', '5']</span>
+</code></pre></div>
+
+<p>我们从<code>split</code>得到的是一个列表，但是我们总是可以通过将结果传递给<code>tuple</code>来创建另一种类型的集合，例如，如果这是我们想要的:</p>
+<div class="codehilite"><pre><span/><code><span class="n">user_numbers</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter 5 numbers separated by commas: "</span><span class="p">)</span> <span class="c1"># 1,2,3,4,5</span>
+<span class="n">numbers_tuple</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">user_numbers</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers_tuple</span><span class="p">)</span> <span class="c1"># ('1', '2', '3', '4', '5')</span>
+</code></pre></div>
+
+<p>需要注意的一点是<code>split</code>不会为我们去掉任何空白。如果用户写的数字带有逗号，后跟空格，这些空格将出现在我们放入新集合的字符串中:</p>
+<div class="codehilite"><pre><span/><code><span class="n">user_numbers</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter 5 numbers separated by commas: "</span><span class="p">)</span> <span class="c1"># 1, 2, 3, 4, 5</span>
+<span class="n">numbers_list</span> <span class="o">=</span> <span class="n">user_numbers</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers_list</span><span class="p">)</span> <span class="c1"># ['1', ' 2', ' 3', ' 4', ' 5']</span>
+</code></pre></div>
+
+<p>有时候这并不是一个真正的问题，但是有时候你可能需要使用一个<code>for</code>循环来遍历集合，并使用<code>strip</code>来清理。</p>
+<div class="codehilite"><pre><span/><code><span class="n">user_numbers</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter 5 numbers separated by commas: "</span><span class="p">)</span> <span class="c1"># 1, 2, 3, 4, 5</span>
+<span class="n">user_numbers</span> <span class="o">=</span> <span class="n">user_numbers</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+<span class="n">numbers_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">user_numbers</span><span class="p">:</span>
+    <span class="n">numbers_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers_list</span><span class="p">)</span> <span class="c1"># ['1', '2', '3', '4', '5']</span>
+</code></pre></div>
+
+<p>您也可以使用同样的方法以其他方式处理单个字符串。</p>
+<p>如果我们不为<code>split</code>指定一个分隔符序列，它将根据任何长度的空白进行分割。这是非常方便的，因为我们知道无论我们得到什么，我们都不必费心去剥离它。用户可以输入如下内容:</p>
+
+
+<p>我们仍然会得到这样一个列表:</p>
+<div class="codehilite"><pre><span/><code><span class="p">[</span><span class="s1">'1'</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">,</span> <span class="s1">'3'</span><span class="p">,</span> <span class="s1">'4'</span><span class="p">,</span> <span class="s1">'5'</span><span class="p">]</span>
+</code></pre></div>
+
+<p>如果我们处理跨不同行的字符串，这也是可行的！稍后会有更多的介绍。</p>
+<p>我们并不总是需要调用<code>split</code>。如果我们只想将每个字符作为不同的条目放入一个列表或元组中，我们可以将字符串传递给<code>list</code>或<code>tuple</code>函数:</p>
+<div class="codehilite"><pre><span/><code><span class="n">sample_string</span> <span class="o">=</span> <span class="s2">"Python"</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sample_string</span><span class="p">))</span> <span class="c1"># ['P', 'y', 't', 'h', 'o', 'n']</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">sample_string</span><span class="p">))</span> <span class="c1"># ('P', 'y', 't', 'h', 'o', 'n')</span>
+</code></pre></div>
+
+<h2>换行符</h2>
+<p>你可能想知道的一件事是，我们如何告诉计算机我们应该换行？</p>
+<p>实际上，当我们按下“回车”来标记行尾时，会添加一个看不见的字符。如果你进入一个文字处理器，你按下“回车”进入下一行，当你按下“退格”时会发生什么？我们删除了一些东西，这让我们回到了上一行。你删除的是标志行尾的换行符。</p>
+<p>在Python中，我们将这个字符表示为<code>\n</code>，我们可以像其他任何字符一样在字符串中使用它。例如，我可以写一个这样的字符串:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="s2">"Super Special Mega Awesome Program</span><span class="se">\n\n</span><span class="s2">By Phillip Best"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我在某个程序的标题后添加了两个换行符，然后是关于程序作者的信息。输出将如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Super</span> <span class="n">Special</span> <span class="n">Mega</span> <span class="n">Awesome</span> <span class="n">Program</span>
+
+<span class="n">By</span> <span class="n">Phillip</span> <span class="n">Best</span>
+</code></pre></div>
+
+<p>如果我们愿意，我们可以使用这个字符连接字符串，也可以使用<code>\n</code>拆分字符串，但是这对用户输入来说并不实用。然而，它在处理文件时非常有用，这是我们下周要讨论的内容。</p>
+<h2>限幅</h2>
+<p>到目前为止，我们已经研究了如何拆分字符串，以及如何连接其他集合的值，但是如果我们只想获取集合的某个<em>部分</em>呢？为此，我们可以使用切片。</p>
+<p>切片是我们对序列使用订阅表达式的一种新方法。我们没有提供单一的索引，而是指定了一个索引范围。我们将得到的是一个与我们切片的类型相同的集合，包含指定范围内的所有项目。切片的一个伟大之处在于，它给了我们一个新的系列，而没有触及原来的系列。</p>
+<p>让我们看一个字符串的例子。假设我们有一个字符串<code>Python</code>，出于某种原因，我想要这个字符串的前3个字符。使用切片，我们可以这样写:</p>
+<div class="codehilite"><pre><span/><code><span class="n">original_string</span> <span class="o">=</span> <span class="s2">"Python"</span>
+<span class="n">sliced_string</span> <span class="o">=</span> <span class="n">original_string</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">sliced_string</span><span class="p">)</span>  <span class="c1"># Pyt</span>
+</code></pre></div>
+
+<p>在这里，我们的切片被写成了<code>[0:3]</code>，这意味着我们希望从索引<code>0</code>开始，我们希望抓取到索引<code>3</code>之前的所有项目，但不包括索引<code>0</code>。我们得到的是一个只包含三个字符的新字符串:<code>"Pyt"</code>。</p>
+<p>我们可以用另一种方式来写这个片段，就像这样:<code>[:3]</code>。如果我们没有为开始索引指定一个值，切片从序列的开始处开始。如果不指定停止索引，切片将在序列的末尾停止。</p>
+<p>所以如果我们写这个<code>[3:]</code>，这意味着给我从索引<code>3</code>开始的所有内容。我们可以在这里看到一个例子:</p>
+<div class="codehilite"><pre><span/><code><span class="n">original_string</span> <span class="o">=</span> <span class="s2">"Python"</span>
+<span class="n">sliced_string</span> <span class="o">=</span> <span class="n">original_string</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">sliced_string</span><span class="p">)</span>  <span class="c1"># hon</span>
+</code></pre></div>
+
+<p>回到第4天，我们看到可以使用负索引来访问序列中的元素，也可以对片使用负索引。然而，理解<code>[3:-1]</code>和<code>[3:]</code>不是一回事非常重要，因为对于切片，停止索引是不包含的。</p>
+<p>当我们写<code>[3:-1]</code>时，我们说我们想要从索引<code>3</code>到最后一个元素的所有内容，但不包括最后一个元素。当我们写<code>[3:]</code>时，我们说我们想要从索引<code>3</code>开始的所有内容。我们可以看到这里的区别:</p>
+<div class="codehilite"><pre><span/><code><span class="n">original_string</span> <span class="o">=</span> <span class="s2">"Python"</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">original_string</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>  <span class="c1"># hon</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">original_string</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># ho</span>
+</code></pre></div>
+
+<p>如果您出于某种原因想要复制整个集合，我们实际上可以使用<code>[:]</code>获取包含整个序列的切片。</p>
+<p>切片实际上是一个非常多才多艺的工具，还有很多东西需要学习。如果你感兴趣，在这篇文章的末尾有一些额外的资源，它们更详细地讨论了切片。</p>
+<h2><code>len</code>功能</h2>
+<p>如果我们想知道给定集合中有多少项，我们可以使用<code>len</code>函数，简称“length”。</p>
+<p>这将适用于字符串、元组、列表以及我们将在本系列后面看到的任何其他类型。如果你试图在一个不支持这个操作的类型上调用<code>len</code>，你会得到一个类似这样的异常:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="nb">len</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="nb">object</span> <span class="n">of</span> <span class="nb">type</span> <span class="s1">'int'</span> <span class="n">has</span> <span class="n">no</span> <span class="nb">len</span><span class="p">()</span>
+</code></pre></div>
+
+<p>假设将一个适当的类型传递给<code>len</code>，它将返回一个表示集合中项目数量的整数:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="c1"># 5</span>
+</code></pre></div>
+
+<h2>练习</h2>
+<p>1)要求用户输入他们的名和姓来响应一个提示。使用<code>split</code>提取名称，然后将每个名称分配给不同的变量。在本练习中，您可以假设用户只有一个名和一个姓。</p>
+<p>2)使用<code>join</code>方法以<code>1 | 2 | 3 | 4 | 5</code>的格式打印列表<code>[1, 2, 3, 4, 5]</code>。请记住，您只能连接字符串集合，因此您需要对数字列表进行一些初步处理。</p>
+<p>3)下面是简短的报价列表:</p>
+<div class="codehilite"><pre><span/><code> <span class="n">quotes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"'What a waste my life would be without all the beautiful mistakes I've made.'"</span><span class="p">,</span>
+    <span class="s2">"'A bend in the road is not the end of the road... Unless you fail to make the turn.'"</span><span class="p">,</span>
+    <span class="s2">"'The very essence of romance is uncertainty.'"</span><span class="p">,</span>
+    <span class="s2">"'We are not here to do what has already been done.'"</span>
+ <span class="p">]</span>
+</code></pre></div>
+
+<p>每个引号都是一个字符串，但是每个字符串实际上都在开头和结尾包含引号字符。使用切片，从每个字符串中提取文本，去掉多余的引号，并打印每个引号。</p>
+<p>您可能还想尝试使用strip的解决方案。</p>
+<p>4)让用户输入一个单词，然后打印出单词的长度。您应该考虑用户输入中任何多余的空格，所以您必须在找到字符串长度之前对其进行处理。</p>
+<p>如果你想更进一步，你可以要求用户输入一段很长的文本。然后你可以告诉他们文本中总共有多少个字符，你也可以给他们一个字数。</p>
+<p>你可以在这里找到我们的练习<a href="/30-days-of-python/python-30-day-7-exercise-solutions">的答案。</a></p>
+<h2>项目</h2>
+<p>一旦你完成了上面的练习，你应该试试<a href="/30-days-of-python/python-30-day-7-project">周末项目</a>，在那里我们将处理高预算电影。</p>
+<h2>额外资源</h2>
+<p>如果你想了解更多关于切片的知识，我们有三个帖子你可以看看。</p>
+<p>前两个是一个小系列，涵盖了关于Python切片的所有知识:<a href="https://blog.teclado.com/python-slices/">第1部分</a>、<a href="https://blog.teclado.com/python-slices-part-2/">第2部分</a>。</p>
+<p>第三篇文章是关于如何使用切片来创建一个新的序列，其中项目的顺序是相反的。我建议你在阅读这篇文章之前先通读前两篇文章。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

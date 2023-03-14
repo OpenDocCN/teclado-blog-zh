@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>Python lists: remove() vs pop()</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python列表:remove()与pop()</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-lists-remove-vs-pop/">https://blog.teclado.com/python-lists-remove-vs-pop/</a></blockquote><div><div class="post-content">
+<p>如果您想在Python中从列表中删除一个条目，那么<code>remove()</code>和<code>pop()</code>方法可能会派上用场——但是它们确实有一些不同。</p>
+<p>在本帖中，我们将比较这些方法，并向您展示如何在Python中使用它们！</p>
+<h2 id="theremovemethod"><code>remove()</code>法</h2>
+<p>此方法从列表中移除第一个匹配值。第一个匹配值是通过遍历列表找到的，直到给定的值等于(<code>==</code>)列表中项的值。</p>
+<p>下面是如何在Python中使用<code>remove()</code>方法:</p>
+<pre><code class="language-python">customers = [
+    ['John', 1],
+    ['John', 1],
+    ['Lisa', 2],
+    ['Rolf', 3],
+    ['John', 4]
+]
+
+customers.remove(['John', 1])
+</code></pre>
+<p>如果运行这段代码，<code>customers</code>变量将如下所示:</p>
+<pre><code class="language-python">customers = [
+    ['John', 1],
+    ['Lisa', 2],
+    ['Rolf', 3],
+    ['John', 4]
+]
+</code></pre>
+<p>这是因为只有第一个匹配值被从列表中删除。</p>
+<p>在这种情况下，如果您想删除具有给定名称和id的客户，而不需要自己搜索列表，那么<code>remove()</code>方法就很有用。您可以在其他情况下使用它，在这些情况下，您知道要删除的项的值，但不知道该项的确切索引。</p>
+<p>如果提供的值不在列表中，那么将引发一个<code>ValueError</code>。</p>
+<h2 id="thepopmethod"><code>pop()</code>法</h2>
+<p>方法用于从列表中移除一个条目并返回它。</p>
+<p>从列表中逐个删除项目并检索它们的值会很有用。您可能想要处理删除的数据，将它保存在其他地方，等等。在Python中，我们使用了<code>pop()</code>方法！</p>
+<p>如果使用不带任何参数的<code>pop()</code>，默认情况下，最后一项将从列表中删除并返回:</p>
+<pre><code class="language-py">customers = [
+    ['John', 1],
+    ['Lisa', 2],
+    ['Rolf', 3],
+    ['John', 4]
+]
+
+customer = customers.pop()  # ['John', 4]
+</code></pre>
+<p><code>customers</code>列表更改为:</p>
+<pre><code class="language-py">customers = [
+    ['John', 1],
+    ['Lisa', 2],
+    ['Rolf', 3]
+]
+</code></pre>
+<p><code>customer</code>变量现在看起来像这样:</p>
+<pre><code class="language-py">customer = ['John', 4]
+</code></pre>
+<p>此方法还可以接受一个参数，该参数是要移除的项的索引:</p>
+<pre><code class="language-py">customers.pop(1)
+</code></pre>
+<p>在这种情况下，第二项将从列表中删除并返回。请记住，您可以将返回值赋给变量。<br/>最后，<code>customers</code>变量现在看起来像这样:</p>
+<pre><code class="language-py">customers = [
+    ['John', 1],
+    ['Rolf', 3]
+]
+</code></pre>
+<h2 id="removingitemsfromnestedlists">从嵌套列表中移除项目</h2>
+<p>您可能会遇到如下所示的列表:</p>
+<pre><code class="language-py">customers = [
+    [["John", 11],["Lisa", 12],["Rolf", 13]],
+    [["Murilo", 21],["Joshua", 22]]
+]
+</code></pre>
+<p>客户可能已经按照他们来自的城市、国家等进行了分组。</p>
+<p>更高层次的嵌套要求您在使用上述方法时要精确，我们将在下面介绍这些方法。</p>
+<h3 id="useremovewithdoublenestedlists">对双重嵌套列表使用<code>remove()</code></h3>
+<p>让我们像以前一样尝试从<code>customers</code>列表中删除<code>["John", 11]</code>:</p>
+<pre><code class="language-py">customers.remove(["John", 11])
+</code></pre>
+<p>如果你运行这段代码，你会看到一个<code>ValueError</code>。出现错误是因为<code>["John", 11]</code>是嵌套列表中的一项，而嵌套列表是更大列表中的一项，如下图所示:</p>
+<p><img src="../Images/a80c7050274ed1dae106172aba37878d.png" alt="Nested list representation" loading="lazy" data-original-src="https://i.imgur.com/fwLDcBk_d.webp?maxwidth=760&amp;fidelity=grand"/></p>
+<p>要删除此项，您需要先访问内部列表，然后删除它:</p>
+<pre><code class="language-py">customers[0].remove(["John", 11]) 
+</code></pre>
+<p>在这一行中，我们访问了列表的第一项，即内部列表，然后删除了第一个匹配值。更改后的列表如下所示:</p>
+<pre><code class="language-py">customers = [
+    [["Lisa", 12],["Rolf", 13]],
+    [["Murilo", 21],["Joshua", 22]]
+]
+</code></pre>
+<p>例如，如果您想要删除一整组客户，也可以删除整个内部列表。</p>
+<pre><code class="language-py">customers.remove([["Lisa", 12],["Rolf", 13]])
+</code></pre>
+<p>在这种情况下，您不必访问主列表的任何项目，因为您正在以与我们在帖子的第一部分中所做的相同的方式删除它的项目。</p>
+<h3 id="usepopwithdoublenestedlists">对双重嵌套列表使用<code>pop()</code></h3>
+<p>我们现在可以使用<code>pop()</code>方法从列表中删除一个项目:</p>
+<pre><code class="language-py">customers = [
+    [["John", 11],["Lisa", 12],["Rolf", 13]],
+    [["Murilo", 21],["Joshua", 22]]
+]
+
+customer = customers.pop() # [["Murilo", 21],["Joshua", 22]]
+</code></pre>
+<p><code>customers</code>列表现在看起来像这样:</p>
+<pre><code class="language-py">customers = [[["John", 11],["Lisa", 12],["Rolf", 13]]]
+</code></pre>
+<p>这样做的原因是我们对整个<code>customers</code>列表应用了该方法，列表的条目是内部列表。</p>
+<p>您还可以使用<code>pop()</code>方法从内部嵌套列表中删除项目:</p>
+<pre><code class="language-py">customers[0].pop(1)
+</code></pre>
+<p>我们现在将该方法应用于<code>customers</code>列表的第一项:</p>
+<pre><code class="language-py">[["John", 11],["Lisa", 12],["Rolf", 13]]
+</code></pre>
+<p>其中删除了它的第二项:<code>["Lisa", 12]</code>。之后，<code>customers</code>列表变成:</p>
+<pre><code class="language-py">customers = [[["John", 11],["Rolf", 13]]]
+</code></pre>
+<h2 id="conclusion">结论</h2>
+<p>在这篇文章中，我们看到了两种从Python列表中删除条目的方法:使用<code>remove()</code>和<code>pop()</code>方法。这两种方法在不同的情况下都很有用，所以我们鼓励你自己尝试一下！</p>
+<p>如果你想学习更多关于Python的知识，可以考虑参加我们的<a href="https://go.tecla.do/complete-python-sale">完整Python课程</a>，它将带你从初级到高级(包括OOP、web开发、异步开发等等！).我们有一个<strong> 30天退款保证</strong>，所以你真的没有什么损失去尝试一下。我们很希望你能来！</p>
+
+</div>
+</div>    
+</body>
+</html>

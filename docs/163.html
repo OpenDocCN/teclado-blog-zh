@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>Day 25: Exercise Solutions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第25天:锻炼解决方案| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-25-exercise-solutions/">https://blog.teclado.com/python-30-day-25-exercise-solutions/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>以下是我们对Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天</a><a href="/30-days-of-python/python-30-day-25-idiomatic-python">第25天</a>练习的解决方案。在检查解决方案之前，请确保您亲自尝试了这些练习！</p>
+<h3>1)编写一个函数，提示用户输入他们的名字，然后问候他们。如果在处理完字符串后，剩下一个空字符串，函数应该在输出中用“World”替换这个空字符串。</h3>
+<p>让我们从定义我们的函数开始。</p>
+
+
+<p>我们需要放入函数体的第一件事是我们获取用户名的<code>input</code>调用。我要在同一行处理这个字符串。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greeter</span><span class="p">():</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+</code></pre></div>
+
+<p>剩下唯一要做的就是打印问候。我们可以在f字符串中直接使用<code>or</code>来改变输出，这取决于<code>name</code>是否以空字符串结束。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greeter</span><span class="p">():</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">'World'</span><span class="si">}</span><span class="s2">!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>注意不要在花括号内使用与外部字符串相同的引号类型。如果你这样做，你将提前终止你的字符串，这将导致一个错误。</p>
+<h3>2)编写一个函数来确定一个字符串是否只包含ASCII字母。</h3>
+<p>再一次，让我们从定义函数的框架开始。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_ascii_letters</span><span class="p">(</span><span class="n">test_string</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+<p>对于这个练习，我认为我们最好的方法是导入<code>string</code>模块并利用其中定义的字符串常量。有一个叫做<code>ascii_letters</code>的包含了所有大写和小写的ASCII字母，这正是我们想要的。</p>
+<p>然后我们可以循环遍历<code>test_string</code>并检查给定的字符是否在<code>ascii_letters</code>中。如果我们找到一个不在这个字符串常量中的字符，我们可以马上返回<code>False</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">ascii_letters</span>
+
+<span class="k">def</span> <span class="nf">is_ascii_letters</span><span class="p">(</span><span class="n">test_string</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">test_string</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">character</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ascii_letters</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</code></pre></div>
+
+<p>请注意，我们在这里使用的是带有<code>for</code>循环的<code>else</code>子句，而不是循环中的条件语句。我们在<a href="/30-days-of-python/python-30-day-8-while-loops/">第八天</a>谈到了这一点。</p>
+<p>这是一个完美的解决方案，但是我们不需要实现这样一个冗长的循环结构。相反，我们可以将<code>all</code>函数与生成器表达式结合使用。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">ascii_letters</span>
+
+<span class="k">def</span> <span class="nf">is_ascii_letters</span><span class="p">(</span><span class="n">test_string</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">character</span> <span class="ow">in</span> <span class="n">ascii_letters</span> <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">test_string</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这在功能上是相同的，但是使用了我们在上周课程中学到的一些更高级的工具。</p>
+<h3>3)使用<code>random</code>模块中的<code>sample</code>函数创建三个列表，每个列表包含从<code>1</code>到<code>100</code>的十五个数字。将这些列表按降序排序(最大的先排序)，然后截断每个列表，使每个列表中只保留5个项目。</h3>
+<p>让我们从导入<code>sample</code>并生成我们的初始数字列表开始。<code>sample</code>函数需要一个总体，以及一个表示应该从总体中选择多少个数字的值。人口需要是一个序列，所以我们可以提供一个<code>range</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="mi">15</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+</code></pre></div>
+
+<p>这是一行相当密集的代码，但我认为它仍然足够可读。如果你愿意，你可以把人口抽取成一个变量，这样我们就不会在理解中到处都有范围。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">population</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+</code></pre></div>
+
+<p>我们的下一步是对从<code>sample</code>返回的列表进行排序。我们可以使用<code>sorted</code>函数作为理解的一部分，在一个步骤中完成这一切。</p>
+<p>因为我们希望数字以降序排列，所以我们需要为参数<code>reverse</code>提供一个值，传入<code>True</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">population</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+</code></pre></div>
+
+<p>然而，我认为这对于理解来说有点太多了，我们无论如何都要用一个<code>for</code>循环来迭代这个集合。</p>
+<p>相反，我会像这样使用<code>sort</code>方法:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">population</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">number_set</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="n">number_set</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们需要再次记住为<code>reverse</code>传入一个值，以便列表按降序排序。</p>
+<p>现在我们可以使用<code>del</code>和slice语法来截断列表，作为同一个循环的一部分。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">population</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">number_set</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="n">number_set</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">number_set</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+</code></pre></div>
+
+<p>如果我们现在打印<code>numbers</code>，我们应该有三个列表，每个列表都有最高的五个数字。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

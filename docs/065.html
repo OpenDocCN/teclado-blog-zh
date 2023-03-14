@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>Destructuring in Python</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python中的析构</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/destructuring-in-python/">https://blog.teclado.com/destructuring-in-python/</a></blockquote><div><div class="post-content">
+<p>在本周的帖子中，我们将会看到一个非常有趣和通用的工具，叫做析构。析构(也称为解包)是我们获取一个集合，比如一个列表或一个元组，并将其分解为单个值。这非常有用，因为它使我们能够做像析构赋值这样的事情，我们可以从一个集合中一次给几个变量赋值。</p><h2 id="standard-destructuring-assignments">标准析构赋值</h2><p>像许多编程语言一样，Python允许我们在一行中一次分配多个变量。我们只需要在赋值两边提供相同数量的值。例如:</p><pre><code class="language-python">x, y = 5, 11
+</code></pre>
+<p>这里我们将值<code>5</code>赋给<code>x</code>，将<code>11</code>赋给<code>y</code>。值的赋值完全基于顺序，所以如果我们改变变量的顺序，或者我们打算赋值的值的顺序，我们将得到不同的结果。</p><p>这是如何工作的非常简单，但是不太明显的是这是一个析构的例子。如果我这样写呢？</p><pre><code class="language-python">x, y = (5, 11)
+</code></pre>
+<p>很多新的Python程序员没有意识到的一件事是，括号和元组没有任何关系。事实上，是逗号告诉Python某个东西是一个元组:在很多情况下，我们只是为了可读性而添加了括号。在某些情况下，为了将元组从它周围的语法中分离出来，括号实际上是必要的，例如当我们将元组放在列表中时。然而，在这种情况下，括号仍然不是元组语法的一部分。给一个数字加括号并不会把它变成一个元组。</p><p>记住所有这些，我们实际上在上面的例子中结束了对一个元组的析构，将元组<code>(5, 11)</code>拆分成它的组成值，这样我们就可以将这些值绑定到两个变量名。</p><p>这里我们不仅仅局限于元组。例如，我们也可以析构一个列表，甚至一个集合。然而，你不太可能想要对一个集合执行一个析构赋值，因为顺序没有保证，因此我们最终得到的是我们并不真正知道其值的变量。</p><p>如果我们试图用比我们提供的变量更多或更少的值来析构一个集合，我们最终会得到一个<code>ValueError</code>。</p><pre><code class="language-python">ValueError: not enough values to unpack (expected 4, got 3)
+</code></pre>
+<h2 id="destructuring-in-for-loops">在<code>for</code>循环中析构</h2><p>几个月前，我们在<code>enumerate</code>上写了一个<a href="https://blog.teclado.com/python-enumerate/">片段post </a>，这是编写好的Pythonic循环的重要组成部分。如果你不熟悉的话，<code>enumerate</code>的语法是这样的:</p><pre><code class="language-python">example_list = ["A", "B", "C"]
+
+for counter, letter in enumerate(example_list):
+	print(counter, letter)
+
+# 0 A
+# 1 B
+# 2 C
+</code></pre>
+<p><code>enumerate</code>将iterable集合作为参数，并返回一个enumerate对象，该对象包含集合中每一项的元组。每个元组包含一个计数器值，该值随着每次迭代而递增，同时还包含所提供集合中的一个值。</p><p>正如你在上面的例子中看到的，我们在创建我们的<code>for</code>循环时提供了两个变量名:<code>counter</code>和<code>letter</code>。这实际上是一个非常常见的析构例子。对于枚举对象中的每个元组，第一个值被赋给<code>counter</code>，第二个值被赋给<code>letter</code>。</p><p>同样，变量名没有任何魔力，赋值完全基于值的顺序。如果我们要交换<code>counter</code>和<code>letter</code>的位置，我们最终会得到一些令人困惑的变量名。</p><p>我们可以用任意多的值来进行这种类型的破坏，这并不局限于<code>enumerate</code>函数。例如，我们可以这样做:</p><pre><code class="language-python">people = [
+	("Bob", 42, "Mechanic"),
+	("James", 24, "Artist"),
+	("Harry", 32, "Lecturer")
+]
+
+for name, age, profession in people:
+	print(f"Name: {name}, Age: {age}, Profession: {profession}")
+</code></pre>
+<p>这里我们将<code>people</code>列表中的每个元组分开，分别给<code>name</code>、<code>age</code>和<code>profession</code>赋值。</p><p>这比下面的代码好得多，在下面的代码中，我们依赖于索引而不是好的描述性名称:</p><pre><code class="language-python">for person in people:
+	print(f"Name: {person[0]}, Age: {person[1]}, Profession: {person[2]}")
+</code></pre>
+<p>核心Python开发者之一Raymond Hettinger在他的一次演讲中说了一些让我印象深刻的话。他说，在Python中，基本上不应该通过索引来引用项目:几乎总是有更好的方法。</p><p>析构就是一个很好的例子。</p><h2 id="ignoring-values">忽略值</h2><p>那么，如果我们有一个值的集合，但我们不想给它们赋值，我们该怎么办呢？我们可以用一个<code>_</code>来代替变量名。</p><p>例如，如果我们从上面的<code>people</code>列表中取出一个元组，并且我们只关心姓名和职业，我们可以做以下事情:</p><pre><code class="language-python">person = ("Bob", 42, "Mechanic")
+name, _, profession = person
+
+print(name, profession)  # Bob Mechanic
+</code></pre>
+<p>这在循环内部也同样适用，并且当我们不关心值的任何T2时也可以使用。一个例子可能是使用<code>range</code>来确保一组迭代次数。</p><pre><code class="language-python">for _ in range(10):
+	&lt;do something&gt;
+</code></pre>
+<h2 id="using-to-collect-values">使用<code>*</code>收集值</h2><p>在某些情况下，我们可能希望隔离集合中的一两个值，然后将其他项放在一起。我们在列表循环中的<a href="https://blog.teclado.com/coding-interview-problems-rotating-a-list/">帖子中展示了一个类似这样的例子。</a></p><p>在Python中，当执行析构赋值时，我们可以使用<code>*</code>操作符来收集剩余的值。例如，我们可能有一个数字列表，我们希望获取第一个数字，然后将剩余的数字赋给第二个变量:</p><pre><code class="language-python">head, *tail = [1, 2, 3, 4, 5]
+
+print(head)  # 1
+print(tail)  # [2, 3, 4, 5]
+</code></pre>
+<p>在这里，第一个值(<code>1</code>)被分配给<code>head</code>，而其余的数字则存放在一个名为<code>tail</code>的新列表中。</p><p>我们也可以反过来这样做，创建一个除了最后一个值以外的所有内容的新列表，并将最后一个值赋给它自己的变量。</p><pre><code class="language-python">*head, tail = [1, 2, 3, 4, 5]
+
+print(head)  # [1, 2, 3, 4]
+print(tail)  # 5
+</code></pre>
+<p>这很有意思，但是除非我们需要保存原始列表，否则我们已经有了类似这样的<code>pop</code>方法。然而，我们可以用这个语法做些别的事情。我们可以给<em>分配任意数量的</em>变量，然后收集剩余的变量。我们可能会抓取第一个和最后一个项目，然后收集中间的项目，例如:</p><pre><code class="language-python">head, *middle, tail = [1, 2, 3, 4, 5]
+
+print(head)    # 1
+print(middle)  # [2, 3, 4]
+print(tail)    # 5
+</code></pre>
+<p>或者，我们可能希望获取前三个项目，然后将其余项目捆绑在一起:</p><pre><code class="language-python">first, second, third, *rest = [1, 2, 3, 4, 5]
+</code></pre>
+<p>有无数的可能性。</p><h2 id="wrapping-up">包扎</h2><p>我希望你能从这篇关于Python析构的短文中学到一些新东西！</p><p>这实际上并不是故事的结尾，因为还有使用<code>*</code>和<code>**</code>打包和解包集合的方法，但是我认为这些内容应该有一个自己的帖子来公正地处理这个主题。</p><p>如果你正在学习Python，并且对这类内容感兴趣，一定要在<a href="https://twitter.com/TecladoCode"> Twitter </a>上关注我们，或者注册我们的邮件列表，以获得所有最新内容。如果你感兴趣，在这一页的底部有一个表格。</p><p>我们也刚刚对我们的<a href="https://go.tecla.do/complete-python-sale">完整Python课程</a>进行了一次大的更新，所以如果你有兴趣达到Python的高级水平，可以去看看。我们有一个30天的退款保证，所以你真的没有什么损失，尝试一下。我们很希望你能来！</p>
+</div>
+</div>    
+</body>
+</html>

@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Encrypting passwords in Python with passlib</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>用passlib在Python中加密密码</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/learn-python-encrypting-passwords-python-flask-and-passlib/">https://blog.teclado.com/learn-python-encrypting-passwords-python-flask-and-passlib/</a></blockquote><div><div class="post-content">
+<p>处理敏感数据或密码时，加密是必须的。在<a href="https://blog.teclado.com/learn-python-password-encryption-with-flask/">之前的一篇博客文章</a>中，我们已经研究了使用<code>werkzeug</code>加密，这是Flask附带的。在本帖中，我们将更进一步，使用一个流行的加密库<code>passlib</code>。</p>
+<p>不依赖werkzeug意味着你可以把这篇博文中的任何东西应用到任何Python应用程序中——而不仅仅是Flask应用程序。</p>
+<p>我建议阅读我以前关于加密的博客文章，了解什么是加密以及为什么它很重要。这个也是另一个很好的关于密码学的快速指南。</p>
+<h2 id="hashingalgorithms">哈希算法</h2>
+<p>有许多不同的哈希算法，我们正在不断地寻找和提出新的更好的算法。过去使用的一些现在被认为是不安全的，最现代的通常被认为是无法破解的。</p>
+<blockquote>
+<p>哈希与加密。一个简单的解释就是，如果你加密了一个东西，你就可以解密它。如果你散列了某样东西，你就不能“取消散列”。对于密码，我们对它们进行哈希处理，因为我们不希望任何人能够将它们还原成可读的文本。继续阅读，看看如何检查散列密码是正确的！</p>
+</blockquote>
+<p>目前出现的一些散列算法有:</p>
+<ul>
+<li>氩气2</li>
+<li>PBKDF2</li>
+<li>Bcrypt / Scrypt</li>
+</ul>
+<p>它们在硬件要求、速度和实现上是不同的。然而，它们都极难破解。</p>
+<p>我不建议学习哈希算法如何工作的所有知识，因为这是一个非常复杂的领域(充满了数学！).Argon2是一个非常现代、经过严格审查、看起来很全面的算法。但是，在使用它时，您可能会发现一些操作系统中的一些问题。</p>
+<p>由于加密和哈希的最大问题是软件开发人员没有充分使用它，因此任何选择都比没有选择好。我会推荐使用PBKDF2或Argon2，因为它们都比Bcrypt“好”,并且不像Scrypt那样消耗硬件。</p>
+<p>为了简单起见，我们将使用pbk df 2——因为它适用于所有操作系统和主机提供商。</p>
+<p>我们将使用passlib作为我们的Python库来实现散列。他们有一份关于如何选择散列算法的优秀指南。</p>
+<h2 id="usingpasslib">使用密码库</h2>
+<p>要安装passlib，我们需要做的就是:</p>
+<pre><code class="language-bash">pip install passlib
+</code></pre>
+<p>您可能会收到一些关于缺少库的警告。这些将用于其他加密和哈希算法。如果您想使用PBKDF2以外的东西，请查看Passlib文档中的<a href="http://passlib.readthedocs.io/en/stable/install.html#optional-libraries">可选库部分</a>,了解您需要哪一个(哪些)库。</p>
+<h3 id="thecryptcontext"><code>CryptContext</code></h3>
+<p>Passlib通过定义上下文来工作。在其中，我们指定我们将使用什么算法进行散列，以及任何配置参数。</p>
+<p>我们可以跳过使用<code>CryptContext</code>，而是直接与哈希算法交互。Passlib提供了实现这一点的方法。然而，使用<code>CryptContext</code>允许我们更明确地定义配置参数，并使事情更具可读性。此外，如果我们的系统需要，它允许我们同时支持多种算法。</p>
+<p>使用PBKDF2创建上下文如下所示。将以下代码放入一个新文件(例如<code>security.py</code>):</p>
+<pre><code class="language-python">from passlib.context import CryptContext
+
+pwd_context = CryptContext(
+        schemes=["pbkdf2_sha256"],
+        default="pbkdf2_sha256",
+        pbkdf2_sha256__default_rounds=30000
+)
+</code></pre>
+<h3 id="whatarerounds">什么是回合？</h3>
+<p>一个<a href="https://crypto.stackexchange.com/a/6291">回合</a>是算法的一部分，为了减少“可破解性”而运行多次。不同的算法推荐使用不同的回合数。</p>
+<p>这个是一个来自passlib开发者的精彩的StackOverflow回答，它深入讨论了关于轮次的更多细节，以及如何计算选择多少轮次。</p>
+<p>根据您选择的轮数，算法将需要更长的加密时间。因此，您的用户将不得不等待更长时间来恢复您的应用程序。选择一个太大的数字，你的用户会感到沮丧。选择一个太低的数字，你的用户数据将不安全。</p>
+<p>一个经验法则是让用户等待最多350毫秒——这样你就可以微调回合数，这样你的算法就不会花费超过这个时间。</p>
+<p><a href="https://security.stackexchange.com/a/16357">这里有一个解释</a>为什么等待350毫秒是好的。</p>
+<h3 id="encryptingandverifyingpasswords">加密和验证密码</h3>
+<p>现在我们有了我们的<code>CryptContext</code>，我们可以用它来加密和验证密码。让我们在创建上下文的同一个文件中添加几个函数:</p>
+<pre><code class="language-python">def encrypt_password(password):
+    return pwd_context.encrypt(password)
+
+
+def check_encrypted_password(password, hashed):
+    return pwd_context.verify(password, hashed)
+</code></pre>
+<p>就是这样！每当我们想在数据库中存储一个用户的密码时，我们应该首先使用我们的<code>encrypt_password()</code>函数对它进行加密。每当我们想让一个用户登录时，我们会使用<code>check_encrypted_password()</code>函数将他们在登录表单中提供的密码与存储在数据库中的密码进行比较。</p>
+<p>请注意，在任何时候我们都不会在数据库中“取消”密码。我们只需对想要检查的密码使用算法，然后将它变成一个新的散列。如果数据库中的密码和我们创建的新密码相同，我们就知道密码是正确的！</p>
+<p><small>最后更新于2019年5月。本帖最初发表于2017年12月。</small></p>
+
+</div>
+</div>    
+</body>
+</html>

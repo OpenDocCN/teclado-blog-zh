@@ -1,0 +1,217 @@
+<html>
+<head>
+<title>Day 7 Project: Movie Budgets | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第7天项目:电影预算| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-7-project/">https://blog.teclado.com/python-30-day-7-project/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第一个周末项目！对于这个项目，我们将编写一个程序来分析一些电影数据。</a></p>
+<p>特别是，我们将在我们的数据集中找到电影的平均预算，我们将确定超出我们计算的平均预算的高预算电影。</p>
+<h2>案情摘要</h2>
+<p>下面你会发现一个列表，其中包含了一些电影的相关数据。列表中的每一项都是一个元组，按以下顺序包含电影名称和电影预算:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">20000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">9000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">4500000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Pirates of the Caribbean: On Stranger Tides"</span><span class="p">,</span> <span class="mi">379000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Age of Ultron"</span><span class="p">,</span> <span class="mi">365000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Endgame"</span><span class="p">,</span> <span class="mi">356000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Incredibles 2"</span><span class="p">,</span> <span class="mi">200000000</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>对于这个项目，你的程序应该做到以下几点:</p>
+<ol>
+<li>计算数据集中所有电影的平均预算。</li>
+<li>打印出每一部预算高于你计算的平均值的电影。你还应该打印出比电影平均预算高出多少。</li>
+<li>打印出有多少部电影的花费超过了你计算的平均值。</li>
+</ol>
+<p>如果你想要一点额外的挑战，允许用户在运行计算之前向数据集添加更多的电影。</p>
+<p>你可以通过询问用户想要添加多少部电影来做到这一点，这将允许你使用一个<code>for</code>循环和<code>range</code>来重复一些代码给定的次数。在<code>for</code>循环中，您可以编写一些代码来接收一些用户输入，并将一个包含所收集数据的电影元组添加到电影列表中。</p>
+<h2>我们的解决方案</h2>
+<p>下面是我们的解决方案演练，包括这个项目中的额外挑战。</p>
+<p>我们也有一个<a href="https://youtu.be/uRhlo64P2H0">视频演练</a>，它涵盖了这个项目的主要部分。</p>
+<p>在我们做其他事情之前，我们真的需要知道数据集的平均预算，所以这应该是我们的第一步。</p>
+<p>为了计算平均预算，我们需要两样东西:</p>
+<ul>
+<li>所有电影的总预算支出。</li>
+<li>电影的数量。</li>
+</ul>
+<p>为了计算所有预算的总和，我们可以从创建一个名为<code>total_budget</code>的变量并设置初始值<code>0</code>开始。</p>
+<p>然后使用一个<code>for</code>循环，我们可以遍历<code>movies</code>列表中的每部电影。我们将把每部电影的预算加到我们的总数中，就像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">20000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">9000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">4500000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Pirates of the Caribbean: On Stranger Tides"</span><span class="p">,</span> <span class="mi">379000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Age of Ultron"</span><span class="p">,</span> <span class="mi">365000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Endgame"</span><span class="p">,</span> <span class="mi">356000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Incredibles 2"</span><span class="p">,</span> <span class="mi">200000000</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total_budget</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="n">total_budget</span> <span class="o">=</span> <span class="n">total_budget</span> <span class="o">+</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+
+<p>现在我们已经知道了，我们可以通过将<code>total_budget</code>除以电影数量来计算平均值。</p>
+<p>我们将使用<code>len()</code>函数来获取电影的数量。</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">20000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">9000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">4500000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Pirates of the Caribbean: On Stranger Tides"</span><span class="p">,</span> <span class="mi">379000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Age of Ultron"</span><span class="p">,</span> <span class="mi">365000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Endgame"</span><span class="p">,</span> <span class="mi">356000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Incredibles 2"</span><span class="p">,</span> <span class="mi">200000000</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total_budget</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="n">total_budget</span> <span class="o">=</span> <span class="n">total_budget</span> <span class="o">+</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">average_budget</span> <span class="o">=</span> <span class="n">total_budget</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">movies</span><span class="p">)</span>
+</code></pre></div>
+
+<p>太好了！我们有平均预算。</p>
+<p>然而，因为我们在这里处理的是数百万美元，所以让这个值保持为float就没有什么意义了。我认为我们应该把它改成一个整数，这样我们就不会在输出中得到随机的十进制值。</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">20000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">9000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">4500000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Pirates of the Caribbean: On Stranger Tides"</span><span class="p">,</span> <span class="mi">379000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Age of Ultron"</span><span class="p">,</span> <span class="mi">365000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Endgame"</span><span class="p">,</span> <span class="mi">356000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Incredibles 2"</span><span class="p">,</span> <span class="mi">200000000</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total_budget</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="n">total_budget</span> <span class="o">=</span> <span class="n">total_budget</span> <span class="o">+</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">average_budget</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_budget</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">movies</span><span class="p">))</span>
+</code></pre></div>
+
+<p>接下来，我们需要再次遍历电影，检查每部电影是否超出平均预算。如果一部电影的预算大于我们刚刚计算的平均预算，我们将打印它。否则我们就继续看下一部电影。</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">20000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">9000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">4500000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Pirates of the Caribbean: On Stranger Tides"</span><span class="p">,</span> <span class="mi">379000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Age of Ultron"</span><span class="p">,</span> <span class="mi">365000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Endgame"</span><span class="p">,</span> <span class="mi">356000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Incredibles 2"</span><span class="p">,</span> <span class="mi">200000000</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">total_budget</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="n">total_budget</span> <span class="o">=</span> <span class="n">total_budget</span> <span class="o">+</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">average_budget</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_budget</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">movies</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">average_budget</span><span class="p">:</span>
+        <span class="n">over_average_cost</span> <span class="o">=</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">average_budget</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> cost $</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">: $</span><span class="si">{</span><span class="n">over_average_cost</span><span class="si">}</span><span class="s2"> over average."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>对于每部电影，我们还会计算它们超出平均预算多少，并将其作为一个格式化字符串的一部分打印出来。这里我们使用了f字符串，但是如果你愿意，你也可以使用<code>format</code>方法。</p>
+<p>最后，我们需要跟踪有多少电影超出了平均预算，这样我们就可以在最后告诉用户这些信息。</p>
+<p>有两种方法可以做到这一点:</p>
+<ol>
+<li>我们可以创建一个新的变量来记录超出预算的电影数量。您可以在<code>if</code>语句中将<code>1</code>添加到这个变量中。</li>
+<li>我们可以创建一个列表，把超出平均预算的电影放在那里。最后，我们可以使用<code>len</code>来计算列表的长度，这将告诉我们超出平均预算的电影数量。</li>
+</ol>
+<p>在这种情况下，我将选择第二个选项:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">20000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">9000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">4500000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Pirates of the Caribbean: On Stranger Tides"</span><span class="p">,</span> <span class="mi">379000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Age of Ultron"</span><span class="p">,</span> <span class="mi">365000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Endgame"</span><span class="p">,</span> <span class="mi">356000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Incredibles 2"</span><span class="p">,</span> <span class="mi">200000000</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">high_budget_movies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">total_budget</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="n">total_budget</span> <span class="o">=</span> <span class="n">total_budget</span> <span class="o">+</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">average_budget</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_budget</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">movies</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">average_budget</span><span class="p">:</span>
+        <span class="n">high_budget_movies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">movie</span><span class="p">)</span>
+        <span class="n">over_average_cost</span> <span class="o">=</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">average_budget</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> cost $</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">: $</span><span class="si">{</span><span class="n">over_average_cost</span><span class="si">}</span><span class="s2"> over average."</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"There were </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">high_budget_movies</span><span class="p">)</span><span class="si">}</span><span class="s2"> movies with over average budgets."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这看起来很棒，但是如果我们想变得更漂亮，我们可以在长长的预算数字中添加逗号分隔符，使它们更容易阅读。为了做到这一点，我们需要改变这一行:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> cost $</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">: $</span><span class="si">{</span><span class="n">over_average_cost</span><span class="si">}</span><span class="s2"> over average."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>对此:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> cost $</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">: $</span><span class="si">{</span><span class="n">over_average_cost</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> over average."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这个<code>:,</code>是Python内置的特殊格式化语言的一部分，它允许我们以各种方式格式化字符串。这不是我们将在本系列中深入讨论的内容，但是你可以在官方文档中找到相关信息<a href="https://docs.python.org/3/library/string.html#format-specification-mini-language">。</a></p>
+<h2>额外的</h2>
+<p>对于这项作业的额外部分，我们将:</p>
+<ol>
+<li>询问用户他们想在列表中添加多少部电影。</li>
+<li>使用<code>range</code>和一个<code>for</code>循环执行某个选项指定的次数。</li>
+<li>在循环的每次迭代中向用户询问电影名称和预算，并在包含这些信息的<code>movies</code>列表中添加一个元组。</li>
+</ol>
+<p>我们将把这段代码直接添加到我们的<code>movies</code>变量的定义下面。</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">20000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">9000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">4500000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Pirates of the Caribbean: On Stranger Tides"</span><span class="p">,</span> <span class="mi">379000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Age of Ultron"</span><span class="p">,</span> <span class="mi">365000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Avengers: Endgame"</span><span class="p">,</span> <span class="mi">356000000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Incredibles 2"</span><span class="p">,</span> <span class="mi">200000000</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">new_movie_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Enter how many new movies you wish to add: "</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">new_movie_count</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Enter new movie name: "</span><span class="p">)</span>
+    <span class="n">budget</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Enter new movie budget: "</span><span class="p">))</span>
+    <span class="n">new_movie</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">budget</span><span class="p">)</span>
+    <span class="n">movies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_movie</span><span class="p">)</span>
+
+<span class="n">high_budget_movies</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">total_budget</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="n">total_budget</span> <span class="o">=</span> <span class="n">total_budget</span> <span class="o">+</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">average_budget</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_budget</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">movies</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">movie</span> <span class="ow">in</span> <span class="n">movies</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">average_budget</span><span class="p">:</span>
+        <span class="n">high_budget_movies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">movie</span><span class="p">)</span>
+        <span class="n">over_average_cost</span> <span class="o">=</span> <span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">average_budget</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> cost $</span><span class="si">{</span><span class="n">movie</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">: $</span><span class="si">{</span><span class="n">over_average_cost</span><span class="si">}</span><span class="s2"> over average."</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"There were </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">high_budget_movies</span><span class="p">)</span><span class="si">}</span><span class="s2"> movies with over average budgets."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>就是这样！</p>
+<p>这个项目比我们之前尝试过的要长一点，所以到目前为止做得很好。我希望完成这个项目有助于巩固你第一周的知识。现在你已经为第2周做好了准备！</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

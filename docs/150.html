@@ -1,0 +1,229 @@
+<html>
+<head>
+<title>Day 20: map, filter, and Conditional Comprehensions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第20天:映射、过滤和条件理解</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-20-map-filter/">https://blog.teclado.com/python-30-day-20-map-filter/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第20天！今天，我们将扩展我们对理解的使用，以纳入过滤条件。这将允许我们从原始值的某个子集创建一个新集合。</a></p>
+<p>我们还将看到两个基于函数的理解语法的替代品，叫做<code>map</code>和<code>filter</code>。</p>
+<h2>理解的快速回顾</h2>
+<p>我们已经多次使用理解，所以我不想在这里重述语法。我想说的是的<em>是什么理解。</em></p>
+<p>当我们想从其他可重复的事物中收集新的集合时，我们使用理解。然而，有些情况下，我们想做一个新的集合，理解是没有必要的。当我们制作这个新系列的时候，我们只有在想要改变一些价值观的时候才会用到理解。例如，我们可能希望将列表中的每个字符串转换为标题大小写:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tom"</span><span class="p">,</span> <span class="s2">"richard"</span><span class="p">,</span> <span class="s2">"harold"</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+</code></pre></div>
+
+<p>如果我们只是想把<code>names</code>列表变成一个集合，我们可以这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tom"</span><span class="p">,</span> <span class="s2">"richard"</span><span class="p">,</span> <span class="s2">"harold"</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们不必为更加冗长的集合理解而烦恼:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tom"</span><span class="p">,</span> <span class="s2">"richard"</span><span class="p">,</span> <span class="s2">"harold"</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">}</span>
+</code></pre></div>
+
+<p>考虑到这一点，我们真的可以把理解看作是对某个可重复项中的每一项执行动作，然后存储结果的一种方式。</p>
+<h2><code>map</code>功能</h2>
+<p>现在我们有了这个理解的心智模型，与<code>map</code>的相似之处将会非常清楚。</p>
+<p>是一个函数，它允许我们对iterable中的每一项调用其他函数。什么是功能？它们只是一种定义我们想要以可重用的方式执行的一些动作的方法。换句话说，<code>map</code>是对iterable中的每一项执行某种动作的方式，就像理解一样。</p>
+<p>假设我想对数字列表中的每个数字进行立方运算。我们可以这样使用<code>map</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">cube</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">number</span> <span class="o">**</span> <span class="mi">3</span>
+
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">cubed_numbers</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我们应该注意的一点是，我们只传递了我们希望<code>map</code>为我们调用的函数的名称。我们自己还没有调用那个函数。</p>
+<p>在上面的例子中，我们的函数被称为<code>cube</code>，所以我们传入的是<code>cube</code>，而不是<code>cube()</code>。</p>
+<p>你们中的一些人可能试图打印上面例子中的<code>cubed_numbers</code>,但是也许你没有得到你想要的。我们得到的不是立方数的列表，而是类似这样的东西:</p>
+<div class="codehilite"><pre><span/><code><span class="o">&lt;</span><span class="nb">map</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f8a284ab3d0</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p>这是因为<code>map</code>对象是另一种<em>惰性</em>类型，就像我们通过调用<code>zip</code>、<code>enumerate</code>或<code>range</code>得到的东西。<code>map</code>实际上，在我们要求之前，不会计算任何值。</p>
+<p>这使得<code>map</code>比我们到目前为止看到的理解更有效，因为它不需要一次存储所有的值。它也可能永远不会计算任何值，因为它只在我们请求时计算下一个值。如果我们从不请求这些值，它们就不会被计算！</p>
+<p>那么我们如何从一个<code>map</code>对象中得到东西呢？它们是可迭代的，所以我们可以迭代这些值:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">cube</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">number</span> <span class="o">**</span> <span class="mi">3</span>
+
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">cubed_numbers</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">cubed_numbers</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>因为它们是可迭代的，我们也可以使用<code>*</code>来解包它们:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">cube</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">number</span> <span class="o">**</span> <span class="mi">3</span>
+
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">cubed_numbers</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">cubed_numbers</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">", "</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果愿意，我们还可以将它们转换为普通收藏:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">cube</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">number</span> <span class="o">**</span> <span class="mi">3</span>
+
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">cubed_numbers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">numbers</span><span class="p">))</span>
+</code></pre></div>
+
+<h2><code>map</code>具有多个可重复项</h2>
+<p>关于<code>map</code>的一个非常好的事情是它可以同时处理几个可迭代的对象。</p>
+<p>当我们提供多个iterable时，<code>map</code>在调用所提供的函数时从每个iterable中取一个值。这意味着函数被多个参数调用。这些参数的顺序与我们将iterables传递给<code>map</code>的顺序相匹配。</p>
+<p>假设我们有两个数字列表:<code>odds</code>和<code>evens</code>。我想将<code>odds</code>中的第一个值添加到<code>evens</code>中的第一个值，然后我想添加每个集合的第二个值，以此类推。用<code>map</code>很容易做到这一点。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">odds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">evens</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">totals</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">odds</span><span class="p">,</span> <span class="n">evens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">totals</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">", "</span><span class="p">)</span>  <span class="c1"># 3, 7, 11, 15, 19</span>
+</code></pre></div>
+
+<p>注意，<code>add</code>函数需要能够接受多个值，因为<code>map</code>总是用两个参数调用它:一个来自<code>odds</code>的值，一个来自<code>evens</code>。</p>
+<p>如果的iterables长度不同，<code>map</code>将在用完值后立即停止，就像使用<code>zip</code>时一样。</p>
+<h2><code>map</code>用λ表示</h2>
+<p><code>map</code>经常用于简单的操作，这意味着通常不值得定义一个完整的函数。Lambda表达式经常被使用，因为它们允许我们在调用<code>map</code>时定义一个内联函数。</p>
+<p>例如，我们可以使用lambda表达式重新创建上面的<code>cube</code>示例，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">cubed_numbers</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">number</span><span class="p">:</span> <span class="n">number</span> <span class="o">**</span> <span class="mi">3</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果你需要一个关于lambda表达式如何工作的提示，我们在第16天的中已经介绍过了。</p>
+<h2><code>operator</code>模块</h2>
+<p>虽然lambda表达式很棒，但我们经常最终使用lambda表达式来复制某些操作符的功能。例如，<code>lambda number: number ** 3</code>实际上只是对每个值使用<code>**</code>操作符的一种方式。</p>
+<p>由于这种lambda表达式非常常见，标准库中有一个名为<code>operator</code>的模块，它包含所有操作符的函数版本。它还包含了一些函数，使调用方法或访问集合中的值变得容易。</p>
+<p>让我们再来看看我们的<code>add</code>例子。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">odds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">evens</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">totals</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">odds</span><span class="p">,</span> <span class="n">evens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">totals</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">", "</span><span class="p">)</span>  <span class="c1"># 3, 7, 11, 15, 19</span>
+</code></pre></div>
+
+<p>我们可以像这样使用lambda表达式:</p>
+<div class="codehilite"><pre><span/><code><span class="n">odds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">evens</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">totals</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">odds</span><span class="p">,</span> <span class="n">evens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">totals</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">", "</span><span class="p">)</span>  <span class="c1"># 3, 7, 11, 15, 19</span>
+</code></pre></div>
+
+<p>在我看来，这有点乱。这不像只写<code>add</code>那么清楚，但是如果不是必须的话，我也不太想必须定义<code>add</code>。</p>
+<p><code>operator</code>有一个<code>add</code>函数已经准备好了，所以我们不必自己定义它。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>
+
+<span class="n">odds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">evens</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">totals</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">odds</span><span class="p">,</span> <span class="n">evens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">totals</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">", "</span><span class="p">)</span>  <span class="c1"># 3, 7, 11, 15, 19</span>
+</code></pre></div>
+
+<p><code>operator</code>中另一个真正有用的函数是<code>methodcaller</code>。<code>methodcaller</code>允许我们轻松定义一个为我们调用方法的函数。我们只需要提供一个字符串形式的方法名。</p>
+<p>例如，我们可以对列表中的每个名字调用<code>title</code>方法，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">methodcaller</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tom"</span><span class="p">,</span> <span class="s2">"richard"</span><span class="p">,</span> <span class="s2">"harold"</span><span class="p">]</span>
+<span class="n">title_names</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">methodcaller</span><span class="p">(</span><span class="s2">"title"</span><span class="p">),</span> <span class="n">names</span><span class="p">)</span>
+</code></pre></div>
+
+<p>在我看来，这比lambda表达式方法好得多:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tom"</span><span class="p">,</span> <span class="s2">"richard"</span><span class="p">,</span> <span class="s2">"harold"</span><span class="p">]</span>
+<span class="n">title_names</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">names</span><span class="p">)</span>
+</code></pre></div>
+
+<p>在<code>operator</code>模块中有很多有趣的东西，所以我推荐你看一看<a href="https://docs.python.org/3/library/operator.html">文档</a>。</p>
+<h2>条件理解</h2>
+<p>正如我在这篇文章开始时所说的，我们不仅仅可以使用理解对iterable中的每一项执行操作，我们还可以使用理解进行过滤。</p>
+<p>我们通过在理解的末尾提供一个条件来做到这一点，这个条件决定了一个项目是否能进入我们的新集合。在条件评估为<code>True</code>的情况下，添加项目；否则，它将被丢弃。</p>
+<p>例如，假设我们有一组数字，我只想要偶数。我们可以使用条件理解来实现这一点:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">37</span><span class="p">]</span>
+<span class="n">even_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">number</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<p>这里我的过滤条件是<code>if number % 2 == 0</code>。因此，我们将把任何被<code>2</code>整除的数相加，并留下<code>0</code>的余数。</p>
+<p>这种理解相当于这样写一个<code>for</code>循环:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">37</span><span class="p">]</span>
+<span class="n">even_numbers</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">even_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们可以对任何一种理解进行过滤操作，例如，我们可以对一组理解做同样的事情。</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">37</span><span class="p">]</span>
+<span class="n">even_numbers</span> <span class="o">=</span> <span class="p">{</span><span class="n">number</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span> <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">}</span>
+</code></pre></div>
+
+<p>作为创建新集合的一部分，我们还可以对值进行修改。过滤条件是通常理解语法的扩充，它不限制我们通常能做的任何事情。</p>
+<h2><code>filter</code>功能</h2>
+<p>就像<code>map</code>是“正常”理解的功能模拟一样，<code>filter</code>扮演着与条件理解相同的角色。</p>
+<p>与<code>map</code>非常相似，<code>filter</code>为iterable中的每一项调用一个函数(称为谓词)，并丢弃该函数返回falsy值的任何值。</p>
+<p>一个<strong>谓词</strong>是一个接受某个值作为参数并返回<code>True</code>或<code>False</code>的函数。</p>
+<p>例如，我们可以这样改写上面例子中的条件理解:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">37</span><span class="p">]</span>
+<span class="n">even_numbers</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">number</span><span class="p">:</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+</code></pre></div>
+
+<p>在这种情况下，我们在<code>operator</code>模块中没有简单的解决方案——尽管有一个<code>mod</code>函数——所以我们要么使用lambda表达式，要么定义一个要调用的函数。</p>
+<p>在这种情况下，我认为定义一个小的助手函数是值得的，因为它使事情更具可读性。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">37</span><span class="p">]</span>
+<span class="n">even_numbers</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">is_even</span><span class="p">,</span> <span class="n">numbers</span><span class="p">)</span>
+</code></pre></div>
+
+<p>就像<code>map</code>，<code>filter</code>给了我们一个懒惰的<code>filter</code>对象，所以这些值直到我们需要的时候才会被计算出来。</p>
+<p>然而，与<code>map</code>不同的是，<code>filter</code>函数一次只能处理一个iterable。不过这并不是一个大问题，因为我们有许多不同的方式将集合组合在一起，我们可以将这个组合的集合传递给<code>filter</code>。</p>
+<h2>使用<code>None</code>和<code>filter</code></h2>
+<p>除了向<code>filter</code>传递函数，还可以使用值<code>None</code>。这告诉<code>filter</code>我们想要直接使用值的真值，而不是执行某种比较，或者计算什么。</p>
+<p>在这种情况下，<code>filter</code>将保留原始iterable中的所有真值，而所有假值将被丢弃。</p>
+<div class="codehilite"><pre><span/><code><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"Hello"</span><span class="p">,</span> <span class="p">[],</span> <span class="p">{},</span> <span class="mi">435</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.2</span><span class="p">,</span> <span class="s2">""</span><span class="p">]</span>
+<span class="n">truthy_values</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">truthy_values</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">", "</span><span class="p">)</span>  <span class="c1"># Hello, 435, -4.2</span>
+</code></pre></div>
+
+<h2>练习</h2>
+<p>1)使用<code>map</code>调用下面列表中每个字符串的<code>strip</code>方法:</p>
+<div class="codehilite"><pre><span/><code><span class="n">humpty_dumpty</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"  Humpty Dumpty sat on a wall,  "</span><span class="p">,</span>
+    <span class="s2">"Humpty Dumpty had a great fall;     "</span><span class="p">,</span>
+    <span class="s2">"  All the king's horses and all the king's men "</span><span class="p">,</span>  
+    <span class="s2">"    Couldn't put Humpty together again."</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>在控制台的不同行上打印童谣的行。</p>
+<p>记住，如果你愿意，你可以使用<code>operator</code>模块和<code>methodcaller</code>函数来代替lambda表达式。</p>
+<p>2)下面你会发现一个包含几个名字的元组:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"bob"</span><span class="p">,</span> <span class="s2">"Christopher"</span><span class="p">,</span> <span class="s2">"Rachel"</span><span class="p">,</span> <span class="s2">"MICHAEL"</span><span class="p">,</span> <span class="s2">"jessika"</span><span class="p">,</span> <span class="s2">"francine"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>使用带有过滤条件的列表理解，以便只有少于8个字符的名称出现在新列表中。确保新列表中的每个名字都是大写的。</p>
+<p>3)使用<code>filter</code>删除以下范围内的所有负数:<code>range(-5, 11)</code>。将剩余的数字打印到控制台。</p>
+<p>你可以在这里找到我们的练习<a href="/30-days-of-python/python-30-day-20-exercise-solutions">的答案。</a></p>
+<h2>额外资源</h2>
+<p>在<code>itertools</code>模块中有一个<code>filter</code>的版本叫做<code>filterfalse</code>。它就像<code>filter</code>一样工作，但是只保留谓词返回falsy值的项目。</p>
+<p>本质上，它给了我们一套<code>filter</code>会丢弃的价值。</p>
+<p>你可以在这里找到<code>filterfalse</code> <a href="https://docs.python.org/3.8/library/itertools.html#itertools.filterfalse">的文档。</a></p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

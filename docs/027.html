@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>String formatting in Python</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python中的字符串格式</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/learn-python-string-formatting-in-python/">https://blog.teclado.com/learn-python-string-formatting-in-python/</a></blockquote><div><div class="post-content">
+<p>对于新程序员来说，Python中最令人困惑的事情之一是字符串格式化。不是因为它在Python中很难，而是因为这么多年来做这件事的方式已经改变了很多次。</p>
+<p>下面是在Python中进行字符串格式化的反向时间表。建议您遵循第一种格式化方法。</p>
+<p>所有的代码片段都要求用户输入他们的名字(例如<code>"Jose"</code>)，然后打印出一个问候语(<code>"Hello, Jose!"</code>)。</p>
+<h2 id="fstrings">f弦</h2>
+<p>最现代的字符串格式化方法是f-strings，Python3.6中新增的。这是我推荐的字符串格式化方法！</p>
+<pre><code class="language-python">user_name = input('Enter your name: ')  # Ask user for their name
+greeting = f'Hello, {user_name}!'  # Construct a greeting phrase
+print(greeting)
+</code></pre>
+<p>f-string将用作用域中的变量替换花括号内的内容。因此，变量中的<code>{user_name}</code>将被变量<code>user_name</code>的值替换。</p>
+<h2 id="format"><code>.format()</code></h2>
+<p><code>.format()</code>方法是一种很好的字符串格式化方法，但是它几乎总是可以被f字符串代替。</p>
+<p>这里有一个例子:</p>
+<pre><code class="language-python">user_name = input('Enter your name: ')
+greeting = 'Hello, {}!'.format(user_name)
+print(greeting)
+</code></pre>
+<p>在<code>.format()</code>方法中，我们将括号中的值替换为字符串中的<code>{}</code>。</p>
+<h2 id="templates">模板</h2>
+<p>模板允许您创建可重复使用的字符串，其中特殊的占位符可以由值替换。它们比任何其他形式的格式化都要慢得多，而且与上述两种相比，几乎没有任何好处。</p>
+<p>这里有一个例子:</p>
+<pre><code class="language-python">from string import Template
+user_name = input('Enter your name: ')
+greeting_template = Template('Hello, $who!')
+greeting = s.substitute(who=user_name)
+print(greeting)
+</code></pre>
+<h2 id="stringconcatenation">串并置</h2>
+<p>字符串连接是Python中最简单也是最古老的字符串格式化形式。当你有非常简单的字符串，很少格式化时，这是很有用的。</p>
+<p>这里有一个例子:</p>
+<pre><code class="language-python">user_name = input('Enter your name: ')
+greeting = 'Hello, ' + user_name + '!'
+print(greeting)
+</code></pre>
+<p>然而，当将不是字符串的东西连接在一起时，很容易在Python代码中产生意外错误，正如我们从下面的示例中看到的:</p>
+<pre><code class="language-python">age = 30
+greeting = 'You are ' + age + ' years old.'  # This raises an error!
+print(greeting)
+</code></pre>
+<p>这是对Python中现有的字符串格式化方式的一个快速、简短的概述。有很多不同的方法！</p>
+<p>许多不同的教程可能会建议不同的字符串格式化方法，因为它们可能是在Python生命的不同时期编写的。我的建议是:如果在Python3.6上，坚持使用f字符串，如果在Python3.5或更早的版本上，坚持使用<code>.format</code>方法。</p>
+
+</div>
+</div>    
+</body>
+</html>

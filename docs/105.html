@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Day 1: Exercise Solutions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第1天:锻炼解决方案| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-1-exercise-solutions/">https://blog.teclado.com/python-30-day-1-exercise-solutions/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>以下是我们在<a href="https://blog.teclado.com/30-days-of-python/"> 30天Python </a>系列中<a href="/30-days-of-python/python-30-day-1-numbers-printing/">第1天练习</a>的解决方案。在检查解决方案之前，请确保您亲自尝试了这些练习！</p>
+<h3>1)将您的年龄打印到控制台。</h3>
+<p>在这个练习中，我们只需要一个<code>print</code>调用。我29岁，所以我的解决方案应该是这样的:</p>
+
+
+<h3>2)计算并打印27年中的天数、周数和月数。</h3>
+<p>练习2更具挑战性，因为我们需要做一些数学运算。对于这个练习，我们不必担心闰年，所以我们只需将一年中的天数、周数或月数乘以<code>27</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="mi">27</span> <span class="o">*</span> <span class="mi">365</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">27</span> <span class="o">*</span> <span class="mi">52</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">27</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span>
+</code></pre></div>
+
+<p>那应该给我们9855天，1404周，324个月。</p>
+<h3>3)计算并打印半径为5个单位的圆的面积。</h3>
+<p>在这个练习中，我们可以很宽松地使用圆周率的值，所以我将使用<code>3.141</code>。</p>
+<p>如果你不记得如何计算圆的面积，面积的公式是圆周率乘以半径的平方:一般写成πr。</p>
+<p>在代码中，我们可以这样写:</p>
+
+
+<p><code>3.141</code> (pi)乘以<code>5</code>的平方，也就是<code>5</code>乘以<code>5</code>。</p>
+<p>这个练习还告诉我们寻找额外的操作符，实际上有一个用于指数的操作符<a href="https://docs.python.org/3/reference/expressions.html#the-power-operator"/>(<code>**</code>)，我们可以用它来平方一个数。</p>
+
+
+<p>我们也可以使用<code>pow</code>函数以稍微不同的语法做同样的事情:</p>
+
+
+<p>我们提供给<code>pow</code>的第一个值是基数，第二个值是指数。你可以在<a href="https://docs.python.org/3.8/library/functions.html#pow">官方文档</a>中读到关于<code>pow</code>的内容。</p>
+<p>所有这些方法都很好，它们都产生完全相同的结果。使用圆周率的近似值，我们得到<code>78.525</code>作为圆的面积。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

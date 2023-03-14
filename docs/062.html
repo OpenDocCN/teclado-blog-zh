@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Python Deques</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python Deques</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-deques/">https://blog.teclado.com/python-deques/</a></blockquote><div><div class="post-content">
+<p>双端队列是来自于<code>collections</code>模块的一种方便的集合类型，允许从集合的任意一端进行高效的<code>append</code>和<code>pop</code>操作。它们还附带了一个非常有用的<code>rotate</code>方法，用于从队列的一端获取一个项目，并将其附加到另一端。</p>
+<p><code>collections</code>模块是Python标准库的一部分，但是我们仍然需要导入它来使用deques。</p>
+<pre><code class="language-python">from collections import deque
+</code></pre>
+<p>在这里，我们可以通过向<code>deque</code>类传递一个iterable来创建一个deque。这可能是一个列表，一个集合，甚至是一个字符串。</p>
+<p>注意，要创建包含单个字符串的dequee对象，我们必须将该字符串作为另一个iterable对象中的一个元素传入，否则每个字符都将是结果dequee中的一个单独的元素。</p>
+<pre><code class="language-python">oops = deque("abc")  # deque(['a', 'b', 'c'])
+</code></pre>
+<p>一旦我们有了一个包含我们想要处理的项的deque，我们就可以使用许多与使用常规列表相同的方法。这包括<code>append</code>、<code>count</code>、<code>copy</code>、<code>clear</code>等几个。然而，我们也获得了一些特定于deques的新方法。</p>
+<p>第一种注法是<code>appendleft</code>。这就像<code>append</code>一样，但是把新元素放在索引<code>0</code>处。<code>appendleft</code>有一个对应的<code>popleft</code>，其功能与标准列表的<code>pop(0)</code>完全相同。deques的一个限制是它们的<code>pop</code>方法不接受任何参数，并且总是弹出集合中的最后一项。</p>
+<pre><code class="language-python">base = deque([1, 2, 3])
+    
+x = base.pop()  # 3
+base.appendleft(x)  # deque([3, 1, 2])
+    
+y = base.popleft()  # 3
+base.append(y)  # deque([1, 2, 3])
+</code></pre>
+<p>使用deques时，我们可以使用的另一个非常有趣的方法是<code>rotate</code>。<code>rotate</code>允许我们将一个项目从队列的一端<code>pop</code>到另一端<code>append</code>。</p>
+<pre><code class="language-python">base = deque([1, 2, 3])
+base.rotate()  # deque([3, 1, 2])
+</code></pre>
+<p>在上面的例子中，3从右边弹出并附加到左边。</p>
+<p>然而，我们并不局限于单次旋转，我们可以通过传入一个数字和相关的符号作为参数来控制旋转的角度和方向。默认情况下，队列向右旋转，但提供负旋转值将导致其向左旋转。</p>
+<pre><code class="language-python">base = deque([1, 2, 3, 4, 5])
+    
+# rotates base 2 steps to the left
+base.rotate(-2)  # deque([3, 4, 5, 1, 2])
+    
+# rotates base 3 steps to the right
+base.rotate(3)   # deque([5, 1, 2, 3, 4])
+</code></pre>
+<h2 id="wrappingup">包扎</h2>
+<p>这就是我们对德克的简要介绍！如果你想了解更多关于deques的知识，你可以在<a href="https://docs.python.org/3.7/library/collections.html#collections.deque">官方文档</a>中阅读它们，以及<code>collections</code>模块中所有其他酷的集合类型。</p>
+<p>我们也在我们的<a href="https://www.udemy.com/the-complete-python-course/?couponCode=BLOGGER">完整Python课程</a>中涵盖了类似的内容，所以如果你想进一步提升你的Python技能，就来看看吧。</p>
+<p>如果你喜欢这个小帖子，请与你的朋友分享，并确保在<a href="https://twitter.com/TecladoCode"> Twitter </a>上关注我们，或者注册下面的邮件列表，以了解我们所有的最新内容！</p>
+
+</div>
+</div>    
+</body>
+</html>

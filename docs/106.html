@@ -1,0 +1,184 @@
+<html>
+<head>
+<title>Day 2: Strings, Variables, and Getting Input from Users | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第2天:字符串、变量和获取用户输入</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-2-strings-variables/">https://blog.teclado.com/python-30-day-2-strings-variables/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第2天！在这篇文章中，我们将讨论如何使用字符串，获取用户输入，以及使用变量在程序中命名值。</a></p>
+<p>如果你错过了<a href="/30-days-of-python/python-30-day-1-numbers-printing">第一天</a>，如果你对以下任何一项感到不舒服，我建议你检查一下:</p>
+<ul>
+<li>整数</li>
+<li>漂浮物</li>
+<li>简单算术运算符(<code>+</code>、<code>-</code>、<code>/</code>和<code>*</code>)</li>
+<li><code>print</code>功能</li>
+<li>什么是表情</li>
+</ul>
+<p>事不宜迟，我们来说说弦。</p>
+<h2>字符串基础</h2>
+<p>Python中的字符串是零个或多个字符的有序序列，我们可以用它们来表示任意的符号集合。这可能是单词、完整的句子或随机的字母、数字和标点符号串。字符串有时被称为“字符串文字”。</p>
+<p>为了创建一个字符串，我们只需要用引号将一些字符括起来:</p>
+
+
+<p>我们可以使用单引号或双引号。它们在Python中没有任何不同的含义，也没有强烈的理由让你只使用其中的一个。</p>
+<div class="codehilite"><pre><span/><code><span class="s1">'This is also a valid string!'</span>
+</code></pre></div>
+
+<p>然而，我们不能以一种类型的引用开始字符串，以另一种类型的引用结束字符串。这是无效语法:</p>
+<div class="codehilite"><pre><span/><code><span class="s1">'This is not valid string!"</span>
+</code></pre></div>
+
+<p>打印字符串就像打印数字一样。我们可以在调用<code>print</code>函数时传入一个字符串，就像这样:</p>
+
+
+<p>正如我在开篇所说，字符串是零个或多个字符的序列，我们可以通过写一对中间没有任何内容的引号来定义一个空字符串:</p>
+
+
+<p>或者</p>
+
+
+<p>请注意，这与以下内容不同:</p>
+
+
+<p>那是一个包含单个空格的字符串，空格是字符，所以字符串是<strong>而不是</strong>空的。</p>
+<h2>命名值</h2>
+<p>我们目前缺少的一个重要工具是引用我们已经计算过的值的方法。请记住，我们可以编写类似于<code>45 + 56</code>的表达式，Python会进行这种计算，即使我们没有将任何内容打印到控制台。问题是，我们如何引用那个表达式的结果？</p>
+<p>碰巧的是，我们可以使用一个<em>赋值操作</em>在Python中命名值。将值绑定到名称的语法相对简单。我们只需要写下我们想要使用的名字，一个<code>=</code>符号，和一些表达式。表达式的结果(它计算的值)就是名称所指的内容。这个名字叫做变量。</p>
+<p>这里有几个例子:</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="s2">"Phillip Best"</span>
+<span class="n">age</span> <span class="o">=</span> <span class="mi">28</span>
+</code></pre></div>
+
+<p>我们选择的变量名完全取决于我们自己，但是我们需要记住一些规则:</p>
+<ul>
+<li>变量名可以包括字母、数字和下划线(<code>_</code>)字符。</li>
+<li>变量名不能以数字开头，但可以以下划线开头。</li>
+<li>变量名区分大小写，但可以是任何大小写。</li>
+</ul>
+<p>这些限制意味着以下所有变量名都是无效的:</p>
+<div class="codehilite"><pre><span/><code><span class="mi">1</span><span class="n">st_value</span>
+<span class="n">given</span><span class="o">-</span><span class="n">name</span>
+<span class="n">john</span><span class="s1">'s_age</span>
+<span class="n">example</span> <span class="n">variable</span>
+</code></pre></div>
+
+<ul>
+<li><code>1st_value</code>不允许，因为它以数字开头。</li>
+<li><code>given-name</code>包含非法连字符。</li>
+<li>因为撇号的关系，所以不允许。</li>
+<li>包含空格，这也是不允许的。</li>
+</ul>
+<p>这些规则很有道理。例如，如果允许数字作为变量名的第一个字符，我们就可以使用像<code>4</code>这样的单字符名称。然而，这也是我们创建整数的方式，可能会导致混淆。</p>
+<p>类似地，<code>given-name</code>包含一个<code>-</code>字符，它与用于减法的<code>-</code>操作符冲突，<code>john's_age</code>与用于定义字符串的<code>'</code>也有类似的问题。</p>
+<p>一个可能让你吃惊的有效变量名是<code>_</code>。这有一个特殊的用例，我们将在本系列的后面触及。</p>
+<p>如果我们想用多个单词定义变量名，我们可以用下划线分隔这些单词，就像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">given_name</span> <span class="o">=</span> <span class="s2">"Phillip"</span>
+<span class="n">surname</span> <span class="o">=</span> <span class="s2">"Best"</span>
+</code></pre></div>
+
+<h3>风格注释</h3>
+<p>虽然我们在如何定义变量名方面有很大的自由度，但我们应该记住一些约定，以帮助尽可能保持代码的可读性。</p>
+<p>首先，我们应该为变量使用描述性的名称。写以下内容是完全合法的:</p>
+
+
+<p>但问题是，<code>x</code>和<code>y</code>其实并不代表什么。将此与<code>given_name</code>和<code>surname</code>进行比较，它们会立即告诉我们它们引用的值是什么。使用变量永远不会让你的代码变得难以理解。</p>
+<p>你可能已经注意到的另一件事是，我所有的变量名都是小写的。在Python中有使用大写字母命名的例子，但是当我们这样做时，它有特殊的含义。在我们讨论这些用例之前，避免使用大写字母，因为这会给熟悉Python命名约定的开发人员带来误导信息。</p>
+<h2>引用变量</h2>
+<p>现在我们知道了如何将值绑定到名称，下一步是学习如何从变量中检索这些值。好消息是这非常简单。我们所要做的就是把变量名写在我们想要使用该值的地方。</p>
+<p>例如，我们可以这样写:</p>
+<div class="codehilite"><pre><span/><code><span class="n">hourly_wage</span> <span class="o">=</span> <span class="mf">20.00</span>
+<span class="n">hours_worked</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">hourly_wage</span> <span class="o">*</span> <span class="n">hours_worked</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我们定义了两个变量<code>hourly_wage</code>，它是一个浮点数，和<code>hours_worked</code>，它是一个整数。然后我们引用了这些值，并将它们用作<code>*</code>操作符的操作数。</p>
+<p>如果我们运行上面的代码，我们应该看到<code>800.00</code>被打印到控制台。请记住，任何数字乘以一个浮点数都会产生一个浮点数。</p>
+<p>碰巧的是，引用变量名是另一种类型的表达式。当我们在代码中的任何地方写一个变量名时，它会计算出我们绑定到该名称的值。</p>
+<p>但是，如果我们还没有将任何东西绑定到那个名称，会发生什么呢？让我们来看看！</p>
+<h2>例外</h2>
+<p>让我们回到<code>repl.it</code>，我们将编写一个只包含一个表达式的程序，这里我们引用了一个我们还没有定义的变量:</p>
+
+
+<p>如果我们运行这个程序，我们将在控制台中看到一些愤怒的红色文本，看起来像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+    <span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+        <span class="n">name</span>
+<span class="ne">NameError</span><span class="p">:</span> <span class="n">name</span> <span class="s1">'name'</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span>
+</code></pre></div>
+
+<p>这里提供的追溯和其他信息非常有用，我强烈建议您养成在出错时详细阅读的习惯。考虑到这一点，我认为值得花一点时间来学习如何阅读这篇文章。</p>
+<p><strong>定义</strong>:回溯是一个报告，它告诉我们当异常发生时，代码中发生了什么。</p>
+<p>第一部分是回溯本身，它将告诉我们<em>异常发生在</em>的什么地方。顺便提一下，异常通常是一个错误，但是在Python中也有出于其他目的使用异常的情况。</p>
+<p>回溯告诉我们这个异常发生在一个名为<code>main.py</code>的文件中。如果你在<code>repl.it</code>上，记住这是当我们按下“运行”按钮时总是运行的文件。它还告诉我们异常发生在第1行。在下一行，它告诉我们有问题的代码是什么。在我们的例子中，这是对变量<code>name</code>的引用。</p>
+<p>这些都是需要了解的好信息，它让我们能够非常快速地指出我们应该在代码中的什么地方寻找问题。</p>
+<p>在回溯下，我们有发生的异常的名称(在我们的例子中是一个<code>NameError</code>),以及一些更详细解释异常的消息。我们可以看到，问题在于<code>name</code>没有定义。换句话说，我们还没有告诉Python<code>name</code>在我们的代码中意味着什么。</p>
+<p>还有另一种可能发生<code>NameError</code>的情况，让我们来看看:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="n">hourly_wage</span> <span class="o">*</span> <span class="n">hours_worked</span><span class="p">)</span>
+
+<span class="n">hourly_wage</span> <span class="o">=</span> <span class="mf">20.00</span>
+<span class="n">hours_worked</span> <span class="o">=</span> <span class="mi">40</span>
+</code></pre></div>
+
+<p>这里我们定义了两个变量名，但是如果我们运行代码，我们将在控制台中得到以下消息:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+    <span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">hourly_wage</span> <span class="o">*</span> <span class="n">hours_worked</span><span class="p">)</span>
+<span class="ne">NameError</span><span class="p">:</span> <span class="n">name</span> <span class="s1">'hourly_wage'</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span>
+</code></pre></div>
+
+<p>在<code>main.py</code>文件的第1行我们又一次遇到了一个异常，这个异常又是一个<code>NameError</code>。在这种情况下，它告诉我们<code>hourly_wage</code>没有被定义。实际问题是<code>hourly_wage</code> <strong>和</strong> <code>hours_worked</code>都没有定义，但是先遇到了<code>hourly_wage</code>。</p>
+<p>我们得到这个错误的原因是因为Python从上到下运行我们的代码。当它在第1行遇到<code>print(hourly_wage * hours_worked)</code>时，它还不知道我们已经在代码的后面定义了<code>hourly_wage</code>和<code>hours_worked</code>。出于这个原因，我们必须确保在代码中使用变量之前总是定义它们。如果我们不这样做，Python将引发一个<code>NameError</code>异常，就像我们在这些例子中看到的那样。</p>
+<h2>从用户处获取值</h2>
+<p>到目前为止，我们已经在Python代码中提供了所有的值，但是有时我们需要从用户那里获取值。例如，也许我们想获得用户的姓名和年龄。</p>
+<p>幸运的是，我们不需要从头开始实现这样的东西，因为Python自带了另一个函数来完成这项工作。这个函数叫做<code>input</code>。</p>
+<p>我们调用<code>input</code>的方式和<code>print</code>完全一样，我们只需要写出函数名，然后直接在后面加上左括号和右括号:</p>
+
+
+<p>如果你运行上面的代码，你不会在控制台中看到任何东西，但是如果你查看<a href="http://repl.it/"> repl.it </a>中的“运行”按钮，你会看到它显示“停止”。这意味着程序仍在运行。你还会发现你可以在控制台中输入。</p>
+<p>如果你按回车键，程序将结束。这是因为当你按下enter键时，<code>input</code>功能将停止接受用户输入。由于我们的程序中没有其他代码，Python就用完了要执行的代码，并终止了程序。</p>
+<p>虽然我们可以通过编写<code>input()</code>来调用<code>input</code>，但通常我们会希望提供某种提示，让用户知道我们想从他们那里得到什么。你的第一反应可能是这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="s2">"Please enter your name:"</span><span class="p">)</span>
+<span class="nb">input</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这当然可行，但是<code>input</code>实际上能够提供自己的提示。我们只需要在调用该函数时，在括号内写出所需的提示:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name:"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我鼓励你自己运行这一行代码，因为有一点问题。此刻，用户正直接写在我在提示末尾添加的冒号旁边。为了避免这种情况，请确保在提示的末尾留出一两个空格。这将对用户体验产生重大影响。</p>
+<div class="codehilite"><pre><span/><code><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span>
+</code></pre></div>
+
+<p>拼图的最后一块是将这个值存储在某个地方。请记住，函数调用是表达式，因此会计算出一些值。<code>input</code>函数计算出一个字符串，该字符串包含用户响应提示所写的任何内容。因此，如果需要，我们可以将该字符串赋给一个变量，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果用户输入<code>John</code>，<code>name</code>将包含姓名，<code>"John"</code>作为字符串。</p>
+<h2>练习</h2>
+<p>现在我们已经介绍了如何使用字符串、变量和<code>input</code>函数，是时候做一些练习了。</p>
+<ol>
+<li>询问用户姓名和年龄，将这些值赋给两个变量，然后打印出来。</li>
+<li>调查当你试图给一个已经定义好的变量赋值时会发生什么。尝试在重用该名称之前和之后打印变量。</li>
+<li>下面你会发现一些有很多错误的代码。尝试一行一行地检查程序，并修复代码中的问题。我鼓励你在工作的时候试着运行这个程序，因为阅读错误信息对于调试你自己的程序是一个很好的练习。</li>
+</ol>
+<div class="codehilite"><pre><span/><code><span class="n">hourly_wage</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your hourly wage: ')</span>
+
+<span class="n">prnt</span><span class="p">(</span><span class="s2">"Hourly wage: "</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hourlywage</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hours worked: "</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hours_worked</span><span class="p">)</span>
+
+<span class="n">hours_worked</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"How many hours did you work this week? "</span><span class="p">)</span>
+</code></pre></div>
+
+<p>你可以在这里找到今天练习<a href="/30-days-of-python/python-30-day-2-exercise-solutions">的答案。</a></p>
+<p>我希望到目前为止这还没有太大的挑战，但是如果你被卡住了，请随时加入我们的<a href="https://discord.gg/BBWwyMq"> Discord服务器</a>并向我们提出任何问题。我们非常乐意帮忙！</p>
+<p>下一次我们将着眼于处理用户输入，我们将更深入地研究字符串。希望在那里见到你！</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

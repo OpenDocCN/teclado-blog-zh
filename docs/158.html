@@ -1,0 +1,327 @@
+<html>
+<head>
+<title>Day 23: Exercise Solutions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第23天:锻炼解决方案| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-23-exercise-solutions/">https://blog.teclado.com/python-30-day-23-exercise-solutions/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>以下是我们对Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天中</a><a href="/30-days-of-python/python-30-day-23-generators-yield">第23天练习</a>的解决方案。在检查解决方案之前，请确保您亲自尝试了这些练习！</p>
+<h3>1)编写一个生成器，生成指定范围内的素数。</h3>
+<p>我将使用<a href="/30-days-of-python/python-30-day-8-while-loops/">第8天练习</a>中的解决方案作为起点，因为逻辑几乎完全相同:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">dividend</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">divisor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dividend</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dividend</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">dividend</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果你不确定为什么会这样，我建议你看看<a href="/30-days-of-python/python-30-day-8-exercise-solutions/">原始练习演练</a>。</p>
+<p>基于我们之前的解决方案，我们需要做的第一件事是创建一个函数并将所有代码放入其中。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">gen_primes</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">dividend</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">limit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">divisor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dividend</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dividend</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">dividend</span><span class="p">)</span>
+</code></pre></div>
+
+<p>在这里，我添加了一个名为<code>limit</code>的参数，它将决定我们的生成器最终停止的位置。它决定了我们要检查的最高数字。</p>
+<p>就这样，我们差不多完成了。现在我们只需要通过使用<code>yield</code>关键字将我们的函数变成一个生成器。我们将把它放在内部<code>for</code>循环的<code>else</code>分支中，而不是打印<code>dividend</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">gen_primes</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">dividend</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">limit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">divisor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dividend</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dividend</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">dividend</span>
+</code></pre></div>
+
+<p>当我们调用函数时，我们得到一个生成器迭代器:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">gen_primes</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">dividend</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">limit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">divisor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dividend</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dividend</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">dividend</span>
+
+<span class="n">primes</span> <span class="o">=</span> <span class="n">gen_primes</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>  <span class="c1"># &lt;generator object gen_primes at 0x7f02ca556c80&gt;</span>
+</code></pre></div>
+
+<p>我们可以使用这个生成器迭代器，使用<code>next</code>函数一次检索一个素数:</p>
+<div class="codehilite"><pre><span/><code><span class="o">...</span>
+
+<span class="n">primes</span> <span class="o">=</span> <span class="n">gen_primes</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>  <span class="c1"># &lt;generator object gen_primes at 0x7f02ca556c80&gt;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">primes</span><span class="p">))</span>  <span class="c1"># 2</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">primes</span><span class="p">))</span>  <span class="c1"># 3</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">primes</span><span class="p">))</span>  <span class="c1"># 5</span>
+</code></pre></div>
+
+<h3>2)下面我们有一个使用<code>map</code>处理列表中名字的例子。使用生成器表达式重写这段代码。</h3>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">" rick"</span><span class="p">,</span> <span class="s2">" MORTY  "</span><span class="p">,</span> <span class="s2">"beth "</span><span class="p">,</span> <span class="s2">"Summer"</span><span class="p">,</span> <span class="s2">"jerRy    "</span><span class="p">]</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">names</span><span class="p">)</span>
+</code></pre></div>
+
+<p>生成器表达式语法就像我们之前写的理解一样。唯一的区别是，我们使用常规圆括号，而不是方括号或花括号。</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">" rick"</span><span class="p">,</span> <span class="s2">" MORTY  "</span><span class="p">,</span> <span class="s2">"beth "</span><span class="p">,</span> <span class="s2">"Summer"</span><span class="p">,</span> <span class="s2">"jerRy    "</span><span class="p">]</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">)</span>
+</code></pre></div>
+
+<p>对于像这样的情况，我们被迫使用lambda表达式，生成器表达式通常会更短，可读性更好。</p>
+<h2>3)编写一个小程序，为德州扑克游戏发牌。</h2>
+<p>交易顺序有点复杂，但在第23天的帖子中有详细的解释<a href="/30-days-of-python/python-30-day-23-generators-yield">，所以如果你需要提醒，请查看那里。</a></p>
+<p>首先，我们需要创建我们的卡片组。有几种方法可以做到这一点。</p>
+<p>你可能会考虑这样一个选项:</p>
+<div class="codehilite"><pre><span/><code><span class="n">ranks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"jack"</span><span class="p">,</span> <span class="s2">"queen"</span><span class="p">,</span> <span class="s2">"king"</span><span class="p">,</span> <span class="s2">"ace"</span><span class="p">)</span>
+<span class="n">suits</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"clubs"</span><span class="p">,</span> <span class="s2">"diamonds"</span><span class="p">,</span> <span class="s2">"hearts"</span><span class="p">,</span> <span class="s2">"spades"</span><span class="p">)</span>
+
+<span class="n">cards</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">ranks</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">suit</span> <span class="ow">in</span> <span class="n">suits</span><span class="p">:</span>
+        <span class="n">cards</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">rank</span><span class="p">,</span> <span class="n">suit</span><span class="p">))</span>
+</code></pre></div>
+
+<p>我们可以通过打印<code>cards</code>和<code>len(deck)</code>来验证所有的牌都在那里，对于一副标准的52张牌来说，这应该是<code>52</code>。</p>
+<p>因为我们正在从现有的集合中创建一个新的列表，所以也可以用如下的理解来完成:</p>
+<div class="codehilite"><pre><span/><code><span class="n">ranks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"jack"</span><span class="p">,</span> <span class="s2">"queen"</span><span class="p">,</span> <span class="s2">"king"</span><span class="p">,</span> <span class="s2">"ace"</span><span class="p">)</span>
+<span class="n">suits</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"clubs"</span><span class="p">,</span> <span class="s2">"diamonds"</span><span class="p">,</span> <span class="s2">"hearts"</span><span class="p">,</span> <span class="s2">"spades"</span><span class="p">)</span>
+
+<span class="n">cards</span> <span class="o">=</span> <span class="p">[(</span><span class="n">rank</span><span class="p">,</span> <span class="n">suit</span><span class="p">)</span> <span class="k">for</span> <span class="n">suit</span> <span class="ow">in</span> <span class="n">suits</span> <span class="k">for</span> <span class="n">rank</span> <span class="ow">in</span> <span class="n">ranks</span><span class="p">]</span>
+</code></pre></div>
+
+<p>我们可以通过打印<code>cards</code>的内容和集合的长度来再次验证我们得到了我们想要的东西。</p>
+<p>然而，我们可以调用<code>itertools.product</code>来代替编写这个理解，它做了非常相似的事情，并且它返回给我们一个迭代器。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="n">ranks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"jack"</span><span class="p">,</span> <span class="s2">"queen"</span><span class="p">,</span> <span class="s2">"king"</span><span class="p">,</span> <span class="s2">"ace"</span><span class="p">)</span>
+<span class="n">suits</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"clubs"</span><span class="p">,</span> <span class="s2">"diamonds"</span><span class="p">,</span> <span class="s2">"hearts"</span><span class="p">,</span> <span class="s2">"spades"</span><span class="p">)</span>
+
+<span class="n">cards</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">ranks</span><span class="p">,</span> <span class="n">suits</span><span class="p">))</span>
+</code></pre></div>
+
+<p>这些选项中的任何一个都是完全有效的。</p>
+<p>现在我们应该创建一个函数来洗牌并返回一个新的迭代器，这样我们就可以从中抽牌了。为了洗牌，我们将使用<code>random</code>模块中的<code>shuffle</code>函数。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">shuffle_deck</span><span class="p">(</span><span class="n">cards</span><span class="p">):</span>
+    <span class="n">deck</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+
+<span class="n">ranks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"jack"</span><span class="p">,</span> <span class="s2">"queen"</span><span class="p">,</span> <span class="s2">"king"</span><span class="p">,</span> <span class="s2">"ace"</span><span class="p">)</span>
+<span class="n">suits</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"clubs"</span><span class="p">,</span> <span class="s2">"diamonds"</span><span class="p">,</span> <span class="s2">"hearts"</span><span class="p">,</span> <span class="s2">"spades"</span><span class="p">)</span>
+
+<span class="n">cards</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">ranks</span><span class="p">,</span> <span class="n">suits</span><span class="p">))</span>
+</code></pre></div>
+
+<p>这个<code>shuffle_deck</code>函数涉及到几件事情。</p>
+<p>我们接受一组<code>cards</code>作为参数，用来组成一个<code>deck</code>。这个<code>deck</code>是一个很好的列表:<code>random.shuffle</code>函数接受一个序列，并将执行一次就地洗牌。这意味着我们需要一个可变的序列类型。</p>
+<p>然后，我们通过将<code>deck</code>传递给<code>random.shuffle</code>函数来打乱它。一旦完成，返回一个洗牌后的<code>deck</code>的迭代器，我们通过将<code>deck</code>传递给<code>iter</code>函数来创建这个迭代器。</p>
+<p>接下来我们需要处理一些用户交互，因为我们需要知道用户想要和多少玩家一起玩。</p>
+<p>在这种情况下，我实际上要定义一个函数，因为我想处理任何无效的输入，如果用户提供无效的输入，我想重新提示用户。我还想检查一下，确保玩家的数量在练习中指定的范围内(2 - 10)。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">get_players</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"How many players are there? "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"You must enter an integer."</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">number_of_players</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">number_of_players</span>
+            <span class="k">elif</span> <span class="n">number_of_players</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"You must have at least 2 players."</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"You can have a maximum of 10 players."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>试试看，确保一切正常。</p>
+<p>假设没有问题，是时候让我们的函数发牌了。我认为有一个功能作为发牌者是有意义的，它将洗牌，并委托给专门的功能向玩家发牌，并向桌面发牌。</p>
+<p>拥有庄家功能意味着我们可以轻松地玩多手牌。</p>
+<p>让我们定义所有的函数，并在进行过程中构建它们:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">deal</span><span class="p">(</span><span class="n">cards</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+    <span class="n">deck</span> <span class="o">=</span> <span class="n">shuffle_deck</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
+
+    <span class="n">deal_to_players</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">)</span>
+    <span class="n">deal_to_table</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">deal_to_players</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">deal_to_table</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+    <span class="k">pass</span>
+
+<span class="k">def</span> <span class="nf">get_players</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"How many players are there? "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"You must enter an integer."</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">number_of_players</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">number_of_players</span>
+            <span class="k">elif</span> <span class="n">number_of_players</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"You must have at least 2 players."</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"You can have a maximum of 10 players."</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">shuffle_deck</span><span class="p">(</span><span class="n">cards</span><span class="p">):</span>
+    <span class="n">deck</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+
+<span class="n">ranks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"jack"</span><span class="p">,</span> <span class="s2">"queen"</span><span class="p">,</span> <span class="s2">"king"</span><span class="p">,</span> <span class="s2">"ace"</span><span class="p">)</span>
+<span class="n">suits</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"clubs"</span><span class="p">,</span> <span class="s2">"diamonds"</span><span class="p">,</span> <span class="s2">"hearts"</span><span class="p">,</span> <span class="s2">"spades"</span><span class="p">)</span>
+
+<span class="n">cards</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">ranks</span><span class="p">,</span> <span class="n">suits</span><span class="p">))</span>
+</code></pre></div>
+
+<p>我已经填写了<code>deal</code>函数，因为它相当简单。它只是记录组成我们的牌组的牌，以及这一轮的玩家人数。</p>
+<p>在函数体中，我们从已定义的卡片中构造我们的洗牌，然后我们调用其他发牌函数来完成所有困难的工作。</p>
+<p>让我们转向<code>deal_to_players</code>。首先，我们必须弄清楚如何分配牌，以便每个玩家依次得到一张牌，每个玩家最终得到两张牌。</p>
+<p>为此，我将使用一对列表理解，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">deal_to_players</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+    <span class="n">first_cards</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)]</span>
+    <span class="n">second_cards</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)]</span>
+</code></pre></div>
+
+<p>重要的是，我们在这里使用列表理解，而不是生成器表达式，因为我们实际上希望这些卡现在被抽出<em/>。一会儿你就会明白为什么这很重要。</p>
+<p>一旦我们有了列表中的第一张和第二张牌，我们就可以将它们连在一起，为每个玩家创建一手牌。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">deal_to_players</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+    <span class="n">first_cards</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)]</span>
+    <span class="n">second_cards</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)]</span>
+
+    <span class="n">hands</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">first_cards</span><span class="p">,</span> <span class="n">second_cards</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这个<code>zip</code>步骤非常重要，我们不能将懒惰的集合分配给<code>first_cards</code>和<code>second_cards</code>。不是说<code>zip</code>不能处理它们——它可以——但是我们必须考虑当我们使用这个<code>zip</code>对象时会发生什么。</p>
+<p>当我们从<code>zip</code>请求一个项目时，它会做什么？</p>
+<p>首先，它从<code>first_cards</code>那里要一张卡片，然后从<code>second_cards</code>那里要一张卡片，它把它们捆绑成一个元组，然后交给我们。但是<code>first_cards</code>和<code>second_cards</code>都只是从<code>deck</code>那里请求一张卡来给<code>zip</code>它想要的值，并且它们都来自同一个叠代器。</p>
+<p>这意味着每场比赛将连续发两张牌，而不是每个球员发一张牌，然后在每个球员发了一张牌后再发一张。这是一个微妙的点，但重要的是，当我们与懒惰类型的人一起工作时，要小心这样的事情。</p>
+<p>幸运的是，使用列表理解解决了这个问题，因为当我们创建<code>first_cards</code>时从<code>deck</code>请求卡片，当我们请求<code>second_cards</code>时再次请求卡片。当我们到达<code>zip</code>步骤时，我们已经有了卡片；我们正等着把它们捆起来。</p>
+<p>一旦我们有了玩家的手，我们只需要打印它们。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">deal_to_players</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+    <span class="n">first_cards</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)]</span>
+    <span class="n">second_cards</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)]</span>
+
+    <span class="n">hands</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">first_cards</span><span class="p">,</span> <span class="n">second_cards</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span>  <span class="p">(</span><span class="n">first_card</span><span class="p">,</span> <span class="n">second_card</span><span class="p">)</span>  <span class="ow">in</span>  <span class="nb">enumerate</span><span class="p">(</span><span class="n">hands</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Player </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> was dealt: </span><span class="si">{</span><span class="n">first_card</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">second_card</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+</code></pre></div>
+
+<p>现在让我们来处理应用程序的最后一部分，即将牌分发到桌子上。这相对简单，因为我们不需要担心玩家的数量，或者类似的事情。</p>
+<p>首先，我们需要烧一张牌，然后一口气发三张牌到桌上:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">deal_to_table</span><span class="p">(</span><span class="n">deck</span><span class="p">):</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="c1"># burn</span>
+    <span class="n">flop</span> <span class="o">=</span> <span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">))</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The flop: </span><span class="si">{</span><span class="n">flop</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里需要注意的一点是<code>join</code>需要一个包含字符串的iterable。因此，我们必须使用<code>str</code>将从<code>next</code>得到的元组转换成字符串。</p>
+<p>从这里开始，它只是一个燃烧和处理一个单一的卡为接下来的两个步骤的处理过程。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">deal_to_table</span><span class="p">(</span><span class="n">deck</span><span class="p">):</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="c1"># burn</span>
+    <span class="n">flop</span> <span class="o">=</span> <span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">))</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The flop: </span><span class="si">{</span><span class="n">flop</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="c1"># burn</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The turn: </span><span class="si">{</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="c1"># burn</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The river: </span><span class="si">{</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这样，我们只需要调用<code>deal</code>并确保一切正常运行。确保您可以多次调用您的<code>deal</code>函数！</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">deal</span><span class="p">(</span><span class="n">cards</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+    <span class="n">deck</span> <span class="o">=</span> <span class="n">shuffle_deck</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
+
+    <span class="n">deal_to_players</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">)</span>
+    <span class="n">deal_to_table</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">deal_to_players</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+    <span class="n">first_cards</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)]</span>
+    <span class="n">second_cards</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)]</span>
+
+    <span class="n">hands</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">first_cards</span><span class="p">,</span> <span class="n">second_cards</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span>  <span class="p">(</span><span class="n">first_card</span><span class="p">,</span> <span class="n">second_card</span><span class="p">)</span>  <span class="ow">in</span>  <span class="nb">enumerate</span><span class="p">(</span><span class="n">hands</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Player </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> was dealt: </span><span class="si">{</span><span class="n">first_card</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">second_card</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">deal_to_table</span><span class="p">(</span><span class="n">deck</span><span class="p">):</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="c1"># burn</span>
+    <span class="n">flop</span> <span class="o">=</span> <span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">))</span>  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span>  <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The flop: </span><span class="si">{</span><span class="n">flop</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="c1"># burn</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The turn: </span><span class="si">{</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>  <span class="c1"># burn</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The river: </span><span class="si">{</span><span class="nb">next</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">get_players</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"How many players are there? "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">number_of_players</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"You must enter an integer."</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">number_of_players</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">number_of_players</span>
+            <span class="k">elif</span> <span class="n">number_of_players</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"You must have at least 2 players."</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"You can have a maximum of 10 players."</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">shuffle_deck</span><span class="p">(</span><span class="n">cards</span><span class="p">):</span>
+    <span class="n">deck</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+
+<span class="n">ranks</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"jack"</span><span class="p">,</span> <span class="s2">"queen"</span><span class="p">,</span> <span class="s2">"king"</span><span class="p">,</span> <span class="s2">"ace"</span><span class="p">)</span>
+<span class="n">suits</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"clubs"</span><span class="p">,</span> <span class="s2">"diamonds"</span><span class="p">,</span> <span class="s2">"hearts"</span><span class="p">,</span> <span class="s2">"spades"</span><span class="p">)</span>
+
+<span class="n">cards</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">ranks</span><span class="p">,</span> <span class="n">suits</span><span class="p">))</span>
+
+<span class="n">deal</span><span class="p">(</span><span class="n">cards</span><span class="p">,</span> <span class="n">get_players</span><span class="p">())</span>
+</code></pre></div>
+
+<p>这是一个很长的练习，有一些棘手的部分，但我希望你能够管理。如果你遇到困难，可以随时在我们的<a href="https://discord.gg/BBWwyMq"> Discord服务器</a>上提出任何问题。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

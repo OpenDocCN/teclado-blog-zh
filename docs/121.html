@@ -1,0 +1,155 @@
+<html>
+<head>
+<title>Day 8: While Loops | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第八天:While Loops | Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-8-while-loops/">https://blog.teclado.com/python-30-day-8-while-loops/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第2周！</a></p>
+<p>本周一开始，我们将讨论另一种叫做<code>while</code>循环的循环。我们还将寻找一些新的方法来控制我们的循环流。</p>
+<p>如果你是这个系列的新手，你可以在这里找到你错过的<a href="https://blog.teclado.com/30-days-of-python/"/>。</p>
+<p>此外，我们还制作了第6天和第7天的简短回顾，您可以在此处查看<a href="https://www.instagram.com/p/B-uKhMmgOyI/"/>来刷新您的记忆。</p>
+<h2><code>while</code>循环</h2>
+<p>在上一篇文章中，我们看了一下作为减少代码重复手段的<code>for</code>循环。<code>for</code>循环适用于两种重复动作:</p>
+<ol>
+<li>当我们想为某个组中的每个项目做些什么的时候。</li>
+<li>当我们想做某件事一定次数时。</li>
+</ol>
+<p>然而，我们可能想要进行其他类型的重复。例如，如果我们想根据需要多次执行某个操作，直到满足某个条件，该怎么办？如果我们想永远一遍又一遍地执行某个动作呢？</p>
+<p>对于这种重复动作，我们可以用一个<code>while</code>循环来代替。</p>
+<p>一个<code>while</code>循环在许多方面都比一个<code>for</code>循环简单得多。我们只需要使用<code>while</code>关键字，后跟一些条件来测试。如果条件评估为<a href="/30-days-of-python/python-30-day-5-conditionals-booleans/">真值</a>，循环将运行一次迭代，然后再次测试条件。</p>
+<p>例如，我们可以编写一个<code>while</code>循环，它将一直运行，直到用户输入10或更高的值。</p>
+<div class="codehilite"><pre><span/><code><span class="n">user_number</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a number: "</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="nb">int</span><span class="p">(</span><span class="n">user_number</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Your number was less than 10."</span><span class="p">)</span>
+    <span class="n">user_number</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please select another number: "</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Your number was at least 10."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>首先，我们从循环外部收集一个初始数字。我们需要这样做，因为我们将名称<code>user_number</code>作为<code>while</code>循环条件的一部分，所以如果我们不预先定义这个名称，我们将得到一个<code>NameError</code>。</p>
+<p>即使不是这样，我们仍然没有<code>user_number</code>的值，那么我们要检查什么呢？</p>
+<p>一旦用户输入一个数字，我们就到达循环开始的那一行。我们检查条件，如果条件满足，我们将运行一次循环体。在上面的例子中，如果用户输入<code>9</code>或更少，循环体将会运行。</p>
+<p>如果我们在循环体中结束，我们将结束打印关于数字小于<code>10</code>的消息，然后我们将要求用户输入另一个数字。注意，我们将这个新值赋给了<code>user_number</code>，这意味着当我们再次测试条件时，我们现在测试的是一个新值。</p>
+<p>如果我们给这个变量取别的名字，我们只是一遍又一遍地检查原始值，当然如果值保持不变，什么都不会改变。这可能会让我们陷入困境，因为循环最终会无限迭代，而这并不是故意的。</p>
+<p>当我们有一个像这样检查一个值的<code>while</code>循环时，确保我们可以在循环内改变这个值。</p>
+<h2>无限循环</h2>
+<p>有时候无限循环是我们想要的，有很多方法可以实现这一点。</p>
+<p>与条件语句非常相似，我们不需要为循环条件使用比较运算符:我们可以只指定一个值，这个值的真实性将决定循环是否运行下一次迭代。</p>
+<p>实际上我们可以使用任何我们想要的表达式，因为所有的表达式都要计算一些值，如果我们得到一个值，我们可以测试它的真值。我们可以使用函数调用，或者算术运算，也可以引用变量。天空是无限的。</p>
+<p>当我们想要指定一个无限循环的时候，我们想要写一个表达式，这个表达式总是被计算为真值。一个很好的例子是布尔值<code>True</code>，如果我们测试它的真值，它总是会计算为<code>True</code>。</p>
+<p>我不建议您运行这段代码，但是我们可以这样写:</p>
+<div class="codehilite"><pre><span/><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Hello there!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里将要发生的是，Python将会<em>非常</em>地快速运行这个循环的多次迭代，我们将会以持续不断的<code>"Hello there!"</code>流打印到控制台而结束。</p>
+<p>当我们像这样编写一个显式无限循环时，通常重要的是我们有一些方法来停止它，这通常是通过某种条件语句结合<code>break</code>来完成的。</p>
+<p>例如，让我们创建一个简单文本菜单的框架。我们将有几个选项供用户选择，其中一个选项是关闭菜单。这个选项就是字符串<code>"q"</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter 'a', 'b', or 'c', or enter 'q' to quit: "</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected option 'a'!"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"b"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected option 'b'!"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"c"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected option 'c'!"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"q"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected option 'q'! Quitting the menu!"</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected an invalid option."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们可以想象，不是简单地打印用户的选择，这些分支中的每一个都将代表用户执行一些操作，然后当我们完成时，我们提示用户另一个选项。</p>
+<p>如果用户输入一个无效选项，我们用一个<code>else</code>子句捕捉所有这些情况，并通知用户他们的错误。</p>
+<p>如果用户输入<code>"q"</code>，我们让用户知道我们正在退出菜单，然后我们使用一个<code>break</code>语句来打破循环。</p>
+<p>注意，对于这种类型的循环，我们不需要在循环之外定义任何东西，因为我们没有依赖于某个变量的条件。</p>
+<h3>风格注释</h3>
+<p>如果你开始看别人的代码，你可能会看到一些像下面这样写的循环，用<code>1</code>作为循环条件:</p>
+<div class="codehilite"><pre><span/><code><span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="o">...</span> <span class="n">some</span> <span class="n">actions</span> <span class="n">here</span> <span class="o">...</span>
+</code></pre></div>
+
+<p>这是可行的，因为<code>1</code>是一个真值，就像所有非零数字一样。虽然它有效，但我个人建议不要使用它，出于同样的原因，我不建议你编写这样的循环:</p>
+
+
+<p><code>1</code>和<code>"llama"</code>都是真实值，但它们远没有写<code>while True</code>那么明确。显式，并使我们的代码尽可能容易阅读，比节省写三个字符更重要。</p>
+<h2><code>continue</code>关键字</h2>
+<p>我们已经多次使用了<code>break</code>语句，但是它不是我们控制循环流的唯一选择。我们可以使用的另一个选项是<code>continue</code>关键字。</p>
+<p>虽然<code>break</code>允许我们退出循环，但是<code>continue</code>允许我们跳过当前迭代的循环体的剩余部分。</p>
+<p>例如，让我们创建一个只打印偶数的循环:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>对于循环的每次迭代，我们使用<a href="https://blog.teclado.com/pythons-modulo-operator-and-floor-division/">模运算符</a>来确定当前数字是否能被<code>2</code>整除。如果不是，我们会遇到这个<code>continue</code>语句，它会立即将我们带到循环的下一次迭代。这意味着我们跳过循环体的剩余部分，并且不打印数字。</p>
+<p>因此，输出将如下所示:</p>
+
+
+<p>虽然这个例子在<code>for</code>循环中使用了<code>continue</code>语句，但是它们当然也可以用于<code>while</code>循环。</p>
+<p>在我看来,<code>continue</code>语句通常并不那么有用，但是它们确实可以帮助简化复杂条件下的代码。</p>
+<h2>使用带有循环的<code>else</code>子句</h2>
+<p>回到第5天，我们在条件语句的上下文中看了一下<code>else</code>子句，但是我当时说我们也可以在其他结构中使用<code>else</code>。<code>for</code>循环和<code>while</code>循环就是这些结构中的一种。</p>
+<p>循环上下文中的<code>else</code>子句有点奇怪，似乎没有太大意义。它当然不像使用<code>if</code>语句那样直观。我认为当我们在循环中使用<code>else</code>时，它是一个“不中断”子句。</p>
+<p>我之所以说把<code>else</code>理解为“不中断”是有好处的，是因为只有在循环执行期间没有遇到<code>break</code>语句时，附加到循环的<code>else</code>子句才会运行。</p>
+<p>例如，让我们写一个循环来判断一个数是否是质数。质数是只能被自身和<code>1</code>整除的数。比如<code>2</code>、<code>3</code>、<code>5</code>、<code>7</code>、<code>11</code>、<code>13</code>都是质数。</p>
+<p>我们确定一个东西是否是质数的一种方法是用它除以它前面的每个数。如果这些除法都不产生整数结果，我们知道这个数是质数。</p>
+<p>不过，我们不必检查每个数字。如果我们找到一个产生整数结果的除法，我们知道这个数不是质数，所以我们不需要进一步检查。因此，我们可以打破这个循环。</p>
+<p>如果我们只要发现一个数不是质数就中断，这意味着如果我们完成循环，并因此没有遇到<code>break</code>语句，我们就有一个质数。这些也是触发<code>else</code>子句的条件。</p>
+<div class="codehilite"><pre><span/><code><span class="c1"># Get a number to test from the user</span>
+<span class="n">dividend</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a number: "</span><span class="p">))</span>
+
+<span class="c1"># Grab numbers one at a time from the range sequence</span>
+<span class="k">for</span> <span class="n">divisor</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dividend</span><span class="p">):</span>
+    <span class="c1"># If user's number is divisible by the curent divisor, break the loop</span>
+    <span class="k">if</span> <span class="n">dividend</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dividend</span><span class="si">}</span><span class="s2"> is not prime!"</span><span class="p">)</span>
+        <span class="k">break</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># This line only runs if no divisors produced integer results</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dividend</span><span class="si">}</span><span class="s2"> is prime!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们也可以用一个<code>while</code>循环做类似的事情:</p>
+<div class="codehilite"><pre><span/><code><span class="c1"># Get a number to test from the user, and set the initial divisor to 2</span>
+<span class="n">dividend</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a number: "</span><span class="p">))</span>
+<span class="n">divisor</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># Keep looping until the divisor equals the number we're testing</span>
+<span class="k">while</span> <span class="n">divisor</span> <span class="o">&lt;</span> <span class="n">dividend</span><span class="p">:</span>
+    <span class="c1"># If user's number is divisible by the curent divisor, break the loop</span>
+    <span class="k">if</span> <span class="n">dividend</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dividend</span><span class="si">}</span><span class="s2"> is not prime!"</span><span class="p">)</span>
+        <span class="k">break</span>
+
+    <span class="c1"># Increment the divisor for the next iteration</span>
+    <span class="n">divisor</span> <span class="o">=</span> <span class="n">divisor</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># This line only runs if no divisors produced integer results</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dividend</span><span class="si">}</span><span class="s2"> is prime!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>有更复杂的方法来寻找质数，但是这些方法作为演示已经足够了。如果你喜欢挑战，看看你能否让他们更有效率。</p>
+<p>如果你感兴趣的话，我们还有一篇简短的博文，里面有更多使用<code>else</code>的例子。</p>
+<h2>练习</h2>
+<p>祝贺你完成第一周！</p>
+<p>希望这不会太难，但是如果你对一些概念有困难，下面的练习应该有助于巩固一切。如果你遇到困难，我们总是在我们的<a href="https://discord.gg/BBWwyMq"> Discord服务器</a>上提供帮助，所以请随时过来询问任何问题。</p>
+<p>1)使用<code>while</code>循环编写一个简短的猜谜游戏程序。应该提示用户猜一个在<code>1</code>和<code>100</code>之间的数字，每次猜完后你应该告诉他们他们的猜测是太高还是太低。循环应该保持运行，直到用户正确地猜出数字。</p>
+<p>2)使用一个循环和<code>continue</code>关键字打印出字符串<code>"Python"</code>中的每个字符，除了<code>"o"</code>。</p>
+<p>请记住，字符串是集合，它们是可迭代的，所以您可以迭代字符串，这将一次产生一个字符。</p>
+<p>3)使用前面的一个例子，或者完全是你自己的解决方案，创建一个程序，打印出1到100之间的所有质数。</p>
+<p>你可以在这里找到我们的练习<a href="/30-days-of-python/python-30-day-8-exercise-solutions">的答案。</a></p>
+<h2>额外资源</h2>
+<p>在Python 3.8中，我们有了一个新的语法，叫做<em>赋值表达式</em>，我们可以在while循环中使用它。如果你想了解更多，请查看<a href="https://blog.teclado.com/python-assignment-expressions/">我们关于赋值语句的帖子</a>。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

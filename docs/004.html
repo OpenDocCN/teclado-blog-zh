@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>How to set up Visual Studio Code for Python development</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何为Python开发设置Visual Studio代码</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/how-to-set-up-visual-studio-code-for-python-development/">https://blog.teclado.com/how-to-set-up-visual-studio-code-for-python-development/</a></blockquote><div><div class="post-content">
+<p>在这篇文章中，我们将看看如何使用Visual Studio代码在Python中开发。我还将向您展示一些扩展，它们可以让您在使用Python时更加轻松！</p>
+<h2 id="initialsetup">初始设置</h2>
+<p>当你安装Python时(我推荐你通过<a href="https://www.python.org/downloads/">官方安装程序</a>安装)，记住你安装它的文件夹。在Windows上，确保在官方安装程序的第一个屏幕中勾选“将Python添加到路径”。</p>
+<p>下载<a href="https://code.visualstudio.com/"> Visual Studio代码</a>并像安装其他应用程序一样安装它。</p>
+<p>打开Visual Studio代码并导航到左侧的扩展面板。在那里，找到Python扩展并安装它:</p>
+<p><img src="../Images/c718688c3d89f4314b19f1716fa8b0e5.png" alt="Visual Studio Code window with the Extensions section open, and the Python extension selected" loading="lazy" data-original-src="https://res.cloudinary.com/teclado/image/upload/f_auto,q_auto/v1660829769/blog/set-up-vscode-python/vscode-python-ext_gdnunb.png"/></p>
+<p>一旦安装完毕，你就可以使用Visual Studio代码打开任何文件夹，并创建一个以<code>.py</code>结尾的文件。Python扩展为您提供了语法高亮，并通过提供建议和提示来帮助您编码。</p>
+<p><img src="../Images/1b5954b37348b53650303d1aea08ce3d.png" alt="Visual Studio Code with a Python file opening, showing the Python version at the bottom right" loading="lazy" data-original-src="https://res.cloudinary.com/teclado/image/upload/f_auto,q_auto/v1660829768/blog/set-up-vscode-python/vscode-python-file_zomqsp.png"/></p>
+<p>您可以通过点击右下角来更改该扩展使用的Python版本，在截图中显示为“Python 3.10.0”。</p>
+<p>创建虚拟环境后，您应该为您工作的每个Python项目创建虚拟环境，您可以通过单击“Python 3.10.0”按钮选择它作为Python解释器。</p>
+<p>我们的文章<a href="https://blog.teclado.com/python-virtual-environments-complete-guide/">“使用虚拟环境:完整指南”</a>，将帮助你学习如何使用虚拟环境，如果你还不熟悉它们的话。</p>
+<p>这里有一个Python扩展的链接:<a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">https://marketplace.visualstudio.com/items?itemName=ms-python.python </a>。</p>
+<h2 id="lintingformattingandsortingimportswithvscode">使用VSCode对导入进行林挺、格式化和排序</h2>
+<h3 id="lintingwithruffinvisualstudiocode">林挺与拉夫在Visual Studio代码</h3>
+<p>linter是一个检查你的代码中常见问题的工具，如果发现任何问题，它会向你发出警告。Python生态系统中有许多linters，但最近我更喜欢Ruff。它速度快，可扩展。</p>
+<p>让它在Visual Studio代码中工作的最简单的方法是安装<a href="https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff"> Ruff扩展</a>。这里有一个到<a href="https://github.com/charliermarsh/ruff"> ruff库</a>和<a href="https://github.com/charliermarsh/ruff-vscode">扩展库</a>的链接，如果你想进一步阅读的话。</p>
+<h3 id="formattingwithblackinvisualstudiocode">Visual Studio代码中的黑色格式</h3>
+<p>我喜欢Python的<code>black</code>格式化程序，因为它有合理的默认值，这意味着你根本不需要配置它。只需安装它，告诉VSCode运行它，就可以了。</p>
+<p>要安装<code>black</code>，请确保您已经创建了一个Python虚拟环境，并在VSCode中选择它作为您的解释器。</p>
+<p>然后，使用控制台安装它(确保控制台也激活了虚拟环境):</p>
+<pre><code class="language-bash">pip install black
+</code></pre>
+<p>接下来，打开VSCode设置(用<code>CMD+,</code>或<code>CTRL+,</code>)，找到“Python格式提供者”设置。设置为<code>black</code>:</p>
+<p><img src="../Images/f0b28cf7ab86b6f57b31d0ba92656673.png" alt="Screenshot showing three steps to find the formatting provider setting. First type 'formatting' in the search. Then choose 'Python' from the left hand dropdown. Finally change the 'Python Formatting Provider' dropdown to 'black'" loading="lazy" data-original-src="https://res.cloudinary.com/teclado/image/upload/f_auto,q_auto/v1678479278/blog/set-up-vscode-python/vscode-formatting-settings_aytnrx.png"/></p>
+<h3 id="importsortingwithisortinvisualstudiocode">在Visual Studio代码中使用isort导入排序</h3>
+<p>对您的导入进行分类听起来可能是一件完全无用的事情，但我们这样做是为了保持一致性。如果你和其他人一起开发一个代码库，这是非常有用的。</p>
+<p>对导入进行排序意味着当您导入一个内置库(例如<code>os</code>)时，它会放在最上面。然后，去第三方库，像<code>flask</code>。最后从你自己的代码库中导入。在这三个部分中，它按字母顺序对进口进行排序。</p>
+<p>如果您有许多这样的导入，这将使您更容易找到您想要的导入。</p>
+<p>当您为VSCode安装Python扩展时，您也无意中安装了处理排序导入的isort扩展。你要做的就是运行它。</p>
+<p>您可以通过打开命令面板(<code>CMD+SHIFT+P</code>或<code>CTRL+SHIFT+P</code>)来运行isort，然后键入“Python Refactor: Sort Imports”。</p>
+<h3 id="sortingimportsandformattingonsavewithvscode">使用VSCode在保存时对导入进行排序和格式化</h3>
+<p>要在保存时启用格式化和导入排序，请打开VSCode设置，然后使用此按钮以JSON格式打开它们:</p>
+<p><img src="../Images/0c1c47e2b0bf94d411675d920a82c945.png" alt="Screenshot showing how to open the VSCode settings in JSON format, with a circle surrounding a button that looks like a file with an arrow on the top right of the screen" loading="lazy" data-original-src="https://res.cloudinary.com/teclado/image/upload/f_auto,q_auto/v1678479280/blog/set-up-vscode-python/vscode-settings-json-button_zgmwfy.png"/></p>
+<p>在那里，确保这些设置在那里(注意不要有重复的设置):</p>
+<pre><code class="language-json">{
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+            "source.fixAll": true
+        }
+    },
+    "ruff.organizeImports": false,
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black"
+}
+</code></pre>
+<p>最后一个设置应该已经存在了，因为您之前选择了黑色作为格式化程序，但是其他的可能是新的。</p>
+<p>以下是每个键的含义:</p>
+<ul>
+<li><code>[python]</code>:以下设置仅适用于Python语言。</li>
+<li><code>editor.codeActionsOnSave</code>:以下设置定义了保存文件时编辑器将运行的动作。</li>
+<li><code>source.organizeImports</code>:告诉编辑器在保存时对导入进行排序。</li>
+<li>告诉编辑使用linter来修复所有它能修复的问题(那些它不能修复的问题只是留下来作为警告)。</li>
+<li><code>ruff.organizeImports</code>:将此项设置为<code>false</code>意味着我们将使用<code>isort</code>而不是<code>ruff</code>来对进口商品进行分类。</li>
+<li><code>editor.formatOnSave</code>:保存文件时用黑色格式化代码。</li>
+<li><code>python.formatting.provider</code>:使用哪个格式化程序。</li>
+</ul>
+<p>现在每当你保存一个文件，isort会对你的导入进行排序，ruff会尝试修复它能修复的(并警告你它不能修复的)，然后black会格式化代码。</p>
+<h3 id="textflickeringwhenyousave">保存时文本闪烁？</h3>
+<p>默认情况下，当您使用isort对导入进行排序时，您最终会得到如下结果:</p>
+<pre><code class="language-python">from module import (abc1, abc2, abc3,
+                    abc4, abc5, abc6)
+</code></pre>
+<p>但是如果你用黑色来格式化你的代码，它会把输入变成这样:</p>
+<pre><code class="language-python">from module import (
+    abc1,
+    abc2,
+    abc3,
+    abc4,
+    abc5,
+    abc6,
+)
+</code></pre>
+<p>因为isort首先处理文件，然后Black处理结果，所以在文件以第一种格式保存的几毫秒内，您可能会看到文本闪烁。</p>
+<p>要解决这个问题，我们应该告诉isort使用与Black相同的格式。这样文字就不会闪烁了。</p>
+<p>在Python项目根目录下创建一个名为<code>pyproject.toml</code>的新文件。这个文件用于Python配置，它兼容大多数Python工具(包括isort和black)。</p>
+<p>在文件中，添加以下内容:</p>
+<pre><code class="language-toml">[tool.isort]
+profile = "black"
+</code></pre>
+<p>然后，通过启动命令面板(<code>CMD+SHIFT+P</code>或<code>CTRL+SHIFT+P</code>)并键入“isort Formatter: Restart Server”，告诉VSCode重新启动isort formatting服务器。</p>
+<p>现在保存的时候文字就不会再闪烁了！</p>
+<h2 id="theindentrainbowextension">缩进-彩虹扩展</h2>
+<p>一个名为“indent-rainbow”的扩展将Python中的每一个缩进层次都用稍微不同的颜色来着色，因此您可以很容易地分辨出代码的哪些部分处于哪个缩进层次。</p>
+<p>这是扩展将做的事情:</p>
+<p><img src="../Images/3066893e750d6ad34de0ae6a81de50f8.png" alt="Python code where each level of indentation has the tab character coloured in with a slightly different light colour" loading="lazy" data-original-src="https://res.cloudinary.com/teclado/image/upload/f_auto,q_auto/v1660829766/blog/set-up-vscode-python/vscode-indent-rainbow_mzrqkf.png"/></p>
+<p>链接:<a href="https://marketplace.visualstudio.com/items?itemName=oderwat.indent-rainbow">https://marketplace.visualstudio.com/items?itemName = oder wat . indent-rainbow</a></p>
+<h2 id="therainbowbracketsextension">彩虹括号扩展</h2>
+<p>如果您喜欢缩进-彩虹扩展，您可能也会喜欢彩虹括号扩展，它突出显示了不同颜色的嵌套括号、方括号和花括号，使跟踪嵌套括号更加容易。</p>
+<p>链接:<a href="https://marketplace.visualstudio.com/items?itemName=2gua.rainbow-brackets#overview">https://marketplace.visualstudio.com/items?itemName = 2 gua . rainbow-brackets #概述</a></p>
+<h2 id="thevscodeiconsextension">vscode-icons扩展</h2>
+<p>虽然运行Python代码并不需要这个扩展，但是它改变了侧边栏中文件和文件夹旁边显示的图标。我发现这使得它们更容易扫描！</p>
+<p>链接:<a href="https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons">https://marketplace.visualstudio.com/items?itemName = vs code-icons-team . vs code-icons</a></p>
+<h2 id="theliveshareextension">LiveShare扩展</h2>
+<p>VSCode在与他人协作方面有很大的扩展。它允许您共享您的整个VSCode工作区，以便其他人可以加入它并与您一起编码。我经常用它来进行结对编程，尽管它对于寻求帮助也很有用！</p>
+<p>在此下载并安装LiveShare扩展:<a href="https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare">https://marketplace.visualstudio.com/items?itemName = MS-vsliveshare . vsliveshare</a></p>
+<p>安装后，您会在VSCode窗口的底部看到一个“Live Share”图标和文本。按下该按钮将启动一个实时共享会话，并提供一个链接，您可以与您希望加入共享会话的任何人共享该链接。</p>
+<h2 id="conclusion">结论</h2>
+<p>就是这样！只要您的Python版本在您的路径中(这在Mac和Linux上是自动发生的，并且您必须在Windows的安装程序中勾选这个框)，Python扩展将直接开箱即用！</p>
+<p>如果你有任何问题，谷歌是你最好的朋友，因为成千上万的人使用这些扩展，所以你很可能能够找到解决方案。开发团队在他们的GitHub页面上也很有帮助。</p>
+<p>GitHub页面还包含大量关于如何启动和运行扩展的指南和信息，如果有必要的话！</p>
+<p>希望这对您有所帮助，您的环境现在已经设置好了。编码快乐！</p>
+<h2 id="changelog">变更日志</h2>
+<ul>
+<li>2023年3月:删除了“Code Runner”扩展，因为我发现自己根本不用它。添加了林挺、格式和导入排序。</li>
+</ul>
+
+</div>
+</div>    
+</body>
+</html>

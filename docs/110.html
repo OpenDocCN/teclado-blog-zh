@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>Day 3: Exercise Solutions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第3天:锻炼解决方案| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-3-exercise-solutions/">https://blog.teclado.com/python-30-day-3-exercise-solutions/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>以下是我们在<a href="https://blog.teclado.com/30-days-of-python/"> 30天Python </a>系列中<a href="/30-days-of-python/python-30-day-3-string-formatting">第3天练习</a>的解决方案。在检查解决方案之前，请确保您亲自尝试了这些练习！</p>
+<h3>1)使用下面的变量，打印<code>"Hello, world!"</code>。</h3>
+<div class="codehilite"><pre><span/><code><span class="n">greeting</span> <span class="o">=</span> <span class="s2">"Hello, world"</span>
+</code></pre></div>
+
+<p>在这个练习中，我们要做出选择。我们如何将这个感叹号添加到我们要打印的字符串中呢？</p>
+<p>我们有三个主要选项:</p>
+<ol>
+<li>我们可以使用串联来添加一个只包含<code>"!"</code>到<code>greeting</code>的字符串。</li>
+<li>我们可以使用传入<code>greeting</code>的<code>format</code>方法。</li>
+<li>我们可以采取与选项2类似的方法，但是使用f弦</li>
+</ol>
+<p>首先，我们来看看<code>format</code>，因为我认为<code>format</code>是目前为止这种情况下最差的选择。</p>
+<div class="codehilite"><pre><span/><code><span class="n">greeting</span> <span class="o">=</span> <span class="s2">"Hello, world"</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2">!"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">greeting</span><span class="p">))</span>
+</code></pre></div>
+
+<p>我不喜欢这个选项的原因是它非常冗长，而且它也让我们很不清楚我们实际上在改变什么。感叹号就藏在那里。</p>
+<p>可能是一个非常有用的工具，但在这种情况下就有点过头了。</p>
+<p>接下来，让我们看看f弦，在我看来，它提供了一个更好的解决方案。</p>
+<div class="codehilite"><pre><span/><code><span class="n">greeting</span> <span class="o">=</span> <span class="s2">"Hello, world"</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">greeting</span><span class="si">}</span><span class="s2">!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里发生的事情要少得多，这使得阅读起来容易得多。我认为这是一个非常好的选择。</p>
+<p>然而，我认为我最喜欢的版本是将<code>greeting</code>和<code>"!"</code>连接起来。</p>
+<div class="codehilite"><pre><span/><code><span class="n">greeting</span> <span class="o">=</span> <span class="s2">"Hello, world"</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">greeting</span> <span class="o">+</span> <span class="s2">"!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我喜欢这个解决方案，因为它很直观。我们并不真的需要了解很多代码来理解这种情况下发生了什么。</p>
+<h3>2)询问用户的姓名，然后问候用户，将他们的姓名作为问候的一部分。名称应该是大写的，并且不应该被任何多余的空格包围。</h3>
+<p>首先，我们需要知道这个人的名字。这意味着我们需要<code>input</code>函数。</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span>
+</code></pre></div>
+
+<p>不要忘记在你的提示后面加一点空格，这样用户就不会直接写在你的提示文本旁边。它使东西更容易阅读。</p>
+<p>下一步是处理用户名。我们需要删除任何多余的空白，并将其转换为标题的情况。这意味着我们需要<code>strip</code>和<code>title</code>方法，我们可以在从<code>input</code>返回的字符串上直接调用这个方法。</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+</code></pre></div>
+
+<p>如果您愿意，您可以在另一行上这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+</code></pre></div>
+
+<p>现在我们有了用户的名字，我们必须放入某种问候字符串。在这种情况下，我将使用f弦:</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>3)将字符串<code>"I am "</code>和整数<code>29</code>连接起来，产生一个字符串<code>"I am 29"</code>。</h3>
+<p>首先，让我们将这个整数存储在一个变量中，这样我们就可以操作这个值。</p>
+
+
+<p>现在我们有一个值可以引用，我们可以这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="n">age</span> <span class="o">=</span> <span class="mi">29</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"I am "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">age</span><span class="p">))</span>
+</code></pre></div>
+
+<p>如果你不想过多地打乱<code>print</code>调用，你可以使用一些额外的变量。这两者都是完全合理的，例如:</p>
+<div class="codehilite"><pre><span/><code><span class="n">age</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"I am "</span> <span class="o">+</span> <span class="n">age</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span/><code><span class="n">age</span> <span class="o">=</span> <span class="mi">29</span>
+<span class="n">output_string</span> <span class="o">=</span> <span class="s2">"I am "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">age</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">output_string</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>4)使用字符串插值法格式化并打印以下信息。</h3>
+<div class="codehilite"><pre><span/><code><span class="n">title</span> <span class="o">=</span> <span class="s2">"Joker"</span>
+<span class="n">director</span> <span class="o">=</span> <span class="s2">"Todd Phillips"</span>
+<span class="n">release_year</span> <span class="o">=</span> <span class="mi">2019</span>
+</code></pre></div>
+
+<p>对于本练习，我们的目标输出是这样的:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Joker</span> <span class="p">(</span><span class="mi">2019</span><span class="p">),</span> <span class="n">directed</span> <span class="n">by</span> <span class="n">Todd</span> <span class="n">Phillips</span>
+</code></pre></div>
+
+<p>在这里，我认为最好的方法是使用f弦。由于数据已经被很好地命名，我们不必担心f字符串的类型，解决方案相对简单。</p>
+<div class="codehilite"><pre><span/><code><span class="n">title</span> <span class="o">=</span> <span class="s2">"Joker"</span>
+<span class="n">director</span> <span class="o">=</span> <span class="s2">"Todd Phillips"</span>
+<span class="n">release_year</span> <span class="o">=</span> <span class="mi">2019</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">release_year</span><span class="si">}</span><span class="s2">), directed by </span><span class="si">{</span><span class="n">director</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>请记住，花括号内的所有内容都被认为是f字符串的代码，我们要插入的每个值都应该在自己的花括号内。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

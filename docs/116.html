@@ -1,0 +1,178 @@
+<html>
+<head>
+<title>Day 6 Project: Fizz Buzz | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第6天项目:嘶嘶作响| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-6-project/">https://blog.teclado.com/python-30-day-6-project/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到蟒蛇系列<a href="https://blog.teclado.com/30-days-of-python/">30天</a><a href="/30-days-of-python/python-30-day-6-project">第6 </a>天项目。今天的项目其实是一个很常见的面试问题，围绕着一个叫做Fizz Buzz的童年计数游戏展开。</p>
+<p>如果你不熟悉这个游戏，它是这样的:</p>
+<ul>
+<li>一名玩家开始说数字<code>1</code>。</li>
+<li>然后每个玩家轮流说出下一个数字，一次数一个。</li>
+<li>如果数字能被<code>3</code>整除，玩家应该说“Fizz”，而不是说数字。</li>
+<li>如果数字能被<code>5</code>整除，玩家应该说“嗡嗡”，而不是说数字。</li>
+<li>如果数字能被<code>3</code> <strong>和</strong> <code>5</code>整除，玩家应该说“Fizz Buzz”，而不是说数字。</li>
+<li>如果你犯了一个错误，你通常会从游戏中被淘汰，游戏继续进行，直到只剩下一个玩家。</li>
+</ul>
+<p>如果没有错误，Fizz Buzz的前15轮应该是这样的:</p>
+<div class="codehilite"><pre><span/><code><span class="mi">1</span>
+<span class="mi">2</span>
+<span class="n">Fizz</span>
+<span class="mi">4</span>
+<span class="n">Buzz</span>
+<span class="n">Fizz</span>
+<span class="mi">7</span>
+<span class="mi">8</span>
+<span class="n">Fizz</span>
+<span class="n">Buzz</span>
+<span class="mi">11</span>
+<span class="n">Fizz</span>
+<span class="mi">13</span>
+<span class="mi">14</span>
+<span class="n">Fizz</span> <span class="n">Buzz</span>
+</code></pre></div>
+
+<p>下面你会发现一个简短的解释，说明我们的版本该做什么，你还会发现一个附有解释的模型解决方案。我真的建议你在查看我们的版本之前先自己尝试一下。</p>
+<p>就像第三天的项目一样，回顾过去6天的内容，或者参考你的笔记没有任何问题。你也不应该担心你的解决方案是否与我们的略有不同，因为有很多很多方法可以解决这个特殊的问题。</p>
+<h2>案情摘要</h2>
+<p>对于我们的版本，我们只有一个播放器，电脑，它会自己播放前100轮的嘶嘶声。换句话说，我们需要打印出序列中的前100项，从<code>1</code>开始。</p>
+<p>为了完成这个练习，您将需要使用循环，并且您可以使用<code>range</code>生成您的数字列表。你还将需要条件句，并且你将需要能够检查某物是否能被<code>3</code>或<code>5</code>整除。</p>
+<p>对于最后一部分，您可以使用一个叫做modulo的操作符，它使用百分号(<code>%</code>)。模运算会给你一个除法的余数，所以如果一个数能被<code>3</code>整除，<code>number % 3</code>的值就是<code>0</code>。</p>
+<p>如果你想更详细地了解模数，我们有一个<a href="https://blog.teclado.com/pythons-modulo-operator-and-floor-division/">帖子，你可以看看</a>。</p>
+<p>您可以使用的另一种方法是<code>is_integer</code>方法。我们可以在float上调用这个函数来检查它是否是一个整数。例如，我们可以这样写:</p>
+<div class="codehilite"><pre><span/><code><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="o">.</span><span class="n">is_integer</span><span class="p">()</span>  <span class="c1"># True</span>
+<span class="p">(</span><span class="mf">3.7</span><span class="p">)</span><span class="o">.</span><span class="n">is_integer</span><span class="p">()</span>  <span class="c1"># False</span>
+</code></pre></div>
+
+<p>我们可以这样测试除法的结果:</p>
+<div class="codehilite"><pre><span/><code><span class="p">(</span><span class="mi">12</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">is_integer</span><span class="p">()</span>  <span class="c1"># True</span>
+<span class="p">(</span><span class="mi">12</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">is_integer</span><span class="p">()</span>  <span class="c1"># False</span>
+</code></pre></div>
+
+<p>祝你好运！</p>
+<h2>解决方案演练</h2>
+<p>就像我们对第三天项目所做的那样，我们将把项目分成更小的块。这将使我们更容易早期发现错误，也将使项目不那么令人生畏。</p>
+<p>如果你更喜欢观看这个项目的视频演示，请点击查看<a href="https://youtu.be/Y0nnQ4j7pqM">。</a></p>
+<p>我认为好的第一步是获取我们的数字范围。我们可以用<code>range</code>函数来实现，我们需要传入两个参数:一个起始值和一个终止值。我们需要一个起始值，因为默认情况下<code>range</code>将从<code>0</code>开始。</p>
+<p>不要忘记<code>range</code>的停止值是不包含的，所以我们需要指定一个从<code>1</code>到<code>101</code>的范围:</p>
+
+
+<p>我们可以通过把它转换成一个列表并打印出来来检查我们是否拥有了所有需要的东西。记住我们不能直接打印<code>range</code>，因为<code>range</code>很懒，直到我们要求时才会计算它的值。</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+</code></pre></div>
+
+<p>假设我们没有任何问题，我认为下一个合乎逻辑的步骤是使用循环打印数字。此时，我们可以去掉列表和<code>numbers</code>变量，直接将<code>range</code>放入循环中:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这将把<code>1</code>到<code>100</code>打印到控制台上，每个数字在不同的行上。</p>
+<p>现在我们需要开始从这个输出中过滤掉我们不想打印的数字。让我们从计算Fizz数开始:那些能被<code>3</code>整除的数。</p>
+<p>使用模方法，我们可以这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我们检查一个数是否能被<code>3</code>整除。如果是，我们打印<code>"Fizz"</code>；否则，我们打印数字本身。我们已经见过几次条件句了，所以希望在这一点上相对简单。</p>
+<p>如果我们想使用<code>is_integer</code>方法，解决方案看起来非常相似:</p>
+<div class="codehilite"><pre><span/><code> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>好了，现在我们已经处理了Fizz数，让我们扩展我们的条件来考虑Buzz。</p>
+<p>过程非常相似，我们只需添加一个<code>elif</code>子句来检查第二个条件。那个条件就是这个数是否能被<code>5</code>整除。</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Buzz"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这个台阶是人们经常绊倒的地方。如果我们不使用一个<code>elif</code>子句，而是使用一个新的<code>if</code>语句，我们最终会遇到这样的情况:对于许多数字，我们有两批输出。</p>
+<p>让我们看一个不正确的版本，并思考发生了什么:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Buzz"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果一个数能被<code>3</code>整除，我们触发第一个条件。然后我们检查第二个条件。如果这个数字能被<code>5</code>整除，那么我们最终也会在下一行打印出<code>"Buzz"</code>。虽然我们希望发生这种情况，但我们希望它们都在同一行上，我们将为此使用另一个步骤。如果这个数字不能被<code>5</code>整除，我们最终打印出<code>"Fizz"</code> <strong>和</strong>这个数字。一定不要掉进这个陷阱。</p>
+<p>现在我们已经完成了<code>"Fizz"</code>和<code>"Buzz"</code>，我们需要考虑<code>"Fizz Buzz"</code>。这是人们经常犯错的另一个地方，因为条件的顺序很重要。你马上就会明白我的意思。</p>
+<p>首先，让我们看看如何使用嵌套条件来实现这一点:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz Buzz"</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Buzz"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这个解决方案之所以有效，是因为对于任何能被<code>3</code>整除的数字，我们都要进行第二次检查。如果这个数字也被<code>5</code>整除，我们知道<code>"Fizz Buzz"</code>的条件已经满足，所以我们可以将它打印到控制台。如果第二个条件不满足，我们知道这个数字只能被<code>3</code>整除，所以我们可以打印<code>"Fizz"</code>。</p>
+<p>这个解决方案很好，但是不使用这些嵌套条件的解决方案怎么样呢？我们有两个主要选项，但我们将把第二个选项留到最后作为奖励内容。</p>
+<p>这里我们可以使用的选项是检查某物是否能被<code>15</code>整除。这是因为任何能被<code>3</code>和<code>5</code>整除的数也能被<code>15</code>整除。正如我已经提到的，我们把这个条件放在哪里非常重要。例如，如果我们尝试下面的方法，我们不会得到我们想要的输出:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Buzz"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">15</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz Buzz"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这是因为Python只会检查条件，直到发现一个条件为真。任何能被<code>15</code>整除的数也能被<code>3</code>整除，所以第一个条件在我们到达第三个分支之前捕捉这些数。因此，我们在预期的地方打印了<code>"Fizz"</code>。</p>
+<p>要纠正这一点，我们需要把更具体的条件放在第一位。在这种情况下，被<code>3</code>整除是比被<code>15</code>整除更广泛的条件，因为被<code>15</code>整除的数字是被<code>3</code>整除的数字的一个更小的子集。因此，<code>15</code>检查可分性的条件需要放在第一位。</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">15</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz Buzz"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Buzz"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这样，我们的两个解决方案都有效，我们就完成了！</p>
+<h2>奖励材料</h2>
+<p>除以<code>15</code>是一个巧妙的技巧，可以将解保持在单个条件块内，但可能对一些人来说这并不十分清楚发生了什么。如果我们能直截了当地说出我们在这里检查的内容，也许会更好。</p>
+<p>我们实际上可以使用一对特殊的布尔运算符<code>and</code>和<code>or</code>来计算多个表达式。在这种情况下，它们的用法相对简单易懂:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz Buzz"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Fizz"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Buzz"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</code></pre></div>
+
+<p>然而，有一些关于<code>and</code>和<code>or</code>如何工作的重要细节，所以如果你对使用这些操作符感兴趣，你应该阅读<a href="https://blog.teclado.com/logical-comparisons-in-python-and-or/">我们关于这个主题</a>的帖子。</p>
+<p>在另一篇文章中，我们也有一些额外的解决方法。如果你有兴趣看看这些替代方法，你可以在这里找到它们。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

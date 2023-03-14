@@ -1,0 +1,84 @@
+<html>
+<head>
+<title>Day 15: Exercise Solutions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第15天:锻炼解决方案| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-15-exercise-solutions/">https://blog.teclado.com/python-30-day-15-exercise-solutions/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>以下是我们为<a href="https://blog.teclado.com/30-days-of-python/"> 30天Python </a>系列中的<a href="/30-days-of-python/python-30-day-15-comprehensions">第15天练习</a>提供的解决方案。在检查解决方案之前，请确保您亲自尝试了这些练习！</p>
+<h3>1)将下面的for循环转换成一个理解。</h3>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">squares</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+    <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>当构建一个理解时，我们需要考虑两件事。我们试图添加到新集合中的值，以及允许我们从原始集合中获取项目的循环结构。</p>
+<p>在上面的代码中，我们想要添加到新集合中的值是<code>number ** 2</code>，或者是<code>number</code>值的平方。我们通过迭代<code>numbers</code>列表来获取这些数字，从列表中一次获取一个条目。如我们所见，我们使用的循环是:</p>
+
+
+<p>现在我们有了这些组成部分，我们可以把理解放在一起。在这种情况下，我将使用列表理解，因为我们正在尝试制作一个新的列表。</p>
+<p>我们的出发点是:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">squares</span> <span class="o">=</span> <span class="p">[]</span>
+</code></pre></div>
+
+<p>现在，在方括号内，我们首先放入我们想要添加的值，然后是循环。</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">number</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">]</span>
+</code></pre></div>
+
+<h3>2)使用字典理解从下面的字典创建新字典，其中每个值都是标题大小写。</h3>
+<div class="codehilite"><pre><span/><code><span class="n">movie</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"thor: ragnarok"</span><span class="p">,</span>
+    <span class="s2">"director"</span><span class="p">:</span> <span class="s2">"taika waititi"</span><span class="p">,</span>
+    <span class="s2">"producer"</span><span class="p">:</span> <span class="s2">"kevin feige"</span><span class="p">,</span>
+    <span class="s2">"production_company"</span><span class="p">:</span> <span class="s2">"marvel studios"</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>让我们把它写成一个常规的<code>for</code>循环:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movie</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"thor: ragnarok"</span><span class="p">,</span>
+    <span class="s2">"director"</span><span class="p">:</span> <span class="s2">"taika waititi"</span><span class="p">,</span>
+    <span class="s2">"producer"</span><span class="p">:</span> <span class="s2">"kevin feige"</span><span class="p">,</span>
+    <span class="s2">"production_company"</span><span class="p">:</span> <span class="s2">"marvel studios"</span>
+<span class="p">}</span>
+
+<span class="n">updated_movie</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">movie</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">updated_movie</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">title</span><span class="p">()})</span>
+</code></pre></div>
+
+<p>记住，默认情况下，我们只在遍历字典时获取键，所以如果我们想要键和值，我们需要使用<code>items</code>方法。</p>
+<p>现在，让我们像以前一样分解它。我们要添加的是<code>key: value.title()</code>，其中<code>for</code>循环是<code>for key, value in movie.items()</code>。</p>
+<p>我们现在可以把它放在<code>updated_movie</code>旁边的花括号里，就像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movie</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"thor: ragnarok"</span><span class="p">,</span>
+    <span class="s2">"director"</span><span class="p">:</span> <span class="s2">"taika waititi"</span><span class="p">,</span>
+    <span class="s2">"producer"</span><span class="p">:</span> <span class="s2">"kevin feige"</span><span class="p">,</span>
+    <span class="s2">"production_company"</span><span class="p">:</span> <span class="s2">"marvel studios"</span>
+<span class="p">}</span>
+
+<span class="n">updated_movie</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">movie</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</code></pre></div>
+
+<p>当然，因为我们正在使用一个理解，如果我们愿意，我们可以重用相同的名称。</p>
+<div class="codehilite"><pre><span/><code><span class="n">movie</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"thor: ragnarok"</span><span class="p">,</span>
+    <span class="s2">"director"</span><span class="p">:</span> <span class="s2">"taika waititi"</span><span class="p">,</span>
+    <span class="s2">"producer"</span><span class="p">:</span> <span class="s2">"kevin feige"</span><span class="p">,</span>
+    <span class="s2">"production_company"</span><span class="p">:</span> <span class="s2">"marvel studios"</span>
+<span class="p">}</span>
+
+<span class="n">movie</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">title</span><span class="p">()</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">movie</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</code></pre></div> 
+                </article>
+            
+            </div>    
+</body>
+</html>

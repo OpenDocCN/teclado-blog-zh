@@ -1,0 +1,256 @@
+<html>
+<head>
+<title>Day 26: Leveraging the Standard Library | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第26天:利用标准库| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-26-standard-library/">https://blog.teclado.com/python-30-day-26-standard-library/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第26天！今天我们将在</a><a href="https://docs.python.org/3/library/"> Python标准库</a>中看到更多有用的工具。我们还将看到在本系列迄今为止编写的一些代码中如何使用这些工具。</p>
+<p>我鼓励你在读完这篇文章后更深入地探索标准库，因为它包含了大量方便的工具，为我们节省了大量的时间和精力。</p>
+<h2><code>namedtuple</code>功能</h2>
+<p><code>namedtuple</code>是<code>collections</code>模块中的一个可用函数，它使我们能够用命名字段定义特殊元组。</p>
+<p>这些特殊的元组提供了惊人的可读性改进，因为我们可以使用指定的字段名来检索值，就像我们使用字典键一样。我们还可以使用关键字参数创建这些元组的实例，这允许我们在用数据填充元组时给出数据的上下文。</p>
+<p>为了利用这些特殊的元组，我们首先需要定义为给定的元组配置指定名称的模板，并详细说明元组的字段。这就是<code>namedtuple</code>函数的用武之地。<code>namedtuple</code>用于创建此模板。</p>
+<p>例如，假设我们想要创建一个新的元组来存储关于一本书的信息。我们可以这样定义模板:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Book</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Book"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"author"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
+</code></pre></div>
+
+<p>这里我们定义了一个<code>"Book"</code>元组，它有字段<code>"title"</code>、<code>"author"</code>和<code>"year"</code>。</p>
+<p>我们已经将这个模板赋给了变量名<code>Book</code>，我们可以像这样创建这个元组的实例:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Book</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Book"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"author"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
+
+<span class="n">book</span> <span class="o">=</span> <span class="n">Book</span><span class="p">(</span><span class="s2">"The Colour of Magic"</span><span class="p">,</span> <span class="s2">"Terry Pratchett"</span><span class="p">,</span> <span class="mi">1983</span><span class="p">)</span>
+</code></pre></div>
+
+<p>正如我前面提到的，我们也可以使用关键字参数来给值提供一些上下文。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Book</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Book"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"author"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
+
+<span class="n">book</span> <span class="o">=</span> <span class="n">Book</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"The Colour of Magic"</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s2">"Terry Pratchett"</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">1983</span><span class="p">)</span>
+</code></pre></div>
+
+<p>从这些特殊的元组中检索值是使用点符号来完成的，但是我们也可以像往常一样通过索引来访问元素。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Book</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Book"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"author"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
+
+<span class="n">book</span> <span class="o">=</span> <span class="n">Book</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">"The Colour of Magic"</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s2">"Terry Pratchett"</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">1983</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">book</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">), by </span><span class="si">{</span><span class="n">book</span><span class="o">.</span><span class="n">author</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>利用<code>namedtuple</code>的一个好地方可能是在<a href="/30-days-of-python/python-30-day-14-files/">第14天</a>处理虹膜数据的时候。</p>
+<p>我们最终的解决方案如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"iris.csv"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">iris_file</span><span class="p">:</span>
+    <span class="n">iris_data</span> <span class="o">=</span> <span class="n">iris_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="n">irises</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">iris_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">sepal_length</span><span class="p">,</span> <span class="n">sepal_width</span><span class="p">,</span> <span class="n">petal_length</span><span class="p">,</span> <span class="n">petal_width</span><span class="p">,</span> <span class="n">species</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+    <span class="n">irises</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">"sepal_length"</span><span class="p">:</span> <span class="n">sepal_length</span><span class="p">,</span>
+        <span class="s2">"sepal_width"</span><span class="p">:</span> <span class="n">sepal_width</span><span class="p">,</span>
+        <span class="s2">"petal_length"</span><span class="p">:</span> <span class="n">petal_length</span><span class="p">,</span>
+        <span class="s2">"petal_width"</span><span class="p">:</span> <span class="n">petal_width</span><span class="p">,</span>
+        <span class="s2">"species"</span><span class="p">:</span> <span class="n">species</span>
+    <span class="p">})</span>
+</code></pre></div>
+
+<p>这完全没问题，但是如果能针对数据变异提供一些保护就更好了，元组提供了这种保护。我们可以创建一个<code>Iris</code>元组类型来存储给定虹膜的所有数据，而不是使用字典。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Iris</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Iris"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"sepal_length"</span><span class="p">,</span> <span class="s2">"sepal_width"</span><span class="p">,</span> <span class="s2">"petal_length"</span><span class="p">,</span> <span class="s2">"petal_width"</span><span class="p">,</span> <span class="s2">"species"</span><span class="p">])</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"iris.csv"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">iris_file</span><span class="p">:</span>
+    <span class="n">iris_data</span> <span class="o">=</span> <span class="n">iris_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="n">irises</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">iris_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">iris</span> <span class="o">=</span> <span class="n">Iris</span><span class="p">(</span><span class="o">*</span><span class="n">row</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">))</span>
+    <span class="n">irises</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iris</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们用<code>namedtuple</code>定义的元组也有一个叫做<code>._make</code>的方法，它是使用<code>*</code>的替代方法。</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">iris_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">iris</span> <span class="o">=</span> <span class="n">Iris</span><span class="o">.</span><span class="n">_make</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">))</span>
+    <span class="n">irises</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iris</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我强烈建议你查看一下<a href="https://docs.python.org/3/library/collections.html#collections.namedtuple">文档</a>，以了解更多关于<code>namedtuple</code>的信息。我们应该一直使用它。</p>
+<h3>风格注释</h3>
+<p>虽然不是必需的，但是我强烈建议您将您的<code>namedtuple</code>模板命名为与您分配模板的变量相同的名称。这对可读性非常重要。</p>
+<p>例如，这样做是完全合法的:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Movie</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Film"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"director"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
+</code></pre></div>
+
+<p>但是您应该改为编写以下两者之一:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Film</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Film"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"director"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span/><code><span class="n">Movie</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Movie"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"title"</span><span class="p">,</span> <span class="s2">"director"</span><span class="p">,</span> <span class="s2">"year"</span><span class="p">])</span>
+</code></pre></div>
+
+<h2><code>partial</code>功能</h2>
+<p><code>partial</code>函数是一种创建函数新版本的方法，其中已经给出了一部分参数。</p>
+<p>例如，让我们看看来自<a href="/30-days-of-python/python-30-day-13-exercise-solutions/">第13天练习</a>的<code>exponentiate</code>函数。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">exponentiate</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">exponent</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base</span> <span class="o">**</span> <span class="n">exponent</span>
+</code></pre></div>
+
+<p>这基本上是内建的<code>pow</code>的重新实现，它工作得非常好。但是假设大多数时候我们想用它来对作为<code>base</code>传入的数字求平方或立方。当我们可以写类似于<code>square(5)</code>的东西时，却不得不写出<code>exponentiate(5, 2)</code>，这真的很烦人。可读性也比较差。</p>
+<p>虽然我们可以继续编写另一个函数，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base</span> <span class="o">**</span> <span class="mi">2</span>
+</code></pre></div>
+
+<p>如果我们处理一个更复杂的函数，这不是一个非常合理的解决方案。这将导致大量重复代码。</p>
+<p>相反，我们可以使用<code>partial</code>来创建一个新的函数，它的<code>exponent</code>参数有一个固定值。</p>
+<p>让我们使用<code>partial</code>从我们原来的<code>exponentiate</code>函数创建一个<code>square</code>函数和一个<code>cube</code>函数。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="k">def</span> <span class="nf">exponentiate</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">exponent</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base</span> <span class="o">**</span> <span class="n">exponent</span>
+
+<span class="n">square</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">exponentiate</span><span class="p">,</span> <span class="n">exponent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">cube</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">exponentiate</span><span class="p">,</span> <span class="n">exponent</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+
+<p>就像这样，我们有几个新的函数可以调用:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="k">def</span> <span class="nf">exponentiate</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">exponent</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">base</span> <span class="o">**</span> <span class="n">exponent</span>
+
+<span class="n">square</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">exponentiate</span><span class="p">,</span> <span class="n">exponent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">cube</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">exponentiate</span><span class="p">,</span> <span class="n">exponent</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">square</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>  <span class="c1"># 16</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cube</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>    <span class="c1"># 125</span>
+</code></pre></div>
+
+<p>你可以在这里找到更多关于<code>partial</code> <a href="https://docs.python.org/3/library/functools.html#functools.partial">的信息。</a></p>
+<h3>注意</h3>
+<p>有一点你必须要小心，就是参数的顺序。</p>
+<p>如果我们想创建使用关键字参数为<code>base</code>设置固定值的函数，那会有问题，因为我们传递给新函数的第一个位置参数也会被赋值给<code>base</code>。因此，在创建我们的<code>partial</code>函数时，我们需要传入<code>base</code>的值作为位置参数。</p>
+<h2><code>defaultdict</code>型</h2>
+<p>模块有一些特殊类型的字典供我们使用。<code>defaultdict</code>类型是一个字典，当我们试图访问一个不存在的键时，它允许我们指定一些默认值来返回。</p>
+<p>这非常有帮助，因为它让我们不必调用<code>get</code>，在每种情况下都指定一个默认值。这也意味着我们经常可以去掉很多逻辑来检查调用<code>get</code>的结果。</p>
+<p>例如，假设我们有这样一个用户字典，其中每个键都是一个用户id:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">User</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"User"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"username"</span><span class="p">,</span> <span class="s2">"location"</span><span class="p">])</span>
+
+<span class="n">users</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0001"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Phil"</span><span class="p">,</span> <span class="s2">"pbest"</span><span class="p">,</span> <span class="s2">"Hungary"</span><span class="p">),</span>
+    <span class="s2">"0002"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Jose"</span><span class="p">,</span> <span class="s2">"jslvtr"</span><span class="p">,</span> <span class="s2">"Scotland"</span><span class="p">),</span>
+    <span class="s2">"0003"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Luka"</span><span class="p">,</span> <span class="s2">"lukamiliv"</span><span class="p">,</span> <span class="s2">"Serbia"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>这是使用<code>namedtuple</code>进行更多练习的好机会，所以我把每个值都做成一个<code>User</code>元组。</p>
+<p>现在，假设我们想使用用户的id从这个字典中检索用户，如果找不到用户，我们就向控制台打印一条消息。</p>
+<p>我们最终可能会做这样的事情:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">User</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"User"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"username"</span><span class="p">,</span> <span class="s2">"location"</span><span class="p">])</span>
+
+<span class="n">users</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"0001"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Phil"</span><span class="p">,</span> <span class="s2">"pbest"</span><span class="p">,</span> <span class="s2">"Hungary"</span><span class="p">),</span>
+    <span class="s2">"0002"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Jose"</span><span class="p">,</span> <span class="s2">"jslvtr"</span><span class="p">,</span> <span class="s2">"Scotland"</span><span class="p">),</span>
+    <span class="s2">"0003"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Luka"</span><span class="p">,</span> <span class="s2">"lukamiliv"</span><span class="p">,</span> <span class="s2">"Serbia"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">user_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a user id: "</span><span class="p">)</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Could not find a user matching that user id."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在让我们用一个<code>defaultdict</code>重写这段代码。</p>
+<p>为了指定在找不到键时返回的默认值，我们需要使用一个函数。在这种情况下，我将使用一个lambda表达式来定义这个函数，它将返回一个简单的字符串。</p>
+<p>每当请求一个丢失的键时，<code>defaultdict</code>将调用这个函数，并且这个函数的返回值将被返回。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">namedtuple</span>
+
+<span class="n">User</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"User"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"username"</span><span class="p">,</span> <span class="s2">"location"</span><span class="p">])</span>
+
+<span class="n">users</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span>
+    <span class="k">lambda</span><span class="p">:</span> <span class="s2">"Could not find a user matching that user id."</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">"0001"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Phil"</span><span class="p">,</span> <span class="s2">"pbest"</span><span class="p">,</span> <span class="s2">"Hungary"</span><span class="p">),</span>
+        <span class="s2">"0002"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Jose"</span><span class="p">,</span> <span class="s2">"jslvtr"</span><span class="p">,</span> <span class="s2">"Scotland"</span><span class="p">),</span>
+        <span class="s2">"0003"</span><span class="p">:</span> <span class="n">User</span><span class="p">(</span><span class="s2">"Luka"</span><span class="p">,</span> <span class="s2">"lukamiliv"</span><span class="p">,</span> <span class="s2">"Serbia"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">user_id</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a user id: "</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="n">user_id</span><span class="p">])</span>
+</code></pre></div>
+
+<p>文档中有很多使用<code>defaultdict</code>的创新方法的有趣例子。一种方法是作为一种计数器。</p>
+<p>为了证明这一点，让我们假设我们正试图跟踪某种RPG中角色的库存。我们使用字典来存储角色的库存，关键字是物品名称，值是角色拥有多少物品的计数。</p>
+<p>我还将创建一个函数来修改这个字典，允许用户添加新条目。</p>
+<div class="codehilite"><pre><span/><code><span class="n">inventory</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span> <span class="nf">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">inventory</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amount</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">inventory</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">amount</span>
+
+<span class="n">add_item</span><span class="p">(</span><span class="s2">"bow"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">add_item</span><span class="p">(</span><span class="s2">"arrow"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">add_item</span><span class="p">(</span><span class="s2">"arrow"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">add_item</span><span class="p">(</span><span class="s2">"bracer"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">inventory</span><span class="p">)</span>  <span class="c1"># {'bow': 1, 'arrow': 40, 'bracer': 2}</span>
+</code></pre></div>
+
+<p>这是可行的，但是我们可以通过使用带有<code>int</code>的<code>defaultdict</code>作为工厂函数来做得更好。</p>
+<p>当不带任何参数调用<code>int</code>时，它返回<code>0</code>。这对我们非常有用，因为这意味着当我们这样做时:</p>
+<div class="codehilite"><pre><span/><code><span class="n">inventory</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amount</span>
+</code></pre></div>
+
+<p>就像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">inventory</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">inventory</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">+</span> <span class="n">amount</span>
+</code></pre></div>
+
+<p>右边的<code>inventory[item]</code>将被替换为<code>0</code>，允许我们创建一个新的密钥，其起始值等于所添加的项目的数量。相当整洁。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="n">inventory</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+    <span class="n">inventory</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amount</span>
+
+<span class="n">add_item</span><span class="p">(</span><span class="s2">"bow"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">add_item</span><span class="p">(</span><span class="s2">"arrow"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">add_item</span><span class="p">(</span><span class="s2">"arrow"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">add_item</span><span class="p">(</span><span class="s2">"bracer"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">inventory</span><span class="p">)</span>  <span class="c1"># defaultdict(&lt;class 'int'&gt;, {'bow': 1, 'arrow': 40, 'bracer': 2})</span>
+</code></pre></div>
+
+<p>如您所见，这导致了我们代码的显著简化。</p>
+<h2>练习</h2>
+<p>1)使用接受标题、导演、发行年份和预算的<code>namedtuple</code>定义一个<code>Movie</code>元组。提示用户为每个字段提供信息，并创建您定义的<code>Movie</code>元组的一个实例。</p>
+<p>2)使用<code>defaultdict</code>存储给定字符串中出现的每个字符的计数。打印本词典中最常见的字符。</p>
+<p>3)使用<code>operator</code>模块中的<code>mul</code>函数创建一个名为<code>double</code>的<code>partial</code>，它总是提供<code>2</code>作为第一个参数。</p>
+<p>4)使用以读取(<code>"r"</code>)模式打开文件的<code>partial</code>创建一个<code>read</code>函数。</p>
+<p>你可以在这里找到我们的练习<a href="/30-days-of-python/python-30-day-26-exercise-solutions">的答案。</a></p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

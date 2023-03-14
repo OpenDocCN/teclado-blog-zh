@@ -1,0 +1,286 @@
+<html>
+<head>
+<title>Day 9 Project: Credit Card Validator | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第九天项目:信用卡验证器| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-9-project/">https://blog.teclado.com/python-30-day-9-project/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到蟒蛇系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天</a><a href="/30-days-of-python/python-30-day-9-enumerate-zip">第9 </a>天项目！对于这个项目，我们将编写一个简单的信用卡验证器。当程序完成时，我们将能够确定给定的卡号是否有效。</p>
+<p>这实际上比你想象的要容易得多，我将详细解释我们将要使用的算法来帮助你。你可以在下面找到这个解释，以及项目简介。之后，我们将在演练中展示一个模型解决方案，作为代码的一部分。</p>
+<p>像往常一样，尽你最大的努力自己做这件事，但是如果你真的卡住了，跟着解决方案走，直到你觉得你可以自己完成它。请记住，如果你忘记了一些东西是如何工作的，你可以随时回头看看你的笔记，或者回到前几天的帖子！</p>
+<h2>算法的快速解释</h2>
+<p>我们将要用来验证卡号的算法被称为<a href="https://en.wikipedia.org/wiki/Luhn_algorithm"> Luhn算法</a>，或Luhn公式。这种算法实际上用于现实生活中测试信用卡或借记卡号码以及SIM卡序列号。</p>
+<p>该算法的目的是识别可能输入错误的号码，因为它可以确定给定的号码是否可能是有效卡的号码。</p>
+<p>我们将使用该算法的方式如下:</p>
+<ol>
+<li>删除卡号最右边的数字。这个数字被称为校验位，它将被排除在我们的大多数计算之外。</li>
+<li>颠倒剩余数字的顺序。</li>
+<li>对于这种倒序数字序列，取每个偶数索引处的数字(<code>0</code>、<code>2</code>、<code>4</code>、<code>6</code>等)。)并且翻倍。如果任何结果大于<code>9</code>，从这些数字中减去<code>9</code>。</li>
+<li>将所有结果相加，并添加校验位。</li>
+<li>如果结果能被<code>10</code>整除，则该数字为有效卡号。如果不是，则卡号无效。</li>
+</ol>
+<p>让我们一步一步地看看这个有效的数字，这样我们就可以看到它的作用。我们要使用的号码是<code>5893804115457289</code>，这是一个有效的Maestro卡号，但不是一个正在使用的号码。</p>
+<p>|数字|操作| | - | - | | 5893804115457289 |起始数字| | 589380411545728X |删除最后一位数字| | 827545114083985X |反转剩余数字| | 16214585218016318810X |偶数索引处的两位数| | 725585218073981X |超过9时减9 |</p>
+<p>现在，我们将这些数字相加，并添加校验数字:</p>
+<div class="codehilite"><pre><span/><code><span class="mi">7</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">7</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">9</span> <span class="o">+</span> <span class="mi">8</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">9</span>
+</code></pre></div>
+
+<p>如果我们执行这一系列加法，我们得到<code>80</code>。<code>80</code>能被<code>10</code>整除，所以卡号有效。</p>
+<h2>案情摘要</h2>
+<p>你为这个项目编写的程序应该做到以下几点:</p>
+<p>1)它应该能够接受来自用户的卡号。对于这个项目，您可以假设数字将以单个字符串的形式输入(即数字之间没有任何空格)。但是，您应该能够接受在字符串的开头或结尾带有空格的卡号。</p>
+<p>如果你想挑战自己，你应该尝试在接受卡号的格式上更加灵活。</p>
+<p>您可能希望将用户的输入转换成数字列表，这样会更容易处理。</p>
+<p>2)程序应该使用上述Luhn算法验证该卡号。你应该自己实现这个算法。</p>
+<p>在移除校验数字并反转卡号后，您将需要一个<code>for</code>循环来检查信用卡号。当你遍历每个数字时，你必须找到一种方法来确定一个数字是在奇数位置还是在偶数位置。记住如果你卡住了，你可以检查模型解！</p>
+<p>3)一旦验证完成，程序应该通过向控制台打印一个字符串来通知用户卡号是否有效。</p>
+<p>当您需要转到反转数字的步骤时，您可以使用<code>reversed</code>函数，它将接受任何序列类型:</p>
+<div class="codehilite"><pre><span/><code><span class="n">language</span> <span class="o">=</span> <span class="s2">"Python"</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">letters</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">,</span> <span class="s2">"d"</span><span class="p">,</span> <span class="s2">"e"</span><span class="p">)</span>
+
+<span class="n">language</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">language</span><span class="p">)</span>    <span class="c1"># 'nohtyP'</span>
+<span class="n">numbers</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>      <span class="c1"># [5, 4, 3, 2, 1]</span>
+<span class="n">letters</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span>      <span class="c1"># ('e', 'd', 'c', 'b', 'a')</span>
+</code></pre></div>
+
+<p><code>reversed</code>会给我们回一个懒人型(像<code>range</code>)，所以不能直接打印；但是，它是可迭代的。例如，我们可以在for循环中使用结果。</p>
+<p>如果我们的数字在一个列表中，我们可以使用<code>reverse</code>方法。这直接修改了原始列表:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">numbers</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>  <span class="c1"># [5, 4, 3, 2, 1]</span>
+</code></pre></div>
+
+<p>你可以使用你喜欢的任何一种技术。</p>
+<p>测试您的解决方案时，您可以使用自己的卡号，也可以在网上找到用于测试支付方式的有效卡号。例如，Stripe有一系列您可以使用的<a href="https://stripe.com/docs/testing#cards">测试卡号</a>。</p>
+<p>这样，你就可以开始练习了。祝你好运！</p>
+<h2>我们的解决方案</h2>
+<p>下面你会发现我们的解决方案的书面演练，但我们有一个链接到一个<a href="https://youtu.be/XGutqiC-REw">视频版本</a>你更喜欢看代码视频。</p>
+<p>像往常一样，我们将把解决方案分成小块，我建议你也这样做，定期测试以确保你没有在早期犯错误。如果你试着一口气写完所有的东西，你会很难找到这些早期的错误，因为它们被埋没了。</p>
+<p>我们的第一步只是接受用户的卡号:</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span>
+</code></pre></div>
+
+<p>因为我们需要能够接受在开头或结尾添加了空格的卡号，所以我们需要对从用户那里得到的字符串进行少量处理。在这种情况下,<code>strip</code>就是我们所需要的，它会处理掉任何多余的空白。</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</code></pre></div>
+
+<p>对于这个解决方案，我将从这个字符串创建一个列表，我这样做有几个原因。首先，<code>reverse</code>方法是一种非常干净的反转卡号的方式，其次，<code>pop</code>方法允许我非常干净利落地删除和存储校验位。</p>
+<p>让我们从转换<code>card_number</code>开始:</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</code></pre></div>
+
+<p>这里不需要用<code>split</code>，因为我只是想把字符串中的每个字符拆分成不同的列表项。如果我们将一个字符串传递给<code>list</code>函数，这是默认行为。</p>
+<p>现在我们有了列表，让我们提取校验位并反转剩余的数字:</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+</code></pre></div>
+
+<p>现在我们有了反转的数字，我们需要在每一个偶数索引处取该数字并加倍。如果数字最终超过了<code>9</code>，我们需要从结果中减去<code>9</code>。</p>
+<p>我认为解决这个问题最简单的方法是使用一个指数计数器。然后我们可以使用一个<code>for</code>循环来递增这个计数器，同时遍历<code>card_number</code>列表。</p>
+<p>在<code>for</code>循环中，我们可以检查索引是否能被<code>2</code>整除。如果是，我们知道我们有一个均匀的指数。如果你需要复习如何检查一个数是否能被另一个数整除，我们在昨天的Fizz Buzz项目中讨论过。</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">digit</span> <span class="ow">in</span> <span class="n">card_number</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Even index"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Odd index"</span><span class="p">)</span>
+
+    <span class="c1"># Increment the index counter for each iteration</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+</code></pre></div>
+
+<p>我们还可以利用今天学到的<code>enumerate</code>函数，这样我们就不必自己跟踪这个计数器了:</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">card_number</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Even index"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Odd index"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在我们已经建立了循环的这一部分，我们可以用一些有用的东西替换这些<code>print</code>调用。</p>
+<p>我们需要添加的第一件事是存储我们修改过的数字的地方。为此，我们将创建一个名为<code>processed_digits</code>的空列表。然后我们将通过从<code>for</code>循环中追加条目来填充这个列表。</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="n">processed_digits</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">card_number</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Even index"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Odd index"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>对于奇数指数，我们的任务很简单。我们只需要将<code>digit</code>转换成一个整数(记住我们目前有一个字符串列表)，然后我们需要调用<code>append</code>将该整数添加到<code>processed_digits</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="n">processed_digits</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">card_number</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Even index"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">))</span>
+</code></pre></div>
+
+<p>对于偶数索引，我们需要执行几个不同的步骤。首先，我们需要将数字转换成整数，并将数值加倍。</p>
+<p>然后我们需要检查这个操作的结果是否大于<code>9</code>。如果是，我们需要从结果中减去<code>9</code>。然后我们需要将这个数字添加到<code>processed_digits</code>中。</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="n">processed_digits</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">card_number</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">doubled_digit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+
+        <span class="c1"># Subtract 9 from any results that are greater than 9</span>
+        <span class="k">if</span> <span class="n">doubled_digit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">doubled_digit</span> <span class="o">=</span> <span class="n">doubled_digit</span> <span class="o">-</span> <span class="mi">9</span>
+
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doubled_digit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">))</span>
+</code></pre></div>
+
+<p>厉害！现在我们有了处理过的数字的列表，所以剩下的就是把它们加在一起并检查结果。</p>
+<p>为了将数字加在一起，我们将再次使用一个<code>for</code>循环。这次我们将创建一个名为<code>total</code>的变量，并且我们将为<code>check_digit</code>设置一个初始值。</p>
+<p>对于循环的每一次迭代，我们都要在这个总数上再加一个数字，我们将得到所有已处理数字的总和，以及校验位。</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="n">processed_digits</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">card_number</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">doubled_digit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+
+        <span class="c1"># Subtract 9 from any results that are greater than 9       </span>
+        <span class="k">if</span> <span class="n">doubled_digit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">doubled_digit</span> <span class="o">=</span> <span class="n">doubled_digit</span> <span class="o">-</span> <span class="mi">9</span>
+
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doubled_digit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">))</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">check_digit</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">digit</span> <span class="ow">in</span> <span class="n">processed_digits</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">digit</span>
+</code></pre></div>
+
+<p>如果我们尝试我们的初始卡号(<code>5893804115457289</code>)，我们应该总共得到<code>80</code>。</p>
+<p>虽然这种方法可行，但有一种更简单的方法可以将iterable中的数字相加。我们可以将iterable传递给<code>sum</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="n">processed_digits</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">card_number</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">doubled_digit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+
+        <span class="c1"># Subtract 9 from any results that are greater than 9       </span>
+        <span class="k">if</span> <span class="n">doubled_digit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">doubled_digit</span> <span class="o">=</span> <span class="n">doubled_digit</span> <span class="o">-</span> <span class="mi">9</span>
+
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doubled_digit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">))</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">check_digit</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">processed_digits</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这不仅更短，也更容易阅读和理解。</p>
+<p>现在我们已经有了卡片数字的总和，我们只需要测试总和是否能被<code>10</code>整除。我们可以使用与测试偶数指数相同的方法。</p>
+<div class="codehilite"><pre><span/><code><span class="n">card_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a card number: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="c1"># Remove the last digit from the card number</span>
+<span class="n">check_digit</span> <span class="o">=</span> <span class="n">card_number</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="c1"># Reverse the order of the remaining numbers</span>
+<span class="n">card_number</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+<span class="n">processed_digits</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">card_number</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">doubled_digit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+
+        <span class="c1"># Subtract 9 from any results that are greater than 9       </span>
+        <span class="k">if</span> <span class="n">doubled_digit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">doubled_digit</span> <span class="o">=</span> <span class="n">doubled_digit</span> <span class="o">-</span> <span class="mi">9</span>
+
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doubled_digit</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">processed_digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">digit</span><span class="p">))</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">check_digit</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">processed_digits</span><span class="p">)</span>
+
+<span class="c1"># Verify that the sum of the digits is divisible by 10</span>
+<span class="k">if</span> <span class="n">total</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Valid!"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Invalid!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>就这样，我们结束了！我们有一个全功能的卡号验证器。</p>
+<h2>额外资源</h2>
+<p>如果你有兴趣了解更多关于我们上面使用的<code>sum</code>函数，你可以在<a href="https://docs.python.org/3/library/functions.html#sum">官方文档</a>中找到信息。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

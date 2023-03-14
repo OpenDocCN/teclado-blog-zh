@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Assignment expressions in Python</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python中的赋值表达式</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-assignment-expressions/">https://blog.teclado.com/python-assignment-expressions/</a></blockquote><div><div class="post-content">
+<p>Python的新版本刚刚发布(Python 3.8)，这意味着我们<a href="https://docs.python.org/3/whatsnew/3.8.html">可以和</a>玩一些新的玩具。Python 3.8中一个有趣的新特性是赋值表达式，以及备受争议的“walrus operator”(<code>:=</code>)。在这篇文章中，我们将讨论什么是赋值表达式，以及如何使用它们。</p><p>赋值表达式是在<a href="https://www.python.org/dev/peps/pep-0572/"> PEP 572 </a>中提出的，这是一个<em>争议极大的</em>提案。实际上，我认为赋值表达式是对语言的一个很好的补充；然而，在我们展示他们的能力之前，我怎么强调都不为过，他们是真的<em>容易被滥用。只要格外小心，不要因为使用它们而使代码更难阅读。</em></p><p>那么，这些大惊小怪的到底是什么？</p><p>下面是我们的<a href="https://www.udemy.com/course/the-complete-python-course/">完整Python课程</a>中的一段代码，来自我们练习基本循环和条件循环的练习:</p><pre><code class="language-python">user_input = input('Enter q or p: ')
+ 
+while user_input != 'q':
+    if user_input == 'p':
+        print("Hello!")
+
+    user_input = input('Enter q or p: ')
+</code></pre>
+<p>上面的代码相当简单。我们有这样一个while循环，它一直要求用户按下<strong> p </strong>或<strong> q </strong>，如果用户按下了<strong> p </strong>，我们就打印这个欢快的小“Hello！”消息。另一方面，如果用户按下<strong> q </strong>，循环结束。对于任何其他输入，我们什么都不做。</p><p>虽然这段代码没问题，但是我们确实有一些烦人的重复，因为我们必须通过定义<code>user_input</code>来开始循环。如果我们不这样做，<code>user_input</code>在循环的第一次迭代中是未定义的。</p><p>下面是使用赋值表达式的相同代码:</p><pre><code class="language-python">while (user_input := input('Enter q or p: ')) != 'q':
+    if user_input == 'p':
+        print("Hello!")
+</code></pre>
+<p>正如你所看到的，当我们定义循环条件的时候，我们可爱的小海象就在<code>user_input</code>旁边，但是实际上这里发生了很多事情，所以让我们来分解一下。</p><p>首先，<code>:=</code>实际上是做什么的？它本质上是一种特殊类型的赋值操作符。像往常一样，我们给一个变量名赋值，但是关键的区别是赋值被当作一个表达式。</p><p>表达式<em>计算出某个值</em>，在赋值表达式的情况下，它们计算出的值是赋值运算符<code>:=</code>之后的值。</p><p>赋值被当作一个表达式，这就是为什么我们可以直接在它后面使用<code>!= 'q'</code>:赋值表达式代表一个实际值。这与我们在Python中使用的赋值语句不同，后者根本不表示任何值。</p><p>正如您在上面的示例中看到的，我们有一个表达式，它构成了while循环的条件，如下所示:</p><pre><code class="language-python">(user_input := input('Enter q or p: ')) != 'q'
+</code></pre>
+<p>它读起来像这样，“<code>user_input</code>不等于字符串<code>'q'</code>，其中<code>user_input</code>是函数调用<code>input('Enter p or q: ')</code>的返回值”。</p><p>在我们的while循环中，这个表达式，包括赋值，在循环的每次迭代中都会被计算。这意味着对于循环的每次迭代，我们将要求用户输入一个值，该值将被赋给变量<code>user_input</code>，并与字符串<code>'q'</code>进行比较。</p><p>由于<code>user_input</code>只是一个普通的循环变量，我们仍然可以在循环中使用它，这就是if语句没有抱怨的原因。</p><p>这里语法的一个重要部分是赋值是用括号括起来的。这是基本上所有可能使用赋值表达式的情况下的一个要求，但是你可以在PEP 的<a href="https://www.python.org/dev/peps/pep-0572/#exceptional-cases">这一节中读到更多。</a></p><p>除了删除一些行之外，赋值表达式还可以通过防止重复昂贵的操作来提高程序的效率。我认为这在列表理解这样的结构中最有效:</p><pre><code class="language-python">results = [result for x in data if (result := costly_function(x)) &gt;= 0]
+</code></pre>
+<p>在这里，我们关心的是当我们从某个名为<code>data</code>的可迭代对象传递值时，这个<code>costly_function</code>生成的值。不再计算两次结果——一次在执行比较时，一次在将值添加到<code>results</code>列表时——我们现在只需将结果赋给一个变量并引用该变量。</p><p>另一种可能是这样的:</p><pre><code class="language-python">results = []
+
+for x in data:
+    result = costly_function(x)
+
+    if result &gt;= 0:
+        results.append(result)
+</code></pre>
+<p>这要冗长得多，但是为了我们从传统的for循环中获得的那种清晰，这种冗长也许是值得的。这实际上是由你来决定赋值表达式是否足够易读来证明代码长度的减少。</p><p>除了他们关于很好地使用语法的建议之外，我真的建议看一看PEP中的一些例子。到处放赋值表达式是不值得的，因为这只会损害代码的可读性。这是一个有效但相当小众的工具，我们都需要非常小心。</p><h2 id="wrapping-up">包扎</h2><p>这就是这篇关于赋值表达式的文章的全部内容！我们很想知道你对新语法的看法，所以请通过<a href="https://twitter.com/tecladocode"> Twitter </a>与我们联系，或者参加我们的<a href="https://discord.gg/BBWwyMq"> Discord </a>节目。</p><p>在不久的将来，我们将在我们的博客中添加大量内容，涵盖Python 3.8中有趣的新增内容，所以请注册下面的邮件列表，确保您及时了解我们的所有内容。我们还将在我们的<a href="https://www.udemy.com/course/the-complete-python-course/">完整Python课程</a>中增加新的讲座，敬请关注！</p>
+</div>
+</div>    
+</body>
+</html>

@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>Extending Python Lists</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>扩展Python列表</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-extending-lists/">https://blog.teclado.com/python-extending-lists/</a></blockquote><div><div class="post-content">
+<p>在本周的<a href="https://blog.teclado.com/tag/python-snippets/"> Python片段帖子</a>中，我们来看看列表的<code>extend</code>方法。</p><p><code>extend</code>很像<code>append</code>方法，但是<code>extend</code>不是添加一个值，而是允许我们在给定列表对象的末尾添加几个元素。</p><p>让我们首先定义几个列表:</p><pre><code class="language-python">l_1 = [1, 2, 3, 4]
+l_2 = [5, 6, 7, 8]
+</code></pre>
+<p>我们将使用<code>extend</code>将来自<code>l_2</code>的值加到<code>l_1</code>的末尾:</p><pre><code class="language-python">l_1.extend(l_2)
+
+print(l_1)  # [1, 2, 3, 4, 5, 6, 7, 8]
+</code></pre>
+<p>正如我们所看到的，<code>extend</code>方法在进行就地操作，所以它修改了原始列表。除此之外，它的表现非常类似于对列表使用<code>+</code>操作符，所以我们为什么要关心<code>extend</code>？</p><p>嗯，<code>extend</code>可以接受任何iterable，而使用类似于<code>+</code>的东西来执行串联只有在两个对象都是列表时才有效。所以我们可以这样做:</p><pre><code class="language-python">[1, 2, 3] + [4, 5, 6]
+</code></pre>
+<p>而下面就给我们一个<code>TypeError</code>:</p><pre><code class="language-python">[1, 2, 3] + (4, 5, 6)
+</code></pre>
+<p>另一方面，使用<code>extend</code>,一切都很好:</p><pre><code class="language-python">l_1 = [1, 2, 3, 4]
+t_1 = (5, 6, 7, 8)
+
+l_1.extend(t_1)  # [1, 2, 3, 4, 5, 6, 7, 8]
+</code></pre>
+<h2 id="wrapping-up">包扎</h2><p><code>extend</code>到此为止！我希望你学到了一些新东西，我希望你能在自己的代码中找到使用<code>extend</code>的地方。</p><p>如果你刚刚开始学习Python，或者你只是想提高自己，请查看我们的<a href="https://www.udemy.com/the-complete-python-course/?couponCode=BLOGGER">完整Python课程</a>！我们将带您从初级水平到一些非常高级的Python，所以这是一个发展您的Python技能的好地方。</p><p>你可能也想看看我们下面的邮件列表，因为我们为我们的订户定期发布折扣代码，这样他们就可以在我们所有的课程中获得最优惠的价格。</p>
+</div>
+</div>    
+</body>
+</html>

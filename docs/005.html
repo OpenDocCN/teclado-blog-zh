@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Tkinter's Pack Geometry Manager</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Tkinter的包装几何管理器</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/tkinters-pack-geometry-manager/">https://blog.teclado.com/tkinters-pack-geometry-manager/</a></blockquote><div><div class="post-content">
+<p>本周我们将和Tkinter一起深入GUI开发的世界。在本帖中，我们将讨论几何管理器，尤其是包装几何管理器。Tkinter实际上有几个不同的几何管理器，我们将在后续的帖子中看到。</p><h2 id="what-s-tkinter">Tkinter是什么？</h2><p>首先，我肯定你们中的一些人想知道这到底是什么？Tkinter <em> (tee-kay-in-ter) </em>是一个用Python创建图形用户界面的工具包。它绝不是唯一可用的，我们也有像Kivy或PyQt这样的选项。然而，Tkinter是用Python创建GUI的默认选项，实际上大多数Python安装都附带了tkinter。</p><p>您可以通过打开Python shell并键入以下命令来进行检查:</p><pre><code class="language-python">import tkinter
+</code></pre>
+<p>如果你没有得到一个错误，你是好的。对于那些仍在使用Python 2的人，您需要使用这个导入:</p><pre><code class="language-python">import Tkinter
+</code></pre>
+<p>在本文中，我们将重点关注Python 3。</p><p>如果你是Tkinter的新手，我们在<a href="https://www.udemy.com/the-complete-python-course/?couponCode=BLOGGER">完整的Python课程</a>中有一个介绍性的部分来帮助你入门。</p><h2 id="what-s-a-geometry-manager">什么是几何管理器？</h2><p>当我们着手用Tkinter创建一个GUI时，我们从一个或多个窗口开始，在这个windows live中有许多小部件。小部件类似于一个组件。这些小部件或组件一起构成了我们完整的应用程序。我们可能有按钮、容器、文本区和菜单。这些都是小部件。</p><p>几何图形管理器负责控制这些小部件如何适合我们的应用程序窗口，以及这些小部件最终放置的位置。</p><p>正如我在这篇文章开始时提到的，Tkinter有许多以不同方式运行的几何图形管理器。在这里，我们将重点关注pack geometry manager，它最适合界面不是特别复杂的简单应用程序。</p><p>虽然pack很容易上手，但有时很难想象元素是如何组合在一起的，这就是为什么我们可能不会在复杂的界面中使用它。</p><p>事不宜迟，让我们开始使用pack。</p><h2 id="basic-packing">基本包装</h2><p>在这篇文章的剩余部分，我们将关注一个简单的例子:一个包含两个左右矩形的固定大小的窗口。它不会非常漂亮，但应该很容易看到发生了什么。</p><p>首先，让我们导入<code>tkinter</code>并设置我们的窗口:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+root.mainloop()
+</code></pre>
+<p>这里的代码实际上都是样板文件，不是我们需要特别关注的东西。我们已经创建了一个新的<code>Tk</code>对象，并将其分配给<code>root</code>。这是我们的主应用程序窗口。然后我们使用<code>geometry</code>方法设置窗口的大小，指定宽度为600像素，高度为400像素。</p><p>然后我们在底部有了这个<code>mainloop</code>方法，这是Tkinter如何在我们的应用程序内部监控事情的方法。我们需要调用这个方法在屏幕上创建应用程序窗口。</p><p>完成所有这些后，我们有了一个非常令人兴奋的盒子，看起来像这样:</p><figure class="kg-card kg-image-card"><img src="../Images/19970d02870432bed0a9156c69911dc4.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-21-30-25.png"/></figure><p>请注意，如果您继续跟进，您可能会看到一些稍微不同的东西。我们使用Tkinter创建的窗口根据我们使用的操作系统有不同的外观。我们在上面看到的是我们使用的是Solus Linux，但是如果你使用其他系统，它看起来肯定会有所不同。</p><p>好了，让我们在应用程序窗口中获取矩形！</p><p>为了做到这一点，我们首先为每个矩形定义一个小部件。Widgets都是Tkinter对象，有很多可以选择。我们将在这里使用<code>Label</code>小部件。</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+
+root.mainloop()
+</code></pre>
+<p>我们已经在矩形上设置了许多属性，还传入了对这个<code>root</code>对象的引用。通过传入<code>root</code>，我们告诉Tkinter这个小部件的父窗口是主应用程序窗口。换句话说，这些矩形直接存在于它的内部。</p><p>我们设置的属性是<code>text</code>、<code>bg</code>和<code>fg</code>。<code>bg</code>和<code>fg</code>分别代表背景和前景，在这种情况下，它们负责背景颜色和文本颜色。它们不是必需的，但是当我们开始处理<code>pack</code>时，看看小部件实际上在哪里会很有用。</p><p>说到<code>pack</code>，目前还不见踪影。此外，如果我们试图运行应用程序，我们仍然得到一个空窗口。</p><p>虽然我们已经创建了两个矩形小部件，但它们不会显示在应用程序窗口中，直到我们为它们指定了一些几何管理器。没有关于它们如何适应应用程序窗口的信息，所以Tkinter对它们不做任何事情。</p><p>我们可以通过在两个对象上调用<code>pack</code>方法来解决这个问题，就像这样:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10)
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10)
+
+root.mainloop()
+</code></pre>
+<p>我们在这里设置的<code>ipax</code>和<code>ipady</code>值只是内部填充。我们可以摆脱这些，一切都会好的。在这种情况下，添加它们只是为了更容易阅读文本，因为它不会触及<code>Label</code>的所有侧面。</p><p>现在，如果我们再次运行应用程序，我们最终会在应用程序窗口中看到一些内容:</p><figure class="kg-card kg-image-card"><img src="../Images/55eb23bbeeddd06e19b4f6b35dd4ad18.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-21-42-35.png"/></figure><p>正如你所看到的，<code>pack</code>只是把我们的矩形小部件一个接一个地堆积起来。有时这正是我们想要的，但我们可以比这更微妙一些。让我们来看看我们能做些什么来配置<code>pack</code>。</p><h2 id="configuring-pack">配置<code>pack</code></h2><p>为<code>pack</code>设置配置只是向<code>pack</code>方法添加关键字参数和值的一个例子。我们已经看到了一个关于<code>ipadx</code>和<code>ipady</code>的例子，但是我们还可以使用更多的选项。</p><p>特别是，我关心三个配置:<code>fill</code>、<code>side</code>和<code>expand</code>。</p><p>这些选项的文档相当混乱，所以我认为我们最好看一些例子。让我们从为<code>fill</code>指定一些值开始。</p><h3 id="using-fill">使用<code>fill</code></h3><p><code>fill</code>接受三个不同的值作为选项:<code>x</code>、<code>y</code>和<code>both</code>。这些选项代表轴，因此我们可以告诉给定的小部件填充x轴、y轴或两个轴上的可用空间。</p><p>先来试试<code>fill="x"</code>:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, fill="x")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10)
+
+root.mainloop()
+</code></pre>
+<p>这里我们指定<code>rectangle_1</code>应该填充x轴上的所有可用空间。</p><p>如果我们运行我们的应用程序，我们会得到类似这样的结果:</p><figure class="kg-card kg-image-card"><img src="../Images/595cde7b4c6b1fd37281647cfa6fe673.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-22-23-08.png"/></figure><p>这似乎有道理，但是如果我们改为指定<code>fill="y"</code>，我们会得到一些奇怪的东西:</p><figure class="kg-card kg-image-card"><img src="../Images/8c5b15502dc97fcd0f6931da05e2d958.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-22-25-12.png"/></figure><p>如果我们指定<code>fill="both"</code>，我们得到<code>rectangle_1</code>再次填充水平空间，但是在这种情况下我们也没有得到垂直增长。这是怎么回事？</p><p>问题是，就Tkinter和<code>pack</code>而言，没有可供<code>rectangle_1</code>沿y轴生长的空间。考虑到<code>rectangle_2</code>地下的充裕空间，这可能看起来有点奇怪，但我们实际上在谈论不同的事情。</p><p>两个矩形在应用程序窗口中都被分配了空间。每个小部件都被分配了一个与其高度相等的区域，该区域横跨应用程序窗口的整个宽度。在上图中，两个矩形都水平居中。</p><p>当我们为这些小部件设置<code>fill</code>属性时，每个小部件可以填充的区域受到分配给它们的区域的限制。</p><p>正如我们所看到的，我们的小部件已经消耗了分配给它们的那一小段行中的所有垂直空间，所以当我们告诉小部件向两个方向填充时，我们看到的唯一增长是水平的。</p><p>这就把我们带到了<code>expand</code>选项，它允许我们克服这个限制。</p><h3 id="using-expand">使用<code>expand</code></h3><p>而<code>fill</code>用于确定一个小部件消耗了多少分配空间，<code>expand</code>关心的是给一个给定的小部件分配更多的空间。</p><p>让我们看看当我们为<code>rectangle_1</code>设置<code>expand=True</code>时会发生什么:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, expand=True)
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10)
+
+root.mainloop()
+</code></pre>
+<p>应用程序现在看起来像这样:</p><figure class="kg-card kg-image-card"><img src="../Images/5ec4946e79127a9c5543896105eea7e2.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-22-46-33.png"/></figure><p>乍一看，这似乎是一个奇怪的结果，但如果我们仔细想想，它很有意义。我们的<code>rectangle_1</code>小部件没有设置为向任一方向填充，但是小部件现在已经被分配了应用程序窗口中所有可用的空间。它唯一没能占为己有的空间是分配给<code>rectangle_2</code>的空间。</p><p>因为<code>rectangle_1</code>没有向任何方向填充，所以它最终漂浮在它被分配的这个巨大区域的中间。</p><p>如果我们将<code>rectangle_1</code>上的fill属性设置为<code>both</code>，我们现在会看到它填充了大部分屏幕，如下所示:</p><figure class="kg-card kg-image-card"><img src="../Images/eb99105cab43e6d2bab8cac7560f3f87.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-22-50-22.png"/></figure><p>我们仍然需要检查的一件事是，当两个项目都被允许占用更多空间时会发生什么？</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, expand=True, fill="both")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, expand=True)
+
+root.mainloop()
+</code></pre>
+<p>这里绿色的<code>rectangle_1</code>小部件被设置为扩展，并填充整个分配区域。红色的<code>rectangle_2</code>设定为展开，但是没有任何<code>fill</code>配置。</p><figure class="kg-card kg-image-card"><img src="../Images/6ad1b46d31cb0b9c685c3c3da23d8d79.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-22-53-19.png"/></figure><p>我们最终得到的是小部件平均共享多余的空间，即使红色的<code>rectangle_2</code>没有消耗所有分配给它的空间。它最终浮在中间，而<code>rectangle_1</code>填充了整个区域。</p><p>这里的要点是，如果允许多个小部件扩展，空间将在它们之间平均分配。</p><h3 id="using-side">使用<code>side</code></h3><p>还有一点我们还没有看到的配置:<code>side</code>。那么<code>side</code>到底是做什么的呢？</p><p>让我们来看看:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, side="left", expand=True, fill="both")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, expand=True, fill="both")
+
+root.mainloop()
+</code></pre>
+<p>这里，我们的两个小部件都被设置为扩展和填充整个分配的空间，但是<code>rectangle_1</code>现在有了一个额外的配置:<code>side="left"</code>。</p><p>让我们看看这是如何影响我们的应用程序的:</p><figure class="kg-card kg-image-card"><img src="../Images/77b031f88f294118a385f07eb10aaa4b.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-22-56-54.png"/></figure><p>哇！不是说要平均分配空间吗？</p><p>我们可以看到<code>expand=True</code>确实适用于红色的<code>rectangle_2</code>小部件，因为它垂直填充了空间，但事情仍然没有按照我们的预期进行。</p><p>事实证明，我们需要扩展我们对<code>expand</code>实际工作方式的定义。是的，当两个窗口都设置为<code>expand=True</code>时，窗口小部件会平均共享可用空间，但是这仅限于它们共享一个锚端的情况。默认情况下，小部件被锚定到它们的父容器(在我们的例子中是应用程序窗口)的顶部，但是我们只是设置了一个矩形来使用左侧作为锚。</p><p>如果我们将两个小部件都设置为使用<code>side="left"</code>，或者即使我们将一个设置为<code>side="left"</code>，一个设置为<code>side="right"</code>，事情又会回到我们预期的样子:</p><figure class="kg-card kg-image-card"><img src="../Images/c7c8f0cd8b1ee14fda53b0ed940be1e5.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/07/Screenshot-from-2019-07-31-23-06-01.png"/></figure><p>这里唯一的视觉差异是，我们现在从左到右而不是从上到下分割应用程序。</p><p>查看具有不同<code>side</code>值的小部件如何交互，这本身就值得写一整篇文章，所以我们将在以后再回到这个话题。现在，知道你将得到一些有趣的结果就足够了。</p><h3 id="wrapping-up">包扎</h3><p>这就是这篇关于<code>pack</code>入门的文章。确保在<a href="https://twitter.com/TecladoCode"> Twitter </a>上关注我们，这样你就不会错过我们即将发布的任何帖子。</p><p>如果你对一个专门的Tkinter课程感兴趣，我们刚刚发布了一个课程，我们将深入其中，涵盖你需要了解的关于Tkinter的一切。此外，我们还构建了大量很酷的应用程序！查看使用Python和Tkinter进行GUI开发的<a href="https://www.udemy.com/course/desktop-gui-python-tkinter/?referralCode=8A984196616D9BF14DD0">课程！</a></p>
+</div>
+</div>    
+</body>
+</html>

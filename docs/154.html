@@ -1,0 +1,343 @@
+<html>
+<head>
+<title>Day 21 Project: Plotting Graphs | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第21天项目:绘制图表| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-21-project/">https://blog.teclado.com/python-30-day-21-project/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天</a><a href="/30-days-of-python/python-30-day-21-multiple-files">第21 </a>天项目！今天，我们将构建一个多文件应用程序，允许用户为来自<a href="/30-days-of-python/python-30-day-14-files">第14天</a>的花卉数据创建图表。</p>
+<p>我们要做的很多工作都围绕着如何很好地构建我们的应用程序，以便我们可以轻松地开发它。然而，我们也需要学习如何创建图表！为此，我们将使用<code>matplotlib</code>模块。具体来说就是<code>pyplot</code>子模块，它让绘制简单的图形变得很容易！</p>
+<p>在我们讨论项目简介之前，让我们来看看如何使用<code>matplotlib.pyplot</code>创建一个简单的图表。</p>
+<p>还记得我们已经得到了<a href="https://youtu.be/LEcaLU-DNtg">视频版本</a>的演练。</p>
+<h2>绘制图表</h2>
+<p>关于<code>matplotlib.pyplot</code>还有很多要学的，但幸运的是，对我们来说，记下基础知识并创建一些简单的图表是相当简单的。</p>
+<p>开始使用<code>pyplot</code>的第一件事是导入它。我推荐这样导入:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+</code></pre></div>
+
+<p>如果你正在使用<a href="http://repl.it"> repl.it </a>，这应该会自动工作。如果你在自己的电脑上运行Python，你必须安装<code>matplotlib</code>才能运行。使用<a href="http://repl.it"> repl.it </a>的好处之一！</p>
+<p>你可以在这里找到安装指南<a href="https://matplotlib.org/users/installing.html">。</a></p>
+<p>现在我们已经可以访问<code>pyplot</code>，我们可以用它来画一个图。</p>
+<p>对于我们的数据集，我们将使用散点图，看起来像这样:<img alt="" src="../Images/f145ec1d184ddc5d1f6358035c6f059a.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Untitled.png"/>下面是我们如何用<code>pyplot</code>绘制一个简单的散点图:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+
+<span class="n">x_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">7.9</span><span class="p">]</span>
+
+<span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果您输入并运行它，您会看到一个新文件出现在您的<a href="http://repl.it"> repl.it </a>项目中，名为<code>graph.png</code>。这就是包含<code>pyplot</code>输出的图像文件。</p>
+<p>除了导入<code>pyplot</code>，我们所做的是:</p>
+<ul>
+<li>定义要绘制的<strong> x </strong>和<strong> y </strong>值。</li>
+<li>告诉<code>pyplot</code>用这些数据画一个散点图。</li>
+<li>告诉<code>pyplot</code>将生成的输出保存到文件中。</li>
+</ul>
+<h3>要绘制的值</h3>
+<p>我们已经定义了两个列表变量<code>x_data</code>和<code>y_data</code>。每个包含5个值。</p>
+<p>创建散点图时，<code>pyplot</code>取<code>x_data</code>的第一个值和<code>y_data</code>的第一个值，并在它们指定的位置画一个小圆。然后重复第二个值，然后是第三个值。</p>
+<p>因此，<code>x_data</code>和<code>y_data</code>的长度必须相同。否则你可能会得到一些有<strong> x </strong>位置而没有<strong> y </strong>位置的点！</p>
+<h3>定义轴</h3>
+<p>请注意，我们从未告诉过<code>pyplot</code>轴应该有多大。它会根据绘制的最大值自动计算每个轴的大小。</p>
+<p>如果我们绘制的数值是数字，可以这样做。如果我们绘制字符串，它就做不到这一点，因为它不知道如何获得字符串列表的最大值。</p>
+<h3>创建多个图表</h3>
+<p>当你一遍又一遍地要求用户为他们创建新的图表和新的文件时，你可能会遇到一个问题:<code>pyplot</code>默认情况下会向现有的图表添加新的数据点，而不是创建新的图表。</p>
+<p>如果我们像这样运行:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+
+<span class="n">x_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">7.9</span><span class="p">]</span>
+
+<span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+
+<span class="n">y_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">6.9</span><span class="p">,</span> <span class="mf">8.8</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">]</span>
+
+<span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>文件<code>graph.png</code>将只存在一次，因为我们覆盖了它。然而，它将包含两个<code>y_data</code>变量的数据，就像这样:<img alt="" src="../Images/9f1bee242b99c167bc8e5f4b2107f879.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Untitled--1-.png"/>这是因为默认情况下，<code>pyplot</code>创建一个<em>图</em>:一个绘制图表的地方。</p>
+<p>如果我们想每次都创建单独的图表，我们必须告诉它在创建图表之前创建一个新的图形:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+
+<span class="n">x_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">7.9</span><span class="p">]</span>
+
+<span class="n">figure</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+
+<span class="n">y_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.4</span><span class="p">,</span> <span class="mf">6.9</span><span class="p">,</span> <span class="mf">8.8</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">]</span>
+
+<span class="n">figure</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
+<span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>通过这样做，<code>pyplot</code>创建一个新图形并自动“选择”它。然后当我们<code>.scatter()</code>的时候，它就借鉴了那个图。然后我们做<code>figure.savefig()</code>，这就创建了图像文件。</p>
+<h2>案情摘要</h2>
+<p>在我们开发这个应用程序时，请记住，要绘制散点图，我们只需要我们想要绘制的<strong> x </strong>和<strong> y </strong>值。我们将编写的大部分代码都与获取这些数据有关，因此我们只需几行代码就可以轻松地绘制出图表。</p>
+<p>首先，你可能要创建一个文件，命名为<code>iris.csv</code>。使其包含以下数据:</p>
+<div class="codehilite"><pre><span/><code><span class="n">sepal_length</span><span class="p">,</span><span class="n">sepal_width</span><span class="p">,</span><span class="n">petal_length</span><span class="p">,</span><span class="n">petal_width</span><span class="p">,</span><span class="n">species</span>
+<span class="mf">5.1</span><span class="p">,</span><span class="mf">3.5</span><span class="p">,</span><span class="mf">1.4</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">setosa</span>
+<span class="mf">4.9</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">1.4</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">setosa</span>
+<span class="mf">4.7</span><span class="p">,</span><span class="mf">3.2</span><span class="p">,</span><span class="mf">1.3</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">setosa</span>
+<span class="mf">4.6</span><span class="p">,</span><span class="mf">3.1</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">setosa</span>
+<span class="mi">5</span><span class="p">,</span><span class="mf">3.6</span><span class="p">,</span><span class="mf">1.4</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">setosa</span>
+<span class="mi">7</span><span class="p">,</span><span class="mf">3.2</span><span class="p">,</span><span class="mf">4.7</span><span class="p">,</span><span class="mf">1.4</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">versicolor</span>
+<span class="mf">6.4</span><span class="p">,</span><span class="mf">3.2</span><span class="p">,</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">versicolor</span>
+<span class="mf">6.9</span><span class="p">,</span><span class="mf">3.1</span><span class="p">,</span><span class="mf">4.9</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">versicolor</span>
+<span class="mf">5.5</span><span class="p">,</span><span class="mf">2.3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">1.3</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">versicolor</span>
+<span class="mf">6.5</span><span class="p">,</span><span class="mf">2.8</span><span class="p">,</span><span class="mf">4.6</span><span class="p">,</span><span class="mf">1.5</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">versicolor</span>
+<span class="mf">6.3</span><span class="p">,</span><span class="mf">3.3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">virginica</span>
+<span class="mf">5.8</span><span class="p">,</span><span class="mf">2.7</span><span class="p">,</span><span class="mf">5.1</span><span class="p">,</span><span class="mf">1.9</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">virginica</span>
+<span class="mf">7.1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">5.9</span><span class="p">,</span><span class="mf">2.1</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">virginica</span>
+<span class="mf">6.3</span><span class="p">,</span><span class="mf">2.9</span><span class="p">,</span><span class="mf">5.6</span><span class="p">,</span><span class="mf">1.8</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">virginica</span>
+<span class="mf">6.5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">5.8</span><span class="p">,</span><span class="mf">2.2</span><span class="p">,</span><span class="n">Iris</span><span class="o">-</span><span class="n">virginica</span>
+</code></pre></div>
+
+<p>在我们完成这个项目后，也可以随意试验其他数据集！</p>
+<p>对于这个项目，用户应该能够:</p>
+<ul>
+<li>创建一个散点图，其中<code>x</code>轴是<code>species</code>，而<code>y</code>轴是其他列中的一列。</li>
+<li>通过用户菜单，告诉我们他们想要在<code>y</code>轴中绘制的列。</li>
+<li>同样通过菜单，告诉我们他们想要创建的包含最终绘图图像的文件的名称。</li>
+</ul>
+<p>我建议这样处理这个项目:</p>
+<ol>
+<li>使用文件<code>[main.py](&lt;http://main.py&gt;)</code>包含用户菜单。</li>
+<li>创建一个文件，比如<code>data_storage.py</code>，它包含读取<code>iris.csv</code>数据文件的函数。</li>
+<li>创建第三个文件<code>graphing.py</code>，它包含一个函数，该函数根据<code>x</code>和<code>y</code>值创建散点图。</li>
+</ol>
+<h2>我们的解决方案</h2>
+<h3>定义用户菜单</h3>
+<p>我们将有一个简单的用户菜单，这将允许用户选择他们想要的图表列。首先，我们将允许用户选择一个数字(例如“列2”)，我们将绘制该列的图表。</p>
+<p>稍后，如果您想要一个额外的挑战，您可以告诉用户哪些列是可用的，以便他们可以从中进行选择。</p>
+<p>我还将创建一个函数<code>handle_chart</code>，当用户想要绘制一个新的图表时，它可以做我们需要做的任何事情。目前它大部分是空的。</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="n">user_menu</span> <span class="o">=</span> <span class="s2">"""Please choose from the following options:</span>
+
+<span class="s2">- Enter 'c' to chart a new graph.</span>
+<span class="s2">- Enter 'q' to quit.</span>
+
+<span class="s2">Your selection: """</span>
+
+<span class="n">charting_menu</span> <span class="o">=</span> <span class="s2">"Enter the column you'd like to chart: "</span>
+
+<span class="k">def</span> <span class="nf">handle_chart</span><span class="p">():</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">charting_menu</span><span class="p">))</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">user_selection</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">user_menu</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">user_selection</span> <span class="o">==</span> <span class="s2">"q"</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="k">elif</span> <span class="n">user_selection</span> <span class="o">==</span> <span class="s2">"c"</span><span class="p">:</span>
+        <span class="n">handle_chart</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">user_selection</span><span class="si">}</span><span class="s2">' is not a valid option."</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>创建图表文件</h3>
+<p>让我们创建一个名为<code>charts.py</code>的新文件，并创建一个函数来创建我们的图表和图像文件:</p>
+<div class="codehilite"><span class="filename">charts.py</span><pre><span/><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+
+<span class="k">def</span> <span class="nf">create_chart</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">pyplot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>注意，此时此刻，这个函数并没有做我们希望它做的所有事情。</p>
+<p>那完全没问题！现在，我们正在构建应用程序的结构。稍后我们将对此进行改进。</p>
+<p>注意这个<code>create_chart</code>函数需要两个参数。</p>
+<p>让我们在菜单中调用这个函数，并传入两个列表。不要忘记导入您的文件！</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="kn">from</span> <span class="nn">charts</span> <span class="kn">import</span> <span class="n">create_chart</span>
+
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">handle_chart</span><span class="p">():</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">charting_menu</span><span class="p">))</span>
+    <span class="n">create_chart</span><span class="p">(</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">5.3</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">7.9</span><span class="p">]</span>
+    <span class="p">)</span>
+
+<span class="o">...</span>
+</code></pre></div>
+
+<p>如果我们现在运行我们的程序，我们将得到这样的输出:</p>
+<div class="codehilite"><pre><span/><code>Please choose from the following options:
+
+- Enter 'c' to chart a new graph.
+- Enter 'q' to quit.
+
+Your selection: c
+Enter the column you'd like to chart: 3
+Please choose from the following options:
+
+- Enter 'c' to chart a new graph.
+- Enter 'q' to quit.
+
+Your selection: q
+</code></pre></div>
+
+<p>在这次运行中，您可以看到我选择了:</p>
+<ul>
+<li><code>c</code>创建新图表。</li>
+<li>作为我想要绘制的列(尽管我们的程序还没有使用它)。</li>
+<li><code>q</code>退出第二次运行的循环。</li>
+</ul>
+<p>在我的项目中，我最终得到了一个名为<code>graph.png</code>的文件，它展示了一个很酷的散点图！</p>
+<p>虽然很酷，但如果它使用我们的<code>iris.csv</code>文件中的数据，那就更酷了。</p>
+<h3>从<code>iris.csv</code>读取数据</h3>
+<p>我们已经知道如何从文件中读取数据。</p>
+<p>让我们创建一个新的Python文件，例如名为<code>data_storage.py</code>，并使用它与文件进行交互。</p>
+<p>我将从编写一个返回列中数据的函数开始。</p>
+<div class="codehilite"><span class="filename">data_storage.py</span><pre><span/><code><span class="k">def</span> <span class="nf">read_column</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">column_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"iris.csv"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">iris</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">iris</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+            <span class="n">column_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">number</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">column_data</span>
+</code></pre></div>
+
+<p>例如，第2列中的每一条数据都可以通过调用<code>read_column(2)</code>获得。</p>
+<p>这里特别有用的一点是，在每一行中，<code>data[-1]</code>会给出花的种类。请记住，负索引从列表的末尾开始获取数据，每行的最后一个元素是物种。</p>
+<p>让我们从我们的菜单叫这个。我们将使用<code>read_column(-1)</code>为<strong> x </strong>轴获取花卉种类，并为<strong> y </strong>轴获取用户选择的列。</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="kn">from</span> <span class="nn">data_storage</span> <span class="kn">import</span> <span class="n">read_column</span>
+
+<span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">handle_chart</span><span class="p">():</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">charting_menu</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">read_column</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">read_column</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+    <span class="n">create_chart</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="o">...</span>
+</code></pre></div>
+
+<p>如果我们运行这个，我们会得到一些非常奇怪的东西...显然，这是不对的。你可以查看一下<strong> y </strong>轴，这些数字并没有遵循任何有意义的顺序！</p>
+<p>这是因为此时，<code>pyplot</code>正在绘制<strong> y </strong>轴上的字符串，而不是数字。因此它不知道最大值或最小值在哪里。图中的每一个点在y轴(T4轴)上都有一个新的刻度，我们从这个图中什么也收集不到。</p>
+<p>所以让我们用理解来解决这个问题，把每一个数据都变成一个<code>float</code>:</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">handle_chart</span><span class="p">():</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">charting_menu</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">read_column</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">read_column</span><span class="p">(</span><span class="n">column</span><span class="p">)]</span>
+    <span class="n">create_chart</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="o">...</span>
+</code></pre></div>
+
+<p>注意，我们可以使用<code>map</code>来代替，代码会稍微短一些。请随意使用您喜欢的版本。</p>
+<p>这是使用<code>map</code>的版本:</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">handle_chart</span><span class="p">():</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">charting_menu</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">read_column</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">read_column</span><span class="p">(</span><span class="n">column</span><span class="p">))</span>
+    <span class="n">create_chart</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="o">...</span>
+</code></pre></div>
+
+<p>我们不需要把x轴变成数字，因为现在这些是物种的名字。</p>
+<p>这才像话！<img alt="" src="../Images/104a6738df97d0b3dae869e5a46fe971.png" data-original-src="https://blog.teclado.com/content/images/2020/04/Untitled--3-.png"/>有趣的是，<code>Iris-virginica</code>只有4个点，尽管我们知道文件中有5行数据。</p>
+<p>那是因为两个点有完全相同的值。</p>
+<p>为了使这更清楚，我们可以使分散点半透明。这样，当同一个位置有两个点时，该点会更暗。</p>
+<p>在<code>charts.py</code>中，我们给<code>.scatter</code>添加一个新的关键字参数:</p>
+<div class="codehilite"><span class="filename">charts.py</span><pre><span/><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+
+<span class="k">def</span> <span class="nf">create_chart</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">pyplot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在结果有点清楚了！</p>
+<h3>创建多个图表</h3>
+<p>如果我们现在运行应用程序并运行两次图表创建菜单选项:</p>
+<div class="codehilite"><pre><span/><code>Please choose from the following options:
+
+- Enter 'c' to chart a new graph.
+- Enter 'q' to quit.
+
+Your selection: c
+Enter the column you'd like to chart: 0
+Please choose from the following options:
+
+- Enter 'c' to chart a new graph.
+- Enter 'q' to quit.
+
+Your selection: c
+Enter the column you'd like to chart: 1
+Please choose from the following options:
+
+- Enter 'c' to chart a new graph.
+- Enter 'q' to quit.
+
+Your selection: q
+</code></pre></div>
+
+<p>我们将看到我们在<code>pyplot</code>中采用的简单方法的局限性:</p>
+<p>每次我们使用<code>.scatter</code>，<code>pyplot</code>都会将我们正在绘制的新点添加到同一个图表中。所以我们第一次创建新图时，一切都很好。</p>
+<p>然而第二次，这些点被<strong>添加到</strong>先前的图形中，而不是替换先前的图形。</p>
+<p>为了解决这个问题，我们需要告诉<code>pyplot</code>每当我们创建一个图形时，它应该创建一个新的<strong>图形</strong>。</p>
+<p>在<code>charts.py</code>中，我们可以做这个小小的改变:</p>
+<div class="codehilite"><span class="filename">charts.py</span><pre><span/><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+
+<span class="k">def</span> <span class="nf">create_chart</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在我们用<code>pyplot.figure()</code>创建一个新的图形。然后，<code>pyplot</code>会自动“选择”它，并在那里绘制新的散点图。</p>
+<p>当我们做<code>fig.savefig()</code>时，它保存的是那个数字，而不是旧的数字。</p>
+<h3>允许用户命名输出文件</h3>
+<p>我们项目的最后要求是允许用户命名输出文件！</p>
+<p>在运行<code>create_chart()</code>之前，我们必须向用户询问他们想要的文件名，我们还必须将该文件名作为参数传递给函数。</p>
+<p>首先，我们来修改一下<code>create_chart()</code>:</p>
+<div class="codehilite"><span class="filename">charts.py</span><pre><span/><code><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span>
+
+<span class="k">def</span> <span class="nf">create_chart</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">pyplot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.png"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我假设用户会给我一个文件名，我会在它的末尾加上<code>.png</code>。这样，我们确保我们只保存图像文件，即使用户给了我们一个可笑的名字，比如<code>chart.txt</code>。</p>
+<p>请注意，这很荒谬，因为我们不能将图像放在<code>.txt</code>文件中！</p>
+<p>现在，让我们转到菜单，询问用户他们想要的文件名:</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="o">...</span>
+
+<span class="n">filename_prompt</span> <span class="o">=</span> <span class="s2">"Enter your desired file name: "</span>
+
+<span class="k">def</span> <span class="nf">handle_chart</span><span class="p">():</span>
+    <span class="n">column</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">charting_menu</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">read_column</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">read_column</span><span class="p">(</span><span class="n">column</span><span class="p">)]</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">filename_prompt</span><span class="p">)</span>
+    <span class="n">create_chart</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">filename</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="o">...</span>
+</code></pre></div>
+
+<p>就这样，我们结束了！</p>
+<p>这是一个相当棘手和复杂的项目，但我希望你能够自己完成一些工作。重要的是你要好好去做！</p>
+<p>你可以在这里查看最终代码<a href="https://repl.it/@tecladocode/30DaysOfPython-Day21-Project">。请记住，如果您想要一个额外的挑战，您可以告诉用户哪些列是可用的，以便他们可以从中进行选择，而不只是键入一个数字。</a></p>
+<p>如果您对我们的实施有任何疑问，请加入我们的<a href="https://discord.gg/78Nvd3p"> Discord </a>服务器。我们非常乐意帮忙！</p>
+<p>明天见！</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

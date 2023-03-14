@@ -1,0 +1,203 @@
+<html>
+<head>
+<title>Day 21: Splitting Code Into Multiple Files | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第21天:将代码分割成多个文件</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-21-multiple-files/">https://blog.teclado.com/python-30-day-21-multiple-files/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第21天！今天我们将学习如何(以及为什么)将我们的Python代码分割成多个文件。</a></p>
+<p>首先，我们将快速回顾一下Python中导入的工作原理。我们开始吧！</p>
+<h2>Python中的导入概述</h2>
+<p>在这种情况下，做一个快速的回顾是值得的，因为在开始为我们的程序创建大量文件之前，我们理解一些要点是很重要的！</p>
+<p>如果你想要更全面的东西，请随意重读我们第一次讨论进口的<a href="/30-days-of-python/python-30-day-18-imports"> day 18 </a>帖子。</p>
+<h3>导入会给<code>globals()</code>添加一个名称</h3>
+<p>如果您有一个Python文件，并键入以下内容:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
+</code></pre></div>
+
+<p>然后显示当前全局名称空间中的<em>名称</em>。模块名称将位于全局名称空间中，可供您使用。</p>
+<h3>导入允许我们访问导入模块的元素</h3>
+<p>导入后，我们可以像这样访问模块内部的内容:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>  <span class="c1"># 3.14</span>
+</code></pre></div>
+
+<p>我们已经访问了<code>math</code>模块中的<code>pi</code> <em>名称</em>。在这种情况下，这是数学常数pi的值。</p>
+<h4>其他导入方式</h4>
+<p>您可以使用<code>as</code>关键字在您的代码中给导入的模块一个不同的名称。我不建议你这样做，尽管你会不时地看到有人这样做！</p>
+<p>您还可以使用<code>*</code>将<em>模块中的几乎所有</em>添加到您的全局名称空间中。这会“污染”全局名称空间，用变量填充它。大多数时候，这是强烈反对的。</p>
+<h2>为什么要把你的代码分成文件呢？</h2>
+<p>现在我们已经快速概括了导入的主题，让我们来讨论一下<em>为什么</em>我们可能想要将我们的代码分割成多个文件！</p>
+<p>当我们开始讨论这个问题时，我们得到的第一个问题是:“将代码保存在一个文件中不是更容易吗？”。</p>
+<p>毕竟那你就不用处理进口了！</p>
+<p>将您的代码保存在一个文件中可能会更容易编写(首先！)，但随着你写得越来越多，阅读和修改会变得更加困难。</p>
+<p>在编程中，可读性和可维护性胜过任何一天的写作速度！</p>
+<h3>分离关注点和易于组织</h3>
+<p>当我们将代码分离到文件中时，我们有理由将一些代码放在某个文件中是很重要的。通常，我们称<em>为</em>。做一件事情的代码放在一个文件中，做不同事情的代码放在不同的文件中。</p>
+<p>例如，我们可能有一个文件用于用户交互(打印和输入)，另一个文件用于数据存储(保存和检索文件中的内容)。</p>
+<p>目前，Python应用程序的不同关注点对您来说可能并不明显。那很正常！随着时间的推移，你会对此了解更多。有了更多的经验，它会变得更加清晰，当事情将受益于得到分割成文件。</p>
+<p>假设我们给文件取了一个好的名字，通过关注点来分离文件，也有助于我们更容易地找到代码。如果你有两个叫做<code>data_storage.py</code>和<code>user_menu.py</code>的文件，你知道你会在每个文件中找到什么！</p>
+<p>使用文件和文件夹也能给组织带来奇迹。例如，您可以将与不同类型的数据存储相关的文件放入一个文件夹中。</p>
+<h3>提高可读性</h3>
+<p>随着文件的增长，它们开始变得越来越难以阅读。您可能有许多函数和变量，查找东西可能需要大量滚动。</p>
+<p>现代编辑器有一些功能可以更容易地找到事物定义的位置，但这并不是一个完美的解决方案。</p>
+<p>将代码分割成多个文件是生成更小、更集中的文件的好方法。浏览这些更小的文件会更容易，理解每个文件的内容也会更容易。</p>
+<h3>更容易重用代码</h3>
+<p>当您有多个较小的集中文件时，通过导入可以更容易地在多个其他文件中重用一个文件的内容。</p>
+<h4>文件太多</h4>
+<p>也有可能是<em>的</em>文件太多！不要试图让你的文件越小越好。相反，让他们集中注意力。</p>
+<p>如果每个文件都与应用程序的一个方面有关，并且每个文件都有一个好名字，那么导航您的项目将会很容易！</p>
+<h2>使用两个文件</h2>
+<p>让我们开始进入一个新的Python项目(或<a href="http://repl.it"> repl.it </a> repl)并创建两个文件。姑且称之为<code>main.py</code>和<code>myfile.py</code>。</p>
+<p>记住当你按下“运行”按钮时<a href="http://repl.it"> repl.it </a>将一直运行<code>main.py</code>，正如我们在<a href="/30-days-of-python/python-30-day-0-getting-set-up/"> day 0 </a>帖子中提到的。</p>
+<p>因为两个文件都在同一个文件夹中，所以您可以从另一个文件夹中导入一个文件。</p>
+<p>让我们把它输入<code>main.py</code>:</p>
+
+
+<p>注意我们没有导入<code>myfile.py</code>，只是导入了<code>myfile</code>。Python完成了剩下的工作！</p>
+<h3>导入时会发生什么</h3>
+<p>当我们导入一个文件时，Python <em>运行</em>该文件。它必须这样做，以便确定哪些<strong>的名字</strong>存在于该文件中。</p>
+<p>然后，它通过在全局名称空间中放置一个对该模块的引用，使该文件在<code>main.py</code>中对我们可用。</p>
+<p>让我们在<code>myfile.py</code>中增加一个<code>print</code>:</p>
+<div class="codehilite"><span class="filename">myfile.py</span><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="s2">"Hello, world!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>还有一个在<code>main.py</code>:</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">myfile</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"What's going on?"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>试试看。</p>
+<p>你会看到我们打印出了两样东西:</p>
+<div class="codehilite"><pre><span/><code>Hello, world!
+What's going on?
+</code></pre></div>
+
+<p>那是因为执行了<code>myfile.py</code>文件。它包含了一个<code>print</code>调用，所以因此Python把东西打印了出来！</p>
+<p>您很少会编写这样的代码。相反，你导入的文件通常会包含<strong>变量</strong>和<strong>函数</strong>，所以当你导入它们的时候，实际上什么都不会发生，直到你<em>真正使用</em>这些变量和函数。</p>
+<p>让我们给<code>myfile.py</code>加一点更真实的东西。也许是这样的:</p>
+<div class="codehilite"><span class="filename">myfile.py</span><pre><span/><code><span class="k">def</span> <span class="nf">get_user_age</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Enter your age: "</span><span class="p">))</span>
+</code></pre></div>
+
+<p>现在在<code>main.py</code>中，我们可以使用在<code>myfile.py</code>中定义的<code>get_user_age</code>函数。</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">myfile</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">myfile</span><span class="o">.</span><span class="n">get_user_age</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"That's not a valid value for your age!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>太好了！</p>
+<p>这就是它的要点:把东西分成文件，然后导入它们！</p>
+<h4>用(不)什么来命名你的文件</h4>
+<p>不要给你的文件起和内置模块一样的名字。</p>
+<p>举个例子，如果你创建了一个新文件，并把它命名为<code>json.py</code>，你就会遇到麻烦！</p>
+<p>这是因为如果另一个文件试图<code>import json</code>，您将无法导入内置的<code>json</code>模块，该模块允许我们与JSON文件对话。你将导入你的<code>json.py</code>文件！</p>
+<p>Python总是在查看内置或已安装的包之前查看项目文件夹中的导入文件<em>。</em></p>
+<h3>文件的工作方式与模块相同</h3>
+<p>我们可以用外部模块做的一切，我们可以用自己的文件来做:</p>
+<ul>
+<li>用<code>import myfile</code>导入整个文件，然后用<code>myfile.x</code>引用东西。</li>
+<li>用<code>from myfile import x</code>导入具体的东西。</li>
+<li>别名导入。</li>
+<li>我们可以做<code>from myfile mport *</code>(虽然不鼓励)。</li>
+</ul>
+<h3>使用文件和文件夹</h3>
+<p>如果你认为有助于组织，你可以为你的文件创建文件夹。根据我的经验，通常是这样的。</p>
+<p>例如，在您的项目中创建一个名为<code>user_interactions</code>的文件夹，并将<code>myfile.py</code>移动到其中。现在，您的文件/文件夹结构将如下所示:</p>
+<div class="codehilite"><pre><span/><code>- main.py
+- user_interactions/
+    | - myfile.py
+</code></pre></div>
+
+<p>从<code>main.py</code>开始，您现在必须使用稍微不同的语法来导入<code>myfile.py</code>:</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="kn">from</span> <span class="nn">user_interactions.myfile</span> <span class="kn">import</span> <span class="n">get_user_age</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">get_user_age</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"That's not a valid value for your age!"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>导入时，点(<code>.</code>)表示类似“内部”的意思。</p>
+<p>在上面的例子中，我们因此从 <code>user_interactions</code>内部的<em>导入<code>myfile</code>。</em></p>
+<p>如果您有多个子文件夹，您将需要使用多个<code>.</code>来分隔不同级别的文件夹和文件，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">folder.subfolder.module</span> <span class="kn">import</span> <span class="n">something_in_the_module</span>
+</code></pre></div>
+
+<p>当你像这样导入时，你要么像我们一样导入特定的东西，要么使用别名导入。这两个都好(第一个一般更好):</p>
+<ul>
+<li><code>from user_interactions.myfile import get_user_age</code></li>
+<li><code>import user_interactions.myfile as interactions</code></li>
+</ul>
+<p>您通常不会像下面的示例那样做任何事情，因为它可能需要很长时间才能完成:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">user_interactions.myfile</span>
+
+<span class="n">user_interactions</span><span class="o">.</span><span class="n">myfile</span><span class="o">.</span><span class="n">get_user_age</span><span class="p">()</span>
+</code></pre></div>
+
+<p>当你想使用某个东西时，你需要参考完整的导入，所以你会在你的代码中输入很多<code>user_interactions.myfile</code>！</p>
+<p>如果您不经常使用该文件，也可以这样做。</p>
+<h3>脚本模式与模块模式</h3>
+<p>当我们运行一个文件时(例如在<a href="http://repl.it"> repl.it </a>中，就是<code>main.py</code>)，我们说这个文件是在“脚本模式”下运行的。</p>
+<p>当我们导入一个文件时，该文件以“模块模式”运行。</p>
+<p>目前我们的项目结构是这样的:</p>
+<div class="codehilite"><pre><span/><code>- main.py
+- user_interactions/
+    | - myfile.py
+</code></pre></div>
+
+<p>我将删除这两个文件的内容，并将其放入<code>myfile.py</code>:</p>
+
+
+<p>我将在<code>main.py</code>中这样做:</p>
+<div class="codehilite"><span class="filename">main.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">user_interactions.myfile</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
+
+<p>您将看到以下输出:</p>
+<div class="codehilite"><pre><span/><code>user_interactions.myfile
+__main__
+</code></pre></div>
+
+<p>请记住，当我们导入时，我们运行文件。因此第一行输出属于<code>myfile.py</code>，第二行输出属于<code>main.py</code>。</p>
+<p>我们运行的文件总是有一个值为<code>"__main__"</code>的<code>__name__</code>变量。这就是Python告诉我们<em>我们运行了那个文件</em>的简单方式。</p>
+<p>任何不具有等于<code>"__main__"</code>的<code>__name__</code>的文件都被导入。</p>
+<p>试着移动东西，看看由<code>myfile.py</code>创建的输出是如何变化的！</p>
+<h3>仅在脚本模式下运行代码</h3>
+<p>有时我们希望在文件中包含一些代码，但是我们只希望在直接执行该文件时运行这些代码，而不是在导入文件时运行。</p>
+<p>因为我们知道对于已经运行的文件来说,<code>__name__</code>必须等于<code>"__main__"</code>,所以我们可以使用if语句。</p>
+<p>我们可以在<code>myfile.py</code>中输入:</p>
+<div class="codehilite"><span class="filename">myfile.py</span><pre><span/><code><span class="k">def</span> <span class="nf">get_user_age</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Enter your age: "</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">get_user_age</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这可以让我们运行<code>myfile.py</code>(如果没有一些额外的配置，我们不能在<a href="http://repl.it"> repl.it </a>中这样做)，然后看看<code>get_user_age()</code>函数是否工作。</p>
+<p>这是这个构造的一个关键用例:当我们通常不希望文件运行时，帮助我们查看文件中的内容是否有效。</p>
+<p>另一个用例是您自己通常不运行的文件。例如，有时你可能写一个文件供另一个程序使用。</p>
+<p>使用这种结构将允许您运行您的文件进行测试，同时当它被另一个程序导入时不会影响它的功能。</p>
+<h2>练习</h2>
+<p>对于今天的(唯一的)练习，我们给你一堆代码，它们都在一个文件中。</p>
+<p>在此访问代码<a href="https://repl.it/@tecladocode/30DaysOfPython-Day21-Exercise">。</a></p>
+<p>您的任务是将代码分成多个文件。您可以选择要将代码拆分成多少个文件以及哪些文件，但是请想想为什么要将每一部分代码放在每个文件中！</p>
+<p>然后，当你完成时，看看<a href="/30-days-of-python/python-30-day-21-exercise-solutions">我们的练习解决方案</a>，看看我们是如何分割代码的，以及为什么。</p>
+<h2>项目</h2>
+<p>对于今天的项目，我们将使用Python库来创建一些图表！作为这个项目的一部分，你必须很好地组织你的代码，这样它才不会变成一团乱麻。</p>
+<p>查看项目简介，了解关于今天项目的更多信息。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

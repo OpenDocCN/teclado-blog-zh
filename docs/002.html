@@ -1,0 +1,149 @@
+<html>
+<head>
+<title>User authentication in Flask with Flask-Security-Too</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>使用Flask-Security-Too在Flask中进行用户验证</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/user-authentication-flask-security-too/">https://blog.teclado.com/user-authentication-flask-security-too/</a></blockquote><div><div class="post-content">
+<p>向web应用程序添加用户身份验证使其能够判断哪个用户正在发出请求。然后，它可以向不同的用户返回不同的响应。这被称为“个性化”。</p>
+<p>这是本系列博文的第1篇，共3篇，我将向您展示如何使用Flask-Security:</p>
+<ol>
+<li>使用Flask-Security-Too在Flask中进行用户认证(本文)</li>
+<li><a href="https://blog.teclado.com/email-confirmation-flask-security-too/">用户电子邮件确认Flask-Security-Too </a></li>
+<li><a href="https://blog.teclado.com/customise-pages-emails-flask-security-too/">定制Flask-Security-Too的模板和电子邮件</a></li>
+</ol>
+<p>为了帮助您理解用户身份验证，提醒我们注意客户端和服务器之间的分离是很有用的。如果您正在开发Flask应用程序，那么您正在开发服务器。您的客户端是向您的应用程序发出请求的浏览器或移动应用程序。</p>
+<p>对于本系列，让我们假设您正在开发一个Flask应用程序，它使用<code>render_template</code>向您的浏览器客户端发送HTML。</p>
+<p>在学习Flask-Security-Too之前，学习如何手动编写自己的用户身份验证代码可能会有所帮助。这并不十分困难，并且将真正有助于理解Flask-Security-Too是如何工作的。我们有两篇博文，我建议按顺序阅读:</p>
+
+<p>阅读这两篇文章，并完成所提供的例子。完成后，您应该有一个支持用户注册和登录的Flask应用程序。这就是我们可以用Flask-Security替换大部分自定义逻辑的原因！</p>
+<h2 id="add-user-registration-and-authentication-using-flask-security-too">使用Flask-Security-Too添加用户注册和验证</h2>
+<p>这也是Flask-Security的饭碗！这是你需要的:</p>
+<ul>
+<li>存储用户数据(用户名、密码等)的数据库。</li>
+<li>Flask应用程序中的一些配置选项(密钥和密码哈希salt)。</li>
+<li>当你创建你的<code>Flask</code>对象时，实际初始化Flask-Security-too。</li>
+</ul>
+<p>对于我们的数据库交互，我将使用SQLAlchemy。我们没有任何关于使用SQLAlchemy的介绍性博客文章，但是我们的免费REST APIs电子书详细介绍了它。</p>
+<p>在任何情况下，SQLAlchemy都是相对简单的:定义一个Python类来表示数据库中的一个表。当您创建所述类的新的<em>对象</em>时，它们可以作为单独的行插入到数据库中。您还可以从数据库中检索Python对象形式的数据。</p>
+<p>SQLAlchemy的目标是通过将所有东西都称为Python对象来简化使用Python处理数据，而不是自己编写SQL。</p>
+<p>要使用Flask应用程序处理SQLAlchemy，通常使用<code>flask-sqlalchemy</code>库。</p>
+<p>让我们从安装它和<code>flask-security-too</code>开始。我将把它添加到我的<code>requirements.txt</code>文件中:</p>
+<pre><code>flask
+flask-sqlalchemy
+flask-security-too
+flask-mailman
+bcrypt
+python-dotenv
+</code></pre>
+<p>添加<code>python-dotenv</code>库是为了在运行Flask应用程序时更容易加载<code>.env</code>文件。稍后会有更多内容！<code>flask-mailman</code>库用于发送确认邮件(在本系列的第2部分中)。<code>bcrypt</code>库用于密码散列。</p>
+<p>安装库:</p>
+<pre><code class="language-bash">pip install -r requirements.txt
+</code></pre>
+<p>现在让我们创建<code>SQLAlchemy</code>对象，我们将使用它来连接数据库。在<code>database.py</code>中，写下以下内容:</p>
+<pre><code class="language-python">from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+</code></pre>
+<p>接下来，让我们创建数据库模型。这些是代表我们数据库中的表的Python类。</p>
+<p>在一个<code>models</code>文件夹中，创建<code>auth.py</code>并编写以下内容:</p>
+<pre><code class="language-python">from database import db
+from flask_security import UserMixin, RoleMixin
+from sqlalchemy import Boolean, DateTime, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, backref
+
+class RolesUsers(db.Model):
+    __tablename__ = "roles_users"
+    id = Column(Integer(), primary_key=True)
+    user_id = Column("user_id", Integer(), ForeignKey("user.id"))
+    role_id = Column("role_id", Integer(), ForeignKey("role.id"))
+
+
+class Role(db.Model, RoleMixin):
+    __tablename__ = "role"
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(80), unique=True)
+    description = Column(String(255))
+
+
+class User(db.Model, UserMixin):
+    __tablename__ = "user"
+    id = Column(Integer(), primary_key=True)
+    email = Column(String(255), unique=True)
+    username = Column(String(255), unique=True, nullable=True)
+    password = Column(String(255), nullable=False)
+    last_login_at = Column(DateTime())
+    current_login_at = Column(DateTime())
+    last_login_ip = Column(String(100))
+    current_login_ip = Column(String(100))
+    login_count = Column(Integer)
+    active = Column(Boolean())
+    premium = Column(Boolean())
+    fs_uniquifier = Column(String(255), unique=True, nullable=False)
+    confirmed_at = Column(DateTime())
+    roles = relationship(
+        "Role", secondary="roles_users", backref=backref("users", lazy="dynamic")
+    )
+</code></pre>
+<p>如您所见，这定义了三个表:一个用于用户，一个用于角色(类似于权限)，一个用于链接用户和角色。我们不会在本教程中使用角色，但是Flask-Security也需要它。</p>
+<p>最后，在<code>app.py</code>中，让我们创建我们的Flask应用程序并设置Flask-Security:</p>
+<pre><code class="language-python">import os
+from flask import Flask
+from flask_security import SQLAlchemySessionUserDatastore, Security
+from dotenv import load_dotenv
+from database import db
+from models.auth import User, Role
+
+load_dotenv()
+
+app = Flask(__name__)
+
+app.config["SECRET_KEY"] = os.environ.get(
+    "SECRET_KEY", "0aedgaii451cef0af8bd6432ec4b317c8999a9f8g77f5f3cb49fb9a8acds51d"
+)
+app.config["SECURITY_PASSWORD_SALT"] = os.environ.get(
+    "SECURITY_PASSWORD_SALT",
+    "ab3d3a0f6984c4f5hkao41509b097a7bd498e903f3c9b2eea667h16",
+)
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SECURITY_REGISTERABLE"] = True
+
+uri = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = uri
+db.init_app(app)
+user_datastore = SQLAlchemySessionUserDatastore(db.session, User, Role)
+security = Security(app, user_datastore)
+
+@app.route("/")
+def home():
+	return "Hello, world!"
+</code></pre>
+<p>现在我们已经得到了这个，我们需要设置我们的环境变量。至少，我们需要<code>DATABASE_URL</code>，来告诉我们的Flask应用程序连接到哪个数据库。</p>
+<p>在名为<code>.env</code>的新文件中，写下以下内容:</p>
+<pre><code>DATABASE_URL="sqlite:///data.db"
+</code></pre>
+<p>现在让我们创建我们的表。在控制台中(激活虚拟环境)，键入:</p>
+<pre><code class="language-bash">flask shell
+</code></pre>
+<p>在那里，键入:</p>
+<pre><code>&gt;&gt;&gt; from app import app, db
+&gt;&gt;&gt; with app.app_context():
+	 	db.create_all()
+</code></pre>
+<p>这将使用应用程序配置创建您的数据库，这将创建一个<code>instance</code>文件夹，并在其中创建<code>data.db</code>。如果以后你删除了<code>instance/data.db</code>，只需重新运行<code>flask shell</code>并输入这些命令来重新创建它。</p>
+<p>现在您可以运行您的Flask应用程序了！首先退出shell(通过按CTRL+D ),然后键入:</p>
+<pre><code class="language-bash">flask run
+</code></pre>
+<p>现在，您可以访问Flask-Security-Too为您添加到Flask应用程序中的登录和注册页面。例如，进入<a href="http://127.0.0.1:5000/login">http://127 . 0 . 0 . 1:5000/log in</a>应该会看到这样的内容:</p>
+<p><img src="../Images/7b0694f6b5c02ffdb0cacacc0555bba8.png" alt="Screenshot showing a barebones unstyled login form with email address, password, and a &quot;remember me&quot; checkbox. There's also a menu with &quot;login&quot; and &quot;register&quot; links to go to those pages." loading="lazy" data-original-src="https://blog.teclado.com/content/images/2023/01/image-1-login-page.png"/></p>
+<p>如果您使用该页面中的菜单转到“注册”页面(或手动导航到<a href="http://127.0.0.1:5000/register">http://127 . 0 . 0 . 1:5000/Register</a>)，那么您将看到一个非常相似的表单，其中添加了一个密码确认字段。</p>
+<p>这些页面已经包含了错误处理和对“记住我”复选框的cookie支持。</p>
+<p>然而，他们看起来不太好。要解决这个问题，您可以添加一些针对现有元素的CSS代码，也可以编写自己的登录和注册页面。我们不会在这篇博文中讨论这个问题，但是如果你想让我写些什么，请在最后留下评论。</p>
+<p>现在我们已经添加了用户认证，我们可以在本系列的下一篇文章中继续讨论电子邮件确认。感谢您的阅读，我们在那里见！</p>
+<p>如果你想学习更多关于使用Flask进行web开发的知识，可以考虑参加我们的<a href="https://go.tecla.do/web-dev-course-sale"> Web开发者训练营Flask和Python </a>！这是一个完整的视频课程，涵盖了使用Flask构建和部署多个web应用程序。</p>
+
+</div>
+</div>    
+</body>
+</html>

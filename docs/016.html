@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>Create JWTs using Python for Flask or FastAPI</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>使用Python为Flask或FastAPI创建jwt</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/jwts-python-fastapi-flask/">https://blog.teclado.com/jwts-python-fastapi-flask/</a></blockquote><div><div class="post-content">
+<p>在我们开始之前，让我们先谈谈什么是JWT。JWT是一个编码字符串，可以被解码以揭示其JSON内容。例如，这里有一个JWT:</p><pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5b3VyLXVzZXJuYW1lIiwiZXhwIjoxNjY2NzIwNDkwfQ.K62wERMzH28I5g8IygVB0y-JuYdA0-7wuZkll2AyCNs
+</code></pre><p>如果我们使用诸如<a href="https://jwt.io"> jwt.io </a>之类的工具对此进行解码，我们可以看到它的内容:</p><figure class="kg-card kg-image-card"><img src="../Images/3c593093bad3c91eb62c734ebe4de439.png" class="kg-image" alt="" loading="lazy" data-original-src="https://imagedelivery.net/SDhM2YVZMDB2lyf0WqRdHw/09a6eb4f-81af-4150-b65a-c3a8cf73d700/public"/></figure><p>在这里你可以看到算法类型是<code>HS256</code>，令牌类型是<code>JWT</code>,<code>sub</code>是<code>your-username</code>，到期时间是<code>1666720490</code>(或者像我写的，大约29分钟后)。</p><p>jwt用于身份验证。您的服务器可以使用给定的用户ID生成一个JWT，并将其提供给您的客户端(例如浏览器)。然后，对于每个请求，客户端都向您的服务器发送JWT，这意味着客户端代表其用户ID是JWT的<code>sub</code>的用户发出请求。</p><figure class="kg-card kg-image-card"><img src="../Images/d536bcaa94699f7586e5e96aa26a816a.png" class="kg-image" alt="" loading="lazy" data-original-src="https://imagedelivery.net/SDhM2YVZMDB2lyf0WqRdHw/b0b82d42-96dd-4e78-10cb-19195bf7d300/public"/></figure><p>但是如果你能解码jwt，那不是让它们变得不安全了吗？</p><p>虽然用户可以通过解码看到JWT的内容，但他们不能更改JWT(这将允许他们冒充其他用户)。用户能够看到他们自己的用户id通常不是问题。但是，不要在JWT中存储任何不想让用户看到的数据，这一点很重要。</p><h2 id="create-a-jwt-using-the-python-jose-library">使用python-jose库创建JWT</h2><p>让我们用Python和<code>python-jose</code>库创建一个JWT:</p><pre><code>pip install python-jose
+</code></pre><p>我将从定义三个变量开始:</p><pre><code class="language-python">SECRET_KEY = "9b73f2a1bdd7ae163444473d29a6885ffa22ab26117068f72a5a56a74d12d1fc"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+</code></pre><p>您可以用几种不同的方式生成自己的密钥。在MacOS和Linux中，运行终端命令<code>openssl rand -hex 32</code>。在Windows中，您可以使用Python解释器运行这个命令:<code>import secrets; str(secrets.SystemRandom().getrandbits(128))</code>。</p><p>现在你已经有了这三个，生成一个JWT是超级容易的！</p><pre><code class="language-python">from jose import jwt
+
+
+def create_access_token(id_: str):
+    expire = datetime.datetime.utcnow() + datetime.timedelta(
+        minutes=ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+    jwt_data = {"sub": id_, "exp": expire}
+    encoded_jwt = jwt.encode(jwt_data, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+</code></pre><p>这是一个函数，给定一个字符串，它将创建一个JWT，并将该字符串放入JWT的<code>sub</code>键中。在我的代码中，我倾向于将用户id放在那里。</p><h2 id="create-a-jwt-with-flask-and-flask-jwt-extended">创建一个JWT与烧瓶和烧瓶-JWT-扩展</h2><p>如果你正在使用Flask，有一个非常好的扩展叫做Flask-JWT扩展，你可以用它来代替手工创建JWT。</p><p>这个库已经提供了一个你可以使用的函数<code>create_access_token</code>。它还支持令牌刷新和黑名单。</p><p>首先，您应该安装扩展:</p><pre><code>pip install flask-jwt-extended
+</code></pre><p>然后，在创建Flask应用程序时初始化它:</p><pre><code class="language-python">from flask import Flask
+from flask_jwt_extended import JWTManager
+
+app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "9b73f2a1bdd7ae163444473d29a6885ffa22ab26117068f72a5a56a74d12d1fc"
+jwt = JWTManager(app)
+</code></pre><p>然后，当您为Flask应用程序实现登录端点时，您可以简单地调用<code>create_access_token</code>，就像这样:</p><pre><code class="language-python">from flask_jwt_extended import create_access_token
+# other imports
+...
+
+
+# Endpoint defined using Flask-Smorest
+@blp.route("/login")
+class UserLogin(MethodView):
+    @blp.arguments(UserSchema)
+    def post(self, user_data):
+        user = UserModel.query.filter(
+            UserModel.username == user_data["username"]
+        ).first()
+
+        if user and pbkdf2_sha256.verify(user_data["password"], user.password):
+            access_token = create_access_token(identity=user.id)
+            return {"access_token": access_token}, 200
+
+        abort(401, message="Invalid credentials.")
+</code></pre><p>如果你想用Flask开发REST API，我们有一个完整的课程，使用Flask-Smorest、Flask-JWT扩展、Flask-SQLAlchemy和一些其他扩展来教你如何构建生产就绪的REST API。你可以<a href="https://go.tecla.do/rest-apis-sale">在这里</a>获得课程。</p><p>感谢阅读！如果您有任何问题或意见，请使用下面的评论部分！</p>
+</div>
+</div>    
+</body>
+</html>

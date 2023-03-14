@@ -1,0 +1,244 @@
+<html>
+<head>
+<title>Day 5: Conditionals and Booleans | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第五天:条件句和布尔值</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-5-conditionals-booleans/">https://blog.teclado.com/python-30-day-5-conditionals-booleans/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第5天！在这篇文章中，我们将讨论条件句。这是我们编程旅程中的一大步，因为我们将第一次能够在程序中做决定。</a></p>
+<p>如果你错过了<a href="/30-days-of-python/python-30-day-4-lists-tuples">第4天</a>，如果你对以下任何一点都不舒服，我建议你检查一下:</p>
+<ul>
+<li>定义列表和元组</li>
+<li>按索引访问序列中的项目</li>
+<li>嵌套集合</li>
+<li>修改列表(添加和删除项目)</li>
+</ul>
+<h2>布尔运算</h2>
+<p>在我们看条件句之前，首先我们需要了解一种叫做布尔的新类型。布尔以数学家乔治·布尔的名字命名，他定义了一个确定逻辑表达式真值的代数系统。</p>
+<p>每一种现代编程语言都有一些布尔值的表示，因为我们经常需要能够声明某事是或不是这种情况。</p>
+<p>我们只有两个布尔值，在Python中这些值是单词<code>True</code>和<code>False</code>。这里大写很重要:<code>True</code>是布尔值，而<code>TRUE</code>和<code>true</code>不是。</p>
+<p>重要的是，<code>True</code>和字符串<code>"True"</code>也不是一回事。</p>
+<p>我们可以像目前为止在Python中使用的任何其他值一样使用这些布尔值。我们可以把它们赋给变量，我们可以把布尔放在元组和列表中。</p>
+<p>例如，我们可能想在用户的观看列表中存储一些电影的信息。我们可以用一个元组来表示每部电影，我们可以用一个布尔值来表示这部电影是否被这个用户看过:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Inside Out"</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Toy Story 4"</span><span class="p">,</span> <span class="mi">2019</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Up"</span><span class="p">,</span> <span class="mi">2009</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>在上面的例子中，<code>movies</code>列表包含三部电影。在这三部电影中，用户看过《从里到外》和《向上》，但没有看过《玩具总动员4》。</p>
+<p>我们也可以打印布尔值，输出只是适当的<code>True</code>或者<code>False</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># False</span>
+</code></pre></div>
+
+<h2>真理价值观</h2>
+<p>Python中的每个值都有一些关联的真值。一开始想起来可能会有点奇怪。不太直观的是，<code>"Hello"</code>与<code>True</code>或<code>False</code>有某种联系，但是这很有用，我们很快就会看到。</p>
+<p>我们可以通过将值传递给<code>bool</code>函数来找到Python中任何值的真值。<code>bool</code>将返回<code>True</code>或<code>False</code>，这取决于我们传入内容的真值。</p>
+<p><code>bool</code>返回<code>True</code>的值通常被称为真值，而<code>bool</code>返回<code>False</code>的值通常被称为假值。</p>
+<p>举个例子，如果我们将字符串<code>"Hello"</code>传递给<code>bool</code>，函数调用的结果将是<code>True</code>。<code>"Hello"</code>因此是一个真值。</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">))</span>  <span class="c1"># True</span>
+</code></pre></div>
+
+<p>让我们看看其他一些例子:</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>              <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>              <span class="c1"># True</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="s2">"Caterpillar"</span><span class="p">))</span>  <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="s2">""</span><span class="p">))</span>             <span class="c1"># False</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">([]))</span>             <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>   <span class="c1"># True</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>           <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="kc">False</span><span class="p">))</span>          <span class="c1"># False</span>
+</code></pre></div>
+
+<p>正如我们所看到的，将<code>True</code>或<code>False</code>传递给<code>bool</code>会分别给我们<code>True</code>和<code>False</code>，但是当涉及到其他值时，似乎没有太多的规律或原因。</p>
+<p>虽然看起来基本上是随机的，但实际上是有规律的。Python中只有少数值是假的，如下所示:</p>
+<ul>
+<li>零的任何数字表示。这包括整数<code>0</code>、浮点数<code>0.0</code>以及其他数字类型的零表示。</li>
+<li>值<code>False</code>和<code>None</code>。我们还没有看到<code>None</code>，但是<code>None</code>代表了一个值的有意缺失。</li>
+<li>空序列和其他集合。这包括空字符串、空元组、空列表以及我们在这个阶段还没有涉及到的几种类型。</li>
+</ul>
+<p>我们也有可能定义自己的类型，如果我们愿意，我们可以在某些情况下让它们变得虚假。然而，这是一个高级主题，不是我们在本系列中要讨论的内容。</p>
+<p>除了这些值，Python中的其他东西都是真实的。</p>
+<h2>比较运算符</h2>
+<p>除了<code>bool</code>函数，我们还有许多产生布尔值的比较操作符。我们总共有八个，其中五个你们可能在数学课上见过。</p>
+<p>首先，我们有<code>&lt;</code>(小于)和<code>&gt;</code>(大于)运算符。在<code>&lt;</code>的情况下，如果第一个操作数<em>小于第二个操作数</em>，则运算符产生值<code>True</code>；对于<code>&gt;</code>，如果第一个操作数<em>大于第二个操作数</em>，则运算符产生<code>True</code>。</p>
+<p>一般来说，这个操作符将用于比较两个数值类型，但是我们实际上也可以比较其他值。例如，我们可以比较字符串，在这种情况下，字符的<a href="https://www.computerhope.com/jargon/a/ascii.htm"> ASCII码用于确定哪个值大于另一个值。</a></p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="mi">5</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span>     <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">5</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span>     <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">10</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span>    <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"A"</span> <span class="o">&lt;</span> <span class="s2">"a"</span><span class="p">)</span>  <span class="c1"># True</span>
+
+<span class="c1"># The ASCII code for A is 65, while a is 97</span>
+</code></pre></div>
+
+<p>与这些运算符非常相似，我们有<code>&lt;=</code>(小于或等于)和<code>&gt;=</code>(大于或等于)。这些操作与<code>&lt;</code>和<code>&gt;</code>的工作方式相同，但是如果操作数的值相等，我们会返回<code>True</code>而不是<code>False</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="mi">10</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span>   <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">10</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># True</span>
+</code></pre></div>
+
+<p>我们经常想要明确地检查两个值是否相等。在这种情况下，我们可以使用<code>==</code>操作符。如果两个值相同，<code>==</code>产生<code>True</code>，在所有其他情况下产生<code>False</code>。</p>
+<p>这里我们必须要小心一点，记住像<code>"0"</code>这样的东西和<code>0</code>不一样。Python足够聪明，能够理解像<code>7</code>和<code>7.0</code>这样的东西是等价的。</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="s2">"0"</span><span class="p">)</span>                <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">0</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>                  <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">7</span> <span class="o">==</span> <span class="mf">7.0</span><span class="p">)</span>                <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hello"</span> <span class="o">==</span> <span class="s2">"Hello!"</span><span class="p">)</span>     <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>  <span class="c1"># True</span>
+</code></pre></div>
+
+<p>如果我们想检查两个值是否<em>不</em>相等，我们也有这样的操作符，看起来像这样<code>!=</code>。这个感叹号，有时读作“砰”，常用来表示“不是”。所以<code>!=</code>简单来说就是“不相等”。</p>
+<div class="codehilite"><pre><span/><code><span class="nb">print</span><span class="p">(</span><span class="mi">0</span> <span class="o">!=</span> <span class="s2">"0"</span><span class="p">)</span>         <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">0</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>           <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Hello"</span> <span class="o">!=</span> <span class="s2">"Hi"</span><span class="p">)</span>  <span class="c1"># True</span>
+</code></pre></div>
+
+<p>我们要看的最后两个稍微复杂一点，因为它们不比较值，<em>本身</em>。这最后两个操作符是<code>is</code>和<code>is not</code>。</p>
+<p>你的第一反应可能是假设<code>is</code>和<code>==</code>是相同的东西，<code>is not</code>和<code>!=</code>也是如此。他们实际上是非常不同的，并且执行非常不同的工作。</p>
+<p>首先让我们看一个例子:</p>
+<div class="codehilite"><pre><span/><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># False</span>
+</code></pre></div>
+
+<p>这里我们有两个包含相同值的列表。因此，我们可以说这两个列表是相同的，当我们比较这两个列表时,<code>==</code>操作符给出了<code>True</code>。然而，<code>is</code>操作员给了我们<code>False</code>。</p>
+<p>我们得到这个差异的原因是因为<code>is</code>实际上检查两个列表是完全相同的列表。不是说它们有相同的价值观，而是它们是完全一样的东西。</p>
+<p>打个现实世界的比方，我们可能有两个相同的碗，每个碗都装有相同排列的彩球。<code>==</code>操作员正在检查两个碗是否包含相同排列的彩球，而<code>is</code>正在检查我们是否在谈论完全相同的碗。</p>
+<p>当我们讨论在Python中什么是完全相同的东西时，我们真正关心的是，我们比较的东西是否存储在内存中的相同位置。</p>
+<p>我们可以使用一个名为<code>id</code>的函数来找出某个东西被存储在哪里，用一长串数字来表示。这一长串数字是一个引用内存中某个位置的地址。我们可以打印这些内存地址来验证这两个列表实际上并不相同:</p>
+<div class="codehilite"><pre><span/><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>  <span class="c1"># 139806639351360</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>  <span class="c1"># 139806638418944</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># False</span>
+</code></pre></div>
+
+<p>对于每个列表，你会得到不同的数字，每次程序运行时，都会得到不同的数字，但重要的是这两个数字是不一样的。</p>
+<p>我们可以做一个小小的改动，让两个列表相同。不要在分配给<code>b</code>时定义这个新的相同列表，让我们只参考我们分配给<code>a</code>的列表:</p>
+<div class="codehilite"><pre><span/><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>  <span class="c1"># 139685763327296</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>  <span class="c1"># 139685763327296</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># True</span>
+</code></pre></div>
+
+<p>现在我们两个的内存地址是相同的，因此，当我们比较<code>a</code>和<code>b</code>时，<code>is</code>操作符产生了<code>True</code>。</p>
+<h3>重要的</h3>
+<p>重要的是要注意，在一些复杂的情况下，当我们比较两个看起来占用相同内存地址的东西时，<code>is</code>会产生<code>False</code>。换句话说，有两个项目看起来有相同的<code>id</code>，但是<code>is</code>仍然表明这两个对象不是同一个。</p>
+<p>当内存地址被重用时，就会发生这种情况。</p>
+<p>这不是你在整个课程中需要担心的事情，也可能在很长一段时间内不会，但这至少是你需要意识到的事情。</p>
+<h2>操作顺序</h2>
+<p>最后一个重要注意事项是这些比较运算符如何与我们之前学习的算术运算符交互。</p>
+<p>比较运算符的优先级始终低于算术运算符。例如，如果我们写一个这样的表达式:</p>
+
+
+<p>这种比较实际上是:</p>
+
+
+<p>那就是:</p>
+
+
+<h2>条件语句</h2>
+<p>现在我们知道了如何使用这些比较操作符，我们可以使用这些比较的结果来控制应用程序的流程。我们使用条件语句来做到这一点。最基本的条件语句使用一个关键字:<code>if</code>。</p>
+<p>当且仅当满足某些条件时，条件语句允许我们在代码上运行一些块。我们可以使用这种结构来控制我们的应用程序的流程，基于事情是否是这样的。例如，我们可能只允许输入正确凭证的用户登录网站。</p>
+<p>让我们写一个简单的调酒师程序。我们将询问用户的年龄，然后检查他们是否小于18岁。如果他们未满18岁，我们会打印一条消息，声明他们未成年。</p>
+<div class="codehilite"><pre><span/><code><span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"How old are you? "</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we can't serve you."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>对于条件本身，我们以这个<code>if</code>关键字开始，然后我们有一些表达式，后跟一个冒号。在这一行下面，我们有一些代码块，如果我们写的表达式计算为真值，我们希望运行这些代码块。</p>
+<p>如果满足条件，我们要运行的这段代码在行首有四个缩进空间。这个缩进非常重要。如果你不这样做，Python将会抛出一个异常。</p>
+<div class="codehilite"><pre><span/><code><span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">4</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we can't serve you."</span><span class="p">)</span>
+    <span class="o">^</span>
+<span class="ne">IndentationError</span><span class="p">:</span> <span class="n">expected</span> <span class="n">an</span> <span class="n">indented</span> <span class="n">block</span>
+</code></pre></div>
+
+<p>我们需要这样缩进的原因是，我们需要某种方式向Python发出信号，说明在这种情况下应该捆绑哪些代码。我们希望依赖于满足这个条件的所有内容都应该缩进到相同的缩进级别。</p>
+<p>让我们稍微扩展一下我们的调酒师计划。一旦我们验证了用户确实超过18岁，我希望能够提示用户选择饮料。</p>
+<p>我们还有另一个条件关键字叫做<code>else</code>,如果我们检查的条件没有满足，它允许我们做一些事情。<code>else</code>不能单独使用，需要附着在另一个结构上。在这种情况下，我们将它与一个<code>if</code>语句结合起来，但是还有一些其他有趣的选项，我们将在以后的帖子中讨论。</p>
+<p>以下是我们的更新计划:</p>
+<div class="codehilite"><pre><span/><code><span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"How old are you? "</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">18</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we can't serve you."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">chosen_drink</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"What can I get for you? "</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在，如果用户未满18岁，他们将被告知我们不能为他们服务，但任何在初始提示中输入18岁或以上的人都将被询问他们想喝什么。</p>
+<p>我们也可以这样写这个条件块:</p>
+<div class="codehilite"><pre><span/><code><span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"How old are you? "</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">18</span><span class="p">:</span>
+    <span class="n">chosen_drink</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"What can I get for you? "</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we can't serve you."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们现在检查允许用户继续的条件，这是更常见的。</p>
+<p>有时我们甚至需要更细的粒度，在这种情况下，我们会使用一个<code>elif</code>子句。<code>elif</code>和<code>if</code>很相似，我们需要指定一个表达式来测试。很像<code>else</code>，它不能独立存在:我们必须将它与<code>if</code>语句结合起来。</p>
+<p>当我们像这样包含多个条件时，Python将一次检查一个条件，直到发现一个条件为真。一旦发现一个真条件，它就执行与该条件相关联的代码，之后不再为这个<code>if</code>语句检查进一步的条件。如果没有发现任何条件为真，Python将执行在<code>else</code>子句下缩进的代码。</p>
+<p>Python不需要检查所有的条件，这一点很重要，因为有几个原因。首先，这意味着只有一个条件的代码会运行。其次，这意味着我们的条件的顺序很重要，因为Python将只运行与第一个<em>匹配条件相关的代码。</em></p>
+<p>让我们稍微切换一下例子，看看一个<code>elif</code>子句的作用。我们将再次询问用户的年龄，但这一次我们将使用一个条件语句来对他们收取不同的车票价格。16岁以下的人将享受儿童优惠价，60岁以上的人将享受老年退休金。其他人将支付标准票价。</p>
+<p>我们可能会这样写:</p>
+<div class="codehilite"><pre><span/><code><span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"How old are you? "</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">"You are eligible for the child rate of 80p."</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">"You are eligible for the OAP rate of £1."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">"You must pay the standard rate of £1.50."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果我们愿意，我们可以包含越来越多的elif语句，这将允许我们对应用程序流进行更精细的控制。</p>
+<h2>真值和条件语句</h2>
+<p>我们不仅限于在条件语句中使用比较运算符。例如，我们可以利用任何值的真值作为条件。这就是真值真正有用的地方，因为它们允许我们简单地检查集合是否为空。</p>
+<p>例如，当我们请求一些输入时，我们可以检查用户是否实际输入了任何内容:</p>
+<div class="codehilite"><pre><span/><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter your name: "</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">name</span><span class="p">:</span>  <span class="c1"># Checks the truth value of name by calling bool</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"You entered </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">"You didn't type anything"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们将在接下来的文章中回顾这种模式，所以如果现在有一点混乱，请不要担心。</p>
+<h2>练习</h2>
+<p>1)尝试使用<code>==</code>模拟<code>is</code>操作员的行为。记住我们有<code>id</code>函数来寻找给定值的内存地址，我们可以比较内存地址来检查同一性。</p>
+<p>2)尝试使用<code>is</code>运算符或<code>id</code>函数来研究这两者之间的区别:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">new_numbers</span> <span class="o">=</span> <span class="n">numbers</span> <span class="o">+</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+</code></pre></div>
+
+<p>还有这个:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>new_numbers</code>和<code>numbers</code>是一回事吗？我们追加<code>5</code>前后的<code>numbers</code>呢？</p>
+<p>3)要求用户输入一个数字。告诉用户数字是正数、负数还是零。</p>
+<p>4)编写一个程序来确定员工是否应该加班。您应该询问用户该员工本周工作了多少小时，以及该员工的时薪。</p>
+<p>如果员工工作超过40个小时，你应该打印一条消息，说明该员工应该得到一些额外的工资，以及应得的金额。所欠的额外金额是雇员在40小时工作时间内每小时工资的10%。实际上，员工加班可以得到每小时工资的110%。</p>
+<p>你可以在这里找到这些练习的答案<a href="/30-days-of-python/python-30-day-5-exercise-solutions">。</a></p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

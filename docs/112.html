@@ -1,0 +1,312 @@
+<html>
+<head>
+<title>Day 4: Basic Python Collections | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第4天:基本Python集合| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-4-lists-tuples/">https://blog.teclado.com/python-30-day-4-lists-tuples/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第4天！在这篇文章中，我们将介绍一些新的集合类型:列表和元组。</a></p>
+<p>如果你错过了<a href="/30-days-of-python/python-30-day-3-string-formatting/">第三天</a>，我建议你查看一下，如果你需要复习以下内容:</p>
+<ul>
+<li>串并置</li>
+<li>使用<code>format</code>和f字符串的字符串插值</li>
+<li>使用<code>lower</code>、<code>upper</code>、<code>capitalize</code>、<code>title</code>和<code>strip</code>处理字符串</li>
+<li>使用注释记录代码</li>
+</ul>
+<p>此外，我们还制作了第1、2和3天的简短回顾，您可以在此处查看<a href="https://www.instagram.com/p/B-gx0wsASCr/"/>来刷新您的记忆。</p>
+<h2>列表</h2>
+<p>我们要看的第一个新集合是列表。</p>
+<p>简单地说，列表是其他值的容器。与字符串不同，字符串只是字符的集合，列表可以存储我们喜欢的任何值。如果我们愿意，我们甚至可以混合不同类型的值。</p>
+<p>我们使用方括号定义一个列表，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"George"</span><span class="p">]</span>
+</code></pre></div>
+
+<p>每个值都放在方括号内，用逗号分隔。</p>
+<p>在本例中，我们在一行中定义了一个列表。这里很好，但有时这可能有点难以理解。例如，如果我们试图存储一个电影标题列表，而我们有类似于，<code>"Eternal Sunshine of the Spotless Mind"</code>的字符串，该怎么办？我们很快就会发现代码超出了屏幕的宽度。如果我们有很多很多的值，情况也是如此。</p>
+<p>当我们遇到这种情况时，我们可以将列表拆分成多行，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movie_titles</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span>
+    <span class="s2">"Memento"</span><span class="p">,</span>
+    <span class="s2">"Requiem for a Dream"</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>正如我之前提到的，我们可以在一个列表中混合我们想要的任何类型的值，你不必只有字符串，或者只有整数。</p>
+<div class="codehilite"><pre><span/><code><span class="n">friend_details</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="s2">"Web Developer"</span><span class="p">]</span>
+</code></pre></div>
+
+<p>也可以定义一个没有内容的列表，由一对空的方括号<code>[]</code>表示。</p>
+<p>我们可以通过将列表传递给<code>print</code>函数来打印整个列表，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">friend_details</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="s2">"Web Developer"</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">friend_details</span><span class="p">)</span>
+</code></pre></div>
+
+<p>然而，通常我们感兴趣的是列表中的值，而不是整个列表，所以让我们看看如何访问列表值。</p>
+<h3>风格注释</h3>
+<p>抵制诱惑去做这样的事情:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movie_titles</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span>
+    <span class="s2">"Memento"</span><span class="p">,</span> <span class="s2">"Requiem for a Dream"</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>它可能比在每一行上放一个不同的值要短，但是它使得很难看到列表中有多少个值，并且它也使得很难看到值本身。例如，有一个相当微妙的区别:</p>
+<div class="codehilite"><pre><span/><code><span class="s2">"Memento"</span><span class="p">,</span> <span class="s2">"Requiem for a Dream"</span>
+</code></pre></div>
+
+<p>和</p>
+<div class="codehilite"><pre><span/><code><span class="s2">"Memento, Requiem for a Dream"</span>
+</code></pre></div>
+
+<p>这在较长的列表中很容易被忽略。</p>
+<p>当我们在一行上写列表时，在逗号后面加一个空格也是一个好习惯。同样，这对于可读性来说非常重要。</p>
+<p>比较这个:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">343.4</span><span class="p">,</span><span class="mf">545.98</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">954.03</span><span class="p">,</span><span class="mf">3.5</span><span class="p">]</span>
+</code></pre></div>
+
+<p>对此:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">343.4</span><span class="p">,</span> <span class="mf">545.98</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">954.03</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]</span>
+</code></pre></div>
+
+<h2>访问列表中的值</h2>
+<p>列表中的每个值都根据其在列表中的位置进行索引。第一个位置的项目位于索引<code>0</code>；第二个位置的项目位于索引<code>1</code>；诸如此类。</p>
+<p>我们可以使用这些索引来访问列表中的值，并且我们通常使用一段称为<em>订阅表达式</em>的语法来实现这一点。</p>
+<p>订阅表达式用于访问许多集合中的值。对于序列，它们用于通过索引访问元素。</p>
+<p>它看起来像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"George"</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>  <span class="c1"># Sarah</span>
+</code></pre></div>
+
+<p>为了从<code>names</code>中检索值<code>"Sarah"</code>，我们写下我们想要访问的列表的名称，然后在一些方括号中放入我们想要检索的项目的索引。</p>
+<p>也可以参考一个<em>负的</em>指数，它允许我们从列表的末尾开始工作。在这种情况下，索引<code>-1</code>处的项目是最后一个项目；索引为<code>-2</code>的项目是倒数第二个项目；诸如此类。</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"George"</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># George</span>
+</code></pre></div>
+
+<p>当我们需要列表中的最后一项时，这非常有用，因为它使我们不必做任何计算来找出最后一项的索引。</p>
+<h2>向列表中添加项目</h2>
+<p>列表的一个很好的特性是它们是可变的:我们可以改变里面的值。这意味着我们可以添加值、删除值、替换值、重新排序值等等。</p>
+<p>首先，让我们关注使用<code>append</code>方法向列表添加条目。顾名思义，<code>append</code>让我们将一个项目添加到列表的末尾。再一次，我们需要使用点符号来调用<code>append</code>，当我们调用它时，我们把我们想要添加的值放在括号内。</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"George"</span><span class="p">]</span>
+<span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Simon"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Simon</span>
+</code></pre></div>
+
+<p>我们还可以使用<code>+</code>操作符向列表中添加另一个(或多个)项目。在这种情况下，两个操作数<strong>必须</strong>都是列表。</p>
+<p>方法也有些不同，因为我们必须在操作中执行赋值。</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"George"</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="n">names</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"Simon"</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Simon</span>
+</code></pre></div>
+
+<p>这有时会很方便，因为它不会修改原始列表，而是生成一个新列表。另一方面，<code>append</code>修改现有列表。</p>
+<p>除了<code>append</code>方法和<code>+</code>操作符之外，我们还有一个名为<code>extend</code>的方法，它允许我们将多个条目添加到现有列表的末尾。</p>
+<p>这些对于在列表末尾添加一个条目都很有用，但是如果我们想在中间添加一个条目呢？为此，我们有<code>insert</code>方法。</p>
+<p>比我们目前看到的选项要复杂一些，因为它需要两条信息。首先我们需要告诉它我们想在哪里插入值，其次我们需要告诉它我们想插入什么。</p>
+<p>例如，假设我们有这样一个列表:</p>
+
+
+<p>目前，我们在这个序列中缺少值<code>3</code>，我们想在索引<code>2</code>处插入这个值。我们因此需要这样称呼<code>insert</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">numbers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>  <span class="c1"># [1, 2, 3, 4, 5]</span>
+</code></pre></div>
+
+<p>如您所见，其他值被右移，以便为新添加的内容腾出空间。</p>
+<p>你可能想知道，如果我们在定义的列表之外指定一个索引会发生什么？Python只是将项目作为结尾:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">numbers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>  <span class="c1"># [1, 2, 4, 5, 3]</span>
+</code></pre></div>
+
+<h2>从列表中删除项目</h2>
+<p>就像添加项目一样，从列表中删除项目时，有几个选项可供使用。</p>
+<p>首先，我们有<code>remove</code>方法。<code>remove</code>再次使用我们已经见过很多次的点语法，它删除第一个与我们传入的值相匹配的项。</p>
+<p>例如，如果我们有这样一个列表:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"John"</span><span class="p">]</span>
+</code></pre></div>
+
+<p>我们可以通过调用<code>remove</code>来删除第一个<code>"John"</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"John"</span><span class="p">]</span>
+<span class="n">names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">"John"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>  <span class="c1"># ['Sarah', 'Alice', 'John']</span>
+</code></pre></div>
+
+<p>第二个实例<code>"John"</code>被原封不动地留下，所有的东西都被留了下来，这样我们的列表中就没有漏洞了。</p>
+<p>有时我们不一定知道我们想要删除的值，但是我们知道<em>值在列表中的位置。在这种情况下，我们有几个选择。</em></p>
+<p>首先，我们可以使用<code>del</code>关键字。<code>del</code>可以用来删除我们想要的任何东西，包括整个列表，但是如果我们使用订阅表达式，我们可以用它来删除特定索引处的一个项目。</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Mike"</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>  <span class="c1"># ['Sarah', 'Alice', 'Mike']</span>
+</code></pre></div>
+
+<p>我们使用<code>del</code>的主要选择是<code>pop</code>。默认情况下,<code>pop</code>将移除列表中的最后一项，但是我们可以选择传递一个索引作为参数来移除另一项。</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Mike"</span><span class="p">]</span>
+<span class="n">names</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>  <span class="c1"># ['John', 'Sarah', 'Alice']</span>
+
+<span class="n">names</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>  <span class="c1"># ['John', 'Alice']</span>
+</code></pre></div>
+
+<p>关于<code>pop</code>真正有用的事情之一是方法调用表达式计算我们从列表中移除的项目。因此，我们可以用它来删除一个我们计划在以后的操作中使用的项目:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"Mike"</span><span class="p">]</span>
+<span class="n">last_in_line</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>         <span class="c1"># ['John', 'Sarah', 'Alice']</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">last_in_line</span><span class="p">)</span>  <span class="c1"># Mike</span>
+</code></pre></div>
+
+<p>最后，我们还有<code>clear</code>。这个非常简单，它将删除给定列表中的所有内容:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">,</span> <span class="s2">"John"</span><span class="p">]</span>
+<span class="n">names</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>  <span class="c1"># []</span>
+</code></pre></div>
+
+<h2>元组</h2>
+<p>到目前为止，我们已经讨论了很多关于列表的内容，但是关于元组呢？</p>
+<p>元组非常类似于列表，因为它们是其他值的容器，但是有一些重要的区别，我们将在后面讨论。</p>
+<p>定义一个元组所需要的只是一系列逗号分隔的值:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"Alice"</span>
+</code></pre></div>
+
+<p>然而，更常见的是，我们会看到元组被写成这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Sarah"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>大多数时候，这些括号是可选的——逗号才是重要的——但是有些情况下我们真的需要它们来区分元组内容和其他逗号分隔的值。</p>
+<p>例如，将元组放在一个列表中是完全合法的(也是常见的)。也许我们希望将电影名称和上映日期一起存储在电影列表中，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">2004</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>这里我们有一个包含三个元组的列表，每个元组包含两个条目。</p>
+<p>如果我们不在元组周围使用括号，就没有办法区分元组，因为列表也使用逗号来分隔值。</p>
+<p>如果没有括号，我们会得到这样的结果:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">2004</span><span class="p">,</span>
+    <span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span>
+    <span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">2000</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>请记住，Python不太关心列表中的换行符，所以这与下面的列表是一样的——一个包含6个元素的列表:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span>
+  <span class="mi">2004</span><span class="p">,</span>
+    <span class="s2">"Memento"</span><span class="p">,</span>
+  <span class="mi">2000</span><span class="p">,</span>
+    <span class="s2">"Requiem for a Dream"</span><span class="p">,</span>
+  <span class="mi">2000</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>为了避免这样的问题，括号是强制性的。</p>
+<p>我们必须记住的一个有点尴尬的语法是定义只有一个条目的元组。记住逗号是构成元组的要素，所以我们不能像这样写:</p>
+
+
+<p>那只是一个括号里的字符串。如果我们想把它变成一个元组，我们必须这样写:</p>
+
+
+<p>或者这个:</p>
+
+
+<p>两者都很难看，但谢天谢地，这不是我们经常要写的东西。</p>
+<h2>访问元组中的值</h2>
+<p>与列表非常相似，元组是有序的集合，其中每个项目都可以根据它们在集合中的位置通过索引来访问。</p>
+<p>我们甚至使用相同的订阅表达式语法来访问元组中的项目。</p>
+<p>在这一点上，很明显元组和列表有很多相似之处，所以你可能会问自己，为什么我们两个都有？</p>
+<h2>元组与列表</h2>
+<p>元组和列表的最大区别之一是元组是不可变的。一旦我们定义了它们，我们就不能改变它们。</p>
+<p>这意味着您不会找到任何针对元组的<code>pop</code>或<code>append</code>方法，并且<code>del</code>关键字不允许您使用索引删除值。</p>
+<p>可以使用的一个操作符是<code>+</code>操作符，但是如果我们回想起我们对列表<code>+</code>的讨论，这个操作符给了我们一个新的集合。如果我们将它与一个元组一起使用，原始元组将保持不变:我们只是创建了一个新的元组。</p>
+<p>注意，只能使用<code>+</code>来连接两个元组。</p>
+<p>元组不能改变的事实是一个非常理想的属性，因为它允许我们为它们的内容定义一个一致的结构，这意味着我们像表格行中的单元格一样使用值。让我告诉你我的意思。</p>
+<p>假设我们有三条信息，我们希望为我们的集合中的每部电影存储。我们需要电影的标题、导演的名字和上映年份。</p>
+<p>我可能会这样定义我的<code>movies</code>系列:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span>
+        <span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span>
+        <span class="s2">"Michel Gondry"</span><span class="p">,</span>
+        <span class="mi">2004</span>
+    <span class="p">),</span>
+    <span class="p">(</span>
+        <span class="s2">"Memento"</span><span class="p">,</span>
+        <span class="s2">"Christopher Nolan"</span><span class="p">,</span>
+        <span class="mi">2000</span>
+    <span class="p">),</span>
+    <span class="p">(</span>
+        <span class="s2">"Requiem for a Dream"</span><span class="p">,</span>
+        <span class="s2">"Darren Aronofsky"</span><span class="p">,</span>
+        <span class="mi">2000</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>对于每个元组，我都使用了相同的数据顺序，我们可以认为它代表了这样一个表中的一行:TitleDirectorRelease《纯洁心灵的永恒阳光》Michel gondry 2004《梦的挽歌》Darren Aronofsky2000因为元组不能改变，所以我们可以肯定数据总是会与我们定义的约定相匹配。第一个索引中的项目总是电影标题。第二个索引中的项目将始终是导演姓名。</p>
+<p>将此与列表进行比较。我已经不能确定顺序了，因为就我所知，列表可能已经添加了几个项目，删除了几个项目，并且列表可能已经按字母顺序排序了。它甚至可能是空的。我们只是不知道，这有时会是个问题。</p>
+<p>另一方面，能够修改数据是非常非常有用的。例如，如果我们将<code>movies</code>创建为一个元组，我们就不能再向集合中添加其他电影。如果我们正在创建一个类似于电影库的东西，用户可能想要在以后添加新的电影，那就不好了。</p>
+<p>没有哪一个比另一个更好:关键在于为工作选择正确的工具。</p>
+<h2>访问嵌套集合中的值</h2>
+<p>我们现在已经有了一些嵌套集合的实例——例如，列表中的元组——所以我们需要简单地讨论一下如何从这些内部集合中获取条目。</p>
+<p>记住当我们写类似<code>my_list[0]</code>的东西时，这是一个订阅表达式。它给我们的值是我们指定的集合中所请求的索引处的值。</p>
+<p>所以如果我们有这样一个系列:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">2004</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Memento"</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">"Requiem for a Dream"</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>我们写道:</p>
+
+
+<p>我们得到的是元组，</p>
+<div class="codehilite"><pre><span/><code><span class="p">(</span><span class="s2">"Eternal Sunshine of the Spotless Mind"</span><span class="p">,</span> <span class="mi">2004</span><span class="p">)</span>
+</code></pre></div>
+
+<p>因此，如果我们想要这部电影的标题，我们知道它在索引<code>0</code>处，我们可以添加另一组方括号，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movies</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># "Eternal Sunshine of the Spotless Mind"</span>
+</code></pre></div>
+
+<p>这相当于做这样的事情:</p>
+<div class="codehilite"><pre><span/><code><span class="n">movie</span> <span class="o">=</span> <span class="n">movies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># ("Eternal Sunshine of the Spotless Mind", 2004)</span>
+<span class="n">movie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>           <span class="c1"># "Eternal Sunshine of the Spotless Mind"</span>
+</code></pre></div>
+
+<p>我们有两个订阅表达式。第一个产生位于索引<code>0</code>的元组，然后第二个产生该元组的索引<code>0</code>的值。</p>
+<h2>练习</h2>
+<ol>
+<li>创建一个包含单个元组的<code>movies</code>列表。元组应该包含电影标题、导演姓名、电影上映年份和电影预算。</li>
+<li>使用<code>input</code>功能收集另一部电影的信息。你需要一个标题，导演的名字，发行年份和预算。</li>
+<li>使用<code>input</code>从您收集的值创建一个新的元组。确保它们与您在<code>movies</code>列表中编写的元组顺序相同。</li>
+<li>通过访问您的新电影元组，使用一个<a href="/30-days-of-python/python-30-day-3-string-formatting/"> f字符串</a>打印电影名称和发行年份。</li>
+<li>使用<code>append</code>将新的电影元组添加到<code>movies</code>集合。</li>
+<li>打印<code>movies</code>收藏中的两部电影。</li>
+<li>从<code>movies</code>移除第一部电影。用你喜欢的任何方法。</li>
+</ol>
+<p>你可以在这里找到这些练习的答案。</p>
+<h2>额外资源</h2>
+<p>我们有一个关于列表的<code>extend</code>方法的专门帖子，你可以在我们的博客上找到<a href="https://blog.teclado.com/python-extending-lists/">。</a></p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

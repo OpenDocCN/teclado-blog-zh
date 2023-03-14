@@ -1,0 +1,135 @@
+<html>
+<head>
+<title>Side values in Tkinter's pack geometry manager</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Tkinter包装几何管理器中的侧值</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/side-values-in-tkinters-pack-geometry-manager/">https://blog.teclado.com/side-values-in-tkinters-pack-geometry-manager/</a></blockquote><div><div class="post-content">
+<p>上周我们简单看了一下Tkinter的pack geometry manager，这是一个Python的GUI开发工具包。当我们查看名为<code>side</code>的pack配置时，我们遇到了一些问题。在这篇文章中，我们将仔细研究pack，我们将弄清楚如何使用<code>side</code>，以及它能为我们做什么。</p><p>如果你对Tkinter不是很熟悉，或者你根本不知道它是什么，我推荐你看看<a href="https://blog.teclado.com/tkinters-pack-geometry-manager/">上周的帖子</a>。我们在那里涵盖了一些基础知识。在我们的<a href="https://www.udemy.com/the-complete-python-course/?couponCode=BLOGGER">完整Python课程</a>中，也有关于Tkinter的部分。</p><h2 id="the-story-so-far">故事到此为止</h2><p>我们已经使用一个简单的固定大小的窗口和几个矩形的<code>Label</code>部件探索了pack。代码看起来像这样:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10)
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10)
+
+root.mainloop()
+</code></pre>
+<p>这里，我们为pack添加的唯一配置是一些内部填充，以使<code>Label</code>内容更容易阅读。</p><p>现在，应用程序看起来像这样:</p><figure class="kg-card kg-image-card"><img src="../Images/2bd26133fb4864a1241f488fe3068c0c.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-07-31-21-42-35.png"/></figure><p>我们在上一篇文章中探讨了两种配置:<code>fill</code>和<code>expand</code>。</p><p>前者允许我们指定小部件实际填充了多少分配给小部件的区域。在Tkinter中，每个小部件在窗口中都被分配了一定的空间，但是小部件并不一定要使用所有的空间。例如，上面窗口中的<code>Label</code>窗口小部件水平居中于一个区域，该区域横跨应用程序窗口的整个宽度。</p><p>我们确实了解到<code>fill</code>的一点是它不允许小部件占用窗口中多余的空间。我们不能让任何一个<code>Label</code>小部件填充容器的高度，因为<code>rectangle_2</code>下面的区域没有分配给那些<code>Label</code>小部件。</p><p>如果我们想让小部件填充这个多余的空间，我们需要提供一个名为<code>expand</code>的额外配置，它接受一个布尔值。当<code>expand</code>设置为<code>True</code>时，窗口小部件将会增长以填充应用程序窗口中任何多余的空间。</p><p>例如，将<code>fill="both"</code>和<code>expand=True</code>设置为<code>rectangle_1</code>会产生以下结果:</p><figure class="kg-card kg-image-card"><img src="../Images/88adeae6b76a6f35f27d85ea29b170d1.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-07-31-22-50-22.png"/></figure><p>如果多个微件的<code>expand</code>配置设置为<code>True</code>，则微件共享可用空间，即使微件没有填满该空间:</p><figure class="kg-card kg-image-card"><img src="../Images/eac38f19e7aeb846ca424a96b05f3ee4.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-07-31-22-53-19.png"/></figure><p>然而，当我们将其中一个小部件上的<code>side</code>配置设置为<code>"left"</code>时，我们发现这条规则并不成立。</p><p>当我们看这段代码时:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, side="left", expand=True, fill="both")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, expand=True, fill="both")
+
+root.mainloop()
+</code></pre>
+<p>我们最终得到了以下结果:</p><figure class="kg-card kg-image-card"><img src="../Images/2e6cf683c1cc8b04a578f8218eab245b.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-00-51-58.png"/></figure><p>可用空间没有被平均分配，而是全部据为己有。</p><p>我们还发现，如果我们将<code>rectangle_2</code>的侧面配置设置为<code>"left"</code>，一切都会恢复正常，尽管窗口从左向右拆分，而不是从上到下:</p><figure class="kg-card kg-image-card"><img src="../Images/711be54001b314aba8bb3a732e7cbbef.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-07-31-23-06-01.png"/></figure><p>这是怎么回事？</p><h2 id="side-basics">侧面基础</h2><p>在我们看<code>side</code>如何与<code>expand</code>交互之前，让我们看一些更简单的例子。</p><p><code>side</code>可以取多个不同的值，每个值都是其容器的一个边或“边”。在我们的例子中，这是应用程序窗口。因此，我们可以提供<code>"top"</code>、<code>"bottom"</code>、<code>"left"</code>或<code>"right"</code>中的任何一个作为值。默认情况下，小部件的<code>side</code>值为<code>"top"</code>。</p><p><code>side</code>的正常用例是改变小部件在其容器中的位置。例如，我们可以设置<code>side="bottom</code>让小部件锚定到容器的底部，而不是顶部。以这种方式使用<code>side</code>相当简单，但是当我们在一个容器中组合不同的方面时，我们会遇到问题，尤其是当那些小部件被允许扩展时。</p><p>让我们看看当<code>rectangle_1</code>被设置为<code>side="left"</code>并且两个矩形的<code>fill</code>配置都被设置为<code>"both"</code>时会发生什么。这将向我们显示由包分配给每个小部件的默认空间。</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, side="left", fill="both")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, fill="both")
+
+root.mainloop()
+</code></pre>
+<p>上面的代码给了我们这样一个布局:</p><figure class="kg-card kg-image-card"><img src="../Images/4876ada9db10a23aba8b934c9b452d53.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-00-13-11.png"/></figure><p>这很有趣，因为我们可以看到,<code>rectangle_1</code>被分配了一个扩展窗口整个高度的区域，而<code>rectangle_2</code>被分配了一个扩展窗口宽度的区域。</p><p>我们还可以看到<code>rectangle_1</code>被赋予了优先权。我们可能会假设<code>side="left"</code>优先于默认的<code>side="top"</code>，因为我们在每种情况下都见过这种情况，但这将是一个错误。它实际上完全取决于项目添加到窗口的顺序。</p><p>如果我们在代码中将<code>rectangle_1</code>移到<code>rectangle_2</code>下面，我们会看到相反的情况:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, fill="both")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, side="left", fill="both")
+
+root.mainloop()
+</code></pre>
+<figure class="kg-card kg-image-card"><img src="../Images/63666309f10c0fdb4d9137cca421210d.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-00-22-41.png"/></figure><p>如果我们在应用程序窗口中添加更多的矩形，我们可以清楚地看到优先顺序完全取决于小部件的顺序:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, side="left", fill="both")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, fill="both")
+
+rectangle_3 = tk.Label(root, text="Rectangle 3", bg="blue", fg="white")
+rectangle_3.pack(ipadx=10, ipady=10, side="left", fill="both")
+
+rectangle_4 = tk.Label(root, text="Rectangle 4", bg="yellow", fg="black")
+rectangle_4.pack(ipadx=10, ipady=10, fill="both")
+
+rectangle_5 = tk.Label(root, text="Rectangle 5", bg="orange", fg="white")
+rectangle_5.pack(ipadx=10, ipady=10, side="left", fill="both")
+
+root.mainloop()
+</code></pre>
+<figure class="kg-card kg-image-card"><img src="../Images/0d0c4f2a630633dbfbceb69f89f0051f.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-00-33-00.png"/></figure><p>那么，这一切是如何与<code>expand</code>一起工作的呢？</p><h2 id="side-with-expand">带扩展的边</h2><p>和以前一样，我们向窗口添加小部件的顺序对于<code>side</code>如何与<code>expand</code>交互非常重要。在下面的两个例子中，我们可以非常清楚地看到这一点。</p><p>首先，我们将为两个矩形设置<code>expand=True</code>和<code>fill="both"</code>，为<code>rectangle_1</code>设置<code>side="left"</code>。</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, expand=True, side="left", fill="both")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, expand=True, fill="both")
+
+root.mainloop()
+</code></pre>
+<p>这给了我们这样的布局:</p><figure class="kg-card kg-image-card"><img src="../Images/f45db79c5eac3a96e26ab8e357c6b8f5.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-00-51-58-1.png"/></figure><p>如果我们现在交换一下，让<code>rectangle_2</code>变成<code>side="left"</code>,我们会得到如下结果:</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, expand=True, fill="both")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, expand=True, side="left", fill="both")
+
+root.mainloop()
+</code></pre>
+<figure class="kg-card kg-image-card"><img src="../Images/c55083f1d034c2c1bd016f646ab15e2f.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-00-52-55.png"/></figure><p>那么当我们有更多的小部件时会发生什么呢？</p><h2 id="complex-interfaces-with-side-and-expand">带侧边和扩展的复杂接口</h2><p>让我们回到五个矩形的例子，但是这一次，让我们设置一些元素来扩展。</p><pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.geometry("600x400")
+
+rectangle_1 = tk.Label(root, text="Rectangle 1", bg="green", fg="white")
+rectangle_1.pack(ipadx=10, ipady=10, expand=True, side="left", fill="both")
+
+rectangle_2 = tk.Label(root, text="Rectangle 2", bg="red", fg="white")
+rectangle_2.pack(ipadx=10, ipady=10, fill="both")
+
+rectangle_3 = tk.Label(root, text="Rectangle 3", bg="blue", fg="white")
+rectangle_3.pack(ipadx=10, ipady=10, expand=True, side="left", fill="both")
+
+rectangle_4 = tk.Label(root, text="Rectangle 4", bg="yellow", fg="black")
+rectangle_4.pack(ipadx=10, ipady=10, fill="both")
+
+rectangle_5 = tk.Label(root, text="Rectangle 5", bg="orange", fg="white")
+rectangle_5.pack(ipadx=10, ipady=10, expand=True, side="left", fill="both")
+
+root.mainloop()
+</code></pre>
+<p>现在所有奇数编号的矩形都有<code>expand=True</code>作为其包装配置的一部分。</p><figure class="kg-card kg-image-card"><img src="../Images/a1a3816ca43a8af0b9cf5734ab5c5117.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-00-59-09.png"/></figure><p>有趣的是，空间仍然在部件之间平均分配，而<code>side="left"</code>是它们配置的一部分。我们在窗口中放置小部件的顺序不会影响具有相同<code>side</code>配置的小部件之间的空间共享。这也延伸到平行的侧面，因此<code>side="left"</code>和<code>side="right"</code>在共享空间方面是兼容的。</p><p>然而，当我们有垂直<code>side</code>值的小部件时，小部件被添加的顺序决定了小部件何时可以在应用程序窗口中要求空间。</p><p>例如，如果我们将<code>expand=True</code>添加到上面示例中的每个小部件，我们会得到以下结果:</p><figure class="kg-card kg-image-card"><img src="../Images/cba0940dfcf1bebdbe7726334078bb45.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-01-05-26.png"/></figure><p>我们来分析一下。</p><p><code>rectangle_1</code>是应用程序窗口中放置的第一个小部件，因此它获得分配给它的整个窗口高度，然后扩展到所有可用空间。此时，这是整个应用程序窗口。</p><p>当我们添加<code>rectangle_2</code>时，它在应用程序窗口的右边得到一个窄条，但是它确实填满了窗口的整个高度。</p><p>接下来我们添加<code>rectangle_3</code>，它的<code>side</code>值为<code>"left"</code>，并且已经被允许扩展。这里发生了许多事情。<code>rectangle_1</code>现在被迫与<code>rectangle_3</code>共享其水平空间，这意味着它现在只占用应用程序窗口宽度的一半。这意味着<code>rectangle_2</code>现在有了更多的水平空间，所以它占据了窗口宽度的一半，并继续占据所有可能的垂直空间。它不能再填满窗口的整个高度，因为<code>rectangle_3</code>已经占据了右下角的空间，但它仍然填满了窗口的大部分高度。</p><p>此时，我们的窗口看起来像这样:</p><figure class="kg-card kg-image-card"><img src="../Images/e6987b34763ed4ce6a7a570aab8626b9.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-01-11-31.png"/></figure><p>接下来，我们添加了<code>rectangle_4</code>,现在强制<code>rectangle_2</code>共享它的垂直空间。<code>rectangle_4</code>插在<code>rectangle_3</code>旁边，占据了水平空间的一个狭长条，却是垂直空间的一半。随着<code>rectangle_2</code>现在共享垂直空间，<code>rectangle_3</code>现在有空间增加高度，所以<code>rectangle_3</code>现在也共享应用程序窗口的一半高度。</p><p>我们现在有了这个:</p><figure class="kg-card kg-image-card"><img src="../Images/834d7544ff25f4de363daa99ea3c4dc7.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-01-14-14.png"/></figure><p>最后，我们添加了<code>rectangle_5</code>,这导致了一些变化。这是另一个左对齐的小部件，所以它迫使<code>rectangle_1</code>和<code>rectangle_3</code>减少他们在水平方向上要求的额外空间。现在每个都只有总宽度的三分之一。</p><p><code>rectangle_1</code>和<code>rectangle_3</code>的减少使得<code>rectangle_2</code>和<code>rectangle_4</code>的宽度也可以增加，其中<code>rectangle_2</code>占据了应用程序窗口的三分之二。</p><p><code>rectangle_5</code>现在插入到<code>rectangle_4</code>下面，给出我们之前看到的结果:</p><figure class="kg-card kg-image-card"><img src="../Images/bc9b2313f700963e0d62391888ea8bec.png" class="kg-image" alt="" loading="lazy" data-original-src="https://blog.teclado.com/content/images/2019/08/Screenshot-from-2019-08-08-01-05-26-1.png"/></figure><h2 id="wrapping-up">包扎</h2><p>这就是本周关于<code>side</code>价值观和包装的帖子！如果你有兴趣学习更多关于Tkinter和GUI开发的知识，请查看我们全新的课程:<a href="https://www.udemy.com/course/desktop-gui-python-tkinter/?referralCode=8A984196616D9BF14DD0">用Python和Tkinter进行GUI开发</a>。</p><p>你可能也想在<a href="https://twitter.com/TecladoCode"> Twitter </a>上关注我们，因为我们将在不久的将来在Tkinter上发布更多帖子，包括一些小型项目演练。</p>
+</div>
+</div>    
+</body>
+</html>

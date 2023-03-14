@@ -1,0 +1,256 @@
+<html>
+<head>
+<title>Day 13: Scope and Returning Values from Functions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第13天:作用域和函数返回值| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-13-return-statements/">https://blog.teclado.com/python-30-day-13-return-statements/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>大家好，欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第13天！今天我们将开始学习<em>范围</em>这个非常重要的话题。</a></p>
+<p>我们可以把作用域看作是在应用程序中引用给定名称的描述。理解这在Python中是如何工作的是我们学习旅程中至关重要的一步。</p>
+<p>我们还将扩展我们使用功能的方式。到目前为止，我们所有的函数都只是打印了一些东西到控制台，但是有些情况下我们也想从函数中获取一些东西。我们将在今天的帖子中讨论如何做到这一点。</p>
+<h2>范围的演示</h2>
+<p>正如我已经提到的，作用域是一个概念，它描述了在我们的应用程序中可以引用给定名称的地方。</p>
+<p>我们还没有遇到过我们定义的名字不可访问的情况，所以让我们看一个例子。</p>
+<p>首先，我们将定义一个名为<code>greet</code>的简单函数。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</code></pre></div>
+
+<p>所有的<code>greet</code>做的就是接受一个名字并打印一个问候给用户。在<code>greet</code>中，我们定义了一个名为<code>greeting</code>的变量，在这里我们分配格式化字符串，我们将这个<code>greeting</code>字符串作为参数传递给<code>print</code>。</p>
+<p>问题是，我们能在函数之外访问这个<code>greeting</code>字符串吗？</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</code></pre></div>
+
+<p>在这种情况下，我们似乎得到了一个错误:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">6</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+<span class="ne">NameError</span><span class="p">:</span> <span class="n">name</span> <span class="s1">'greeting'</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span>
+</code></pre></div>
+
+<p>但也许这不是一个公平的例子。毕竟，我们从未真正调用过<code>greet</code>，所以定义<code>greeting</code>的代码从未真正运行过。怎么会呢？我们甚至还没有告诉它<code>name</code>是什么意思。</p>
+<p>也许在我们调用<code>greet</code>之后这个会起作用。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+
+<span class="n">greet</span><span class="p">(</span><span class="s2">"Phil"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在我们的输出看起来像这样:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Hello</span><span class="p">,</span> <span class="n">Phil</span><span class="err">!</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">7</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+<span class="ne">NameError</span><span class="p">:</span> <span class="n">name</span> <span class="s1">'greeting'</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span>
+</code></pre></div>
+
+<p>正如我们所看到的，当<code>greet</code>被调用时，<code>"Hello, Phil!"</code>被打印，但是<code>greeting</code>仍然是未定义的。这是怎么回事？</p>
+<p>问题实际上是<code>greeting</code>是“超出范围”的。</p>
+<h2>名称空间</h2>
+<p>为了更好地理解上面例子中发生的事情，我们需要考虑当我们定义一个变量时会发生什么。</p>
+<p>Python实际上记录了我们定义的变量，以及与这些名称相关的值。我们把这个记录叫做名称空间，你可以把它想象成一个字典。我们可以通过调用<code>globals</code>函数并打印结果来稍微查看一下这本字典。</p>
+<p>首先，让我们看看在空文件中调用<code>globals</code>会发生什么。</p>
+
+
+<p>如果您运行这段代码，您可能会惊讶地发现这个字典不是空的。我们有各种各样有趣的东西在里面。</p>
+<div class="codehilite"><pre><span/><code><span class="p">{</span>
+    <span class="s1">'__name__'</span><span class="p">:</span> <span class="s1">'__main__'</span><span class="p">,</span>
+    <span class="s1">'__doc__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__package__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__loader__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">_frozen_importlib_external</span><span class="o">.</span><span class="n">SourceFileLoader</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f2b30020bb0</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__spec__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__annotations__'</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">'__builtins__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">module</span> <span class="s1">'builtins'</span> <span class="p">(</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__file__'</span><span class="p">:</span> <span class="s1">'main.py'</span><span class="p">,</span>
+    <span class="s1">'__cached__'</span><span class="p">:</span> <span class="kc">None</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>虽然这有一定的道理。毕竟，我们不需要定义我们在Python中使用的每一个名字。例如，我们从未定义过<code>print</code>、<code>input</code>或<code>len</code>。</p>
+<p>现在不要太担心这本字典的实际内容。只要记下已经存在的东西，这样我们就可以看到当我们定义一些自己的名字时会发生什么。</p>
+<p>让我们改变我们的文件，使它实际上有一些内容。我将定义几个变量和一个函数，这样我们就有了一点多样性:</p>
+<div class="codehilite"><pre><span/><code><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Mike"</span><span class="p">,</span> <span class="s2">"Fiona"</span><span class="p">,</span> <span class="s2">"Patrick"</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">53657</span>
+
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
+</code></pre></div>
+
+<p>现在让我们看看我们的字典里有什么。请特别注意最后三项。</p>
+<div class="codehilite"><pre><span/><code><span class="p">{</span>
+    <span class="s1">'__name__'</span><span class="p">:</span> <span class="s1">'__main__'</span><span class="p">,</span>
+    <span class="s1">'__doc__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__package__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__loader__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">_frozen_importlib_external</span><span class="o">.</span><span class="n">SourceFileLoader</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fae511ffbb0</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__spec__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__annotations__'</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">'__builtins__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">module</span> <span class="s1">'builtins'</span> <span class="p">(</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__file__'</span><span class="p">:</span> <span class="s1">'main.py'</span><span class="p">,</span>
+    <span class="s1">'__cached__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'names'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Mike'</span><span class="p">,</span> <span class="s1">'Fiona'</span><span class="p">,</span> <span class="s1">'Patrick'</span><span class="p">],</span>
+    <span class="s1">'x'</span><span class="p">:</span> <span class="mi">53657</span><span class="p">,</span>
+    <span class="s1">'add'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">add</span> <span class="n">at</span> <span class="mh">0x7fae512021f0</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>我们可以看到我们定义的名字(<code>names</code>、<code>x</code>和<code>add</code>)已经被写成了键，并且与我们的每个名字相关联的是我们赋予那个名字的值。</p>
+<p><code>add</code>看起来有点奇怪，但是这个<code>&lt;function add at 0x7fae512021f0&gt;</code>只是我们定义的函数的一个表示。我们可以看到这是一个函数，它的名字是<code>add</code>，最后一个数字是这个函数的内存地址。</p>
+<p>当我们在应用程序中使用一个名称时，Python只是在名称空间中查看它是否被定义。如果是，它可以只引用与该名称相关联的值。如果它找不到我们请求的名字，Python会说这个变量是未定义的。</p>
+<h2>函数和命名空间</h2>
+<p>回头看看我们的<code>globals</code>输出，有几个名字明显不存在:我们为<code>add</code>定义的参数<code>a</code>和<code>b</code>。也许你希望它们和我们定义的其他名字放在一起。那些怎么了？</p>
+<p>Python实际上有不止一个名称空间。我们在这里看到的只是<em>全局名称空间</em>，但是函数的参数不是这个全局名称空间的一部分。</p>
+<p>当我们调用一个函数时，Python会创建一个新的名称空间。换句话说，它创建了一个新的字典来存储我们在运行这个函数时想要使用的任何名字。一旦函数运行完毕，这个名称空间就被销毁了，所以当我们下次运行这个函数时，我们是在一张白纸上工作。</p>
+<p>就像我们使用<code>globals</code>时一样，我们可以通过调用<code>locals</code>来窥见这个函数名称空间。让我们对<code>add</code>做一个小小的改动来看看这个:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="n">add</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+</code></pre></div>
+
+<p>在这种情况下，我们得到的输出如下:</p>
+
+
+<p>第一行是<code>locals</code>字典，包含这个函数调用的名称空间中的名字。</p>
+<p>现在我们可以更好地解释这篇文章前面的<code>greet</code>例子中发生了什么。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+</code></pre></div>
+
+<p>全局名称空间不包含名称<code>greeting</code>，所以当我们试图在函数外部引用它时，Python找不到它。然而，在<code>greet</code>内部，我们使用的是调用函数时创建的第二个本地名称空间。这个名称空间包含<code>greeting</code>，因为我们在函数体中定义<code>greeting</code>时添加了它。</p>
+<p>通过这样做，我们可以更详细地了解这一点:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+
+<span class="n">greet</span><span class="p">(</span><span class="s2">"Phil"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如果我们运行这段代码，我们会看到以下内容:</p>
+<div class="codehilite"><pre><span/><code><span class="p">{</span><span class="s1">'name'</span><span class="p">:</span> <span class="s1">'Phil'</span><span class="p">}</span>
+<span class="p">{</span><span class="s1">'name'</span><span class="p">:</span> <span class="s1">'Phil'</span><span class="p">,</span> <span class="s1">'greeting'</span><span class="p">:</span> <span class="s1">'Hello, Phil!'</span><span class="p">}</span>
+<span class="n">Hello</span><span class="p">,</span> <span class="n">Phil</span><span class="err">!</span>
+</code></pre></div>
+
+<p>我们可以看到，当我们为这个函数调用进入函数体时，我们只定义了<code>name</code>。然后我们移动到第二行，在那里<code>greeting</code>被赋予字符串插值的结果。当我们在函数体的第三行再次打印<code>locals()</code>时，我们可以看到<code>greeting</code>已经被添加到这个函数调用的本地名称空间中。</p>
+<p>我认为这有一些直观的意义。这个函数有一些只有它自己知道的私有变量，我们有一个变量名和值的表，这个表是我们在运行函数时创建的，用来跟踪函数内部的情况。当我们完成这个函数时，我们把表清空，因为我们不再需要这些值。</p>
+<h2>从函数中获取值</h2>
+<p>因为我们在函数中定义的所有变量只存在于函数内部，问题是，我们如何从函数中得到一个值？例如，<code>input</code>函数能够向我们提供用户对我们的提示的响应。我们希望能够做类似的事情。</p>
+<p>我们从函数中获取值的方法是使用一个<code>return</code>语句。</p>
+<p><code>return</code>语句实际上有两个作用。首先，它用来结束一个函数的执行。当Python遇到<code>return</code>关键字时，它会立即终止函数。</p>
+<p>例如，如果我们写这样的东西:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">my_func</span><span class="p">():</span>
+    <span class="k">return</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"This line will never run"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们永远不会在函数体的第二行运行<code>print</code>调用。在我们使用<code>print</code>调用到达那一行之前，<code>return</code>关键字将导致函数终止。</p>
+<p>我们也可以直接在关键字<code>return</code>后面放一个表达式，这就是我们从函数中获取值的方式。我们把想要得到的值放在与关键字<code>return</code>相同的行上。</p>
+<p>例如，让我们根据昨天的练习编写一个新版本的<code>add</code>函数。我们不打印结果，而是返回结果。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</code></pre></div>
+
+<p>如果我们运行这个函数，似乎什么也不会发生。毕竟，我们不再印刷任何东西了。然而，如果我们愿意，我们现在可以将返回值赋给一个变量。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># 17</span>
+</code></pre></div>
+
+<p>那么，这里到底发生了什么？</p>
+<p>记住函数调用是一个表达式。它评估为某个值。什么价值？当我们调用一个函数时，该函数调用计算出该函数返回的值。</p>
+<p>在上面的例子中，我们返回了表达式的结果，<code>a + b</code>。因为<code>a</code>是<code>5</code>，而<code>b</code>是<code>12</code>，所以那个表达式的结果是整数<code>17</code>。这是函数返回的内容，这是函数调用评估的值。</p>
+<p>顺便说一下，因为<code>add(5, 12)</code>只是一个表达式，我们本可以直接将函数调用传递给<code>print</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>  <span class="c1"># 17</span>
+</code></pre></div>
+
+<p>但是，当我们没有一个<code>return</code>语句时，该怎么办呢？如果我们不指定要返回的值，Python <em>隐式地</em>为我们返回<code>None</code>。</p>
+<p>例如，如果我们试图找到我们的<code>greet</code>函数调用的值，我们得到<code>None</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">greet</span><span class="p">(</span><span class="s1">'Phil'</span><span class="p">))</span>
+</code></pre></div>
+
+<p>我们得到的输出是:</p>
+
+
+<p>首先我们得到调用函数的结果，因为Python需要调用函数来计算出<code>greet('Phil')</code>的值是多少；然后我们打印函数的返回值，就是<code>None</code>。</p>
+<p>如果您键入不带值的<code>return</code>,也会发生同样的情况。Python会返回<code>None</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+    <span class="k">return</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">greet</span><span class="p">(</span><span class="s1">'Phil'</span><span class="p">))</span>
+</code></pre></div>
+
+<p>最后，记住我们可以在任何可能使用普通旧值的地方使用函数的返回值。例如，在变量赋值中或作为字符串的一部分:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">greeting</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">greeting</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"The value of greet('Phil') is </span><span class="si">{</span><span class="n">greet</span><span class="p">(</span><span class="s1">'Phil'</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我们得到一个字符串，告诉我们<code>greet('Phil')</code>的值是<code>None</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Hello</span><span class="p">,</span> <span class="n">Phil</span><span class="err">!</span>
+<span class="n">The</span> <span class="n">value</span> <span class="n">of</span> <span class="n">greet</span><span class="p">(</span><span class="s1">'Phil'</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="o">.</span>
+</code></pre></div>
+
+<h2>多个<code>return</code>语句</h2>
+<p>有时一个函数定义可能有不止一个<code>return</code>语句。这是完全合法的，但是只有当我们有某种条件逻辑将我们导向某个<code>return</code>语句时才有用。记住，一旦我们遇到任何<code>return</code>语句，函数就会终止，所以如果我们有不止一个串联的语句，我们永远不会遇到第一个之后的语句。</p>
+<p>多个<code>return</code>语句有意义的一个例子是我们的<code>divide</code>函数:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"You can't divide by 0!"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+</code></pre></div>
+
+<p>这是有意义的，因为虽然我们有多个<code>return</code>语句，但是我们的条件逻辑只将我们导向一个<code>return</code>语句。</p>
+<p>因为<code>return</code>会导致函数调用终止，我们可以对上面的代码做一点小小的修改:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"You can't divide by 0!"</span>
+
+    <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+</code></pre></div>
+
+<p>这仍然有效，因为在任何情况下，当<code>b</code>是<code>0</code>时，我们点击这个<code>return</code>语句并脱离这个函数。因此，我们从未触及执行计算的点。我们到达那里的唯一方法是如果<code>b</code>不是<code>0</code>。</p>
+<p>这是人们用来保存编写这个<code>else</code>子句的一个非常常见的模式。尽管加入并没有什么害处，并且可以随意将它包含在您自己的代码中。你觉得舒服就行。</p>
+<h2>练习</h2>
+<p>1)定义一个接受两个数字的<code>exponentiate</code>函数。第一个是基数，第二个是把基数提高到多少的功率。该函数应该返回该操作的结果。记住，我们可以使用<code>**</code>操作符来执行取幂运算。</p>
+<p>2)定义一个<code>process_string</code>函数，该函数接收一个字符串并返回一个新的字符串，该字符串已被转换为小写，并已删除任何多余的空格。</p>
+<p>3)编写一个函数，该函数接收一个包含演员信息的元组，并将该数据作为字典返回。数据应该采用以下格式:</p>
+<div class="codehilite"><pre><span/><code><span class="p">(</span><span class="s2">"Tom Hardy"</span><span class="p">,</span> <span class="s2">"English"</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>  <span class="c1"># name, nationality, age</span>
+</code></pre></div>
+
+<p>您可以为字典选择任何您喜欢的关键字名称。</p>
+<p>4)编写一个函数，该函数接受一个数字，并根据该数字是否为质数返回<code>True</code>或<code>False</code>。如果你需要复习如何计算一个数是否是质数，我们将在本系列的第8天展示一种方法。</p>
+<p>你可以在这里找到我们的练习<a href="/30-days-of-python/python-30-day-13-exercise-solutions">的答案。</a></p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

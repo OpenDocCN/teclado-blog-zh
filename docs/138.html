@@ -1,0 +1,622 @@
+<html>
+<head>
+<title>Day 14 Project: Reading List (Hard) | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第14天项目:阅读清单(硬)|泰克拉多</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-14-project-hard/">https://blog.teclado.com/python-30-day-14-project-hard/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到第14天阅读清单项目的第二篇文章，在这里我们将处理这个项目的更难的版本。</p>
+<p>如果你还没有尝试过这个项目的常规版本，我建议你尝试一下，因为这个版本共享了很多功能。但是，您可以在下面找到完整的简介，以及完整的模型解决方案。</p>
+<h2>案情摘要</h2>
+<p>对于这个较难版本的项目，应用程序需要具有以下功能:</p>
+<ul>
+<li>用户应该能够通过提供书名、作者姓名、出版年份以及该书是否被阅读来将一本书添加到他们的阅读列表中。</li>
+<li>该程序应该在一个名为<code>books.csv</code>的文件中存储所有这些书籍的信息，这些数据应该以CSV格式存储。</li>
+<li>用户应该能够检索他们阅读列表中的书籍，并且这些书籍应该以用户友好的格式打印出来。</li>
+<li>用户应该能够通过提供书名来搜索特定的书籍。</li>
+<li>用户应该能够通过输入书名将一本书标记为已读。如果有多本书名相同的书，您可以将第一本匹配的书标记为已读。</li>
+<li>用户应该能够通过提供他们想要删除的书的书名来从他们的阅读列表中删除书。同样，您可以删除第一本匹配的图书。</li>
+<li>用户应该能够从文本菜单中选择这些选项，并且他们应该能够在不重启程序的情况下执行多个操作。你可以在while loops(第8天)的文章中看到一个工作菜单的例子。#第14天项目:阅读清单(硬版本)</li>
+</ul>
+<p>欢迎来到第14天阅读清单项目的第二篇文章，在这里我们将处理这个项目的更难的版本。</p>
+<p>如果你还没有尝试过这个项目的常规版本，我建议你尝试一下，因为这个版本共享了很多功能。但是，您可以在下面找到完整的简介，以及完整的模型解决方案。</p>
+<p>编码快乐！</p>
+<h2>我们的解决方案</h2>
+<p>就像这个项目的常规版本一样，第一步是在项目工作空间中创建一个<code>books.csv</code>文件。</p>
+<p>我已经在<code>books.csv</code>文件中添加了几本示例书籍，这样我们可以更容易地测试我们的应用程序，如下图所示:<img alt="https://i.ibb.co/hsnqdcf/Annotation-2020-03-13-172850.jpg" src="../Images/827264ebf4644998cc1ec48e0e97d78c.png" data-original-src="https://i.ibb.co/hsnqdcf/Annotation-2020-03-13-172850.jpg"/>不要忘记最后的空行，因为我们希望任何新添加的内容都放在它们自己的行上。</p>
+<p>你可以随意给我用不同的书，但是如果你想用同样的书，这里有我的例子:</p>
+<div class="codehilite"><pre><span/><code><span class="mi">1</span><span class="n">Q84</span><span class="p">,</span><span class="n">Haruki</span> <span class="n">Murakami</span><span class="p">,</span><span class="mi">2009</span><span class="p">,</span><span class="n">Read</span>
+<span class="n">The</span> <span class="n">Picture</span> <span class="n">of</span> <span class="n">Dorian</span> <span class="n">Gray</span><span class="p">,</span><span class="n">Oscar</span> <span class="n">Wilde</span><span class="p">,</span><span class="mi">1890</span><span class="p">,</span><span class="n">Not</span> <span class="n">Read</span>
+</code></pre></div>
+
+<p>现在我们已经有了<code>books.csv</code>文件，并且已经填充了一些示例书籍，让我们开始制作菜单。</p>
+<p>因为菜单会很长，我强烈建议您将提示存储在一个变量中。否则会把菜单弄得乱七八糟。</p>
+<div class="codehilite"><pre><span/><code><span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'd' to delete a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'r' to mark a book as read</span>
+<span class="s2">- 's' to search for a book</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+</code></pre></div>
+
+<p>菜单本身与我们之前看到的非常相似。现在，我们只是通过打印出用户选择的选项来检查事情是否正常。如果他们输入一个无效的选项，我们将在一个<code>else</code>子句中捕捉到这个问题，并打印一条消息通知他们这个问题。</p>
+<div class="codehilite"><pre><span/><code><span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'd' to delete a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'r' to mark a book as read</span>
+<span class="s2">- 's' to search for a book</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="c1"># Get a selection from the user</span>
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span>
+
+<span class="c1"># Run the loop until the user selected 'q'</span>
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'a'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"d"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'd'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'l'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"r"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'r'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"s"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 's'."</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="c1"># Allow the user to change their selection at the end of each iteration</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们可以改进这个菜单的一个方法是处理用户的选择，确保去掉空格，并且大小写正确。这种额外的灵活性确实会改善用户体验。</p>
+<div class="codehilite"><pre><span/><code><span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'd' to delete a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'r' to mark a book as read</span>
+<span class="s2">- 's' to search for a book</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="c1"># Get a selection from the user</span>
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="c1"># Run the loop until the user selected 'q'</span>
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'a'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"d"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'd'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'l'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"r"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'r'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"s"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 's'."</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="c1"># Allow the user to change their selection at the end of each iteration</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>此时测试菜单以确保一切正常是个好主意。一旦你满意了，我们就可以开始添加功能，从把书添加到阅读列表开始。</p>
+<p>这个函数需要做几件事:</p>
+<ol>
+<li>它需要从用户那里获得一些信息。</li>
+<li>它需要将这些信息以正确的格式放入我们的文件中。</li>
+<li>它需要将这些信息写到文件的末尾。</li>
+</ol>
+<p>我假设用户添加到阅读列表中的书还没有被阅读过，所以我只从用户那里获取书名、作者和出版年份。</p>
+<p>然后，我将使用上下文管理器在append模式(<code>"a"</code>)下打开该文件，并且我将使用f字符串格式化我们想要写入的字符串。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Author: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Year of publication: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">,Not Read</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>如您所见，我还对用户输入做了一些处理，只是为了确保以后检索时格式正确。</p>
+<p>现在我们已经写好了函数，我们可以在菜单中调用它并进行测试。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Author: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Year of publication: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">,Not Read</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'd' to delete a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'r' to mark a book as read</span>
+<span class="s2">- 's' to search for a book</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="c1"># Get a selection from the user</span>
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="c1"># Run the loop until the user selected 'q'</span>
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="n">add_book</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"d"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'd'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'l'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"r"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'r'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"s"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 's'."</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="c1"># Allow the user to change their selection at the end of each iteration</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>我们现在应该能够将书籍添加到<code>books.csv</code>文件中。尝试几次，并查看文件，看看是否所有内容都添加正确。如果您没有发现任何问题，我们可以进入下一个功能。</p>
+<p>下一个函数我们将编写一个小的帮助函数来从<code>books.csv</code>文件中获取我们的图书数据。目标是将文件的每一行都转换成一个字典，这样我们就可以更容易地在应用程序中处理数据。我要把这个函数叫做<code>get_all_books</code>。</p>
+<p>为了将每一行转换成字典，我将使用<code>split</code>方法根据逗号分隔数据。然后，我们可以获取结果值，并创建一个字典，将这些值映射到适当的键。</p>
+<p>然后，我们可以通过将这些字典附加到一个列表中来收集它们，然后我们可以从函数中返回这个列表。</p>
+<div class="codehilite"><pre><span/><code><span class="c1"># Helper function for retrieving data from the csv file</span>
+<span class="k">def</span> <span class="nf">get_all_books</span><span class="p">():</span>
+    <span class="n">books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="c1"># Extracts the values from the CSV data</span>
+            <span class="n">title</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+            <span class="c1"># Creates a dictionary from the csv data and adds it to the books list</span>
+            <span class="n">books</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+                <span class="s2">"author"</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+                <span class="s2">"year"</span><span class="p">:</span> <span class="n">year</span>
+            <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">books</span>
+</code></pre></div>
+
+<p>接下来，我认为我们应该着手印刷我们的书。我要调用这个函数<code>show_books</code>。</p>
+<p>这个函数实际上会带一个参数，因为我希望它不仅可以用于整个阅读列表，还可以用于我们通过搜索找到的书籍的子集。</p>
+<p>当用户从菜单中选择<code>"l"</code>时，我们将首先使用新的<code>get_all_books</code>函数收集整个阅读列表，并将结果传递给<code>show_books</code>以获得一些不错的输出。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Author: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Year of publication: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">,Not Read</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Helper function for retrieving data from the csv file</span>
+<span class="k">def</span> <span class="nf">get_all_books</span><span class="p">():</span>
+    <span class="n">books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="c1"># Extracts the values from the CSV data</span>
+            <span class="n">title</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">read_status</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+            <span class="c1"># Creates a dictionary from the csv data and adds it to the books list</span>
+            <span class="n">books</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+                <span class="s2">"author"</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+                <span class="s2">"year"</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                <span class="s2">"read"</span><span class="p">:</span> <span class="n">read_status</span>
+            <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">books</span>
+
+<span class="k">def</span> <span class="nf">show_books</span><span class="p">(</span><span class="n">books</span><span class="p">):</span>
+    <span class="c1"># Adds an empty line before the output</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">, by </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'author'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="si">}</span><span class="s2">) - </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'read'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+
+<span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'd' to delete a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'r' to mark a book as read</span>
+<span class="s2">- 's' to search for a book</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="c1"># Get a selection from the user</span>
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="c1"># Run the loop until the user selected 'q'</span>
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="n">add_book</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"d"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'd'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="c1"># Retrieves the whole reading list for printing</span>
+        <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+        <span class="n">show_books</span><span class="p">(</span><span class="n">reading_list</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"r"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'r'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"s"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 's'."</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="c1"># Allow the user to change their selection at the end of each iteration</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>我们必须注意的一个小问题是，当阅读列表为空时，用户试图查看他们的阅读列表。</p>
+<p>我认为这里一个好的方法是检查变量<code>reading_list</code>的真值，如果<code>reading_list</code>有内容就只调用<code>show_books</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+    <span class="c1"># Retrieves the whole reading list for printing</span>
+    <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+
+    <span class="c1"># Check that reading_list contains at least one book</span>
+    <span class="k">if</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="n">show_books</span><span class="p">(</span><span class="n">reading_list</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Your reading list is empty."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>我们应该再次检查所有这些工作，然后我们可以处理搜索功能。</p>
+<p>对于我的搜索功能的实现，如果用户的搜索词是书名的子字符串，我将认为一本书是匹配的。换句话说，如果用户输入部分匹配，比如<code>1Q</code>，我将返回<code>1Q84</code>。如果一个搜索词匹配几本书，我将提供所有这些匹配的书。</p>
+<p>这个函数不会做的一件事是打印出匹配的书籍:我们只是返回书籍，并让我们的<code>show_books</code>函数处理输出。这将允许我们在删除书籍并将它们标记为已读时重用这一搜索功能。</p>
+<p>第一步是调用我们的<code>get_all_books</code>函数，这样我们在过滤时就有了一个集合。我还将创建一个名为<code>matching_books</code>的空列表。这是我们要放符合我们搜索条件的书的地方。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">find_books</span><span class="p">():</span>
+    <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="p">[]</span>
+</code></pre></div>
+
+<p>现在我们需要从用户那里获取我们的搜索词。像往常一样，我们将去掉结果字符串中的任何空白，但是我们也将把字符串转换成小写。</p>
+<p>在比较术语时，我们还将把书名转换成小写，这将允许我们匹配大小写与用户指定不同的书籍。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">find_books</span><span class="p">():</span>
+    <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">search_term</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a book title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>现在进行实际的过滤。这里我们将使用一个<code>for</code>循环来迭代书籍。然后，我们将把每本书追加到<code>matching_books</code>中，如果它们满足某个条件的话。</p>
+<p>对于该条件，我们将使用<code>in</code>关键字，它将告诉我们搜索词是否包含在书名中。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">find_books</span><span class="p">():</span>
+    <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">search_term</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a book title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="n">book</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">matching_books</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在我们有了匹配书籍的列表，我们可以将其退回。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">find_books</span><span class="p">():</span>
+    <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">search_term</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a book title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="n">book</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">matching_books</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">matching_books</span>
+</code></pre></div>
+
+<p>在菜单内部，我们将采取与我们在条件语句的<code>"l"</code>分支中所做的相似的方法。首先我们将调用<code>find_books</code>来获取匹配的书籍。如果我们有匹配的书籍，我们将把列表传递给<code>show_books</code>，否则我们将打印一条消息说我们没有找到任何东西。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Author: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Year of publication: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">,Not Read</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">find_books</span><span class="p">():</span>
+    <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">search_term</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a book title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="n">book</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">matching_books</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">matching_books</span>
+
+<span class="c1"># Helper function for retrieving data from the csv file</span>
+<span class="k">def</span> <span class="nf">get_all_books</span><span class="p">():</span>
+    <span class="n">books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="c1"># Extracts the values from the CSV data</span>
+            <span class="n">title</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">read_status</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+            <span class="c1"># Creates a dictionary from the csv data and adds it to the books list</span>
+            <span class="n">books</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+                <span class="s2">"author"</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+                <span class="s2">"year"</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                <span class="s2">"read"</span><span class="p">:</span> <span class="n">read_status</span>
+            <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">books</span>
+
+<span class="k">def</span> <span class="nf">show_books</span><span class="p">(</span><span class="n">books</span><span class="p">):</span>
+    <span class="c1"># Adds an empty line before the output</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">, by </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'author'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="si">}</span><span class="s2">) - </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'read'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+
+<span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'd' to delete a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'r' to mark a book as read</span>
+<span class="s2">- 's' to search for a book</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="c1"># Get a selection from the user</span>
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="c1"># Run the loop until the user selected 'q'</span>
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="n">add_book</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"d"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'd'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="c1"># Retrieves the whole reading list for printing</span>
+        <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+
+        <span class="c1"># Check that reading_list contains at least one book</span>
+        <span class="k">if</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="n">show_books</span><span class="p">(</span><span class="n">reading_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Your reading list is empty."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"r"</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You selected 'r'."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"s"</span><span class="p">:</span>
+        <span class="n">matching_books</span> <span class="o">=</span> <span class="n">find_books</span><span class="p">()</span>
+
+        <span class="c1"># Checks that the seach returned at least one book</span>
+        <span class="k">if</span> <span class="n">matching_books</span><span class="p">:</span>
+            <span class="n">show_books</span><span class="p">(</span><span class="n">matching_books</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we didn't find any books for that search term"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="c1"># Allow the user to change their selection at the end of each iteration</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>接下来，让我们解决删除书籍的问题。我将这样处理它:</p>
+<ol>
+<li>
+<p>我要用<code>get_all_books</code>抓取整个阅读列表。</p>
+</li>
+<li>
+<p>我将使用<code>find_books</code>函数来获取与用户想要删除的书名相匹配的图书列表。</p>
+</li>
+<li>
+<p>我将检查这个搜索是否至少返回了一个值，如果是，我将从阅读列表中删除这个集合中的第一个值。如果没有，我会让用户知道我们没有找到任何匹配的书籍。</p>
+</li>
+<li>
+<p>我将以写模式打开<code>books.csv</code>文件，并将所有剩余的书籍添加回该文件。</p>
+</li>
+</ol>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">delete_book</span><span class="p">():</span>
+    <span class="n">books</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="n">find_books</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">matching_books</span><span class="p">:</span>
+        <span class="n">books</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">matching_books</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span><span class="p">:</span>
+                <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'author'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'read'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we didn't find any books matching that title."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在我们只需要在条件语句的<code>"d"</code>分支中调用菜单中的<code>delete_book</code>。</p>
+<p>我们将使用非常相似的方法来更新书籍的阅读状态。主要区别是我们要找出匹配书的索引，然后我们要更新它的值。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">mark_book_as_read</span><span class="p">():</span>
+    <span class="n">books</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="n">find_books</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">matching_books</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">books</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">matching_books</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">books</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="s1">'read'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Read"</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span><span class="p">:</span>
+                <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'author'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'read'</span><span class="p">]</span><span class="si">}</span><span class="se">\\</span><span class="s2">n"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we didn't find any books matching that title."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>另一种方法是在迭代<code>books</code>列表时检查匹配的图书。当我们找到想要更新的书时，我们可以向文件中写入一个不同的字符串。</p>
+<p>然而，我们上面采用的方法的好处是，我们现在有两个基本相同的函数。这允许我们做一些重构来减少重复。</p>
+<p>让我们创建一个名为<code>update_reading_list</code>的函数来代替这两个函数。这个函数会有点特别，因为我们要传入另一个函数作为参数。</p>
+<p>然后我们将削减<code>delete_book</code>和<code>mark_book_as_read</code>来处理一个非常小的操作。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">delete_book</span><span class="p">(</span><span class="n">books</span><span class="p">,</span> <span class="n">book_to_delete</span><span class="p">):</span>
+    <span class="n">books</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">book_to_delete</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">mark_book_as_read</span><span class="p">(</span><span class="n">books</span><span class="p">,</span> <span class="n">book_to_update</span><span class="p">):</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">books</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">book_to_update</span><span class="p">)</span>
+    <span class="n">books</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="s1">'read'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Read"</span>
+
+<span class="k">def</span> <span class="nf">update_reading_list</span><span class="p">(</span><span class="n">operation</span><span class="p">):</span>
+    <span class="n">books</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="n">find_books</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">matching_books</span><span class="p">:</span>
+        <span class="n">operation</span><span class="p">(</span><span class="n">books</span><span class="p">,</span> <span class="n">matching_books</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span><span class="p">:</span>
+                <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'author'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'read'</span><span class="p">]</span><span class="si">}</span><span class="se">\\</span><span class="s2">n"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we didn't find any books matching that title."</span><span class="p">)</span>
+</code></pre></div>
+
+<p>完成这一步后，如果你觉得有点失落，也不要担心。这涉及到一些更复杂的技术，如果您想坚持使用有一些重复代码的版本，这完全没问题。</p>
+<p>至此，我们已经实现了所有需要的功能，完成的程序如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add_book</span><span class="p">():</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Author: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Year of publication: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">,Not Read</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">delete_book</span><span class="p">(</span><span class="n">books</span><span class="p">,</span> <span class="n">book_to_delete</span><span class="p">):</span>
+    <span class="n">books</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">book_to_delete</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">find_books</span><span class="p">():</span>
+    <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">search_term</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a book title: "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">search_term</span> <span class="ow">in</span> <span class="n">book</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">matching_books</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">book</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">matching_books</span>
+
+<span class="c1"># Helper function for retrieving data from the csv file</span>
+<span class="k">def</span> <span class="nf">get_all_books</span><span class="p">():</span>
+    <span class="n">books</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="c1"># Extracts the values from the CSV data</span>
+            <span class="n">title</span><span class="p">,</span> <span class="n">author</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">read_status</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+
+            <span class="c1"># Creates a dictionary from the csv data and adds it to the books list</span>
+            <span class="n">books</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+                <span class="s2">"author"</span><span class="p">:</span> <span class="n">author</span><span class="p">,</span>
+                <span class="s2">"year"</span><span class="p">:</span> <span class="n">year</span><span class="p">,</span>
+                <span class="s2">"read"</span><span class="p">:</span> <span class="n">read_status</span>
+            <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">books</span>
+
+<span class="k">def</span> <span class="nf">mark_book_as_read</span><span class="p">(</span><span class="n">books</span><span class="p">,</span> <span class="n">book_to_update</span><span class="p">):</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">books</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">book_to_update</span><span class="p">)</span>
+    <span class="n">books</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="s1">'read'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Read"</span>
+
+<span class="k">def</span> <span class="nf">update_reading_list</span><span class="p">(</span><span class="n">operation</span><span class="p">):</span>
+    <span class="n">books</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+    <span class="n">matching_books</span> <span class="o">=</span> <span class="n">find_books</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">matching_books</span><span class="p">:</span>
+        <span class="n">operation</span><span class="p">(</span><span class="n">books</span><span class="p">,</span> <span class="n">matching_books</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"books.csv"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span><span class="p">:</span>
+                <span class="n">reading_list</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'author'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'read'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we didn't find any books matching that title."</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">show_books</span><span class="p">(</span><span class="n">books</span><span class="p">):</span>
+    <span class="c1"># Adds an empty line before the output</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">, by </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'author'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="si">}</span><span class="s2">) - </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'read'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+
+<span class="n">menu_prompt</span> <span class="o">=</span> <span class="s2">"""Please enter one of the following options:</span>
+
+<span class="s2">- 'a' to add a book</span>
+<span class="s2">- 'd' to delete a book</span>
+<span class="s2">- 'l' to list the books</span>
+<span class="s2">- 'r' to mark a book as read</span>
+<span class="s2">- 's' to search for a book</span>
+<span class="s2">- 'q' to quit</span>
+
+<span class="s2">What would you like to do? """</span>
+
+<span class="c1"># Get a selection from the user</span>
+<span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="c1"># Run the loop until the user selected 'q'</span>
+<span class="k">while</span> <span class="n">selected_option</span> <span class="o">!=</span> <span class="s2">"q"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"a"</span><span class="p">:</span>
+        <span class="n">add_book</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"d"</span><span class="p">:</span>
+        <span class="n">update_reading_list</span><span class="p">(</span><span class="n">delete_book</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"l"</span><span class="p">:</span>
+        <span class="c1"># Retrieves the whole reading list for printing</span>
+        <span class="n">reading_list</span> <span class="o">=</span> <span class="n">get_all_books</span><span class="p">()</span>
+
+        <span class="c1"># Check that reading_list contains at least one book</span>
+        <span class="k">if</span> <span class="n">reading_list</span><span class="p">:</span>
+            <span class="n">show_books</span><span class="p">(</span><span class="n">reading_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Your reading list is empty."</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"r"</span><span class="p">:</span>
+        <span class="n">update_reading_list</span><span class="p">(</span><span class="n">mark_book_as_read</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">selected_option</span> <span class="o">==</span> <span class="s2">"s"</span><span class="p">:</span>
+        <span class="n">matching_books</span> <span class="o">=</span> <span class="n">find_books</span><span class="p">()</span>
+
+        <span class="c1"># Checks that the seach returned at least one book</span>
+        <span class="k">if</span> <span class="n">matching_books</span><span class="p">:</span>
+            <span class="n">show_books</span><span class="p">(</span><span class="n">matching_books</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Sorry, we didn't find any books for that search term"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorry, '</span><span class="si">{</span><span class="n">selected_option</span><span class="si">}</span><span class="s2">' isn't a valid option."</span><span class="p">)</span>
+
+    <span class="c1"># Allow the user to change their selection at the end of each iteration</span>
+    <span class="n">selected_option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">menu_prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>如果你想在这方面继续努力，我们还有很多可以改进的地方，所以请自便吧！</p>
+<h2>额外资源</h2>
+<p>您可以在<a href="https://docs.python.org/3/tutorial/datastructures.html#data-structures">官方文档</a>中找到关于本解决方案中使用的<code>index</code>方法的更多信息。</p>
+<p>Python 3.8中还有一种新的语法，叫做赋值表达式。你可以在我们的博客上读到这个<a href="https://blog.teclado.com/python-assignment-expressions/">。在这个解决方案中，有很多地方我们可以使用赋值表达式，所以你可能想自己尝试一下。</a></p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

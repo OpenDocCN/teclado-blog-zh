@@ -1,0 +1,268 @@
+<html>
+<head>
+<title>Day 12 Exercise Solutions | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第12天锻炼解决方案| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-12-exercise-solutions/">https://blog.teclado.com/python-30-day-12-exercise-solutions/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>以下是我们为<a href="https://blog.teclado.com/30-days-of-python/"> 30天Python </a>系列中的<a href="/30-days-of-python/python-30-day-12-functions/">第12天练习</a>提供的解决方案。在检查解决方案之前，请确保您亲自尝试了这些练习！</p>
+<h3>1)定义四个函数:<code>add</code>、<code>subtract</code>、<code>divide</code>和<code>multiply</code>。每个函数应该有两个参数，它们应该打印由函数名指示的算术运算的结果。</h3>
+<p>对于这个问题，我们必须记住几个额外的细节。</p>
+<p>首先，对于某些运算，操作数的顺序很重要。毕竟<code>12 / 4</code>和<code>4 / 12</code>不是一回事，而<code>5 + 7</code>和<code>7 + 5</code>是完全相同的操作。在操作数的顺序很重要的情况下，我们应该将函数的第一个参数视为左操作数，将第二个参数视为右操作数。</p>
+<p>这意味着<code>12 / 4</code>将被称为<code>divide(12, 4)</code>。</p>
+<p>我们必须记住的另一件事是，除以<code>0</code>会产生一个异常。如果我们尝试，我们会得到一个<code>ZeroDivisionError</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">"main.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="mi">8</span> <span class="o">/</span> <span class="mi">0</span>
+<span class="ne">ZeroDivisionError</span><span class="p">:</span> <span class="n">division</span> <span class="n">by</span> <span class="n">zero</span>
+</code></pre></div>
+
+<p>让这个错误浮出水面没有错，但是在我们的例子中，我们将检查除法的第二个操作数是否是<code>0</code>，我们将向用户打印一条消息，而不是让程序崩溃。</p>
+<p>让我们从定义<code>add</code>函数开始。您可以为这些函数使用您喜欢的任何参数名称。我将调用操作数<code>a</code>和<code>b</code>。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我们定义了两个参数，这意味着<code>add</code>需要两个参数。当我们调用函数时，这些参数值被赋给我们的参数，我们可以在函数体中使用参数名来引用这些值。</p>
+<p>我们将假设用户传递给我们数字，所以我们可以打印表达式的结果，<code>a + b</code>。</p>
+<p><code>subtract</code>和<code>multiply</code>非常相似，但是我们必须小心保持<code>subtract</code>的操作数顺序正确:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">subtract</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+
+<p>不要忘记在函数定义之间放两行空行！</p>
+<p><code>divide</code>稍微复杂一点，因为我们必须检查第二个参数不是<code>0</code>。我们可以用一个简单的条件语句来实现这一点:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">subtract</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"You can't divide by 0!"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+
+<p>你可能在想，如果<code>b</code>是<code>0.0</code>会怎么样？在这种情况下，条件仍然有效。Python足够聪明，知道<code>0.0</code>和<code>0</code>是一回事。</p>
+<p>确保测试所有的函数都工作正常，并确保测试了<code>divide</code>的零值和非零值。</p>
+<h3>2)定义一个名为<code>print_show_info</code>的函数，它只有一个参数。传递给它的参数将是一个字典，其中包含一些关于电视节目的信息。<code>print_show_info</code>函数应该以一种很好的方式打印存储在字典中的信息。</h3>
+<p>本练习的目标是定义一个名为<code>print_show_info</code>的函数，它可以接受这样一个字典:</p>
+<div class="codehilite"><pre><span/><code><span class="n">tv_show</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Breaking Bad"</span><span class="p">,</span>
+    <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2008</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>并输出如下字符串:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Breaking</span> <span class="n">Bad</span> <span class="p">(</span><span class="mi">2008</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span> <span class="n">seasons</span>
+</code></pre></div>
+
+<p>我们的<code>print_show_info</code>，它有一个参数，我称之为<code>show</code>。<code>show</code>想要一个以上格式的字典。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">print_show_info</span><span class="p">(</span><span class="n">show</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+<p>我在这里写了<code>pass</code>，意思就是“什么都不做”。当我们在代码中创建需要主体的结构，但是我们还不知道主体应该是什么的时候，这是很有用的。如果我们把它留空，Python会抱怨，所以<code>pass</code>是一个非常有用的占位符。</p>
+<p>在这种情况下，我们希望我们的函数以良好的格式打印显示数据，我将使用上面的示例作为模板。我们可以通过访问<code>show</code>的键来访问提供的字典中的值。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">print_show_info</span><span class="p">(</span><span class="n">show</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'initial_release'</span><span class="p">]</span><span class="si">}</span><span class="s2">) - </span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'seasons'</span><span class="p">]</span><span class="si">}</span><span class="s2"> season(s)"</span><span class="p">)</span>
+</code></pre></div>
+
+<p>现在我们只需要调用我们的函数！</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">print_show_info</span><span class="p">(</span><span class="n">show</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'initial_release'</span><span class="p">]</span><span class="si">}</span><span class="s2">) - </span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'seasons'</span><span class="p">]</span><span class="si">}</span><span class="s2"> season(s)"</span><span class="p">)</span>
+
+<span class="n">tv_show</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Breaking Bad"</span><span class="p">,</span>
+    <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2008</span>
+<span class="p">}</span>
+
+<span class="n">print_show_info</span><span class="p">(</span><span class="n">tv_show</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>3)以下是包含多部电视连续剧详细信息的列表。使用函数print_show_info和一个for循环来迭代序列列表，并在每次迭代中调用一次函数，传入每个字典。</h3>
+<div class="codehilite"><pre><span/><code><span class="n">series_data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Breaking Bad"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2008</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Fargo"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2014</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Firefly"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2002</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Rick and Morty"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2013</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"True Detective"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2014</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Westworld"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2016</span><span class="p">},</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>因为我们已经定义了函数，所以除了编写实际的循环，我们没有什么要做的。我将使用<code>show</code>作为循环变量，因此我的循环定义将如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">show</span> <span class="ow">in</span> <span class="n">series_data</span><span class="p">:</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+<p>现在我们只需要在循环体中调用我们的函数，将<code>show</code>作为参数传入，因为对于循环的每次迭代，我们的一个字典将被分配给<code>show</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="k">for</span> <span class="n">show</span> <span class="ow">in</span> <span class="n">series_data</span><span class="p">:</span>
+    <span class="n">print_show_info</span><span class="p">(</span><span class="n">show</span><span class="p">)</span>
+</code></pre></div>
+
+<p>因此，完整的解决方案如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">print_show_info</span><span class="p">(</span><span class="n">show</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'initial_release'</span><span class="p">]</span><span class="si">}</span><span class="s2">) - </span><span class="si">{</span><span class="n">show</span><span class="p">[</span><span class="s1">'seasons'</span><span class="p">]</span><span class="si">}</span><span class="s2"> season(s)"</span><span class="p">)</span>
+
+<span class="n">series_data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Breaking Bad"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2008</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Fargo"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2014</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Firefly"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2002</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Rick and Morty"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2013</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"True Detective"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2014</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Westworld"</span><span class="p">,</span> <span class="s2">"seasons"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"initial_release"</span><span class="p">:</span> <span class="mi">2016</span><span class="p">},</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">show</span> <span class="ow">in</span> <span class="n">series_data</span><span class="p">:</span>
+    <span class="n">print_show_info</span><span class="p">(</span><span class="n">show</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这应该会给我们这样的输出:</p>
+<div class="codehilite"><pre><span/><code><span class="n">Breaking</span> <span class="n">Bad</span> <span class="p">(</span><span class="mi">2008</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span> <span class="n">season</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">Fargo</span> <span class="p">(</span><span class="mi">2014</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span> <span class="n">season</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">Firefly</span> <span class="p">(</span><span class="mi">2002</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="n">season</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">Rick</span> <span class="ow">and</span> <span class="n">Morty</span> <span class="p">(</span><span class="mi">2013</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span> <span class="n">season</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="kc">True</span> <span class="n">Detective</span> <span class="p">(</span><span class="mi">2014</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span> <span class="n">season</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">Westworld</span> <span class="p">(</span><span class="mi">2016</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span> <span class="n">season</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>4)创建一个函数来测试一个单词是否是回文。回文是一串向前或向后阅读都相同的字符。</h3>
+<p>这个练习有点棘手，实际上是一个相当常见的面试问题。我们有几种不同的方法，我将展示几种不同的方法。</p>
+<p>首先，我们需要定义我们的函数，它将接收一个<code>word</code>。我们要清理一下这个字符串，去掉所有的空格，把所有的字符都改成相同的大小写。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</code></pre></div>
+
+<p>从这里，我们可以采取一些方法。我想展示的第一种方法是使用列表和<code>reversed</code>函数。</p>
+<p>我们必须对<code>reversed</code>小心一点，因为它会给我们一个惰性类型，并且它的值在任何情况下都不会等同于一个字符串。我们将从<code>reversed</code>对象中获取字符。在这种情况下，我们将把它转换成一个列表。</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">reversed_word</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">reversed_word</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+
+<p>注意，为了进行比较，我们还必须将<code>word</code>转换成一个列表。那是因为Python不认为像<code>"hannah"</code>这样的东西和<code>["h", "a", "n", "n", "a", "h"]</code>是一样的。</p>
+<p>我们可以用如下几个例子来测试我们的功能:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">reversed_word</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">reversed_word</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Hannah"</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Fred"</span><span class="p">)</span>    <span class="c1"># False</span>
+</code></pre></div>
+
+<p>这一切似乎都在起作用。</p>
+<p>除了使用列表，我们还可以使用<code>join</code>从<code>reversed</code>对象创建一个字符串:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">reversed_word</span> <span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">word</span> <span class="o">==</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reversed_word</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Hannah"</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Fred"</span><span class="p">)</span>    <span class="c1"># False</span>
+</code></pre></div>
+
+<p>这里我们的<code>join</code>字符串是空的，这意味着当我们创建新的字符串时，我们不希望在<code>word</code>中的条目之间有任何东西。</p>
+<p>如你所见，结果是一样的。</p>
+<p>一种类似的方法是对list使用<code>reverse</code>方法。在这种情况下，我们将<code>word</code>转换为一个列表，并创建它的副本。然后我们可以反转这个副本并比较列表。</p>
+<p>但是我们必须小心使用这种方法，因为我们只是想要一个值的副本。如果我们尝试这样做:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">reversed_word</span> <span class="o">=</span> <span class="n">word</span>
+    <span class="n">reversed_word</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+</code></pre></div>
+
+<p>两个名称指的是同一个列表。如果我们颠倒这个列表，两个名字现在指的是同一个颠倒的列表。</p>
+<p>有几种方法可以解决这个问题。首先，我们可以在执行<code>reversed_word</code>赋值时传递<code>word</code>到<code>list</code>:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">reversed_word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">reversed_word</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+</code></pre></div>
+
+<p>创建一个新列表，所以我们创建第二个具有相同值的列表。列表也有一个名为<code>copy</code>的方法来做这件事:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()):</span>
+    <span class="n">reversed_word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">reversed_word</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这两个都可以。然后，我们可以对列表进行直接比较:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">reversed_word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">reversed_word</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">word</span> <span class="o">==</span> <span class="n">reversed_word</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Hannah"</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Fred"</span><span class="p">)</span>    <span class="c1"># False</span>
+</code></pre></div>
+
+<p>我想向您展示的最后一种方法是使用切片，因为在这种情况下，它们提供了一种极其优雅的解决方案:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">word</span> <span class="o">==</span> <span class="n">word</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Hannah"</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Fred"</span><span class="p">)</span>    <span class="c1"># False</span>
+</code></pre></div>
+
+<p>另一篇博文的<a href="https://blog.teclado.com/python-quick-sequence-reversal/">中提到了<code>[::-1]</code>，但它的基本意思是，“把整个序列倒过来给我”。</a></p>
+<p>这意味着我们可以对照<code>word</code>来检查<code>word</code>，而不需要做任何类型转换，或者使用<code>join</code>。</p>
+<p>如果您愿意，我们可以使用变量名来更好地描述这个值的含义:</p>
+<div class="codehilite"><pre><span/><code><span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">reversed_word</span> <span class="o">=</span> <span class="n">word</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">word</span> <span class="o">==</span> <span class="n">reversed_word</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Hannah"</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="n">is_palindrome</span><span class="p">(</span><span class="s2">"Fred"</span><span class="p">)</span>    <span class="c1"># False</span>
+</code></pre></div>
+
+<p>如果你想试试这个练习的更复杂的版本，看看我们关于寻找回文的帖子。我们会更详细地讨论这些解决方案，当涉及到标点符号时，或者当我们处理完整句子的回文时，我们会讨论寻找回文。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

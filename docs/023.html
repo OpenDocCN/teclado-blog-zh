@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>Interacting with REST APIs with Python</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>使用Python与REST APIs交互</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/learn-python-interacting-with-rest-apis-with-python/">https://blog.teclado.com/learn-python-interacting-with-rest-apis-with-python/</a></blockquote><div><div class="post-content">
+<p>互联网上的REST APIs使用HTTP进行通信。这意味着无论何时我们想要向REST API发送一些数据或者从它那里接收一些数据，我们都必须使用HTTP。</p>
+<p>在HTTP中，客户端通过发送<strong>请求</strong>与服务器通信；服务器用<strong>响应</strong>进行响应。当我们谈论与REST API交互时，我们就是客户端。服务器就是我们与之对话的API。</p>
+<p>例如，作为一个客户端，你可以与Twitter API或者脸书API进行通信，等等。</p>
+<blockquote>
+<p>如果你正在考虑创建自己的API，以便客户可以与你交流(例如，你自己的移动应用)，你可能会对我的<a href="https://www.udemy.com/rest-api-flask-and-python/?couponCode=TECLADO_BLOG">综合在线课程</a>感兴趣。</p>
+</blockquote>
+<h2 id="sendingarequesttoanapi">向API发送请求</h2>
+<p>假设我们有想要与之通信的示例API，<code>http://api.example.com/</code>。我们可以通过发送一个HTTP请求与它进行交互。</p>
+<blockquote>
+<p>当向类似于<code>http://api.example.com/</code>的URL发出请求时，TLD ( <code>.com</code>)之后的所有内容都被称为端点。在这种情况下，端点是<code>/</code>。</p>
+</blockquote>
+<p>API文档将为您提供关于向哪个端点请求特定数据的信息。</p>
+<h3 id="makingagetrequestinpython">用Python发出GET请求</h3>
+<p>您必须安装流行的<code>requests</code>库，以便用Python轻松地发出HTTP请求:</p>
+<pre><code>pip install requests
+</code></pre>
+<p>然后，您将能够执行如下所示的文件来发出GET请求:</p>
+<pre><code class="language-python">import requests
+
+resp = requests.get('http://api.example.com/')
+print(resp.json())
+</code></pre>
+<h3 id="makingapostrequestinpython">用Python发出POST请求</h3>
+<p>POST请求通常用于向服务器发送数据。例如，您可以发送一些JSON数据:</p>
+<pre><code class="language-python">import requests
+
+payload = {'name': 'Example'}
+
+resp = requests.post('http://api.example.com/', json=payload)
+print(resp.json())
+</code></pre>
+<p>如果需要，您还可以包括自定义标题:</p>
+<pre><code class="language-python">import requests
+
+payload = {'name': 'Example'}
+headers = {'Content-Type': 'application/json'}
+
+resp = requests.post('http://api.example.com/', json=payload, headers=headers)
+print(resp.json())
+</code></pre>
+<p>您可以发送表单数据而不是JSON，只需改为执行<code>requests.post('http://api.example.com/', data={'field': 'value'}</code>即可。</p>
+
+<p>大多数REST APIs将要求您使用API密钥进行身份验证。这通常包含在URL、请求正文或标题中。以下是一些关于如何包含API授权的示例:</p>
+<p>在URL中:</p>
+<pre><code class="language-python">import requests
+
+API_KEY = '123abc'
+
+resp = requests.post('http://api.example.com/?key=' + API_KEY)
+print(resp.json())
+</code></pre>
+<p>在有效载荷中:</p>
+<pre><code class="language-python">import requests
+
+payload = {'key': '123abc'}
+
+resp = requests.post('http://api.example.com/', json=payload)
+print(resp.json())
+</code></pre>
+<p>在标题中:</p>
+<pre><code class="language-python">import requests
+
+headers = {'Authorization': 'Bearer 123abc'}  # Having 'Bearer' is common. Check your API documentation to see if it is required!
+
+resp = requests.post('http://api.example.com/', headers=headers)
+print(resp.json())
+</code></pre>
+
+</div>
+</div>    
+</body>
+</html>

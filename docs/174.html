@@ -1,0 +1,489 @@
+<html>
+<head>
+<title>Day 30: Project Preparation (pygame basics) | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第30天:项目准备(pygame基础)| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-30-project-preparation/">https://blog.teclado.com/python-30-day-30-project-preparation/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天</a><a href="/30-days-of-python/python-30-day-30-graduation">最后一天</a>的两个项目帖子中的第一个。在这篇文章中，我们将学习如何使用<code>pygame</code>，这是我们将要用来构建我们的贪吃蛇游戏。</p>
+<p>你可以在这里找到项目简介和演练<a href="/30-days-of-python/python-30-day-30-project">。</a></p>
+<h2>装置</h2>
+<p>安装<code>pygame</code>非常简单。</p>
+<p>如果你正在使用PyCharm，你可以遵循通常的过程，正如在<a href="/30-days-of-python/python-30-day-27-local-development/"> day 27 </a>中所讨论的。</p>
+<p>如果你正在使用不同的编辑器，或者出于某种原因你想使用<code>pip</code>，你可以在这里找到如何安装<code>pygame</code> <a href="https://www.pygame.org/wiki/GettingStarted">的详细说明。</a></p>
+<h2>创建一个<code>pygame</code>窗口</h2>
+<p>一旦我们安装了<code>pygame</code>，我们就可以用它来创建一个应用程序窗口。</p>
+<p>下面是一个小的示例程序:</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>就在顶部，我们导入<code>pygame</code>，然后调用位于<code>pygame</code>包中的<code>init</code>函数。这个函数为我们做了大量的设置工作，但是我们不需要太担心幕后发生了什么。</p>
+<p>在下一行，我们告诉<code>pygame</code>我们希望我们的应用程序窗口有多大。我们使用位于<code>display</code>模块中的<code>set_mode</code>函数来完成这项工作。</p>
+<p>像我们自己的程序一样，<code>pygame</code>被分割成几个不同的文件，库的不同部分位于这些不同的文件中。可以在<code>display</code>模块中找到与主显示窗口相关的内容。我们会经常用到它。</p>
+<p><code>set_mode</code>函数实际上创建了显示窗口，如果我们愿意，我们可以不带任何参数调用它。如果我们不传递任何参数，我们会得到一个充满整个屏幕的窗口。如果我们想把窗口限制在某个特定的大小，我们可以传入一个两个元素的序列，比如一个链表或者一个元组。里面的值必须是整数，其中第一个以像素为单位表示窗口的宽度，第二个以像素为单位表示窗口的高度。</p>
+<p>应用程序的其余部分关心的是保持窗口，并确保用户可以使用窗口控件关闭程序。我们在讨论事件时会更多地谈到他。<img alt="Pygame window" src="../Images/2dab0df341a346fda5eb2df09eb59ea2.png" data-original-src="https://i.ibb.co/TryzDH2/Screenshot-from-2020-04-30-04-45-52.png"/>如果我们想为窗口设置一个自定义标题，我们可以使用<code>display.set_caption</code>函数，如下所示:</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"My game!"</span><span class="p">)</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>现在我们的窗口看起来像这样:</p>
+<p><img alt="Pygame window with custom title" src="../Images/3c5d774374356b9eb1bef4531b9d98f4.png" data-original-src="https://i.ibb.co/5j6ythc/Screenshot-from-2020-04-30-04-50-23.png"/></p>
+<p>这很酷，但是一旦我们有了一个比普通黑盒更好的东西，它会给人留下更深刻的印象，所以让我们来学习如何在这个窗口中绘制东西。</p>
+<h2>绘画基础</h2>
+<p>你可能之前一直在想，为什么我们要费心把调用<code>set_mode</code>的结果赋给一个变量。这是因为<code>set_mode</code>返回一个<code>Surface</code>对象。</p>
+<p>如果你试着打印<code>screen</code>，你会看到这样的内容:</p>
+
+
+<p><code>Surface</code>物体被<code>pygame</code>用来代表一幅图像。它们也是我们可以在上面画画的表面，我们有几种方法来处理这种操作。</p>
+<h3><code>fill</code>法</h3>
+<p>我们要看的第一个是<code>fill</code>方法。<code>fill</code>允许我们用某种颜色填充表面的某个区域，用RGB或RGBA作为整数序列来指定。这些整数必须在0到255的范围内(包括0和255)。</p>
+<p>RGB是使用红色、绿色和蓝色的比率来定义颜色的常用方法。这些颜色通道中的每一个都被赋予一个在<code>0</code>和<code>255</code>之间的值。</p>
+<p>RGBA还有一个附加价值，那就是透明度。A代表阿尔法。</p>
+<p>例如，让我们说，我们想使我们的窗口背景<a href="https://xkcd.com/color/rgb/">茶色</a>而不是黑色。我想要的颜色的RGB组合是<code>(36, 188, 168)</code>，所以我们可以将这些值作为列表或元组传递给<code>screen.fill</code>。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"My game!"</span><span class="p">)</span>
+
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+<span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">([</span><span class="mi">36</span><span class="p">,</span> <span class="mi">188</span><span class="p">,</span> <span class="mi">168</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>然而，这实际上似乎没有做任何事情。如果运行代码，屏幕仍然是黑色的。</p>
+<p>这是因为这些绘图操作直到我们请求更新显示时才会显示。这是为了防止用户看到部分修改的图像。这些改变是在幕后完成的，当它们完成时，我们请求更新显示。</p>
+<p>有几种方法可以做到这一点，但是我们将使用<code>display</code>模块中的<code>update</code>函数。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"My game!"</span><span class="p">)</span>
+
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+<span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">([</span><span class="mi">36</span><span class="p">,</span> <span class="mi">188</span><span class="p">,</span> <span class="mi">168</span><span class="p">])</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>现在我们的背景是一种可爱的“tealish”色调。<img alt="Pygame window with a tealish background" src="../Images/48c7088bf6c67e50f94d85a5eb82a481.png" data-original-src="https://i.ibb.co/K5jK65c/Screenshot-from-2020-04-30-05-19-32.png"/>因为颜色是我们在应用程序中很多地方都要重复使用的东西，所以将颜色值存储在常量中是个好主意。这也可能是一个使用<code>namedtuple</code>的好机会，因为我们可以使用关键字参数创建一个<code>RGB</code>元组的实例，这为值提供了一些上下文。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">188</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">168</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"My game!"</span><span class="p">)</span>
+
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+<span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BACKGROUND_COLOUR</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<h3><code>draw</code>模块</h3>
+<p><code>draw</code>模块包含几个在表面上绘制简单形状的函数。</p>
+<p>让我们从使用<code>rect</code>函数绘制一个矩形开始。<code>rect</code>需要几个不同的参数。</p>
+<p>首先，它需要一个表面来绘制，这个表面可以是任何一个<code>Surface</code>对象。</p>
+<p>第二个参数是<code>color</code>，它期望一种与我们讨论的<code>fill</code>相同格式的颜色。</p>
+<p>最后一个必需的参数是<code>rect</code>，它要么是一个<code>Rect</code>对象，要么是一个包含信息的值序列，这些信息通常由一个<code>Rect</code>对象保存。</p>
+<p><code>Rect</code>对象其实只是四个重要值的容器:矩形左上角的x和y位置，用坐标表示；矩形的宽度；和矩形的高度。这意味着我们可以用包含相同信息的四元素列表或元组来替换它们。</p>
+<p>记住这一点，让我们试着在左上角的<code>screen</code>表面画一个白色的圆圈。</p>
+<h3>注意</h3>
+<p>你必须记住的一点是，坐标<code>(0, 0)</code>在左上角，随着x和y值的增加，我们在屏幕上向右下方移动。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">188</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">168</span><span class="p">)</span>
+<span class="n">RECTANGLE_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"My game!"</span><span class="p">)</span>
+
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+<span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BACKGROUND_COLOUR</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">RECTANGLE_COLOUR</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>白色的RGB代码是<code>(255, 255, 255)</code>，我创建了另一个常量来存储这种颜色。</p>
+<p>窗口现在看起来像这样，左上角是我们的白色矩形，例外:<img alt="Pygame window with a tealish background and a white rectangle in the top left corner" src="../Images/643475f0c2da9430b2ef4d2605a7c3f0.png" data-original-src="https://i.ibb.co/HqdwTnH/Screenshot-from-2020-04-30-06-22-08.png"/>现在让我们试着在屏幕中间画一个圆。我们可以用<code>draw.circle</code>函数做到这一点，它的签名与<code>rect</code>略有不同。</p>
+<p>需要我们做四件事:要画的表面、圆的颜色、圆的中心点和圆的半径。</p>
+<p>让我们在<code>screen</code>的中心画一个半径为40px的黄色圆圈。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">188</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">168</span><span class="p">)</span>
+<span class="n">CIRCLE_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">253</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+<span class="n">RECTANGLE_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"My game!"</span><span class="p">)</span>
+
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+<span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BACKGROUND_COLOUR</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">RECTANGLE_COLOUR</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">CIRCLE_COLOUR</span><span class="p">,</span> <span class="p">[</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">],</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>现在我们的窗口看起来像这样:<img alt="Pygame window with a tealish background, a white rectangle, and a yellow circle" src="../Images/5b6e96f21ded211bfa5434abf3769716.png" data-original-src="https://i.ibb.co/3zGCDWT/Screenshot-from-2020-04-30-06-30-31.png"/></p>
+<h3>注意</h3>
+<p>如果我们希望我们的代码能够考虑变化的窗口大小，这样圆圈总是在中间结束，我们可以使用<code>screen.get_height()</code>和<code>screen.get_width()</code>方法找到<code>screen</code>的大小。</p>
+<h3>绘图文本</h3>
+<p>在表面上绘制文本稍微复杂一些。我们首先必须从<code>pygame.font</code>模块中创建一个<code>Font</code>对象，如下所示:</p>
+<div class="codehilite"><pre><span/><code><span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里的第一个参数是文件名，但是我们可以在这里写<code>None</code>。第二个参数是字体大小。</p>
+<p>一旦我们有了一个<code>Font</code>对象，我们就可以调用<code>render</code>方法来给我们一些我们可以实际绘制到表面上的东西。</p>
+<p><code>render</code>方法接受一个字符串，它将形成文本内容、一个布尔值和一个颜色。布尔值表示是否要使用抗锯齿。</p>
+<div class="codehilite"><pre><span/><code><span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">"Woo! This is some text!"</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>
+
+<p>最后，我们可以通过在我们想要绘制的表面上调用<code>blit</code>方法来将文本绘制到表面上。</p>
+<div class="codehilite"><pre><span/><code><span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">"Woo! This is some text!"</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+</code></pre></div>
+
+<p>真的只是画的意思，但这是一个有趣的词，你将不得不习惯它。</p>
+<p><code>blit</code>方法接受你想要<code>blit</code>的东西，然后是一个位置。</p>
+<h2>移动项目</h2>
+<p>移动屏幕上的项目实际上只是在不同的位置重复地将项目绘制到屏幕上，并覆盖旧的内容。</p>
+<p>在上面的例子中，这意味着用背景色填充<code>screen</code>，绘制新的形状，并使用<code>update</code>函数显示新的内容。</p>
+<p>我们还需要一样东西，那就是一个<code>Clock</code>对象。通过设置最大帧速率，<code>Clock</code>将让我们限制窗口被绘制的频率。我们通过在循环内部给<code>tick</code>方法提供一个每秒帧数的值来做到这一点。</p>
+<p>考虑到这一切。让我们删除白色矩形，使圆以5px的增量向右移动。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">188</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">168</span><span class="p">)</span>
+<span class="n">CIRCLE_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">253</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"My game!"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">circle_position</span> <span class="o">=</span> <span class="p">[</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">]</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BACKGROUND_COLOUR</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">CIRCLE_COLOUR</span><span class="p">,</span> <span class="n">circle_position</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">circle_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">5</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>圆圈很快离开了屏幕，但我们至少让它移动了。我们一会儿将回到碰撞检测，这样我们就可以将圆保持在窗口内。</p>
+<p>不过，首先让我们谈谈事件。</p>
+<h2>事件</h2>
+<p>事件是<code>pygame</code>传达应用程序中发生了什么事情的方式。这可能就像用户移动他们的鼠标，或者按一个键，或者点击小十字来关闭应用程序。</p>
+<p>从第一个例子开始，我们已经在<code>main</code>函数中编写了一些代码，用于检查<code>pygame.QUIT</code>事件。你可以在这里看到:</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+        <span class="k">return</span>
+</code></pre></div>
+
+<p>在这里，我们正在检查<code>pygame</code>已经记录的一些事件集，并且我们正在查看这些事件中是否有任何一个是<code>pygame.QUIT</code>事件。当用户按下按钮关闭应用程序时，该事件被触发。</p>
+<p>点击这个按钮实际上并没有关闭窗口:我们必须做一些事情来使它发生。在我们的例子中，我们从<code>main</code>函数中提取<code>return</code>，这使得Python不再需要运行代码。这将导致应用程序终止。</p>
+<p><code>pygame</code>有<em>许多不同事件类型的</em>，我们可以像检查<code>pygame.QUIT</code>一样检查这些事件。例如，我们可以使用<code>pygame.MOUSEMOTION</code>来检查鼠标的移动。</p>
+<p>让我们创建一个新的应用程序，我们只需在控制台上打印出鼠标的位置。我们可以通过访问事件上名为<code>__dict__</code>的属性，从<code>pygame.MOUSEMOTION</code>事件中找到鼠标的位置。</p>
+<p>这为我们提供了一个字典，其中有一个名为<code>"pos"</code>的键，包含了触发事件时鼠标位置的坐标。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Mousetracker"</span><span class="p">)</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEMOTION</span><span class="p">:</span>
+                <span class="n">position</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这给了我们很多控制台输出，但是我们可以看到当我们在窗口中移动鼠标时，它记录了当前位置。</p>
+<p>让我们升级这个小应用程序，使一个球跟随光标在屏幕上移动。</p>
+<p>这相当简单，我们只需要用鼠标当前的位置替换圆圈的中心值。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">188</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">168</span><span class="p">)</span>
+<span class="n">CIRCLE_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">253</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Mousetracker"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">circle_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEMOTION</span><span class="p">:</span>
+                <span class="n">circle_position</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"pos"</span><span class="p">]</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BACKGROUND_COLOUR</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">CIRCLE_COLOUR</span><span class="p">,</span> <span class="n">circle_position</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<h2>弹跳球</h2>
+<p>让我们再看一个例子。</p>
+<p>我想回到自己移动的球，但现在我想让它从侧面反弹，而不是飞出视野。</p>
+<p>为了做到这一点，我们将跟踪球的速度，这将描述在我们的<code>clock</code>的每一次滴答中，球在给定的方向上将移动多远。为了保持有趣，我们可以将这个速度的初始值随机化。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">188</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">168</span><span class="p">)</span>
+<span class="n">BALL_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">253</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+
+<span class="n">BALL_RADIUS</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Bouncing Ball"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">ball_position</span> <span class="o">=</span> <span class="p">[(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]</span>
+    <span class="n">ball_velocity</span> <span class="o">=</span> <span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BACKGROUND_COLOUR</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BALL_COLOUR</span><span class="p">,</span> <span class="n">ball_position</span><span class="p">,</span> <span class="n">BALL_RADIUS</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这里我们的应用程序窗口中间有一个圆圈。目前没有什么发生，但是我们已经定义了球的初始位置和速度。</p>
+<p>下一步是检查球没有超出我们窗口的任何“墙”。如果有，我们需要改变球的方向，阻止它继续沿着当前的轨迹前进。为了做到这一点，我们要修改球的速度。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">188</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">168</span><span class="p">)</span>
+<span class="n">BALL_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">253</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+
+<span class="n">BALL_RADIUS</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Bouncing Ball"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">ball_position</span> <span class="o">=</span> <span class="p">[(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]</span>
+    <span class="n">ball_velocity</span> <span class="o">=</span> <span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BACKGROUND_COLOUR</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BALL_COLOUR</span><span class="p">,</span> <span class="n">ball_position</span><span class="p">,</span> <span class="n">BALL_RADIUS</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="c1"># Check for left and right collisions</span>
+        <span class="k">if</span> <span class="n">ball_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">BALL_RADIUS</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">ball_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">BALL_RADIUS</span> <span class="o">&gt;</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">():</span>
+            <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Check for top and bottom collisions</span>
+        <span class="k">if</span> <span class="n">ball_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">BALL_RADIUS</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">ball_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">BALL_RADIUS</span> <span class="o">&gt;</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">():</span>
+            <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>最后，我们只需要在每次滴答时移动球，将当前速度加到球的位置上。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">188</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">168</span><span class="p">)</span>
+<span class="n">BALL_COLOUR</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">red</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">green</span><span class="o">=</span><span class="mi">253</span><span class="p">,</span> <span class="n">blue</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+
+<span class="n">BALL_RADIUS</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Bouncing Ball"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">([</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">ball_position</span> <span class="o">=</span> <span class="p">[(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]</span>
+    <span class="n">ball_velocity</span> <span class="o">=</span> <span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)]</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">BACKGROUND_COLOUR</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">BALL_COLOUR</span><span class="p">,</span> <span class="n">ball_position</span><span class="p">,</span> <span class="n">BALL_RADIUS</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="c1"># Check for left and right collisions</span>
+        <span class="k">if</span> <span class="n">ball_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">BALL_RADIUS</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">ball_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">BALL_RADIUS</span> <span class="o">&gt;</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_width</span><span class="p">():</span>
+            <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Check for top and bottom collisions</span>
+        <span class="k">if</span> <span class="n">ball_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">BALL_RADIUS</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">ball_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">BALL_RADIUS</span> <span class="o">&gt;</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_height</span><span class="p">():</span>
+            <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">ball_position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ball_position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ball_velocity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+
+<p>我们现在拥有了解决<a href="/30-days-of-python/python-30-day-30-project">项目</a>所需的一切！如果你想更深入地了解<code>pygame</code>，了解它的其他特性，你可以点击查看<code>pygame</code>网站<a href="https://www.pygame.org/news">。</a></p>
+<p>还有一大堆其他人用<code>pygame</code>建造的东西的例子，所以它可能会成为你下一个项目的灵感来源！</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

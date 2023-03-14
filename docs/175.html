@@ -1,0 +1,535 @@
+<html>
+<head>
+<title>Day 30 Project: Snake | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第30天项目:蛇|泰克拉多</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-30-project/">https://blog.teclado.com/python-30-day-30-project/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎参加Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天</a><a href="/30-days-of-python/python-30-day-30-graduation">最后一天</a>的毕业设计。今天我们用<code>pygame</code>来建造蛇。</p>
+<p>如果你还没有查看过<a href="/30-days-of-python/python-30-day-30-project-preparation">准备帖</a>，我绝对推荐你去看看，因为我在那里会谈到如何使用<code>pygame</code>。</p>
+<h2>案情摘要</h2>
+<p>今天的简报相当简单。你的任务是创建经典的<a href="https://en.wikipedia.org/wiki/Snake_(video_game_genre)">蛇游戏</a>。</p>
+<p>如果你不熟悉这个游戏，你扮演一条试图收集小块食物的蛇。蛇头每通过一个装有食物的方块，你就得一分，蛇也增长一定的量。</p>
+<p>如果你撞到自己的身体或游戏区的墙壁，你就会死亡，游戏结束。</p>
+<p>游戏的目的是尽可能多地得分。</p>
+<p>对于这个实现，游戏应该由键盘按键控制。箭头键很有意义，但你可以选择任何你喜欢的键。按下这些不同的键会为蛇设定一个新的路线。</p>
+<p>一次只能有一块食物放在游戏区，当蛇吃掉一块食物时，另一块食物应该随机放在游戏区内。这不应该与蛇的任何部分占据相同的空间。</p>
+<p>最后，用户分数的累计应该显示在屏幕的左上角。</p>
+<h2>我们的解决方案</h2>
+<p>首先，让我们完成使用<code>pygame</code>时需要做的所有标准设置。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="n">WINDOW_HEIGHT</span> <span class="o">=</span> <span class="mi">840</span>
+<span class="n">WINDOW_WIDTH</span> <span class="o">=</span> <span class="mi">800</span>
+<span class="n">WINDOW_DIMENSIONS</span> <span class="o">=</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Snake"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">WINDOW_DIMENSIONS</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">play_game</span><span class="p">()</span>
+</code></pre></div>
+
+<p>我还将定义第二个名为<code>colours.py</code>的文件，它将包含我们希望在游戏中使用的所有颜色常量。</p>
+<p>这个文件里没有什么复杂的东西，我们不需要在细节上纠缠太多。</p>
+<div class="codehilite"><span class="filename">colours.py</span><pre><span/><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Colour</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">"Colour"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"r"</span><span class="p">,</span> <span class="s2">"g"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">])</span>
+
+<span class="n">BACKGROUND</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">39</span><span class="p">)</span>
+<span class="n">SNAKE</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">FOOD</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mi">253</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+<span class="n">TEXT</span> <span class="o">=</span> <span class="n">Colour</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+</code></pre></div>
+
+<p>这里我定义了一个<code>Colour</code>元组，并用它来制作我打算在应用程序中使用的每种颜色的RGB表示。</p>
+<p>让我们将它导入到我的<code>app.py</code>文件中，并设置应用程序的背景颜色，为深蓝色。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">colours</span>
+
+<span class="n">WINDOW_HEIGHT</span> <span class="o">=</span> <span class="mi">840</span>
+<span class="n">WINDOW_WIDTH</span> <span class="o">=</span> <span class="mi">800</span>
+<span class="n">WINDOW_DIMENSIONS</span> <span class="o">=</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Snake"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">WINDOW_DIMENSIONS</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">colours</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span> 
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">play_game</span><span class="p">()</span>
+</code></pre></div>
+
+<p>我已经将<code>fill</code>调用放入循环中，因为我们想在<code>clock</code>的每个节拍都运行这个调用，以掩盖任何旧的绘图。我们还必须记住调用<code>update</code>函数，这样变化就会反映在我们想要绘制的表面上——在本例中是<code>screen</code>。</p>
+<p>在这一点上，我们应该停下来，想想我们实际上是如何实现这里的一些逻辑的。例如，我们将如何处理移动蛇？</p>
+<p>我认为一个好的方法是记录各个蛇段的位置，因为我们可以使用这些位置来绘制构成蛇身体的各个方块。</p>
+<p>当我们移动蛇的时候，我将在蛇的头部添加一个新的线段，并且我将移除尾部的最后一个元素。这将确保蛇保持相同的长度，这意味着我们的蛇不断向我们想要的方向移动。</p>
+<p>我们将需要一些逻辑来将方向映射到各种键上，以便我们知道蛇下一步应该向哪个方向移动，并且我们还需要跟踪当前方向，因为用户可能在刻度之间没有按任何键。</p>
+<p>对于头部的实际运动，我将按照单个片段的大小来移动。这将使碰撞检测更加容易。因为我们会经常使用段大小，所以我们可能也应该将它作为一个常量添加进来。</p>
+<p>让我们添加这个常量，并在屏幕上为蛇和食物绘制一些初始形状。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">colours</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="n">WINDOW_HEIGHT</span> <span class="o">=</span> <span class="mi">840</span>
+<span class="n">WINDOW_WIDTH</span> <span class="o">=</span> <span class="mi">800</span>
+<span class="n">WINDOW_DIMENSIONS</span> <span class="o">=</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span>
+
+<span class="n">SEGMENT_SIZE</span>  <span class="o">=</span>  <span class="mi">20</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Snake"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">WINDOW_DIMENSIONS</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">):</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">FOOD</span><span class="p">,</span> <span class="p">[</span><span class="n">food_position</span><span class="p">,</span> <span class="p">(</span><span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">)])</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">snake_positions</span><span class="p">:</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">SNAKE</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="n">snake_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+    <span class="n">food_position</span> <span class="o">=</span> <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">160</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">colours</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">)</span>
+        <span class="n">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">)</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span> 
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">play_game</span><span class="p">()</span>
+</code></pre></div>
+
+<p>为了绘制形状，我定义了另一个函数，因为我不想让<code>play_game</code>函数变得太混乱。</p>
+<p>我还为蛇段和<code>play_game</code>里面的食物设定了一个起始位置。我们将这两者传递给<code>draw_objects</code>来绘制所有需要的形状。</p>
+<p>实际的绘图相当简单。我们只是使用<code>rect</code>函数创建一些矩形，并使用传递给<code>draw_objects</code>的位置作为这些<code>rect</code>调用的参数。</p>
+<p>目前，我们的食物位置总是一样的，但我希望以后这是随机的，我认为食物也有一个随机的开始位置会很好。</p>
+<p>让我们定义一个新的函数来设置一个新的食物位置。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="k">def</span> <span class="nf">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">x_position</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">39</span><span class="p">)</span> <span class="o">*</span> <span class="n">SEGMENT_SIZE</span>
+        <span class="n">y_position</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">41</span><span class="p">)</span> <span class="o">*</span> <span class="n">SEGMENT_SIZE</span>
+        <span class="n">food_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_position</span><span class="p">,</span> <span class="n">y_position</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">food_position</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">snake_positions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">food_position</span>
+</code></pre></div>
+
+<p>这可能看起来有点奇怪，但是让我们回顾一下我所做的。</p>
+<p>因为我们不能让食物和任何一段蛇出现在同一个方块中，所以我们可能需要多次尝试来确定食物的位置。出于这个原因，我将所有代码放在了一个<code>while True</code>循环中。</p>
+<p>在循环内部，我们使用来自<code>random</code>模块的<code>randint</code>函数生成一个随机数，然后乘以<code>SEGMENT_SIZE</code>常数。实际上，我们在这里做的是从网格中选择一个正方形，然后我们使用<code>SEGMENT_SIZE</code>将它转换成一个坐标。这确保了我们总是把食物放在一个区域内。</p>
+<p>这里要记住的一件重要的事情是，矩形的位置是基于左上角的，所以我们应该相应地生成我们的随机数。我们不想错误地把食物放在游戏区之外。</p>
+<p>你还会注意到<code>y_position</code>的数字不同于<code>x_position</code>的数字。这是为了让我们有得分的空间。</p>
+<p>让我们将这个新函数插入到我们的其他代码中，并导入<code>random</code>。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">colours</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">WINDOW_HEIGHT</span> <span class="o">=</span> <span class="mi">840</span>
+<span class="n">WINDOW_WIDTH</span> <span class="o">=</span> <span class="mi">800</span>
+<span class="n">WINDOW_DIMENSIONS</span> <span class="o">=</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span>
+
+<span class="n">SEGMENT_SIZE</span>  <span class="o">=</span>  <span class="mi">20</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Snake"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">WINDOW_DIMENSIONS</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">):</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">FOOD</span><span class="p">,</span> <span class="p">[</span><span class="n">food_position</span><span class="p">,</span> <span class="p">(</span><span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">)])</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">snake_positions</span><span class="p">:</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">SNAKE</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">x_position</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">39</span><span class="p">)</span> <span class="o">*</span> <span class="n">SEGMENT_SIZE</span>
+        <span class="n">y_position</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">41</span><span class="p">)</span> <span class="o">*</span> <span class="n">SEGMENT_SIZE</span>
+        <span class="n">food_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_position</span><span class="p">,</span> <span class="n">y_position</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">food_position</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">snake_positions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">food_position</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="n">snake_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+    <span class="n">food_position</span> <span class="o">=</span> <span class="n">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">colours</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">)</span>
+        <span class="n">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">)</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span> 
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">play_game</span><span class="p">()</span>
+</code></pre></div>
+
+<p>如果我们运行这个程序，食物会出现在一个随机的位置。</p>
+<p>接下来，我要处理分数，因为这是一个相当简单的步骤。我们只需给<code>play_game</code>添加一个起始分数变量，然后我们需要渲染文本并将其传送到<code>screen</code>表面。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">snake_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+    <span class="n">food_position</span> <span class="o">=</span> <span class="n">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">colours</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">)</span>
+        <span class="n">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">)</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span> 
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">play_game</span><span class="p">()</span>
+</code></pre></div>
+
+<p>接下来，我将处理移动蛇。因为我们在这里需要相当多的逻辑，因为我们需要检查蛇的方向，我将创建另一个函数。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="k">def</span> <span class="nf">move_snake</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+    <span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span> <span class="o">=</span> <span class="n">snake_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">"Left"</span><span class="p">:</span>
+        <span class="n">new_head_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">head_x_position</span> <span class="o">-</span> <span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">head_y_position</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">"Right"</span><span class="p">:</span>
+        <span class="n">new_head_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">head_x_position</span> <span class="o">+</span> <span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">head_y_position</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">"Down"</span><span class="p">:</span>
+        <span class="n">new_head_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span> <span class="o">+</span> <span class="n">SEGMENT_SIZE</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">"Up"</span><span class="p">:</span>
+        <span class="n">new_head_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span> <span class="o">-</span> <span class="n">SEGMENT_SIZE</span><span class="p">)</span>
+
+    <span class="n">snake_positions</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">new_head_position</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">snake_positions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+
+<p>我在这里做的第一件事是将头部位置分割成<code>x</code>和<code>y</code>坐标。这使我们在修改磁头位置时不必经常参考索引。</p>
+<p>函数体的大部分被一个大的条件语句占据，在这里我们检查蛇的当前方向。然后，我们根据蛇前进的方向创建下一个头部位置。</p>
+<p>一旦我们构建了这组新的坐标，我们使用<code>insert</code>方法将它添加到<code>snake_positions</code>列表的前面，然后我们删除尾部，因为尾部现在将占据原来的倒数第二个位置。</p>
+<p>我们现在可以在<code>play_game</code>中设置蛇的初始方向，并调用这个函数让蛇移动。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">current_direction</span> <span class="o">=</span> <span class="s2">"Right"</span>
+    <span class="n">snake_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+    <span class="n">food_position</span> <span class="o">=</span> <span class="n">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">colours</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">)</span>
+        <span class="n">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">)</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">move_snake</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">)</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+</code></pre></div>
+
+<p>问题是，这条蛇现在飞出了屏幕，所以我们需要修改一些东西。首先，我们需要让用户控制蛇的方向，其次，如果蛇与游戏区域的“墙壁”发生碰撞，我们需要结束游戏。</p>
+<p>为了让用户控制这条蛇，我们需要做一些事情。首先，我们需要监听按键事件，这样我们就可以看到他们按下了什么键。一旦我们掌握了关键，我们需要弄清楚它实际上意味着什么。为此，我将创建一个字典来将方向键映射到像<code>"Up"</code>和<code>"Down"</code>这样的方向。</p>
+<p>我还将编写一个函数，如果用户按下一个适当的键，它将设置一个新的方向，但如果这个方向与蛇当前的方向正好相反，则不会设置新的方向。我们不希望蛇能够通过折叠吃掉自己，所以我们将忽略这些按键。</p>
+<p>让我们从处理循环中的事件开始。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">current_direction</span> <span class="o">=</span> <span class="s2">"Right"</span>
+    <span class="n">snake_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+    <span class="n">food_position</span> <span class="o">=</span> <span class="n">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="n">current_direction</span> <span class="o">=</span> <span class="n">on_key_press</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">)</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">colours</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">)</span>
+        <span class="n">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">)</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">move_snake</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">)</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">play_game</span><span class="p">()</span>
+</code></pre></div>
+
+<p>我们在这里需要做的就是在条件语句中添加一个<code>elif</code>子句，当我们得到一个<code>pygame.KEYDOWN</code>事件时就会触发这个子句。然后我们将调用我们即将创建的<code>on_key_press</code>函数，它将处理这个键的实际处理。</p>
+<p>然而，在该函数能够完成其工作之前，我们需要创建我们的按键代码到方向的映射，如下所示:</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="n">KEY_MAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">273</span><span class="p">:</span> <span class="s2">"Up"</span><span class="p">,</span>
+    <span class="mi">274</span><span class="p">:</span> <span class="s2">"Down"</span><span class="p">,</span>
+    <span class="mi">275</span><span class="p">:</span> <span class="s2">"Right"</span><span class="p">,</span>
+    <span class="mi">276</span><span class="p">:</span> <span class="s2">"Left"</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>你可以通过打印出<code>event.__dict__</code>来得到这些数字，看看当你按下不同的方向键时会发生什么。</p>
+<p>这样，我们可以创建<code>on_key_press</code>函数，如下所示:</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="k">def</span> <span class="nf">on_key_press</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"key"</span><span class="p">]</span>
+    <span class="n">new_direction</span> <span class="o">=</span> <span class="n">KEY_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="n">all_directions</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Up"</span><span class="p">,</span> <span class="s2">"Down"</span><span class="p">,</span> <span class="s2">"Left"</span><span class="p">,</span> <span class="s2">"Right"</span><span class="p">)</span>
+    <span class="n">opposites</span> <span class="o">=</span> <span class="p">({</span><span class="s2">"Up"</span><span class="p">,</span> <span class="s2">"Down"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"Left"</span><span class="p">,</span> <span class="s2">"Right"</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_direction</span> <span class="ow">in</span> <span class="n">all_directions</span>
+    <span class="ow">and</span> <span class="p">{</span><span class="n">new_direction</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">}</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">opposites</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">new_direction</span>
+
+    <span class="k">return</span> <span class="n">current_direction</span>
+</code></pre></div>
+
+<p>首先，我们从<code>event</code>中获取实际的关键代码，并查看该代码是否在我们的<code>KEY_MAP</code>字典中。如果不是，那么我们将<code>None</code>赋给<code>new_direction</code>，这意味着我们将从函数中返回当前方向。实际上，什么都不会改变。</p>
+<p>如果我们得到了一个有效的方向，我们看看包含当前方向和新方向的集合是否与我们构建的对立集合相匹配。</p>
+<p>因为集合不关心顺序，对于满足这个条件来说，重要的是我们有相反的方向。这将导致蛇吃掉自己，所以我们在这种情况下忽略按键，只返回当前方向。</p>
+<p>如果我们得到了一个有效的方向，并且新的和旧的方向不是相反的，我们返回新的方向，这个方向在<code>play_game</code>中被赋值给current_direction。</p>
+<p>这样，我们只需要做几件事情。首先，我们需要检查与墙壁的碰撞，其次，我们需要检查与食物的碰撞。</p>
+<p>这是我如何检查与墙壁的碰撞。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="k">def</span> <span class="nf">check_collisions</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">):</span>
+    <span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span> <span class="o">=</span> <span class="n">snake_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">head_x_position</span> <span class="ow">in</span> <span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">WINDOW_WIDTH</span> <span class="p">)</span>
+        <span class="ow">or</span> <span class="n">head_y_position</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="p">(</span><span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span><span class="p">)</span> <span class="ow">in</span> <span class="n">snake_positions</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+<p>我在这里使用了一系列的<code>or</code>操作符来组合几个条件。因为它们都返回一个布尔值，我们将得到返回的<code>True</code>或<code>False</code>，其中<code>True</code>表示一个条件确实发生了。</p>
+<p>当我们撞到任何墙壁时，或者当头部与其他部分占据相同空间时，就会发生这种情况。</p>
+<p>我们将在每个tick调用一次<code>play_game</code>内部的<code>check_collisions</code>，如果<code>check_collisions</code>返回<code>True</code>，我们将从<code>play_game</code>返回。这将结束游戏。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">current_direction</span> <span class="o">=</span> <span class="s2">"Right"</span>
+    <span class="n">snake_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+    <span class="n">food_position</span> <span class="o">=</span> <span class="n">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="n">current_direction</span> <span class="o">=</span> <span class="n">on_key_press</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">)</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">colours</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">)</span>
+        <span class="n">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">)</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">move_snake</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">check_collisions</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">play_game</span><span class="p">()</span>
+</code></pre></div>
+
+<p>拼图的最后一块检查食物碰撞，这就像检查食物坐标和头段坐标是否相同一样简单。</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="k">def</span> <span class="nf">check_food_collision</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">snake_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">food_position</span><span class="p">:</span>
+        <span class="n">snake_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+</code></pre></div>
+
+<p>如果条件满足，我们将复制尾段，这样蛇在下一次移动时会增长一段。</p>
+<p>然后我们返回<code>True</code>，因为我们也需要在<code>play_game</code>中做一些事情，比如生成一个新的食物位置，并增加<code>score</code>。</p>
+<p>因此，最终的代码如下所示:</p>
+<div class="codehilite"><span class="filename">app.py</span><pre><span/><code><span class="kn">import</span> <span class="nn">colours</span>
+<span class="kn">import</span> <span class="nn">pygame</span>
+
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">WINDOW_HEIGHT</span> <span class="o">=</span> <span class="mi">840</span>
+<span class="n">WINDOW_WIDTH</span> <span class="o">=</span> <span class="mi">800</span>
+<span class="n">WINDOW_DIMENSIONS</span> <span class="o">=</span> <span class="n">WINDOW_WIDTH</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span>
+
+<span class="n">SEGMENT_SIZE</span>  <span class="o">=</span>  <span class="mi">20</span>
+
+<span class="n">KEY_MAP</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">273</span><span class="p">:</span> <span class="s2">"Up"</span><span class="p">,</span>
+    <span class="mi">274</span><span class="p">:</span> <span class="s2">"Down"</span><span class="p">,</span>
+    <span class="mi">275</span><span class="p">:</span> <span class="s2">"Right"</span><span class="p">,</span>
+    <span class="mi">276</span><span class="p">:</span> <span class="s2">"Left"</span>
+<span class="p">}</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"Snake"</span><span class="p">)</span>
+
+<span class="n">clock</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">Clock</span><span class="p">()</span>
+<span class="n">screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">(</span><span class="n">WINDOW_DIMENSIONS</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">check_collisions</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">):</span>
+    <span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span> <span class="o">=</span> <span class="n">snake_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">head_x_position</span> <span class="ow">in</span> <span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">WINDOW_WIDTH</span> <span class="p">)</span>
+        <span class="ow">or</span> <span class="n">head_y_position</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">WINDOW_HEIGHT</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="p">(</span><span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span><span class="p">)</span> <span class="ow">in</span> <span class="n">snake_positions</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">check_food_collision</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">snake_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">food_position</span><span class="p">:</span>
+        <span class="n">snake_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+<span class="k">def</span> <span class="nf">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">):</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">FOOD</span><span class="p">,</span> <span class="p">[</span><span class="n">food_position</span><span class="p">,</span> <span class="p">(</span><span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">)])</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">snake_positions</span><span class="p">:</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">SNAKE</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">SEGMENT_SIZE</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">move_snake</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+    <span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span> <span class="o">=</span> <span class="n">snake_positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">"Left"</span><span class="p">:</span>
+        <span class="n">new_head_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">head_x_position</span> <span class="o">-</span> <span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">head_y_position</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">"Right"</span><span class="p">:</span>
+        <span class="n">new_head_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">head_x_position</span> <span class="o">+</span> <span class="n">SEGMENT_SIZE</span><span class="p">,</span> <span class="n">head_y_position</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">"Down"</span><span class="p">:</span>
+        <span class="n">new_head_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span> <span class="o">+</span> <span class="n">SEGMENT_SIZE</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">"Up"</span><span class="p">:</span>
+        <span class="n">new_head_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">head_x_position</span><span class="p">,</span> <span class="n">head_y_position</span> <span class="o">-</span> <span class="n">SEGMENT_SIZE</span><span class="p">)</span>
+
+    <span class="n">snake_positions</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">new_head_position</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">snake_positions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">on_key_press</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s2">"key"</span><span class="p">]</span>
+    <span class="n">new_direction</span> <span class="o">=</span> <span class="n">KEY_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="n">all_directions</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"Up"</span><span class="p">,</span> <span class="s2">"Down"</span><span class="p">,</span> <span class="s2">"Left"</span><span class="p">,</span> <span class="s2">"Right"</span><span class="p">)</span>
+    <span class="n">opposites</span> <span class="o">=</span> <span class="p">({</span><span class="s2">"Up"</span><span class="p">,</span> <span class="s2">"Down"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"Left"</span><span class="p">,</span> <span class="s2">"Right"</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">new_direction</span> <span class="ow">in</span> <span class="n">all_directions</span>
+    <span class="ow">and</span> <span class="p">{</span><span class="n">new_direction</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">}</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">opposites</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">new_direction</span>
+
+    <span class="k">return</span> <span class="n">current_direction</span>
+
+<span class="k">def</span> <span class="nf">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">x_position</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">39</span><span class="p">)</span> <span class="o">*</span> <span class="n">SEGMENT_SIZE</span>
+        <span class="n">y_position</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">41</span><span class="p">)</span> <span class="o">*</span> <span class="n">SEGMENT_SIZE</span>
+        <span class="n">food_position</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_position</span><span class="p">,</span> <span class="n">y_position</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">food_position</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">snake_positions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">food_position</span>
+
+<span class="k">def</span> <span class="nf">play_game</span><span class="p">():</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">current_direction</span> <span class="o">=</span> <span class="s2">"Right"</span>
+    <span class="n">snake_positions</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+    <span class="n">food_position</span> <span class="o">=</span> <span class="n">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="n">current_direction</span> <span class="o">=</span> <span class="n">on_key_press</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">)</span>
+
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">colours</span><span class="o">.</span><span class="n">BACKGROUND</span><span class="p">)</span>
+        <span class="n">draw_objects</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">)</span>
+
+        <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">colours</span><span class="o">.</span><span class="n">TEXT</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">move_snake</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">current_direction</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">check_collisions</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">check_food_collision</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">,</span> <span class="n">food_position</span><span class="p">):</span>
+            <span class="n">food_position</span> <span class="o">=</span> <span class="n">set_new_food_position</span><span class="p">(</span><span class="n">snake_positions</span><span class="p">)</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">clock</span><span class="o">.</span><span class="n">tick</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">play_game</span><span class="p">()</span>
+</code></pre></div>
+
+<p>然而这还不是结束！我们有很多事情可以做得更好，我鼓励你自己尝试扩展这个项目。</p>
+<p>例如，你可以添加一个游戏开始和结束的屏幕。你可以记录高分。你可以添加音乐！可能性是无限的。</p>
+<p>我希望你喜欢这个最后的项目，以及整个系列。</p>
+<p>祝您未来的项目好运，并祝您编码愉快！</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

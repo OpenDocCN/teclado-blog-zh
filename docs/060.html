@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Python Itertools Part 2 - Combinations &amp; Permutations</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python Itertools第2部分——组合和排列</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-itertools-part-2-combinations-permutations/">https://blog.teclado.com/python-itertools-part-2-combinations-permutations/</a></blockquote><div><div class="post-content">
+<p>在我们的<a href="https://blog.teclado.com/python-itertools-part-1-product/">最后一篇文章</a>中，我们快速浏览了一下<code>itertools</code>模块中的<code>product</code>函数。今天我们要看看来自<code>itertools</code>模块的几个组合迭代器:<code>permutations</code>、<code>combinations</code>和<code>combinations_with_replacement</code>。</p><p>首先，我们来看看<code>permutations</code>。<code>permutations</code>关心的是为给定的商品集合找到所有可能的订单。例如，如果我们有一个字符串<code>"ABC"</code>，置换将找到我们可以重新排列这个字符串中的字母的所有方式，因此每个顺序都是唯一的。</p><pre><code class="language-python">from itertools import permutations
+
+p_1 = permutations("ABC")
+# ('A', 'B', 'C') ('A', 'C', 'B') ('B', 'A', 'C') ('B', 'C', 'A')
+# ('C', 'A', 'B') ('C', 'B', 'A')
+</code></pre>
+<p>默认情况下，<code>permutations</code>为整个集合返回不同的排序，但是我们可以使用可选的<code>r</code>参数来限制函数查找更短的排列。</p><pre><code class="language-python">p_2 = permutations("ABC", r=2)
+# ('A', 'B') ('A', 'C') ('B', 'A') ('B', 'C') ('C', 'A') ('C', 'B')
+</code></pre>
+<p>提供一个大于传递给<code>permutations</code>的集合长度的<code>r</code>值将产生一个空的置换对象。</p><p>现在我们来看看<code>combinations</code>。<code>combinations</code>返回一个iterable对象，该对象包含所提供集合中元素的唯一组合。注意，<code>combinations</code>与元素的顺序无关，所以<code>combinations</code>将把<code>('A', 'B')</code>视为与<code>('B', 'A')</code>结果相同。</p><p>结果组合的长度再次由<code>r</code>参数控制，但是在<code>combinations</code>的情况下，该参数是强制的。</p><pre><code class="language-python">from itertools import combinations
+
+c_1 = combinations("ABC", r=2)
+# ('A', 'B') ('A', 'C') ('B', 'C')
+
+c_2 = combinations("ABC", r=3)
+# ('A', 'B', 'C')
+</code></pre>
+<p>有可能从<code>combinations</code>获得重复的元素，但是只有当提供的iterable包含给定元素的多个实例时。例如<code>(1, 2, 3, 1)</code>。</p><pre><code class="language-python">c_3 = combinations((1, 2, 3, 1), r=2)
+# (1, 2) (1, 3) (1, 1) (2, 3) (2, 1) (3, 1)
+</code></pre>
+<p>在这种情况下，<code>(1, 2)</code>和<code>(2, 1)</code>不仅仅是顺序不同的相同元素，1实际上是原始集合中不同的元素。</p><p>使用<code>combinations_with_replacement</code>函数可以包含一个项目与其自身配对的实例。它就像<code>combinations</code>一样工作，但是也将匹配每个元素。</p><pre><code class="language-python">from itertools import combinations, combinations_with_replacement
+
+c_4 = combinations((1, 2, 3), r=2)
+# (1, 2) (1, 3) (2, 3)
+
+c_5 = combinations_with_replacement((1, 2, 3), r=2)
+# (1, 1) (1, 2) (1, 3) (2, 2) (2, 3) (3, 3)
+</code></pre>
+<p>这就结束了组合迭代器！我希望你学到了一些新的东西，请务必查看官方文档以了解更多细节。</p><p>如果你想进一步提升你的Python技能，我们很乐意邀请你参加我们的<a href="https://go.tecla.do/complete-python-sale">完整Python课程</a>。你可以点击这篇文章中的链接，以9.99美元的价格获得课程，并且还有30天的退款保证。</p><p>下周一我们将带着的另一个片段帖子<a href="https://blog.tecladocode.com/python-deques">回来，这次涵盖了一个非常有趣的收藏类型。在</a><a href="https://twitter.com/TecladoCode">推特</a>上关注我们，或者注册我们下面的邮件列表，这样你就不会错过了！</p>
+</div>
+</div>    
+</body>
+</html>

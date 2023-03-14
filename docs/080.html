@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>Python's "Ternary Operator"</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python的“三元运算符”</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-pythons-ternary-operator/">https://blog.teclado.com/python-pythons-ternary-operator/</a></blockquote><div><div class="post-content">
+<p>欢迎来到另一篇<a href="https://blog.teclado.com/tag/python-snippets/"> Python片段帖子</a>。本周我们将简要了解一下Python中的条件表达式，有时被称为Python的三元运算符。</p><p>在Python中，条件表达式是一种有点晦涩的语法，但它们本质上允许我们根据某种条件给变量赋值。</p><p>让我们看一个简单的例子:</p><pre><code class="language-python">x = 6
+value = x if x &lt; 10 else "Invalid value"  # 6
+</code></pre>
+<p>在这种情况下，我们有一些值绑定到变量<code>x</code>，我们检查<code>x</code>的值是否小于<code>10</code>。如果是，我们把号码分配给<code>value</code>；否则，我们指定字符串为<code>"Invalid value"</code>。</p><p>我们可以看到一种情况是<code>x</code>的值不小于下面的<code>10</code>:</p><pre><code class="language-python">x = 10
+value = x if x &lt; 10 else "Invalid value"  # Invalid value
+</code></pre>
+<p>我们来分解一下语法。</p><p>首先，我们从条件为<code>True</code>时返回的值开始。在我们的例子中，这是<code>x</code>。然后我们有了跟随着一些条件的<code>if</code>关键字。在我们的例子中，这是一个使用小于运算符的比较，但是任何可以计算为布尔值的表达式都可以。在条件之后，我们使用<code>else</code>关键字，后跟如果条件评估为<code>False</code>时返回的值。</p><pre><code>&lt;value if condition True&gt; if &lt;condition&gt; else &lt;value if condition False&gt;
+</code></pre><p>当谈到条件表达式时，要记住的一件事是，我们实际上需要所有的部分。如果我们不在乎这个条款，我们就不能简单地取消它。如果条件评估为<code>False</code>，我们必须明确定义一个值。</p><p>未能添加一个<code>else</code>子句会导致一个<code>SyntaxError</code>。</p><p>条件表达式可以通过追加到<code>else</code>子句来链接，但是语法已经够混乱了，所以我不建议这样做:</p><pre><code class="language-python">x = 16
+value = x if x &lt; 10 else "Invalid value" if x &lt; 15 else "Super invalid value" 
+</code></pre>
+<p>那么，你应该在你自己的代码中使用条件表达式吗？大概不会。</p><p>就我个人而言，我认为条件和返回值的顺序非常不直观，很难理解这些条件表达式的逻辑。通常只使用if语句会清楚得多，即使它稍微长一点:</p><pre><code class="language-python">x = 10
+
+if x &lt; 10:
+	value = x
+else:
+	value = "Invalid value"
+</code></pre>
+<p>然而，这种结构在野外有很多例子，所以当它被用在其他人的代码中时，能够识别和理解它是很重要的。</p><h2 id="wrapping-up">包扎</h2><p>这就是这篇文章的内容。希望你学到了一些新东西，我希望你能在自己的代码中找到一些条件表达式的用例。有时它们会非常有用。</p><p>如果你想进一步提升你的Python技能，我推荐你在Udemy上查看我们的<a href="https://www.udemy.com/the-complete-python-course/?couponCode=BLOGGER">完整Python课程</a>！有超过35个小时的材料，以及几十个练习和项目，让您真正熟悉使用Python。</p><p>我还建议注册您的邮件列表，因为我们会定期发布课程的折扣代码，确保您获得最优惠的价格。</p>
+</div>
+</div>    
+</body>
+</html>

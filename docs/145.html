@@ -1,0 +1,181 @@
+<html>
+<head>
+<title>Day 18: Imports | Teclado</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>第18天:进口| Teclado</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/python-30-day-18-imports/">https://blog.teclado.com/python-30-day-18-imports/</a></blockquote><div><article class="pb-12 prose prose-p:font-copy col-start-2 dark:prose-invert">
+                    
+                    <p>欢迎来到Python 系列<a href="https://blog.teclado.com/30-days-of-python/"> 30天的第18天！今天我们将谈论进口这个非常<strong>进口</strong>蚂蚁的话题。</a></p>
+<p>到目前为止，我们一直在使用核心Python语法，并且一直在使用所谓的<a href="https://docs.python.org/3/library/functions.html#built-in-functions">内置函数</a>。然而，<a href="https://docs.python.org/3/library/">Python标准库</a>不仅仅是这些函数，还有更多的东西，但是为了访问它，我们需要能够导入这个功能。</p>
+<p>导入还将允许我们使用第三方库，这一点我们将在本系列的后面介绍。</p>
+<h2>基本进口</h2>
+<p>我们将从导入<code>math</code>模块开始，顾名思义，该模块包含许多用于执行数学运算的有用工具。它还包括几个有用的常数。你可以在这里找到文档<a href="https://docs.python.org/3/library/math.html">。</a></p>
+<p>要导入一个模块，我们需要编写<code>import</code>关键字，后跟我们想要导入的模块的名称。为了导入<code>math</code>模块，我们将把它写在代码的顶部:</p>
+
+
+<p>就这样，我们可以访问在<code>math</code>模块中定义的所有功能。为了使用这些函数和变量，我们只需要在函数或变量名称前加上<code>math.</code>。这告诉Python我们正在请求位于<code>math</code>模块中的东西。</p>
+<p>让我们通过一个例子来看看这一点。</p>
+<p>回到系列的第一天，我们有以下练习题:</p>
+<p>计算并打印半径为5个单位的圆的面积。</p>
+<p>这将是对<code>math</code>模块的完美应用，因为我们可以利用<code>math</code>模块的<code>pi</code>常数:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 78.53981633974483</span>
+</code></pre></div>
+
+<p>这比我最初的解决方案要精确得多，我最初的解决方案使用<code>3.141</code>作为圆周率的值。</p>
+<p>现在让我们尝试一个函数。<code>math</code>模块有一个名为<code>fsum</code>的函数，用于将浮点数相加。您当然可以使用常规的老式<code>sum</code>来实现这一点，但是对于某些值来说，事情会变得有点奇怪，因为浮点数中存在固有的不精确性。</p>
+<p>举以下例子:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>  <span class="c1"># 0.9999999999999999</span>
+</code></pre></div>
+
+<p>没错。加十手<code>0.1</code>不是<code>1</code>。如果你试着一遍又一遍地添加<code>0.2</code>，你会得到同样不可靠的结果。</p>
+<p>然而，如果我们使用<code>fsum</code>函数，数学就会回归正常:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">fsum</span><span class="p">(</span><span class="n">numbers</span><span class="p">))</span>  <span class="c1"># 1.0</span>
+</code></pre></div>
+
+<p>如果你有兴趣知道为什么<code>0.1</code>会产生这个不寻常的结果，我推荐你看看<a href="https://blog.teclado.com/decimal-vs-float-in-python/">我在十进制模块</a>上的帖子。开始时，我谈到了十进制数在计算机中是如何表示的，以及为什么这会导致浮点数的问题。</p>
+<h3>风格注释</h3>
+<p>确保总是将您的导入放在文件的顶部！这不仅是好的风格，也有很好的实际原因，我们很快就会谈到。</p>
+<p>在完成导入后，放置一个空格将它们与代码的其余部分分开也是一个好主意。</p>
+<h2>从模块中导入特定的东西</h2>
+<p>假设我们正在进行一个项目，我真的只需要来自<code>math</code>模块的<code>pi</code>常量，我计划在我的代码中广泛使用它。使用<code>import math</code>然后使用<code>math.pi</code>引用常量并没有什么实际问题，但是这会变得有点乏味。</p>
+<p>在这种情况下，如果我们可以在代码中使用<code>pi</code>会好很多，我们可以通过从<code>math</code>模块中导入<code>pi</code>常量来做到这一点。其语法如下:</p>
+
+
+<p>通过用逗号分隔名称，我们可以从一个模块中导入几个东西。假设我也想要τ常数T1:</p>
+
+
+<p>现在我们可以直接引用<code>pi</code>或<code>tau</code>而不是使用<code>math.pi</code>和<code>math.tau</code>。然而，我们不再能够使用这种方法访问剩余的<code>math</code>模块，所以我们不能调用<code>math.fsum</code>，除非我们也导入<code>math</code>。</p>
+<p>在一些模块中，有些东西我们只能通过这个特定的导入语法来访问。</p>
+<p>例如，假设我们想要使用<code>tkinter</code>，因为我们已经决定要制作一个具有图形用户界面(GUI)的应用程序。</p>
+<p><code>tkinter</code>库包括一组我们可以在应用程序中使用的主题小部件，但是为了使用它们，我们必须从tkinter模块导入<code>ttk</code>。</p>
+
+
+<h2>模块和命名空间</h2>
+<p>既然我们已经看到了两种不同类型的导入，那么就有必要讨论一下当我们导入一个模块时会发生什么，以及为什么我们会根据导入的方式以不同的方式访问它们。比如，为什么一种方式导入时我们需要把这个<code>math.</code>放在<code>pi</code>前面，而另一种方式不需要？</p>
+<p>让我们使用与第13天相同的技术，看看当我们使用两种不同的导入方法时，在全局范围内定义了什么。</p>
+<p>首先，我们来试试<code>import math</code>。我们可以看到全局名称空间中的内容如下:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
+</code></pre></div>
+
+<p>我们得到的是这样的字典:</p>
+<div class="codehilite"><pre><span/><code><span class="p">{</span>
+    <span class="s1">'__name__'</span><span class="p">:</span> <span class="s1">'__main__'</span><span class="p">,</span>
+    <span class="s1">'__doc__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__package__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__loader__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">_frozen_importlib_external</span><span class="o">.</span><span class="n">SourceFileLoader</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f23b99febb0</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__spec__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__annotations__'</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">'__builtins__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">module</span> <span class="s1">'builtins'</span> <span class="p">(</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__file__'</span><span class="p">:</span> <span class="s1">'main.py'</span><span class="p">,</span>
+    <span class="s1">'__cached__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'math'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">module</span> <span class="s1">'math'</span> <span class="kn">from</span> <span class="s1">'/usr/local/lib/python3.8/lib-dynload/math.cpython-38-x86_64-linux-gnu.so'</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>就像之前一样，当我们开始程序的时候，我们在这里定义了很多东西，但是在程序的最后，我们有一个名字叫做<code>math</code>。与这个名字<code>math</code>相关的是一个叫做模块对象的东西，在这个例子中我们可以看到<code>Python</code>已经在我们的Python安装中找到了这个模块的代码。</p>
+<p>当我们导入一个模块时，Python运行这个模块并创建这个模块对象，这样我们就可以访问它里面的东西。为了表明我们想对模块做些什么，我们必须首先使用分配给它的名字(在本例中是<code>math</code>)来访问模块，然后我们可以使用点符号来访问里面的东西。</p>
+<p>现在让我们看看当我们从<code>math</code>模块导入特定的项目时会发生什么。我将再次使用<code>pi</code>和<code>tau</code>常量，所以现在我们的代码看起来像这样</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">tau</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
+</code></pre></div>
+
+<p>我们得到以下输出:</p>
+<div class="codehilite"><pre><span/><code><span class="p">{</span>
+    <span class="s1">'__name__'</span><span class="p">:</span> <span class="s1">'__main__'</span><span class="p">,</span>
+    <span class="s1">'__doc__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__package__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__loader__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">_frozen_importlib_external</span><span class="o">.</span><span class="n">SourceFileLoader</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fda798e3bb0</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__spec__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__annotations__'</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">'__builtins__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">module</span> <span class="s1">'builtins'</span> <span class="p">(</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__file__'</span><span class="p">:</span> <span class="s1">'main.py'</span><span class="p">,</span>
+    <span class="s1">'__cached__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'pi'</span><span class="p">:</span> <span class="mf">3.141592653589793</span><span class="p">,</span>
+    <span class="s1">'tau'</span><span class="p">:</span> <span class="mf">6.283185307179586</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>需要注意的一点是，我们不再有这个<code>math</code>模块对象，并且在全局作用域中没有给名称<code>math</code>赋值。这就是为什么我们不再能够使用像<code>math.fsum</code>这样的东西来访问像<code>fsum</code>这样的东西。</p>
+<p>我们有两个新名字，<code>pi</code>和<code>tau</code>，这些名字被赋予长浮点值。这就是我们使用<code>pi</code>和<code>tau</code>这两个名字时所指的。它们只是普通的变量，是Python在我们导入常量时为我们定义的。</p>
+<h3>重要的</h3>
+<p>正如我在本节中提到的，当我们导入一个模块时，Python必须运行该模块。这很有意义，因为一些值或函数可能依赖于模块中的其他值。无论我们使用什么风格的导入，Python <em>总是</em>必须运行模块。</p>
+<p>许多Python开发人员错误地认为使用这样的导入:</p>
+
+
+<p>在某种程度上更有效，因为我们只获取几个值，因此Python不必运行该模块。事实并非如此，所以请不要试图使用这种特定的导入语法，因为您想让模块加载更有效。</p>
+<p>然而，上面的语法有一个重要的方法可以帮助提高效率，那就是引用值。如果你在应用程序的性能敏感部分多次使用一个名字，直接引用<code>pi</code>会比<code>math.pi</code>稍微快一点。不过，这很少是你需要担心的事情，速度上的差异非常小。你需要数以百万计的参考资料，才会有明显的差异。</p>
+<h2>别名进口</h2>
+<p>有时模块名相当长，或者我们不得不多次引用它们，当我们调用模块中定义的函数时，包含模块名会变得有点麻烦。因此，我们可以在导入模块时使用别名。这允许我们使用这个别名而不是模块名来引用模块。</p>
+<p>例如，假设我们正在做一些数据分析工作，我们决定使用<code>numpy</code>模块。</p>
+<p>在导入numpy时，通常的惯例是使用名称<code>np</code>来导入它，我们可以使用<code>as</code>语法来完成。</p>
+
+
+<p>我们在这里所做的是为<code>numpy</code>模块设置一个别名，这意味着我们已经请求Python允许我们用其他名称来引用它。在这种情况下，我们要求使用<code>np</code>来引用它。</p>
+<p>在这种情况下，让我们打印出最终出现在全局名称空间中的内容:</p>
+<div class="codehilite"><pre><span/><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
+</code></pre></div>
+
+<p>如果你在<a href="http://repl.it/"> repl.it </a>上运行这段代码，你会得到类似下面的输出。如果您在本地Python安装中运行这个，代码可能不工作，因为<code>numpy</code>是第三方模块，必须安装。</p>
+<div class="codehilite"><pre><span/><code><span class="p">{</span>
+    <span class="s1">'__name__'</span><span class="p">:</span> <span class="s1">'__main__'</span><span class="p">,</span>
+    <span class="s1">'__doc__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__package__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__loader__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">_frozen_importlib_external</span><span class="o">.</span><span class="n">SourceFileLoader</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fa4ee853bb0</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__spec__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'__annotations__'</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">'__builtins__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">module</span> <span class="s1">'builtins'</span> <span class="p">(</span><span class="n">built</span><span class="o">-</span><span class="ow">in</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">'__file__'</span><span class="p">:</span> <span class="s1">'main.py'</span><span class="p">,</span>
+    <span class="s1">'__cached__'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">'np'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">module</span> <span class="s1">'numpy'</span> <span class="kn">from</span> <span class="s1">'/home/runner/.local/share/virtualenvs/python3/lib/python3.8/site-packages/numpy/__init__.py'</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>我们可以看到，我们又一次得到了一个<code>module</code>对象，模块的名字是<code>'numpy'</code>，但是Python已经把这个模块赋予了名字<code>np</code>。</p>
+<p>这意味着我们可以使用<code>np.</code>访问<code>numpy</code>模块中的东西，比如数组类型。我们可以通过输入<code>np.array</code>来实现。</p>
+<h2>使用<code>*</code>导入</h2>
+<p>除了我们到目前为止所看到的导入语法之外，我们还可以编写如下内容:</p>
+
+
+<p>这个语法本质上意味着，“给我<code>math</code>模块中的所有内容”。我们没有得到<em>所有的</em>，因为我们仍然不能访问需要特定导入的模块内容，就像从<code>tkinter</code>导入<code>ttk</code>一样。</p>
+<p>我想事先说明，这不是你应该在代码中99%的时间里使用的导入风格。这样做的原因是，我们正在导入的模块中定义的所有名称都将被添加到全局名称空间中。</p>
+<p>如果您想亲自查看，请运行下面的代码。</p>
+<div class="codehilite"><pre><span/><code><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span>
+</code></pre></div>
+
+<p>这是一个大问题，因为它很容易导致名称冲突。例如，我们可能不小心使用了在我们导入的模块中定义的名称，然后我们覆盖了从该模块中获得的值。如果不同的模块也使用相同的值名，我们也会遇到一个模块覆盖另一个模块的问题。</p>
+<p>例如，<code>math</code>和<code>numpy</code>都定义了一个名为<code>pi</code>的值，但是在我们的全局名称空间中，只能给名称<code>pi</code>分配一个值。</p>
+<p>如果使用这种风格的导入是个坏主意，那么它为什么会存在呢？它主要是为了方便快速测试。如果我们不是在一个严肃的应用程序上工作，使用<code>*</code>导入可以节省我们大量的输入，我们不需要担心最佳实践。</p>
+<p>只是不要在你写的任何严肃的应用程序中使用它，除非你有一个真正的用例，并且你知道你在做什么。</p>
+<h2>练习</h2>
+<p>1)导入<code>fractions</code>模块，并从浮点型<code>2.25</code>创建一个<code>Fraction</code>。你可以在文档中找到如何创建分数<a href="https://docs.python.org/3/library/fractions.html#fractions.Fraction">的信息。</a></p>
+<p>2)仅从<code>math</code>模块导入<code>fsum</code>函数，并使用它来计算以下浮点序列的总和:</p>
+<div class="codehilite"><pre><span/><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.43</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">5.32</span><span class="p">,</span> <span class="mf">87.032</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">23.4</span><span class="p">]</span>
+</code></pre></div>
+
+<p>3)使用别名导入<code>random</code>模块，并使用<code>randint</code>函数在<code>1</code>和<code>100</code>之间找到一个随机数。你可以在这里找到这个函数<a href="https://docs.python.org/3/library/random.html#random.randint">的文档。</a></p>
+<p>4)使用上面练习中的<code>randint</code>函数创建我们在第8天制作的猜谜游戏的新版本。这一次程序应该生成一个随机数，你应该告诉用户他们的猜测是太高还是太低，直到他们得到正确的数字。</p>
+<p>你可以在这里找到我们的练习<a href="/30-days-of-python/python-30-day-18-exercise-solutions/">的答案。</a></p>
+<h2>额外资源</h2>
+<p>如果你想学习更多关于GUI开发的知识，我们在Udemy上有一门专门的课程，在我们的博客上也有<a href="https://blog.teclado.com/tag/gui-development/">一些帖子。</a></p>
+<p>我们没有关于<code>numpy</code>的任何内容，但是如果你想了解更多关于这个模块的内容，在<code>numpy</code>文档中有一个很好的<a href="https://numpy.org/devdocs/user/quickstart.html">快速入门教程页面</a>。</p>
+<p>如果你对浮点数的问题以及这些问题的解决方案感兴趣，你可以看看<a href="https://blog.teclado.com/decimal-vs-float-in-python/">我们的帖子</a>比较浮点数和<code>decimal</code>对象。</p> 
+                </article>
+            
+            </div>    
+</body>
+</html>

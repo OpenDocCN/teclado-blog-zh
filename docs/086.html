@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>Flashing messages with Flask</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>用烧瓶闪烁信息</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/flashing-messages-with-flask/">https://blog.teclado.com/flashing-messages-with-flask/</a></blockquote><div><div class="post-content">
+<p>通常在网站和网络应用程序中，我们想在发生什么事情时临时向用户显示一条消息。以下是一些信息示例:</p><ul><li>尝试登录时，他们的用户名或密码不正确。</li><li>他们寻找着什么，但没有找到结果。</li><li>他们试图购买，但由于某种原因失败了。</li></ul><p>你能明白我的意思。在许多情况下，我们的应用程序中会发生这样或那样的事情，我们必须通知用户。这些通常被称为警报、错误或消息。</p><p>因为它非常常见，所以Flask附带了简化显示和隐藏这些消息的过程的功能。这叫“闪”。</p><p>我已经编写了一个小Flask应用程序，向您展示我们将在这篇博文中学到的东西。如果你想用它来编码，或者只是检查最终的代码，请访问这个GitHub库。</p><h2 id="how-to-flash-messages">如何闪现消息</h2><p>为了刷新消息，您必须有一个Flask端点，并且<code>flash</code>导入:</p><pre><code class="language-python">from flask import flash, render_template
+
+...
+
+@app.route("/")
+def home():
+    flash("This is a flashed message.")
+    return render_template("home.html")
+</code></pre>
+<p>令许多人惊讶的是，调用<code>flash()</code>并不会让你的消息显示在你的模板上。它只是将消息添加到<strong>消息存储库</strong>。</p><p>一旦消息被闪现，它就被添加到存储中并保存在那里，直到被消费。</p><p>在您的模板中，您必须决定是否使用消息库。</p><p>但是请记住，当您这样做时，您将消耗整个消息库。这意味着，如果你多次调用<code>flash()</code>，所有这些消息都会在模板中显示给你。</p><p>让我们来看看可以使用消息存储库的模板:</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;&lt;/head&gt;
+  &lt;body&gt;
+    {% for message in get_flashed_messages() %}
+        &lt;p&gt;{{ message }}&lt;/p&gt;
+    {% endfor %}
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>现在你的网站只会显示文本<code>"This is a flashed message."</code>。</p><h3 id="flashing-multiple-messages">闪烁多条信息</h3><p>如果您决定不止一次打电话给<code>flash()</code>:</p><pre><code class="language-python">@app.route("/")
+def home():
+    flash("This is a flashed message.")
+    flash("Another message.")
+    return render_template("home.html")
+</code></pre>
+<p>那么你的模板会将这两条消息显示为单独的段落。同样，当您在模板中调用<code>get_flashed_messages()</code>时，将检索存储中的所有消息。然后，它们会从消息存储中删除。</p><h2 id="sample-scenario-login-error">示例场景:登录错误</h2><p>假设我们有下面的代码，它允许用户登录:</p><pre><code class="language-python">@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        user = find_user(username)
+
+        if user and password == user.password:
+            return redirect("profile")
+        else:
+            flash("incorrect username or password.")
+    return render_template("login.html")
+</code></pre>
+<p>让你想象填充<code>find_user</code>函数，想象它从数据库中检索用户数据。如果你有兴趣了解如何在你的Flask应用中添加登录和注册功能，我们有另一篇博文会涉及到这个问题。</p><p>您可以在代码中看到，如果用户不存在，或者密码不正确，我们将显示一条消息。之后，我们渲染<code>login.html</code>模板。</p><p>这意味着如果我们想要显示消息，我们的<code>login.html</code>模板应该能够处理闪烁的消息。</p><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;style&gt;
+      .alert-error {
+        padding: 8px;
+        background-color: red;
+        color: white;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Flashing messages&lt;/h1&gt;
+    {% for message in get_flashed_messages() %}
+      &lt;div class="alert-error"&gt;Error: {{ message }}&lt;/div&gt;
+    {% endfor %}
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>记住，如果<code>login.html</code>模板没有使用消息存储库，但是向其中添加了消息，那么这些消息将被保存在存储库中，直到另一个模板使用它。</p><h2 id="flashing-messages-with-categories">带类别的闪烁邮件</h2><p>有时，我们可能希望闪现不同类型的信息。例如，显示“未找到结果”的消息可能被归类为信息性消息，而显示“用户名或密码不正确”的消息可能被称为错误。</p><p>你可能也想在你的网站上设计不同的风格，所以区分它们是很重要的。</p><p>这就是为什么<code>flash()</code>有一个可选的第二个参数:<code>category</code>。</p><p>可以这样做:<code>flash("No results found", "info")</code>。</p><p>然后，在您的模板中，您可以通过使用<code>with_categories=True</code>参数来访问类别。注意，类别是返回的元组的第一个元素，后面是消息:</p><pre><code class="language-html">{% for category, message in get_flashed_messages(with_categories=True) %}
+  &lt;div class="alert-{{category}}"&gt;Error: {{ message }}&lt;/div&gt;
+{% endfor %}
+</code></pre>
+<p>但是我们也做了一些偷偷摸摸的事情，我们将类别传递给了HTML类:<code>alert-{{category}}</code>而不是我们之前的类别<code>alert-error</code>。</p><p>这意味着在我们的CSS中，我们现在可以这样:</p><pre><code class="language-css">.alert-error {
+  background-color: red;
+  color: white;
+}
+
+.alert-info {
+  background-color: yellow;
+  color: black;
+}
+</code></pre>
+<p>这大大简化了为不同类别的消息显示不同类型的警报。</p><h2 id="a-styling-code-improvement">样式代码改进</h2><p>因为这是一篇简短的博文，所以我也给你一个提示，让你在处理警报时更好地构建你的样式代码。</p><p>如果你想给你的提醒添加更多的样式，你可以这样做:</p><pre><code class="language-css">.alert-error {
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 2px solid darkred;
+  background-color: red;
+  color: white;
+}
+
+.alert-info {
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 2px solid orange;
+  background-color: yellow;
+  color: black;
+}
+</code></pre>
+<p>但是请注意，虽然警告有不同的颜色，但是它们也有许多重复的样式。</p><p>在CSS中，您通常可以将它提取到另一个类中，并在HTML中应用两个类，而不是一个。这样做会更好:</p><pre><code class="language-css">.alert {
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.alert-error {
+  border-color: darkred;
+  background-color: red;
+  color: white;
+}
+
+.alert-info {
+  border-color: orange;
+  background-color: yellow;
+  color: black;
+}
+</code></pre>
+<p>然后，在HTML中，您将对元素应用<code>alert</code>和适当的alert类类型:</p><pre><code class="language-html">{% for category, message in get_flashed_messages(with_categories=True) %}
+  &lt;div class="alert alert-{{category}}"&gt;Error: {{ message }}&lt;/div&gt;
+{% endfor %}
+</code></pre>
+<p>这减少了CSS代码中的重复，也使这个类的用途更加清晰。<code>alert</code>类定义了所有警报的属性，<code>alert-*</code>类定义了特定类型警报的属性。</p><p>一个额外的好处是，现在如果你想添加另一个样式的所有警报，你只需要在一个地方这样做。</p><p>你可以在CSS中的更多地方应用它，而不仅仅是这里，所以如果你的CSS代码中有重复，看看你是否能把重复提取到一个共享类中！</p><h2 id="wrapping-up">包扎</h2><p>这就是Flask中闪烁消息的全部内容！这很简单，但是让我们的生活很容易。</p><p>如果我们没有消息闪烁，通常我们需要向模板传递参数来告诉它们是否应该显示消息。那会更混乱和复杂，所以Flask有这个功能是很好的！</p><p>如果你热衷于学习更多关于Flask和web开发的知识，请查看我们的<a href="https://go.tecla.do/web-dev-course-sale"> Web开发者训练营Flask和Python </a>。在其中，我们使用Python、Flask、MongoDB和HTML/CSS开发了几个网站！</p><p>感谢阅读，我们下次再见！</p>
+</div>
+</div>    
+</body>
+</html>

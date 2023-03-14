@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Changes to async event loops in Python 3.10</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Python 3.10中异步事件循环的更改</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/changes-to-async-event-loops-in-python-3-10/">https://blog.teclado.com/changes-to-async-event-loops-in-python-3-10/</a></blockquote><div><div class="post-content">
+<p>在Python 3.10中，对<code>asyncio</code>库的一些改变导致了我们整个Python课程中的一些问题。</p>
+<p>我们使用了<code>asyncio.get_event_loop()</code>，并使用它的返回值来执行一些异步任务。现在，调用<code>get_event_loop()</code>已经过时了，你应该使用<code>asyncio.run()</code>。</p>
+<p>以下是本课程展示的异步抓取几个网站的代码:</p>
+<pre><code class="language-py">import aiohttp
+import asyncio
+import time
+
+
+async def fetch_page(url):
+    page_start = time.time()
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            print(f"Page took {time.time() - page_start}")
+            return response.status
+
+
+loop = asyncio.get_event_loop()
+tasks = [fetch_page("http://books.toscrape.com") for i in range(10)]
+start = time.time()
+loop.run_until_complete(asyncio.gather(*tasks))
+
+print(f"All took {time.time() - start}")
+</code></pre>
+<p>但是现在，Python发出警告，因为<code>asyncio.get_event_loop()</code>被弃用了。</p>
+<p>Python官方文档的更新向我们展示了一种更好的新方法:</p>
+<pre><code class="language-py">import aiohttp
+import asyncio
+import time
+
+async def fetch_page(url):
+    page_start = time.time()
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            print(f'Page took {time.time() - page_start}')
+    
+async def main():
+    tasks = [fetch_page('http://books.toscrape.com') for i in range(10)]
+    await asyncio.gather(*tasks)
+
+start_time = time.time()
+asyncio.run(main())
+print(f'All took {time.time() - start_time}')
+</code></pre>
+<p>有两个主要变化:</p>
+<ol>
+<li>定义一个“主”协程，它是异步代码的入口点。我们在这里做<code>async def main()</code>。</li>
+<li>不叫<code>get_event_loop</code>和<code>run_until_complete</code>，只叫<code>asyncio.run(main())</code>。</li>
+</ol>
+<p>这要简单得多，因为开发人员不必担心得到一个事件循环，或者哪个事件循环正在运行。只要打电话给<code>.run()</code>就能帮你做所有的事情。</p>
+<p>如果你正在跟随我们的<a href="https://go.tecla.do/complete-python-sale-30-days">完整的Python课程</a>并且你遇到了这个问题，我希望这篇文章能有所帮助！如果您想了解更多关于Python的知识，并且您没有注册我们的课程，请考虑尝试一下！</p>
+<p><small>由<a href="https://unsplash.com/photos/0tNF_mHm_Ls" target="_blank" rel="noopener noreferrer">大卫·拉托雷·罗梅罗</a>发布的照片</small></p>
+
+</div>
+</div>    
+</body>
+</html>

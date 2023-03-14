@@ -1,0 +1,270 @@
+<html>
+<head>
+<title>Creating a New Sequence Type in Python - Part 2</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>在Python中创建新的序列类型——第2部分</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/creating-a-new-sequence-type-in-python-part-2/">https://blog.teclado.com/creating-a-new-sequence-type-in-python-part-2/</a></blockquote><div><div class="post-content">
+<p>欢迎回到关于使用类和Python的神奇方法在Python中创建新序列类型的系列文章。如果你没看第一部分，你可以在这里找到它。</p><p>在这篇文章中，我们将把重点放在向新的<code>LockableList</code>序列添加项目上，我们还将创建<code>lock</code>和<code>unlock</code>方法来改变我们的<code>LockableList</code>对象的可变性。我们也将实施期待已久的<code>__repr__</code>。</p><h2 id="a-quick-recap">快速回顾一下</h2><p>首先，让我们快速回顾一下到目前为止我们所做的工作。目前，我们的<code>LockableList</code>类是这样的:</p><pre><code class="language-python">class LockableList:
+    def __init__(self, *values, locked=False):
+        self.values = list(values)
+        self._locked = locked
+
+    def __str__(self):
+        return f"{self.values}"
+
+    def __len__(self):
+        return len(self.values)
+
+    def __getitem__(self, i):
+        if isinstance(i, int):
+            # Perform conversion to positive index if necessary
+            if i &lt; 0:
+                i = len(self.values) + i
+
+            # Check index lies within the valid range and return value if possible
+            if i &lt; 0 or i &gt;= len(self.values):
+                raise IndexError("LockableList index out of range")
+            else:
+                return self.values[i]
+        elif isinstance(i, slice):
+            start, stop, step = i.indices(len(self.values))
+            rng = range(start, stop, step)
+            return LockableList(*[self.values[index] for index in rng])
+        else:
+            invalid_type = type(i)
+            raise TypeError(
+                    "LockableList indices must be integers or slices, not {}"
+                    .format(invalid_type.__name__)
+                )
+</code></pre>
+<p>我们有一个<code>__init__</code>方法，当我们的<code>LockableList</code>类的一个实例被创建时，这个方法被调用。这允许我们在创建一个<code>LockableList</code>的过程中接受值，比如一些初始数据，以及一个锁状态。</p><p>我们还定义了其他三种魔法方法:<code>__str__</code>、<code>__len__</code>和<code>__getitem__</code>。</p><p>允许我们在Python要求我们的对象的字符串表示时返回一些东西。一个例子可能是当我们将对象传递给内置的<code>print</code>函数时。</p><p><code>__len__</code>允许我们返回对象的长度，表明序列包含多少项。这意味着我们可以在函数上调用<code>len</code>而不会引发错误。</p><p>是我们迄今为止实现的最复杂的方法。<code>__getitem__</code>允许我们访问列表中的特定项目或项目范围。如果我们像这样创建一个可锁定列表:</p><pre><code class="language-python">friends = LockableList("Rolf", "John", "Anna")
+</code></pre>
+<p>我们可以像访问列表一样访问项目:</p><pre><code class="language-python">print(friends[0])    # Rolf
+print(friends[1:3])  # ['John', 'Anna']
+</code></pre>
+<p>我们也可以使用for或while循环，或者使用comprehension来循环我们的<code>LockableList</code>对象。</p><h2 id="adding-the-lock-and-unlock-methods">添加<code>lock</code>和<code>unlock</code>方法</h2><p>让我们从添加使我们的类型独一无二的方法开始:<code>lock</code>和<code>unlock</code>。</p><p>这里的目的是让我们修改我们的<code>LockableList</code>对象的锁定状态。当一个列表被锁定时，试图修改序列将会引发一个错误，就像我们试图修改一个元组一样。</p><p><code>lock</code>和<code>unlock</code>方法本身非常简单。所有检查锁状态的逻辑都将在别处完成。<code>lock</code>和<code>unlock</code>只关心一件事:将<code>self._locked</code>的值从<code>True</code>改为<code>False</code>和<em>，反之亦然</em>。</p><pre><code class="language-python">def lock(self):
+    self._locked = True
+
+def unlock(self):
+    self._locked = False
+</code></pre>
+<p>我们可以这样测试这个作品:</p><pre><code class="language-python">friends = LockableList("Rolf", "John", "Anna")
+
+friends.lock()
+print(friends._locked)  # True
+
+friends.unlock()
+print(friends._locked)  # False
+</code></pre>
+<h2 id="adding-__repr__">添加<code>__repr__</code></h2><p>是一个重要的dunder方法，我们应该为我们创建的每个类实现它。很像<code>__str__</code>，<code>__repr__</code>返回一个特定对象的字符串表示，但是它有不同的功能。</p><p>考虑<code>__str__</code>和<code>__repr__</code>的一个简单方法是，<code>__str__</code>用于向用户显示信息，而<code>__repr__</code>是给开发者的信息。当我们实现<code>__repr__</code>时，我们希望提供重现对象所需的所有信息，越具体越好。例如，这可能包括模块名。</p><p>在我们的例子中，我们将展示如何定义一个<code>LockableList</code>对象，我们将展示重新创建调用<code>__repr__</code>的特定<code>LockableList</code>实例所需的参数。</p><pre><code class="language-python">def __repr__(self):
+    return f"LockableList({self.values})"
+
+# LockableList(['Rolf', 'John', 'Anna'])
+</code></pre>
+<p>然而，上面的表示没有准确描述如何创建我们关心的<code>LockableList</code>对象。相反，我们单独传入每个字符串，不带方括号，任何非字符串条目都将被添加。我们可以很容易地将一个列表、整数或集合存储为我们的<code>LockableList</code>的成员，每个都作为一个单独的参数传入。</p><p>因此，我们将对<code>self.values</code>中的每个项目调用<code>__repr__</code>，根据它们的类型，以值的形式为每个对象获取适当的表示。然后我们用<code>", "</code>作为连接字符串<code>join</code>每个值。</p><pre><code class="language-python">def __repr__(self):
+    values = ", ".join([value.__repr__() for value in self.values])
+    return f"LockableList({values})"
+
+# LockableList('Rolf', 'John', 'Anna')
+</code></pre>
+<p>这样，我们的<code>LockableList</code>类看起来像这样:</p><pre><code class="language-python">class LockableList:
+    def __init__(self, *values, locked=False):
+        self.values = list(values)
+        self._locked = locked
+
+    def __str__(self):
+        return f"{self.values}"
+
+    def __repr__(self):
+        values = ", ".join([value.__repr__() for value in self.values])
+        return f"LockableList({values})"
+
+    def __len__(self):
+        return len(self.values)
+
+    def __getitem__(self, i):
+        if isinstance(i, int):
+            # Perform conversion to positive index if necessary
+            if i &lt; 0:
+                i = len(self.values) + i
+
+            # Check index lies within the valid range and return value if possible
+            if i &lt; 0 or i &gt;= len(self.values):
+                raise IndexError("LockableList index out of range")
+            else:
+                return self.values[i]
+        elif isinstance(i, slice):
+            start, stop, step = i.indices(len(self.values))
+            rng = range(start, stop, step)
+            return LockableList(*[self.values[index] for index in rng])
+        else:
+            invalid_type = type(i)
+            raise TypeError(
+                "LockableList indices must be integers or slices, not {}"
+                .format(invalid_type.__name__)
+            )
+
+    def lock(self):
+        self._locked = True
+
+    def unlock(self):
+        self._locked = False
+
+
+test = LockableList("Rolf", "John", "Anna", 3, ["Hello", "World"])
+print(repr(test))  # LockableList('Rolf', 'John', 'Anna', 3, ['Hello', 'World'])
+</code></pre>
+<h2 id="implementing-__setitem__">实施<code>__setitem__</code></h2><p>现在是开始实现<code>__setitem__</code>的时候了，这将让我们将新的对象分配给我们的<code>LockableList</code>的特定索引。换句话说，我们可以做这样的事情:</p><pre><code class="language-python">friends = LockableList("Rolf", "John", "Anna")
+friends[1] = "Jose"
+</code></pre>
+<p>此时，如果我们尝试这样做，Python会引发一个异常:</p><pre><code>TypeError: 'LockableList' object does not support item assignment
+</code></pre>
+<p>实现<code>__setitem__</code>也将允许我们执行片分配。如果你对这个话题不熟悉，通读我们的<a href="https://blog.teclado.com/python-slices-part-2/">高级切片贴</a>是一个好主意，以提高速度。</p><p>同样，我们将需要一个不同的过程来处理项目分配和片分配，并且我们还将不得不处理无效的索引，无论它们是否超出范围，或者它们是否是一个<code>TypeError</code>的结果。</p><p>在<code>__setitem__</code>的情况下，我们还必须注意我们的<code>LockableList</code>的锁定状态，我们必须确保当用户试图修改锁定序列时引发异常。</p><h3 id="checking-the-lock-state">检查锁定状态</h3><p>首先，让我们定义新的<code>__setitem__</code>方法，并添加一些逻辑来检查<code>LockableList</code>是否确实被锁定。如果是，我们可以养一只<code>RuntimeError</code>。</p><p>对于<code>__setitem__</code>，我们将指定三个参数:<code>self</code>，因为我们需要访问<code>self._locked</code>；<code>i</code>代表某个指标或指标范围；和<code>values</code>，它代表我们想要添加到我们的<code>LockableList</code>对象中的项目。</p><pre><code class="language-python">def __setitem__(self, i, value):
+    if self._locked == True:
+        raise RuntimeError(
+            "LockableList object does not support item assignment while locked"
+        )
+</code></pre>
+<p>检查锁状态就像使用if语句检查<code>self._locked</code>的当前值一样简单。如果<code>self._locked</code>是<code>True</code>，我们立即提高我们的<code>RuntimeError</code>，否则我们将尝试添加指定的项目到序列中。</p><h3 id="adding-single-items">添加单项</h3><p>一旦我们确定我们的<code>LockableList</code>是解锁的并且能够突变，我们就可以开始给序列分配项目。</p><p>我们对<code>__setitem__</code>的实现看起来将非常类似于对<code>__getitem__</code>的实现。首先，我们检查索引是否为负，如果是，我们尝试将其转换为正索引。然后，我们检查索引是否在这个特定的<code>LockableList</code>实例的有效范围内，如果不在，就抛出一个<code>IndexError</code>。</p><p>我们实现的不同之处在于我们如何处理没有错误发生的情况。我们不是返回给定索引处的项，而是给它赋值。由于我们在内部使用一个列表来存储我们的值，这应该相对容易:</p><pre><code class="language-python">def __setitem__(self, i, values):
+    if self._locked == True:
+        raise RuntimeError(
+            "LockableList object does not support item assignment while locked"
+        )
+    
+    if isinstance(i, int):
+        # Perform conversion to positive index if necessary
+        if i &lt; 0:
+            i = len(self.values) + i
+        
+        # Check index lies within the valid range and assign value if possible
+        if i &lt; 0 or i &gt;= len(self.values):
+            raise IndexError("LockableList index out of range")
+        else:
+            self.values[i] = values
+</code></pre>
+<h3 id="implementing-slice-assignment">实现切片分配</h3><p>在为切片实现<code>__setitem__</code>时，我们需要记住一些事情:</p><ol><li>切片允许不对称分配。我们可以分配比容纳它们的空间更多的值。</li><li>我们也可以分配比我们替换的项目更少的项目，序列中的后续值将移动以填充剩余的空间。</li><li>使用扩展切片时，除非步长值为1，否则这些特殊属性不适用。</li></ol><p>严格来说，这些限制并不是由片本身强加的，而是由list如何实现片赋值强加的。由于我们试图模仿内置列表类型的功能，我们也将施加这些限制。</p><p>我们可以采取简单的方法，让底层列表为我们做所有的工作，但是这有什么意思呢？让我们从头开始做尽可能多的事情。</p><h3 id="extended-slicing">扩展切片</h3><p>让我们首先创建一个<code>elif</code>分支来捕获切片对象。我们可以使用<code>indices</code>来获得对应于这个特定序列的<code>start</code>、<code>stop</code>和<code>step</code>值，就像我们在<a href="https://blog.teclado.com/creating-a-new-sequence-type-in-python-part-1/">第1部分</a>中对<code>__getitem__</code>所做的那样。</p><p><code>rng</code>将包含序列中的特定索引，这些索引对应于所提供的切片对象，就像前面一样。</p><p>我们现在可以执行一个检查，看看步长值是否为1以外的任何值。如果是，我们知道<code>rng</code>的<code>len</code>一定等于传入<code>__setitem__</code>的<code>values</code>的<code>len</code>。如果这个条件不满足，我们就抛出<code>ValueError</code>。</p><pre><code class="language-python">elif isinstance(i, slice):
+    start, stop, step = i.indices(len(self.values))
+    rng = range(start, stop, step)
+    if step != 1:
+        if len(rng) != len(values):
+            raise ValueError(
+                "attempt to assign a sequence of size {} to extended slice of size {}"
+                .format(len(values), len(rng))
+            )
+</code></pre>
+<p>如果我们没有遇到任何异常，我们需要遍历<code>rng</code>中的索引，并一次一个地分配<code>values</code>中的每个项目。</p><p>在本例中，我将使用<code>zip</code>创建一系列元组，第一个值是<code>rng</code>中的一个索引，第二个值是<code>values</code>中的一个条目。</p><pre><code class="language-python">elif isinstance(i, slice):
+    start, stop, step = i.indices(len(self.values))
+    rng = range(start, stop, step)
+    if step != 1:
+        if len(rng) != len(values):
+            raise ValueError(
+                "attempt to assign a sequence of size {} to extended slice of size {}"
+                .format(len(values), len(rng))
+            )
+        else:
+            for index, value in zip(rng, values):
+                self.values[index] = value
+</code></pre>
+<p>现在，我们可以将一个步长值不为1的扩展切片赋值，如下所示:</p><pre><code class="language-python">friends = LockableList("Rolf", "John", "Anna")
+
+friends[0:3:2] = ["Jose", "Mary"]
+print(friends)  # ["Jose", "John", "Mary"]
+
+friends[2::-2] = ["Rolf", "Anna"]
+print(friends)  # ["Anna", "John", "Rolf"]
+</code></pre>
+<h3 id="standard-slice-assignment">标准切片分配</h3><p>最后，我们可以处理切片的标准分配情况。这有一点复杂，因为我们可能需要将底层列表分割以适应值。</p><p>幸运的是，我们可以在这里使用切片的一些属性来帮助我们。我们已经有了所提供的切片对象<code>i</code>的<code>start</code>和<code>stop</code>值。我们也知道切片的<code>start</code>指标是包含性的，而<code>stop</code>不是。</p><p>因此，我们可以这样做:</p><pre><code class="language-python">self.values = self.values[:start] + values + self.values[stop:] 
+</code></pre>
+<p>在这里，我们从内部列表的开始到我们的切片的开始取所有值的切片，不包括。换句话说，直到第一个切片项目的所有内容。我们将想要添加到序列中的值追加到这个值范围中。</p><p>然后我们追加另一组值，这次是从切片的<code>stop</code>索引到序列的末尾。</p><p>然后将所有这些分配给<code>self.values</code>，用这个新序列替换内部列表。</p><p>我们需要做的最后一件事是处理用户传入无效索引的情况，就像我们对<code>__getitem__</code>所做的那样。</p><p>对于我们所有的新代码，我们最终会得到这样的结果:</p><pre><code class="language-python">class LockableList:
+    def __init__(self, *values, locked=False):
+        self.values = list(values)
+        self._locked = locked
+
+    def __str__(self):
+        return f"{self.values}"
+
+    def __repr__(self):
+        values = ", ".join([value.__repr__() for value in self.values])
+        return f"LockableList({values})"
+
+    def __len__(self):
+        return len(self.values)
+
+    def __getitem__(self, i):
+        if isinstance(i, int):
+            # Perform conversion to positive index if necessary
+            if i &lt; 0:
+                i = len(self.values) + i
+
+            # Check index lies within the valid range and return value if possible
+            if i &lt; 0 or i &gt;= len(self.values):
+                raise IndexError("LockableList index out of range")
+            else:
+                return self.values[i]
+        elif isinstance(i, slice):
+            start, stop, step = i.indices(len(self.values))
+            rng = range(start, stop, step)
+            return LockableList(*[self.values[index] for index in rng])
+        else:
+            invalid_type = type(i)
+            raise TypeError(
+                "LockableList indices must be integers or slices, not {}"
+                .format(invalid_type.__name__)
+            )
+    
+    def __setitem__(self, i, values):
+        if self._locked == True:
+            raise RuntimeError(
+                "LockableList object does not support item assignment while locked"
+            )
+        
+        if isinstance(i, int):
+            # Perform conversion to positive index if necessary
+            if i &lt; 0:
+                i = len(self.values) + i
+            
+            # Check index lies within the valid range and assign value if possible
+            if i &lt; 0 or i &gt;= len(self.values):
+                raise IndexError("LockableList index out of range")
+            else:
+                self.values[i] = values
+        elif isinstance(i, slice):
+            start, stop, step = i.indices(len(self.values))
+            rng = range(start, stop, step)
+            if step != 1:
+                if len(rng) != len(values):
+                    raise ValueError(
+                        "attempt to assign a sequence of size {} to extended slice of size {}"
+                        .format(len(values), len(rng))
+                    )
+                else:
+                    for index, value in zip(rng, values):
+                        self.values[index] = value
+            else:
+                self.values = self.values[:start] + values + self.values[stop:]
+        else:
+            invalid_type = type(i)
+            raise TypeError(
+                "LockableList indices must be integers or slices, not {}"
+                .format(invalid_type.__name__)
+            )
+
+    def lock(self):
+        self._locked = True
+
+    def unlock(self):
+        self._locked = False
+
+
+friends = LockableList("Rolf", "John", "Anna")
+friends[1:2] = ["Jose", "Mary"]
+
+print(friends)  # ['Rolf', 'Jose', 'Mary', 'Anna']
+</code></pre>
+<p>我希望你喜欢这个系列。我们将很快<a href="https://blog.teclado.com/creating-a-new-sequence-type-in-python-part-3/">回来</a>为我们新的序列类型添加<em>甚至更多的</em>功能。在那之前，看看<code>__add__</code>、<code>__radd__</code>和<code>append</code>方法，看看你自己是否能从头开始实现它们。你可以在<a href="https://docs.python.org/3/reference/datamodel.html#special-method-names">官方文档</a>中找到关于<code>__add__</code>和<code>__radd__</code>方法的信息。</p><h2 id="wrapping-up">包扎</h2><p>如果你正在寻找更全面的东西，你可能想试试我们的<a href="https://www.udemy.com/the-complete-python-course/?couponCode=BLOGGER">完整Python课程</a>。它长达35个小时，包含练习、项目和测验，可以帮助你很好地理解Python。我们认为这太棒了，我们相信你也会的！</p><p>你可能也想考虑注册我们下面的邮件列表！</p>
+</div>
+</div>    
+</body>
+</html>

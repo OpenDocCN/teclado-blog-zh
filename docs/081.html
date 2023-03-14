@@ -1,0 +1,215 @@
+<html>
+<head>
+<title>How to write decorators in Python</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何用Python写decorators</h1>
+<blockquote>原文：<a href="https://blog.teclado.com/decorators-in-python/">https://blog.teclado.com/decorators-in-python/</a></blockquote><div><div class="post-content">
+<p>Python中的Decorators可能是一个令人困惑的话题，尤其是对于新生来说。这就是为什么我们制作了一个由四部分组成的视频课程供您浏览，链接如下。</p><p>我还整理了一些重要概念的书面解释，所以如果你是一个读者，或者如果你只是想要更多的例子，你会在下面找到你需要的所有信息。</p><h2 id="higher-order-functions">高阶函数</h2><p>在学习decorators之前，你必须对高阶函数有所了解。毕竟所有的decorator都是高阶函数(但不是所有的高阶函数都是decorator！).</p><p>那么什么是高阶函数呢？</p><p>它们只是将其他函数作为参数的函数。高阶函数通常调用传递给它们的函数，但它们通常也涉及额外的操作。</p><p>例如，假设您有一个名为<code>say_hello</code>的函数:</p><pre><code class="language-python">def say_hello():
+    user_name = input("Enter your name: ")
+    print(f"Hello, {user_name}!")
+</code></pre>
+<p>假设您想要创建另一个函数来运行这个函数，但是在运行之前还会打印一条欢迎消息。</p><p>您可以这样做:</p><pre><code class="language-python">def welcome_user():
+    print("Welcome to my application!")
+    say_hello()
+</code></pre>
+<p>这不是高阶函数。它只是一个函数！</p><p>如果您希望能够在任何任意函数之前打印欢迎消息，那么您应该创建一个接受另一个函数作为参数的高阶函数。像这样:</p><pre><code class="language-python">def welcome_user(func):
+    print("Welcome to my application!")
+    func()
+</code></pre>
+<p>这样做的好处是，现在任何函数都可以传递给<code>welcome_user</code>，所以非常具有重用性。这个特殊的例子可能看起来不太有用，但是我们会在这篇文章的后面看到一个更有趣的例子！</p><p>你应该这样使用它:</p><pre><code class="language-python">def welcome_user(func):
+    print("Welcome to my application!")
+    func()
+
+def say_hello():
+    user_name = input("Enter your name: ")
+    print(f"Hello, {user_name}!")
+
+welcome_user(say_hello)  # Calls both functions and prints both things.
+</code></pre>
+<h2 id="what-are-decorators">什么是装修工？</h2><p>装饰器是不直接调用参数的高阶函数；相反，它会创建另一个函数，并返回该函数。</p><p>一句话就这么多“功能”，我们来分解一下吧！</p><p>这是一个室内设计师可能的样子:</p><pre><code class="language-python">def decorator():
+    def say_goodbye():
+        print("Goodbye!")
+
+    return say_goodbye
+</code></pre>
+<p><code>decorator</code>函数定义一个内部函数<code>say_goodbye</code>，然后返回它。内部函数在被调用之前不会运行。你可以这样使用它:</p><pre><code class="language-python">my_variable = decorator()
+my_variable()  # Goodbye!
+</code></pre>
+<p>虽然看起来<code>my_variable</code>不是函数(那里没有<code>def</code>关键字！)，<code>my_variable</code>很大程度上是一种功能。</p><p>请记住，在赋值操作发生之前，赋值的右边是先计算的。这样，<code>decorator</code>、<code>say_goodbye</code>函数的返回值被分配给<code>my_variable</code>。</p><p>那么，<code>decorator</code>是装修工吗？</p><p>还没有。</p><p>为了成为装饰器，它需要将一个函数作为参数:</p><pre><code class="language-python">def decorator(func):
+    def say_goodbye():
+        func()
+        print("Goodbye!")
+
+    return say_goodbye
+</code></pre>
+<p>然后你可以像这样使用这个装饰器:</p><pre><code class="language-python">def say_hello():
+    print("Hello!")
+
+greet = decorator(say_hello)
+greet()  # Hello! and Goodbye!
+</code></pre>
+<p>现在<code>decorator</code>名副其实了。它将一个函数作为参数，并返回一个本质上“扩展”它的新函数。新的<code>greet</code>函数不再仅仅调用原来的函数，而是做了更多的<em/>。</p><p>通常，您会使用decorators来替换现有的函数，同时扩展它们:</p><pre><code class="language-python">def say_hello():
+    print("Hello!")
+
+say_hello = decorator(say_hello)
+say_hello()  # Hello! and Goodbye!
+</code></pre>
+<p>在最后一个例子中，<code>decorator</code>函数首先运行，因为它在赋值的右边。最初的<code>say_hello</code>函数将只在装饰器内部定义的<code>say_goodbye</code>函数中被调用。</p><p>在第4行之后，全局范围内的<code>say_hello</code>变量不再引用原始函数。相反，它引用了<code>say_goodbye</code>函数。</p><p>您可以通过打印出<code>__name__</code>来检查这一点:</p><pre><code class="language-python">def say_hello():
+    print("Hello!")
+
+say_hello = decorator(say_hello)
+print(say_hello.__name__)  # say_goodbye
+</code></pre>
+<p>这是这些不完整装饰器的一个缺点，因为旧函数的<code>__name__</code>和<code>__doc__</code>属性被新函数的属性所取代。在一天结束时，我们用一个新值完全替换了变量，所以这是有意义的。</p><p>然而，当使用decorators时，我们常常希望扩展<code>say_hello</code>函数，但让它保留自己的名字和文档(如果有的话)。这就是内置模块<code>functools</code>的用武之地。</p><p>如果这样做，该函数将保留其原始名称和文档:</p><pre><code class="language-python">import functools
+
+def decorator(func):
+    @functools.wraps(func)
+    def say_goodbye():
+        func()
+        print("Goodbye!")
+
+    return say_goodbye
+</code></pre>
+<p>这意味着该名称将被保留:</p><pre><code class="language-python">def say_hello():
+    print("Hello!")
+
+say_hello = decorator(say_hello)
+print(say_hello.__name__)  # say_hello
+</code></pre>
+<p>但是，等等！那个<code>@</code>语法是什么？</p><p>好吧，那就来了解一下吧！</p><h2 id="the-syntax-for-decorators">装饰者的<code>@</code>语法</h2><p><code>@</code>语法用于应用装饰器。当我们之前编写<code>@functools.wraps(func)</code>时，我们将<code>wraps</code>装饰器应用到了我们的<code>say_goodbye</code>函数中。</p><p>我们也可以在代码中使用这种语法。目前，我们的代码如下所示:</p><pre><code class="language-python">import functools
+
+
+def decorator(func):
+    @functools.wraps(func)
+    def say_goodbye():
+        func()
+        print("Goodbye!")
+
+    return say_goodbye
+
+
+def say_hello():
+    print("Hello!")
+
+
+say_hello = decorator(say_hello)
+say_hello()
+</code></pre>
+<p>但是使用<code>@</code>语法，可以简化成这样:</p><pre><code class="language-python">import functools
+
+
+def decorator(func):
+    @functools.wraps(func)
+    def say_goodbye():
+        func()
+        print("Goodbye!")
+
+    return say_goodbye
+
+
+@decorator
+def say_hello():
+    print("Hello!")
+
+
+say_hello()
+</code></pre>
+<p>注意，我们已经去掉了重新赋值<code>say_hello</code>的那一行，现在我们把<code>@decorator</code>放在了函数定义的上面。</p><p>这完全一样:它创建函数，然后将它传递给装饰器，并重新分配它。</p><p>如果您运行代码，您会看到调用<code>say_hello()</code>仍然输出“Hello！”还有“再见！”。</p><p>这样做的一个主要好处是函数会立即被修饰，所以在它被修饰之前不会被意外调用。</p><h2 id="decorating-functions-with-parameters">用参数修饰函数</h2><p>此时，我们的<code>say_hello</code>函数被替换为<code>say_goodbye</code>。这意味着，如果<code>say_hello</code>有任何参数，当我们替换函数时，这些参数会丢失。请看这个例子:</p><pre><code class="language-python">import functools
+
+
+def decorator(func):
+    @functools.wraps(func)
+    def say_goodbye():
+        func()
+        print("Goodbye!")
+    return say_goodbye
+
+
+@decorator
+def say_hello(name):
+    print(f"Hello, {name}!")
+
+
+say_hello("Bob")  # TypeError, say_goodbye() takes 0 positional arguments but 1 was given
+</code></pre>
+<p>事实上，如果我们要这样做，我们还需要将参数添加到<code>say_goodbye</code>:</p><pre><code class="language-python">def decorator(func):
+    @functools.wraps(func)
+    def say_goodbye(name):
+        func(name)
+        print("Goodbye!")
+    return say_goodbye
+</code></pre>
+<p>但是这是一个坏主意，因为它将我们的装饰器耦合到了我们的<code>say_hello</code>函数，这意味着我们不能将该装饰器与具有不同数量参数的其他函数一起使用。</p><p>相反，推荐的方法是通过让我们的装饰器接受任意数量的参数，并将参数(如果有的话)传递给被装饰的函数，从而对我们的装饰器进行一般化。</p><p>为了做到这一点，我们将使用标准语法<code>*args, **kwargs</code>。如果你以前没有遇到过他们，<a href="https://www.digitalocean.com/community/tutorials/how-to-use-args-and-kwargs-in-python-3">这里有一个快速指南</a>:</p><pre><code class="language-python">def decorator(func):
+    @functools.wraps(func)
+    def say_goodbye(*args, **kwargs):
+        func(*args, **kwargs)
+        print("Goodbye!")
+    return say_goodbye
+</code></pre>
+<p>现在这个装饰器可以用于任何函数，不管它们有多少参数！</p><h2 id="writing-decorators-with-parameters">用参数编写装饰器</h2><p>为了了解带参数的decorators，我们来看另一个例子。这个例子也包含在这篇文章顶部的视频中，所以如果你还没有看的话，一定要看看！</p><p>假设您有一个函数<code>get_admin_password</code>，它将密码返回给管理面板，还有另一个函数<code>get_user_password</code>，它将密码返回给用户仪表板。它们看起来是这样的:</p><pre><code class="language-python">def get_admin_password():
+    return "1234"
+
+def get_user_password():
+    return "secure_password"
+</code></pre>
+<p>您可以像这样调用这些函数之一:</p><pre><code class="language-python">print(get_admin_password())  # 1234
+</code></pre>
+<p>但是自然地，您希望只有管理员能够获得管理员密码，用户能够获得用户面板密码。</p><p>这是您的用户的样子:</p><pre><code class="language-python">user = {"name": "Bob Smith", "access_level": "admin"}
+</code></pre>
+<p>因此，让我们编写一个装饰器来保护<code>get_password</code>函数，这样它就不会暴露给任何用户了！</p><p>我们将从只允许管理员运行该功能开始:</p><pre><code class="language-python">def make_secure(func):
+    def secure_func(*args, **kwargs):
+        if user["access_level"] == "admin":
+            return func(*args, **kwargs)
+
+    return secure_func
+</code></pre>
+<p>一个简单的装饰器，但是使用了我们到目前为止讨论过的所有东西！</p><p>它定义了一个内部函数，只有当用户的访问级别是“admin”时，这个函数才会运行传递的函数<code>func</code>。</p><p>下面是完整的代码:</p><pre><code class="language-python">import functools
+
+user = {"name": "Bob Smith", "access_level": "admin"}
+
+
+def make_secure(func):
+    @functools.wraps(func)
+    def secure_func(*args, **kwargs):
+        if user["access_level"] == "admin":
+            return func(*args, **kwargs)
+
+    return secure_func
+
+
+@make_secure
+def get_admin_password():
+    return "1234"
+
+@make_secure
+def get_user_password():
+    return "secure_password"
+
+print(get_password("admin"))  # 1234
+print(get_password("user"))  # None
+</code></pre>
+<p>为什么当我们试图获取用户面板密码时，它会打印出<code>None</code>？因为装饰器从不运行<code>return func(*args, **kwargs)</code>，所以默认情况下它只返回<code>None</code>——就像所有Python函数一样。</p><p>目前，<code>make_secure</code>装饰器只允许用户在访问级别为<code>"admin"</code>时运行该函数。它不允许用户运行任何功能。</p><p>事实上，我们需要两个略有不同的装饰器，一个检查<code>"admin"</code>级别的权限，一个检查<code>"user"</code>级别的权限。</p><p>但是如果我们只定义两个装饰器，会有很多重复，所以我们要做的是通过添加一个参数使它们更动态:</p><pre><code class="language-python">@make_secure("admin")
+def get_admin_password():
+    return "1234"
+
+@make_secure("user")
+def get_user_password():
+    return "secure_password"
+</code></pre>
+<p>如果我们要这样做，我们需要对装饰器本身做一些改变！</p><p>关于这个新语法，<em>非常</em>重要的一点是，<code>make_secure("admin")</code>将首先运行，然后它将作为装饰器与<code>@</code>语法一起应用。</p><p>所以我们的装饰者必须变成这样:</p><pre><code class="language-python">def make_secure(access_level):
+    def decorator(func):
+        @functools.wraps(func)
+        def secure_func(*args, **kwargs):
+            if user["access_level"] == "admin":
+                return func(*args, **kwargs)
+
+        return secure_func
+    return decorator
+</code></pre>
+<p>我们增加了一个级别，因为<code>make_secure</code>不再是装饰者<em>本身</em>。现在是一个函数创建一个装饰器，然后<em>将</em>应用于带有‘at’语法的函数。</p><p>所以当你运行<code>@make_secure("admin")</code>时，首先会执行<code>make_secure</code>函数并创建<code>decorator</code>函数。</p><p>然后应用,<code>@decorator</code>,但是它已经知道您提供的访问级别。</p><p>这非常令人困惑，是Python中最复杂的代码之一。我们很少在函数之间有三层深度嵌套！</p><p>我建议查看视频播放列表以获得另一种解释，示例略有不同。这种结构越看越有道理，越容易理解！</p><h2 id="wrapping-up">包扎</h2><p>如果你有兴趣提高你的Python技能，并学习更多的Python主题，我们很乐意邀请你参加我们的<a href="https://www.udemy.com/the-complete-python-course/?couponCode=BLOGGER">完整Python课程</a>。这是一门全面的课程，超过30个小时，涵盖了所有主要的Python主题！我们认为这是一个很棒的课程，但如果它不适合你，我们也有30天的退款保证。</p><p>您也可以注册下面的邮件列表，因为我们每个月都会向我们的订户发送折扣代码！</p><p>希望在那里见到你！</p>
+</div>
+</div>    
+</body>
+</html>
